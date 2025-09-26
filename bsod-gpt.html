@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mengatasi BSOD di Chrome karena Hardware Acceleration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background: #fdfdfd;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .note {
+      background: #eaf7ff;
+      border-left: 4px solid #3498db;
+      padding: 10px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 10px 0 10px 25px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>🔧 Mengatasi BSOD di Chrome karena Hardware Acceleration</h1>
+
+  <p>
+    Kadang saat membuka Chrome, muncul BSOD (Blue Screen of Death) yang bikin laptop restart.
+    Penyebab utamanya sering karena fitur <strong>Hardware Acceleration</strong> bentrok dengan driver GPU.
+  </p>
+
+  <h2>🛑 Penyebab Utama</h2>
+  <ul>
+    <li>Bug pada driver GPU (Intel / NVIDIA / AMD).</li>
+    <li>Fitur Hardware Acceleration aktif di Chrome.</li>
+    <li>Registry belum diset untuk override setting Chrome.</li>
+  </ul>
+
+  <h2>✅ Solusi Praktis</h2>
+  <h3>1. Nonaktifkan Hardware Acceleration lewat Chrome</h3>
+  <ol>
+    <li>Buka <code>chrome://settings/system</code></li>
+    <li>Matikan opsi <em>Use hardware acceleration when available</em></li>
+    <li>Restart Chrome</li>
+  </ol>
+
+  <h3>2. Pakai Registry untuk Toggle</h3>
+  <p>Buka <code>regedit</code> lalu masuk ke:</p>
+  <pre><code>HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome
+</code></pre>
+
+  <p>Buat atau ubah key berikut:</p>
+  <pre><code>Nama: HardwareAccelerationModeEnabled
+Tipe: REG_DWORD
+Nilai: 0 (nonaktif), 1 (aktif)
+</code></pre>
+
+  <h3>3. Skrip Batch Otomatis</h3>
+  <pre><code>@echo off
+echo === Toggle Hardware Acceleration Chrome ===
+echo 1. Nonaktifkan
+echo 2. Aktifkan
+echo 3. Hapus Setting
+set /p choice="Pilih opsi (1/2/3): "
+
+if "%choice%"=="1" (
+    reg add "HKLM\SOFTWARE\Policies\Google\Chrome" /v HardwareAccelerationModeEnabled /t REG_DWORD /d 0 /f
+    echo Hardware Acceleration DIMATIKAN.
+    goto end
+)
+
+if "%choice%"=="2" (
+    reg add "HKLM\SOFTWARE\Policies\Google\Chrome" /v HardwareAccelerationModeEnabled /t REG_DWORD /d 1 /f
+    echo Hardware Acceleration DIAKTIFKAN.
+    goto end
+)
+
+if "%choice%"=="3" (
+    reg delete "HKLM\SOFTWARE\Policies\Google\Chrome" /v HardwareAccelerationModeEnabled /f
+    echo Setting dihapus, Chrome kembali default.
+    goto end
+)
+
+echo Pilihan tidak valid.
+
+:end
+pause
+</code></pre>
+
+  <div class="note">
+    💡 Tips: Setelah menjalankan skrip, jangan lupa <strong>restart Chrome</strong>
+    agar perubahan langsung berlaku.
+  </div>
+
+</div>
+</body>
+</html>
