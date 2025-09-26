@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solusi BSOD Saat Browsing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #0077cc;
+      --accent: #66ccff;
+      --danger: #cc3300;
+      --light-bg: #f4f4f4;
+      --dark-bg: #121212;
+      --light-text: #333;
+      --dark-text: #eee;
+      --light-box: #fff;
+      --dark-box: #1e1e1e;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, var(--light-bg), #eaeaea);
+      color: var(--light-text);
+      padding: 20px;
+      line-height: 1.7;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .dark {
+      background: linear-gradient(to right, var(--dark-bg), #1a1a1a);
+      color: var(--dark-text);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: var(--light-box);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .dark .container {
+      background-color: var(--dark-box);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+
+    h1, h2, h3 {
+      color: var(--primary);
+      margin-top: 1.5em;
+    }
+
+    .dark h1, .dark h2, .dark h3 {
+      color: var(--accent);
+    }
+
+    strong {
+      color: var(--danger);
+    }
+
+    .dark strong {
+      color: #ff9999;
+    }
+
+    em {
+      color: #666;
+    }
+
+    .dark em {
+      color: #bbb;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    pre, code {
+      background-color: #1e1e1e;
+      color: #fff4a3;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      margin: 1em 0;
+      line-height: 1.6;
+      border-left: 4px solid var(--primary);
+    }
+
+    .dark pre, .dark code {
+      background-color: #2c2c2c;
+      border-left-color: var(--accent);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 2em 0;
+    }
+
+    .dark hr {
+      border-top: 1px solid #444;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 40px;
+    }
+
+    .dark .footer {
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="document.body.classList.toggle('dark')">
+    <i class="fas fa-moon"></i> Toggle Dark Mode
+  </button>
+
+  <div class="container">
+    <h1><i class="fas fa-bug"></i> Solusi BSOD Saat Browsing</h1>
+    <p><em>Panduan lengkap mengatasi Blue Screen of Death di Windows 8</em></p>
+
+    <hr />
+
+    <section class="section">
+      <h2><i class="fas fa-search"></i> Kemungkinan Penyebab</h2>
+      <ul>
+        <li><strong>Hardware Acceleration</strong>: GPU digunakan untuk rendering, bisa crash jika driver bermasalah.</li>
+        <li><strong>Driver GPU Bermasalah</strong>: Driver usang atau korup bisa picu BSOD saat browsing.</li>
+        <li><strong>Masalah Disk atau File System</strong>: Jalankan <code>chkdsk /f /r</code> untuk cek bad sector.</li>
+        <li><strong>Overheating atau Power Supply</strong>: GPU aktif bisa memicu crash jika pendinginan buruk.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2><i class="fas fa-tools"></i> Saran Solusi dan Diagnostik</h2>
+      <ol>
+        <li><strong>Update Driver GPU</strong> dari situs resmi (NVIDIA, AMD, Intel).</li>
+        <li><strong>Nonaktifkan Hardware Acceleration</strong> di browser.</li>
+        <li><strong>Periksa Kode BSOD</strong>:
+          <pre><code>VIDEO_TDR_FAILURE <br>
+PAGE_FAULT_IN_NONPAGED_AREA <br>
+NTFS_FILE_SYSTEM</code></pre>
+        </li>
+        <li><strong>Gunakan SFC dan DISM</strong>:
+          <pre><code>sfc /scannow <br>
+DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
+        </li>
+        <li><strong>Cek Kesehatan Hard Disk</strong> dengan CrystalDiskInfo.</li>
+        <li><strong>Matikan Privacy Sandbox</strong> sementara untuk isolasi masalah.</li>
+      </ol>
+    </section>
+
+    <section id="artikel-tambahan" class="section">
+      <h2><i class="fas fa-file-alt"></i> Artikel Tambahan</h2>
+
+      <div class="section">
+        Oke William, kita cari solusi yang tetap transparan, efisien, dan bebas 
+		dari software yang kamu tidak suka. Kalau kamu mengalami <strong>
+		critical kernel error</strong> dan <strong>bluescreen</strong> saat 
+		browsing dengan hardware acceleration aktif, itu menandakan ada 
+		interaksi bermasalah antara Chrome, driver GPU, dan sistem file. Kita 
+		akan fokus pada 3 area: <strong>stabilitas driver</strong>, <strong>
+		konsistensi disk</strong>, dan <strong>pengaturan sistem</strong>.<hr>
+		<h3>&#128295; Langkah-Langkah Pencegahan BSOD Tanpa CrystalDiskInfo</h3>
+		<h4>1. <strong>Nonaktifkan Hardware Acceleration di Chrome</strong></h4>
+		<p>Karena ini pemicu langsung saat scrolling panjang:</p>
+		<ul>
+			<li>Buka <code>chrome://settings/system</code></li>
+			<li>Matikan opsi <strong>&quot;Use hardware acceleration when available&quot;</strong></li>
+			<li>Restart Chrome</li>
+		</ul>
+		<h4>2. <strong>Perbaiki File Sistem dan Bad Sector</strong></h4>
+		<p>Karena kamu sudah tahu <code>chkdsk /f /r</code> efektif, kita bisa 
+		jadwalkan otomatis saat idle:</p>
+		<ul>
+			<li>Buka Command Prompt sebagai Administrator</li>
+			<li>Jalankan:
+			<pre><code class="language-cmd">schtasks /create /tn &quot;DiskCheck&quot; /tr &quot;cmd /c chkdsk C: /f /r&quot; /sc weekly /d SUN /st 03:00 /ru SYSTEM
+</code></pre>
+			Ini akan menjalankan <code>chkdsk /f /r</code> setiap Minggu jam 3 
+			pagi.</li>
+		</ul>
+		<h4>3. <strong>Perbaiki File Windows yang Rusak</strong></h4>
+		<p>Jalankan dua perintah ini:</p>
+		<pre><code class="language-cmd">sfc /scannow
+DISM /Online /Cleanup-Image /RestoreHealth
+</code></pre>
+		<p>Ini akan memperbaiki file sistem yang rusak tanpa software tambahan.</p>
+		<h4>4. <strong>Update Driver GPU Secara Manual</strong></h4>
+		<p>Tanpa software pihak ketiga:</p>
+		<ul>
+			<li>Buka <code>Device Manager</code></li>
+			<li>Klik kanan GPU &#8594; <strong>Update driver</strong> &#8594; <strong>Browse 
+			my computer</strong> &#8594; arahkan ke folder driver terbaru dari situs 
+			resmi (NVIDIA/AMD/Intel)</li>
+		</ul>
+		<h4>5. <strong>Matikan Fitur Privacy Sandbox di Chrome</strong></h4>
+		<p>Walau tidak langsung menyebabkan BSOD, ini bisa mengurangi beban 
+		sistem:</p>
+		<ul>
+			<li>Buka <code>chrome://settings/privacySandbox</code></li>
+			<li>Nonaktifkan semua opsi</li>
+		</ul>
+		<h4>6. <strong>Cegah Paging Error dan Kernel Panic</strong></h4>
+		<p>Ubah pengaturan virtual memory:</p>
+		<ul>
+			<li>Buka <strong>System Properties</strong> &#8594; Advanced &#8594; Performance 
+			&#8594; Settings &#8594; Advanced &#8594; Virtual Memory</li>
+			<li>Set ke <strong>Custom size</strong>:
+			<ul>
+				<li>Initial size: sama dengan RAM kamu (misal 4096 MB untuk 4 
+				GB)</li>
+				<li>Maximum size: 1.5x RAM (misal 6144 MB untuk 4 GB)</li>
+			</ul>
+			</li>
+		</ul>
+		<hr>
+		<h3>&#129504; Tambahan Opsional: Automasi Deteksi &amp; Pemulihan</h3>
+		<p>Kamu bisa buat skrip di Tasker atau MacroDroid untuk:</p>
+		<ul>
+			<li>Deteksi freeze saat Chrome aktif + scrolling panjang</li>
+			<li>Kirim perintah shell untuk logoff atau restart ringan</li>
+			<li>Jadwalkan <code>sfc /scannow</code> mingguan saat idle</li>
+		</ul>
+		<p>Kalau kamu mau, aku bisa bantu buat blueprint-nya. Mau kita lanjut ke 
+		automasi anti-BSOD berbasis shell + Tasker?</div>
+
+      <p>Aduh William &#128546;, maaf banget ya kalau tadi sempat bikin bingung. Kamu 
+		pakai <strong>Windows 8</strong>, bukan Windows 11 — jadi jelas <strong>
+		nggak bisa pakai Shizuku atau Tasker</strong>, karena itu eksklusif 
+		untuk Android. Tapi jangan khawatir, kita bisa bikin <strong>automasi 
+		anti-BSOD versi Windows 8</strong> yang tetap canggih dan sesuai gaya 
+		kamu: <em>tanpa root, tanpa software aneh, dan tetap transparan serta 
+		efisien</em>.</p>
+	<hr>
+	<h2>&#128736;&#65039; Blueprint Automasi Anti-BSOD untuk Windows 8</h2>
+	<p>Kita akan pakai:</p>
+	<ul>
+		<li><strong>Task Scheduler</strong> &#8594; untuk trigger mingguan</li>
+		<li><strong>PowerShell atau batch script</strong> &#8594; untuk eksekusi shell</li>
+		<li><strong>Log file</strong> &#8594; untuk tracking freeze dan pemulihan</li>
+	</ul>
+	<hr>
+	<h3>&#128313; 1. <strong>Script Pemulihan Ringan</strong></h3>
+	<p>Buat file <code>.bat</code> bernama <code>recovery.bat</code>:</p>
+	<pre><code class="language-bat">@echo off
+echo Freeze detected at %date% %time% &gt;&gt; %USERPROFILE%\Desktop\freeze_log.txt
+taskkill /f /im chrome.exe
+timeout /t 2
+start chrome.exe
+</code></pre>
+	<p>&#128204; Ini akan:</p>
+	<ul>
+		<li>Log waktu freeze</li>
+		<li>Paksa tutup Chrome</li>
+		<li>Buka ulang Chrome</li>
+	</ul>
+	<hr>
+	<h3>&#128313; 2. <strong>Jadwal Pemeriksaan Sistem Mingguan</strong></h3>
+	<p>Buat file <code>.bat</code> bernama <code>weekly_check.bat</code>:</p>
+	<pre><code class="language-bat">@echo off
+echo Weekly system check at %date% %time% &gt;&gt; %USERPROFILE%\Desktop\system_check_log.txt
+sfc /scannow
+chkdsk C: /f /r
+</code></pre>
+	<p>Lalu buat <strong>Task Scheduler</strong>:</p>
+	<ul>
+		<li>Trigger: Minggu jam 03:00</li>
+		<li>Action: Jalankan <code>weekly_check.bat</code></li>
+		<li>Run as SYSTEM, dengan highest privileges</li>
+	</ul>
+	<hr>
+	<h3>&#128313; 3. <strong>Deteksi Freeze Manual (Opsional)</strong></h3>
+	<p>Kalau kamu mau semi-otomatis, bisa pakai shortcut keyboard:</p>
+	<ul>
+		<li>Buat shortcut ke <code>recovery.bat</code></li>
+		<li>Set hotkey misalnya <code>Ctrl + Alt + F</code></li>
+		<li>Saat freeze terasa, tekan kombinasi itu &#8594; Chrome restart + log</li>
+	</ul>
+	<hr>
+	<h3>&#128313; 4. <strong>Notifikasi via Toast (Opsional)</strong></h3>
+	<p>Tambahkan ke <code>recovery.bat</code>:</p>
+	<pre><code class="language-bat">powershell -command &quot;New-BurntToastNotification -Text 'Freeze Detected', 'Chrome telah direstart.'&quot;
+</code></pre>
+	<p>&#128204; Butuh PowerShell 5.0 dan modul <code>BurntToast</code>, bisa diinstal 
+	via:</p>
+	<pre><code class="language-powershell">Install-Module -Name BurntToast
+</code></pre>
+	<hr>
+	<p>Kalau kamu mau, aku bisa bantu buatkan semua skripnya jadi satu paket 
+	siap pakai. Atau kita bisa tambahkan fitur seperti auto-disable hardware 
+	acceleration kalau freeze terlalu sering. Aku di sini buat bantu kamu sampai 
+	tuntas, nggak akan bikin kamu nangis lagi &#128557;. Mau lanjut ke bundling skrip 
+	atau bikin versi yang bisa kamu klik langsung dari desktop?</p>
+	<p>Siap William! Berikut ini adalah <strong>paket skrip anti-BSOD manual 
+	untuk Windows 8</strong>, tanpa aplikasi tambahan, tanpa jadwal otomatis, 
+	dan tanpa bikin sistem berat. Kamu tinggal klik dua kali file <code>.bat</code> 
+	untuk menjalankannya kapan pun kamu mau.</p>
+	<hr>
+	<h2>&#128230; Paket Skrip Anti-BSOD Manual (Windows 8)</h2>
+	<h3>&#128313; 1. <code>recovery.bat</code> — Pemulihan Ringan Saat Freeze</h3>
+	<pre><code class="language-bat">@echo off
+echo [Freeze Detected] %date% %time% &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+taskkill /f /im chrome.exe
+timeout /t 2 &gt;nul
+start chrome.exe
+echo Chrome telah direstart. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+</code></pre>
+	<p>&#128204; Fungsi:</p>
+	<ul>
+		<li>Log waktu freeze ke desktop</li>
+		<li>Tutup paksa Chrome</li>
+		<li>Buka ulang Chrome</li>
+	</ul>
+	<hr>
+	<h3>&#128313; 2. <code>system_check.bat</code> — Pemeriksaan Manual Sistem</h3>
+	<pre><code class="language-bat">@echo off
+echo [System Check Started] %date% %time% &gt;&gt; &quot;%USERPROFILE%\Desktop\system_check_log.txt&quot;
+echo Menjalankan SFC... &gt;&gt; &quot;%USERPROFILE%\Desktop\system_check_log.txt&quot;
+sfc /scannow
+echo SFC selesai. &gt;&gt; &quot;%USERPROFILE%\Desktop\system_check_log.txt&quot;
+echo Menjalankan CHKDSK... &gt;&gt; &quot;%USERPROFILE%\Desktop\system_check_log.txt&quot;
+chkdsk C: /f /r
+echo CHKDSK dijadwalkan untuk restart berikutnya. &gt;&gt; &quot;%USERPROFILE%\Desktop\system_check_log.txt&quot;
+</code></pre>
+	<p>&#128204; Fungsi:</p>
+	<ul>
+		<li>Jalankan pemeriksaan file sistem (<code>sfc</code>)</li>
+		<li>Jadwalkan CHKDSK untuk restart berikutnya</li>
+		<li>Simpan log ke desktop</li>
+	</ul>
+	<hr>
+	<h3>&#128313; 3. <code>clear_logs.bat</code> — Bersihkan Log Lama</h3>
+	<pre><code class="language-bat">@echo off
+del &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot; /f /q
+del &quot;%USERPROFILE%\Desktop\system_check_log.txt&quot; /f /q
+echo Log telah dibersihkan.
+pause
+</code></pre>
+	<p>&#128204; Fungsi:</p>
+	<ul>
+		<li>Hapus log dari desktop</li>
+		<li>Bersih-bersih manual</li>
+	</ul>
+	<hr>
+	<h2>&#128193; Cara Pakai</h2>
+	<ol>
+		<li>Buka Notepad</li>
+		<li>Copy salah satu skrip di atas</li>
+		<li>Simpan sebagai <code>.bat</code> file (misalnya <code>recovery.bat</code>)
+		<ul>
+			<li>File type: <strong>All Files</strong></li>
+			<li>Encoding: <strong>ANSI</strong></li>
+		</ul>
+		</li>
+		<li>Simpan di desktop atau folder favorit</li>
+		<li>Klik dua kali untuk menjalankan</li>
+	</ol>
+	<hr>
+	<p>Kalau kamu mau, aku bisa bantu tambahkan shortcut keyboard atau versi 
+	yang bisa kamu klik dari taskbar. Atau kita bisa bikin versi yang mendeteksi 
+	freeze berdasarkan CPU usage dan Chrome aktif, tapi tetap manual. Mau lanjut 
+	ke itu juga?</p>
+	<p>Oke William, kita akan bikin <strong>skrip manual untuk mendeteksi freeze 
+	berdasarkan CPU usage dan Chrome aktif</strong>, tanpa aplikasi tambahan, 
+	dan tetap ringan untuk Windows 8. Ini cocok banget buat kamu yang suka 
+	kontrol penuh dan nggak mau sistem jadi berat.</p>
+	<hr>
+	<h2>&#129504; Konsep Deteksi Freeze Manual</h2>
+	<p>Kita akan pakai:</p>
+	<ul>
+		<li><strong>Tasklist</strong> &#8594; cek apakah Chrome aktif</li>
+		<li><strong>WMIC atau PowerShell</strong> &#8594; cek CPU usage Chrome</li>
+		<li><strong>Log</strong> &#8594; simpan hasil deteksi</li>
+		<li><strong>Manual trigger</strong> &#8594; kamu jalankan kapan pun kamu 
+		curiga ada freeze</li>
+	</ul>
+	<hr>
+	<h2>&#128230; Skrip Deteksi Freeze: <code>detect_freeze.bat</code></h2>
+	<pre><code class="language-bat">@echo off
+setlocal enabledelayedexpansion
+
+echo [Freeze Check] %date% %time% &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+
+REM Cek apakah Chrome aktif
+tasklist /FI &quot;IMAGENAME eq chrome.exe&quot; | find /I &quot;chrome.exe&quot; &gt;nul
+if errorlevel 1 (
+    echo Chrome tidak aktif. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    goto end
+) else (
+    echo Chrome aktif. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+)
+
+REM Cek CPU usage Chrome via WMIC
+for /f &quot;tokens=2 delims==.&quot; %%a in ('wmic process where &quot;name='chrome.exe'&quot; get PercentProcessorTime /value ^| find &quot;=&quot;') do (
+    set cpu=%%a
+)
+
+if defined cpu (
+    echo CPU Chrome: !cpu!%% &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    if !cpu! GEQ 80 (
+        echo &#9888;&#65039; Kemungkinan freeze: CPU Chrome tinggi (!cpu!%%). &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    ) else (
+        echo CPU Chrome normal (!cpu!%%). &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    )
+) else (
+    echo Gagal membaca CPU usage. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+)
+
+:end
+echo -------------------------------------- &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+</code></pre>
+	<hr>
+	<h2>&#128193; Cara Pakai</h2>
+	<ol>
+		<li>Buka Notepad</li>
+		<li>Paste skrip di atas</li>
+		<li>Simpan sebagai <code>detect_freeze.bat</code>
+		<ul>
+			<li>File type: <strong>All Files</strong></li>
+			<li>Encoding: <strong>ANSI</strong></li>
+		</ul>
+		</li>
+		<li>Simpan di desktop</li>
+		<li>Klik dua kali kapan pun kamu curiga ada freeze</li>
+	</ol>
+	<hr>
+	<h2>&#128204; Catatan</h2>
+	<ul>
+		<li><code>wmic</code> bisa lambat dan kadang tidak akurat di Windows 8, 
+		tapi cukup untuk deteksi manual</li>
+		<li>Kalau kamu mau versi yang lebih akurat, kita bisa pakai PowerShell 
+		untuk parsing <code>Get-Process</code> dan <code>Measure-Object</code>, 
+		tapi itu sedikit lebih berat</li>
+		<li>Log akan muncul di <code>freeze_log.txt</code> di desktop, bisa kamu 
+		baca kapan pun</li>
+	</ul>
+	<hr>
+	<p>Kalau kamu mau, aku bisa bantu gabungkan ini dengan <code>recovery.bat</code>, 
+	jadi satu skrip yang mendeteksi dan langsung restart Chrome kalau freeze 
+	terdeteksi. Mau kita lanjut ke versi gabungan itu?</p>
+	<p>Siap William! Kita akan lanjut ke versi <strong>gabungan skrip manual</strong> 
+	yang:</p>
+	<ul>
+		<li>Bisa kamu panggil lewat <strong>shortcut keyboard</strong></li>
+		<li>Tambah fitur <strong>monitoring RAM usage Chrome</strong></li>
+		<li>Tetap ringan, offline, dan kompatibel dengan <strong>Windows 8</strong></li>
+	</ul>
+	<hr>
+	<h2>&#128230; Final Skrip: <code>detect_freeze_and_recover.bat</code></h2>
+	<pre><code class="language-bat">@echo off
+setlocal enabledelayedexpansion
+
+echo [Freeze Check] %date% %time% &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+
+REM Cek apakah Chrome aktif
+tasklist /FI &quot;IMAGENAME eq chrome.exe&quot; | find /I &quot;chrome.exe&quot; &gt;nul
+if errorlevel 1 (
+    echo Chrome tidak aktif. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    goto end
+) else (
+    echo Chrome aktif. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+)
+
+REM Cek CPU dan RAM usage Chrome via WMIC
+set cpu=0
+set ram=0
+
+for /f &quot;tokens=2 delims==.&quot; %%a in ('wmic process where &quot;name='chrome.exe'&quot; get PercentProcessorTime /value ^| find &quot;=&quot;') do (
+    set cpu=%%a
+)
+
+for /f &quot;tokens=2 delims==.&quot; %%b in ('wmic process where &quot;name='chrome.exe'&quot; get WorkingSetSize /value ^| find &quot;=&quot;') do (
+    set /a ram=%%b/1048576
+)
+
+echo CPU Chrome: !cpu!%% &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+echo RAM Chrome: !ram! MB &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+
+REM Deteksi freeze berdasarkan CPU dan RAM
+if !cpu! GEQ 80 (
+    echo &#9888;&#65039; Kemungkinan freeze: CPU tinggi (!cpu!%%). &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    if !ram! GEQ 1000 (
+        echo &#9888;&#65039; RAM Chrome juga tinggi (!ram! MB). &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    )
+    echo Menjalankan pemulihan... &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+    taskkill /f /im chrome.exe
+    timeout /t 2 &gt;nul
+    start chrome.exe
+    echo Chrome telah direstart. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+) else (
+    echo Sistem normal. Tidak perlu pemulihan. &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+)
+
+:end
+echo -------------------------------------- &gt;&gt; &quot;%USERPROFILE%\Desktop\freeze_log.txt&quot;
+</code></pre>
+	<hr>
+	<h2>&#129504; Penjelasan</h2>
+	<ul>
+		<li><strong>CPU tinggi</strong> = kemungkinan freeze</li>
+		<li><strong>RAM tinggi</strong> = Chrome boros, bisa memperparah freeze</li>
+		<li>Jika keduanya tinggi &#8594; Chrome direstart otomatis</li>
+		<li>Semua log disimpan di <code>freeze_log.txt</code> di desktop</li>
+	</ul>
+	<hr>
+	<h2>&#127919; Cara Panggil Pakai Tombol</h2>
+	<ol>
+		<li>Simpan skrip sebagai <code>detect_freeze_and_recover.bat</code> di 
+		desktop</li>
+		<li>Klik kanan file &#8594; <strong>Properties</strong></li>
+		<li>Di bagian <strong>Shortcut key</strong>, tekan kombinasi misalnya
+		<code>Ctrl + Alt + F</code></li>
+		<li>Klik OK</li>
+	</ol>
+	<p>&#128204; Sekarang kamu bisa tekan <code>Ctrl + Alt + F</code> kapan pun kamu 
+	curiga ada freeze — skrip akan jalan, log akan dibuat, Chrome akan direstart 
+	jika perlu.</p>
+	<hr>
+	<p>Kalau kamu mau, kita bisa lanjut ke versi yang:</p>
+	<ul>
+		<li>Auto-disable hardware acceleration via registry (jika bisa diakses)</li>
+		<li>Tambah log rotasi (hapus log lama otomatis)</li>
+		<li>Integrasi dengan notifikasi visual (popup)</li>
+	</ul>
+	<p>Mau kita lanjut ke itu juga?</p>
+	<p>Keren, William! Kamu sudah eksekusi <code>copy con</code> dan bahkan 
+	sudah menambahkan registry key <code>HardwareAccelerationModeEnabled</code> 
+	via Command Prompt. Itu langkah yang sangat tepat dan efisien untuk <strong>
+	disable hardware acceleration di Chrome secara manual lewat registry</strong>.</p>
+	<hr>
+	<h2>&#9989; Cara Manual Setting Registry untuk Nonaktifkan Hardware Acceleration</h2>
+	<h3>&#128313; Lokasi Registry:</h3>
+	<pre><code>HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome
+</code></pre>
+	<h3>&#128313; Nilai yang Perlu Ditambahkan:</h3>
+	<ul>
+		<li><strong>Nama Value</strong>: <code>HardwareAccelerationModeEnabled</code></li>
+		<li><strong>Jenis</strong>: <code>REG_DWORD</code></li>
+		<li><strong>Data</strong>: <code>0</code> &#8594; untuk <strong>menonaktifkan</strong> 
+		hardware acceleration</li>
+	</ul>
+	<h3>&#128313; Perintah Command Prompt:</h3>
+	<pre><code class="language-cmd">reg add &quot;HKLM\SOFTWARE\Policies\Google\Chrome&quot; /v HardwareAccelerationModeEnabled /t REG_DWORD /d 0 /f
+</code></pre>
+	<p>&#128204; Perintah ini:</p>
+	<ul>
+		<li>Membuat key jika belum ada</li>
+		<li>Menambahkan value <code>HardwareAccelerationModeEnabled</code> 
+		dengan nilai <code>0</code></li>
+		<li><code>/f</code> memaksa overwrite jika sudah ada</li>
+	</ul>
+	<hr>
+	<h2>&#128260; Cara Mengaktifkan Kembali (Jika Perlu)</h2>
+	<p>Kalau kamu ingin mengaktifkan lagi hardware acceleration:</p>
+	<pre><code class="language-cmd">reg add &quot;HKLM\SOFTWARE\Policies\Google\Chrome&quot; /v HardwareAccelerationModeEnabled /t REG_DWORD /d 1 /f
+</code></pre>
+	<p>Atau untuk menghapus value:</p>
+	<pre><code class="language-cmd">reg delete &quot;HKLM\SOFTWARE\Policies\Google\Chrome&quot; /v HardwareAccelerationModeEnabled /f
+</code></pre>
+	<hr>
+	<h2>&#128257; Efeknya di Chrome</h2>
+	<ul>
+		<li>Chrome akan membaca registry ini saat startup</li>
+		<li>Kamu <strong>harus restart Chrome</strong> agar perubahan berlaku</li>
+		<li>Kadang perlu restart Windows juga agar policy terbaca penuh</li>
+	</ul>
+	<hr>
+	<h2>&#129504; Catatan Tambahan</h2>
+	<ul>
+		<li>Ini adalah metode <strong>policy-level override</strong>, artinya 
+		Chrome akan <strong>mengabaikan setting di UI</strong> dan mengikuti 
+		registry</li>
+		<li>Cocok banget untuk troubleshooting freeze atau BSOD yang dipicu GPU</li>
+	</ul>
+	<hr>
+	<p>Kalau kamu mau, aku bisa bantu buat versi <code>.bat</code> yang bisa:</p>
+	<ul>
+		<li>Toggle ON/OFF hardware acceleration</li>
+		<li>Log status ke file</li>
+		<li>Restart Chrome otomatis setelah perubahan</li>
+	</ul>
+	<p>Mau kita lanjut ke versi toggle interaktif itu?</p>
+	<p>Itu wajar banget, William. Kalau registry path <code>
+	HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome</code> belum ada di 
+	sistem kamu, itu artinya Chrome belum pernah dikonfigurasi lewat kebijakan 
+	sistem (<em>Group Policy</em> atau registry override). Tapi tenang, kamu 
+	bisa <strong>buat key dan value-nya secara manual</strong>, dan Chrome akan 
+	membacanya saat startup.</p>
+	<hr>
+	<h2>&#128736;&#65039; Cara Manual Membuat Registry untuk Nonaktifkan Hardware Acceleration</h2>
+	<h3>&#128313; Langkah 1: Buka Registry Editor</h3>
+	<ul>
+		<li>Tekan <code>Win + R</code>, ketik <code>regedit</code>, lalu Enter</li>
+	</ul>
+	<h3>&#128313; Langkah 2: Navigasi ke Path Ini</h3>
+	<pre><code>HKEY_LOCAL_MACHINE\SOFTWARE\Policies
+</code></pre>
+	<h3>&#128313; Langkah 3: Buat Folder Baru</h3>
+	<ul>
+		<li>Klik kanan pada <code>Policies</code> &#8594; <strong>New &gt; Key</strong></li>
+		<li>Nama: <code>Google</code></li>
+		<li>Klik kanan pada <code>Google</code> &#8594; <strong>New &gt; Key</strong></li>
+		<li>Nama: <code>Chrome</code></li>
+	</ul>
+	<p>Sekarang kamu punya path:</p>
+	<pre><code>HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome
+</code></pre>
+	<h3>&#128313; Langkah 4: Tambahkan Value</h3>
+	<ul>
+		<li>Klik kanan di panel kanan &#8594; <strong>New &gt; DWORD (32-bit) Value</strong></li>
+		<li>Nama: <code>HardwareAccelerationModeEnabled</code></li>
+		<li>Nilai: <code>0</code> (untuk menonaktifkan)</li>
+	</ul>
+	<p>&#128204; Kalau kamu ingin aktifkan lagi, ubah nilainya jadi <code>1</code>.</p>
+	<hr>
+	<h2>&#9989; Alternatif: Pakai Command Prompt (Sudah Kamu Lakukan)</h2>
+	<p>Kalau kamu lebih suka cara cepat, kamu bisa jalankan ini lagi:</p>
+	<pre><code class="language-cmd">reg add &quot;HKLM\SOFTWARE\Policies\Google\Chrome&quot; /v HardwareAccelerationModeEnabled /t REG_DWORD /d 0 /f
+</code></pre>
+	<hr>
+	<h2>&#128257; Efeknya</h2>
+	<ul>
+		<li>Chrome akan membaca registry ini saat startup</li>
+		<li>Kamu <strong>harus tutup dan buka ulang Chrome</strong></li>
+		<li>Kadang perlu restart Windows agar kebijakan terbaca penuh</li>
+	</ul>
+	<hr>
+	<p>Kalau kamu mau, aku bisa bantu buat skrip toggle interaktif:</p>
+	<ul>
+		<li>Klik sekali &#8594; disable hardware acceleration</li>
+		<li>Klik lagi &#8594; enable kembali</li>
+		<li>Semua log disimpan ke desktop</li>
+	</ul>
+	<p>Mau kita lanjut ke versi toggle interaktif itu?</p>
+	<p>&nbsp;</p>
+
+      <!-- Tambahkan artikel baru di bawah sini -->
+    </section>
+
+    <div class="footer">
+      <p>Terakhir diperbarui: September 2025 • Dibuat dengan cinta oleh xiaoming &#128150;</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        document.body.classList.add('dark');
+      }
+    });
+
+    document.querySelector('button').addEventListener('click', function () {
+      document.body.classList.toggle('dark');
+      if (document.body.classList.contains('dark')) {
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    });
+  </script>
+</body>
+</html>
