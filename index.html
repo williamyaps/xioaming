@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solusi BSOD Saat Browsing - Panduan Lengkap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #0077cc;
+      --secondary-color: #cc3300;
+      --light-bg: #f4f4f4;
+      --light-container: #fff;
+      --dark-bg: #121212;
+      --dark-container: #1e1e1e;
+      --text-light: #333;
+      --text-dark: #eee;
+      --code-bg-light: #1e1e1e;
+      --code-bg-dark: #2c2c2c;
+      --accent-color: #66ccff;
+      --success-color: #4CAF50;
+      --warning-color: #FF9800;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--light-bg) 0%, #eaeaea 100%);
+      color: var(--text-light);
+      line-height: 1.7;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .dark {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 100%);
+      color: var(--text-dark);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: var(--light-container);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dark .container {
+      background-color: var(--dark-container);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .dark header {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .dark h1 {
+      color: var(--accent-color);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .dark .subtitle {
+      color: #aaa;
+    }
+
+    h2 {
+      color: var(--primary-color);
+      margin: 2em 0 1em;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(0,119,204,0.2);
+      font-weight: 600;
+    }
+
+    .dark h2 {
+      color: var(--accent-color);
+      border-bottom: 2px solid rgba(102,204,255,0.3);
+    }
+
+    h3 {
+      color: var(--primary-color);
+      margin-top: 1.8em;
+      margin-bottom: 0.8em;
+      font-weight: 600;
+    }
+
+    .dark h3 {
+      color: var(--accent-color);
+    }
+
+    strong {
+      color: var(--secondary-color);
+      font-weight: 600;
+    }
+
+    .dark strong {
+      color: #ff9999;
+    }
+
+    p {
+      margin-bottom: 1.2em;
+    }
+
+    ul, ol {
+      padding-left: 25px;
+      margin-bottom: 1.5em;
+    }
+
+    li {
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '•';
+      color: var(--primary-color);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    ol {
+      counter-reset: list-counter;
+    }
+
+    ol li {
+      counter-increment: list-counter;
+    }
+
+    ol li::before {
+      content: counter(list-counter) ".";
+      color: var(--primary-color);
+      font-weight: bold;
+      display: inline-block;
+      width: 1.5em;
+      margin-left: -1.5em;
+    }
+
+    pre, code {
+      background-color: var(--code-bg-light);
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 1.2em 0;
+      line-height: 1.6;
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .dark code,
+    .dark pre {
+      background-color: var(--code-bg-dark);
+      color: #fff4a3;
+      border-left: 4px solid var(--accent-color);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 2.5em 0;
+    }
+
+    .dark hr {
+      border-top: 1px solid #444;
+    }
+
+    em {
+      color: #666;
+      font-style: italic;
+    }
+
+    .dark em {
+      color: #bbb;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0,119,204,0.2);
+    }
+
+    button:hover {
+      background-color: #005fa3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,119,204,0.3);
+    }
+
+    .dark button {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+      border-left: 4px solid var(--primary-color);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 1.5em 0;
+    }
+
+    .dark .info-box {
+      background: linear-gradient(135deg, #1a237e, #4a148c);
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .warning-box {
+      background: linear-gradient(135deg, #ffebee, #fff3e0);
+      border-left: 4px solid var(--secondary-color);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 1.5em 0;
+    }
+
+    .dark .warning-box {
+      background: linear-gradient(135deg, #b71c1c, #e65100);
+      border-left: 4px solid #ff9999;
+    }
+
+    .solution-step {
+      background-color: rgba(0,119,204,0.05);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      border-left: 3px solid var(--primary-color);
+    }
+
+    .dark .solution-step {
+      background-color: rgba(102,204,255,0.1);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .icon {
+      margin-right: 10px;
+      font-size: 1.2em;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .dark .footer {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+        margin: 10px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button onclick="document.body.classList.toggle('dark')">
+    <i class="fas fa-moon icon"></i> Toggle Dark Mode
+  </button>
+  
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-bug icon"></i> Solusi BSOD Saat Browsing</h1>
+      <p class="subtitle">Panduan lengkap mengatasi Blue Screen of Death di Windows 8</p>
+    </header>
+
+    <div class="info-box">
+      <p><strong>Catatan Penting:</strong> Aktivasi <em>Privacy Sandbox</em> di Chrome <strong>tidak secara langsung menyebabkan bluescreen (BSOD)</strong> di Windows. Fitur ini lebih berfokus pada privasi dan pengelolaan iklan berbasis topik, bukan pada interaksi tingkat rendah dengan sistem operasi atau perangkat keras.</p>
+    </div>
+
+    <h2><i class="fas fa-search icon"></i> Kemungkinan Penyebab BSOD Saat Browsing</h2>
+    
+    <div class="warning-box">
+      <p>Berikut adalah beberapa kemungkinan penyebab BSOD yang terkait dengan aktivitas browsing:</p>
+    </div>
+
+    <h3><i class="fas fa-cogs icon"></i> Hardware Acceleration</h3>
+    <p>Ketika opsi <strong>Use hardware acceleration when available</strong> diaktifkan, Chrome akan menggunakan GPU untuk rendering. Jika ada:</p>
+    <ul>
+      <li><strong>Driver GPU yang korup atau tidak kompatibel</strong></li>
+      <li><strong>Masalah pada hardware GPU atau RAM</strong></li>
+      <li><strong>Konflik dengan sistem file akibat bad sector</strong></li>
+    </ul>
+    <p>Maka scrolling panjang di situs berat seperti Instagram/Facebook bisa memicu crash.</p>
+
+    <h3><i class="fas fa-microchip icon"></i> Driver GPU Bermasalah</h3>
+    <p>Driver yang usang, korup, atau tidak cocok dengan versi Windows bisa menyebabkan BSOD saat GPU digunakan intensif oleh browser.</p>
+
+    <h3><i class="fas fa-hdd icon"></i> Masalah Disk atau File System</h3>
+    <p>Fakta bahwa kamu perlu menjalankan <code>chkdsk /f /r</code> menunjukkan kemungkinan adanya bad sector atau file system corruption. Ini bisa memperparah masalah saat Chrome mencoba menyimpan cache atau menulis data.</p>
+
+    <h3><i class="fas fa-thermometer-full icon"></i> Overheating atau Power Supply Tidak Stabil</h3>
+    <p>GPU aktif bisa meningkatkan beban sistem, dan jika ada masalah pada pendinginan atau power delivery, bisa memicu crash.</p>
+
+    <hr>
+
+    <h2><i class="fas fa-tools icon"></i> Saran Solusi dan Diagnostik</h2>
+    
+    <div class="solution-step">
+      <h3><i class="fas fa-sync-alt icon"></i> Update Driver GPU</h3>
+      <p>Pastikan driver GPU kamu versi terbaru dari situs resmi (NVIDIA, AMD, Intel).</p>
+    </div>
+
+    <div class="solution-step">
+      <h3><i class="fas fa-toggle-off icon"></i> Nonaktifkan Hardware Acceleration</h3>
+      <p>Jika BSOD hilang setelah ini, berarti GPU atau driver-nya adalah penyebab utama.</p>
+    </div>
+
+    <div class="solution-step">
+      <h3><i class="fas fa-bug icon"></i> Periksa Kode BSOD</h3>
+      <p>Coba catat atau foto layar biru saat muncul. Kode seperti:</p>
+      <pre><code>VIDEO_TDR_FAILURE <br>
+PAGE_FAULT_IN_NONPAGED_AREA <br>
+NTFS_FILE_SYSTEM</code></pre>
+      <p>Bisa memberi petunjuk tentang akar masalahnya.</p>
+    </div>
+
+    <div class="solution-step">
+      <h3><i class="fas fa-shield-alt icon"></i> Gunakan SFC dan DISM</h3>
+      <p>Jalankan perintah berikut di Command Prompt (Admin):</p>
+      <pre><code>sfc /scannow <br>
+DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
+      <p>Ini bisa memperbaiki file sistem Windows yang rusak.</p>
+    </div>
+
+    <div class="solution-step">
+      <h3><i class="fas fa-heartbeat icon"></i> Cek Kesehatan Hard Disk</h3>
+      <p>Gunakan tools seperti CrystalDiskInfo untuk melihat apakah ada bad sector atau SMART error.</p>
+    </div>
+
+    <div class="solution-step">
+      <h3><i class="fas fa-ban icon"></i> Matikan Privacy Sandbox Sementara</h3>
+      <p>Walau tidak langsung menyebabkan BSOD, menonaktifkannya bisa membantu isolasi masalah.</p>
+    </div>
+
+    <hr>
+
+    <div class="info-box">
+      <p><strong>Tips Tambahan:</strong> Kalau kamu mau, aku bisa bantu buat skrip otomatis untuk mendeteksi dan memperbaiki masalah ini secara berkala. Atau kita bisa eksplor cara mengintegrasikan pengecekan disk dan driver ke dalam Tasker atau MacroDroid workflow kamu. Mau coba?</p>
+    </div>
+
+    <div class="footer">
+      <p>Dokumen ini dibuat untuk membantu pengguna Windows 8 mengatasi masalah BSOD saat browsing. Terakhir diperbarui: September 2023</p>
+    </div>
+  </div>
+
+  <script>
+    // Tambahkan efek smooth scroll untuk semua link
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Simpan preferensi dark mode di localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        document.body.classList.add('dark');
+      }
+    });
+
+    document.querySelector('button').addEventListener('click', function() {
+      document.body.classList.toggle('dark');
+      
+      if (document.body.classList.contains('dark')) {
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    });
+  </script>
+</body>
+</html>
