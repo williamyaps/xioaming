@@ -21,17 +21,21 @@ Round  Receiving Nameserver Queries...(per round results)   Found   Received
    4   •••••••••                                              0          44    
    5   •••••••••                                              0          44    
                                                            -------  --------
-                                   Totals for all rounds:     2         379  Analysis of 335 queries from nameserver opens in separate window at [ 43.245.50.152 ] 
+                                   Totals for all rounds:     2         379    
+Please see the guide at the bottom of this page
+for help interpreting the following analysis results:
+Analysis of 335 queries from nameserver opens in separate window at [ 43.245.50.152 ]
 Anti-Spoofing Safety: Excellent
-
+(This nameserver has no associated domain name)
+port distribution scatter chart	 	 	transaction ID distribution scatter chart
+source port bit prediction chart	 	 	transaction ID bit prediction chart
 Query Source Port Analysis (worst case)
 Max Entropy:	15.97	Excellent	Dir Bias:	7.78%	Excellent
 Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
-
+ 	 	
 Query Transaction ID Analysis (worst case)
 Max Entropy:	15.99	Excellent	Dir Bias:	2.99%	Excellent
 Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
-
 DNS Nameserver Access Details
 External Ping:	replied	(It might be better for the server to be less visible.)
 External Query:	ignored	(This means the nameserver is more spoof resistant.)
@@ -39,13 +43,16 @@ DNSSEC Security:	supported	(This server supports improved security standards.)
 Alphabetic Case:	all lower	(An improvement could be created by mixing case.)
 Extra Anti-Spoofing:	unknown	(Unable to obtain server fingerprint.)
 
+
 Analysis of 44 queries from nameserver opens in separate window at [ 23.171.240.157 ]
 Anti-Spoofing Safety: Excellent
-
+(This nameserver has no associated domain name)
+port distribution scatter chart	 	 	transaction ID distribution scatter chart
+source port bit prediction chart	 	 	transaction ID bit prediction chart
 Query Source Port Analysis (worst case)
 Max Entropy:	15.96	Excellent	Dir Bias:	2.33%	Excellent
 Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
-
+ 	 	
 Query Transaction ID Analysis (worst case)
 Max Entropy:	15.98	Excellent	Dir Bias:	6.98%	Excellent
 Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
@@ -55,6 +62,7 @@ External Query:	ignored	(This means the nameserver is more spoof resistant.)
 DNSSEC Security:	supported	(This server supports improved security standards.)
 Alphabetic Case:	all lower	(An improvement could be created by mixing case.)
 Extra Anti-Spoofing:	unknown	(Unable to obtain server fingerprint.)
+
 
 ---
 
@@ -185,3 +193,30 @@ Mau sekalian aku kasih **rekomendasi setting** (misalnya kalau pilih satu server
 Yang ini dulu.
 Bisa kamu bantu aku jelaskan hasil dari:
 https://www.grc.com/dns/dns.htm
+
+---
+Oke William 👍 aku kasih rekomendasi berdasarkan hasil tes kamu:
+
+---
+
+## 🔧 **Rekomendasi Setting ControlD DoH (p2)**
+
+| Server             | Kelebihan                                                                                           | Kekurangan                                                      | Cocok Dijadikan                                       |
+| ------------------ | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------- |
+| **43.245.50.152**  | Respon ping cepat (lebih mudah cek konektivitas), stabil, mendukung DNSSEC, anti-spoofing Excellent | Terlihat publik (balas ping) → lebih mudah dipetakan orang luar | **Primary (utama)** kalau mau lebih cepat tes koneksi |
+| **23.171.240.157** | Stealth (tidak balas ping), mendukung DNSSEC, sama-sama aman, anti-spoofing Excellent               | Tidak bisa diping (jadi susah cek manual koneksi)               | **Secondary (backup)** karena lebih tersembunyi       |
+
+---
+
+### 📌 **Saran Konfigurasi**
+
+1. **Primary:** `43.245.50.152`
+   (lebih cepat terdeteksi aktif oleh sistem kamu karena balas ping).
+2. **Secondary:** `23.171.240.157`
+   (sebagai cadangan, lebih aman & stealth).
+
+👉 Dengan kombinasi ini, kamu dapat **stabilitas + keamanan + fallback**.
+
+---
+
+Mau aku bikinin juga **versi konfigurasi siap pakai** untuk Windows / Android / Router (DoH / DoT / DNS IP)?
