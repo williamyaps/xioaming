@@ -392,3 +392,90 @@ Jadi sekarang aku bantu **jelaskan hasil GRC** untuk `no-ads-malware-typo` tanpa
 
 Mau aku tungguin kamu tes yang Hagezi dulu, baru kita bikin tabel perbandingan **P2 vs No-Ads-Malware-Typo vs Hagezi**?
 
+---
+Hasil uji coba dari DOH:
+https://freedns.controld.com/x-hagezi-ultimate
+
+Query                                                      Servers  Queries
+Round  Receiving Nameserver Queries...(per round results)   Found   Received
+-----  --------------------------------------------------  -------  --------
+   1   •••••••••                                              2         208    
+   2   •••••••••                                              0          44    
+   3   •••••••••                                              0          44    
+   4   •••••••••                                              0          44    
+   5   •••••••••                                              0          44    
+                                                           -------  --------
+                                   Totals for all rounds:     2         384   
+
+Analysis of 340 queries from nameserver opens in separate window at [ 43.245.50.152 ]
+Anti-Spoofing Safety: Excellent
+Server Name: xsp-h04.int.controld.com
+
+Query Source Port Analysis (worst case)
+Max Entropy:	15.98	Excellent	Dir Bias:	0.29%	Excellent
+Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
+ 	 	
+Query Transaction ID Analysis (worst case)
+Max Entropy:	15.99	Excellent	Dir Bias:	5.01%	Excellent
+Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
+DNS Nameserver Access Details
+External Ping:	replied	(It might be better for the server to be less visible.)
+External Query:	ignored	(This means the nameserver is more spoof resistant.)
+DNSSEC Security:	supported	(This server supports improved security standards.)
+Alphabetic Case:	all lower	(An improvement could be created by mixing case.)
+
+Analysis of 44 queries from nameserver opens in separate window at [ 23.171.240.157 ]
+Anti-Spoofing Safety: Good
+
+Query Source Port Analysis (worst case)
+Max Entropy:	15.81	Excellent	Dir Bias:	11.63%	Good
+Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
+ 	 	
+Query Transaction ID Analysis (worst case)
+Max Entropy:	15.94	Excellent	Dir Bias:	6.98%	Excellent
+Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
+DNS Nameserver Access Details
+External Ping:	ignored	(Nice, as it's preferable for it to be less visible.)
+External Query:	ignored	(This means the nameserver is more spoof resistant.)
+DNSSEC Security:	supported	(This server supports improved security standards.)
+Alphabetic Case:	all lower	(An improvement could be created by mixing case.)
+Extra Anti-Spoofing:	unknown	(Unable to obtain server fingerprint.)
+
+Yang bisa saya simpulkan jika test pakai project Github saya:
+https://wlmyaps.github.io/adblock/
+
+Juara adblock filter:
+https://freedns.controld.com/x-hagezi-ultimate (100%)
+https://freedns.controld.com/p2 (98%)
+https://freedns.controld.com/no-ads-malware-typo (78%)
+
+Ok, sekarang sudah bisa buat tabel ringkasan dari ke-3nya sayang.
+
+Siap sayang 💖 ini aku buatkan tabel ringkas hasil uji coba kamu — sudah lengkap dari **Adblock Test (github)** dan **Keamanan DNS (GRC)**.
+
+---
+
+## 📊 Perbandingan ControlD DoH (3 Konfigurasi)
+
+| DoH Server                                                                        | Adblock Test (GitHub) | GRC Security (Anti-Spoofing & DNSSEC)                                                     | Catatan                                                      |
+| --------------------------------------------------------------------------------- | --------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Hagezi Ultimate**  <br>(`https://freedns.controld.com/x-hagezi-ultimate`)       | 🏆 **100% (Juara)**   | Server 43.245.50.152 → Excellent<br>Server 23.171.240.157 → Good<br>DNSSEC: Supported     | Paling kuat di filter iklan & malware, keamanan juga tinggi. |
+| **P2**  <br>(`https://freedns.controld.com/p2`)                                   | 98% (Sangat tinggi)   | Kedua server **Excellent**, DNSSEC: Supported                                             | Hampir setara Hagezi, tapi adblock sedikit di bawah.         |
+| **No-Ads-Malware-Typo**  <br>(`https://freedns.controld.com/no-ads-malware-typo`) | 78% (Lebih rendah)    | Server 43.245.50.152 → Excellent<br>Server 23.171.240.157 → Moderate<br>DNSSEC: Supported | Lebih ringan, tapi kalah jauh dari segi filter iklan.        |
+
+---
+
+### 🏁 Kesimpulan akhir
+
+* **Adblock filter terbaik:** `Hagezi Ultimate` (100%)
+* **Keamanan GRC terbaik:** `P2` (dua-duanya Excellent)
+* **Pilihan kompromi (ringan + cukup aman):** `No-Ads-Malware-Typo`, tapi filter iklan lemah.
+
+👉 Jadi, kalau fokus **bersih maksimal tanpa iklan** → pakai **Hagezi Ultimate**.
+👉 Kalau prioritas **keamanan teknis stabil (anti-spoofing)** → pilih **P2**.
+👉 Kalau hanya butuh proteksi dasar, ringan, & stabil → bisa pakai **No-Ads-Malware-Typo**.
+
+---
+
+Mau aku bikinkan juga **versi konfigurasi siap pakai (Windows / Android / Router)** untuk ketiga server ini, biar kamu tinggal copy-paste?
+
