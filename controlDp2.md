@@ -12,6 +12,9 @@ Hasil
 https://www.grc.com/dns/dns.htm
 
 ![Logo](https://raw.githubusercontent.com/williamyaps/xioaming/refs/heads/master/images/controlDp2.jpg)
+
+![cmdnscontrolDp2](https://github.com/user-attachments/assets/ec77b943-7833-4c3e-9471-880de22c4def)
+
 ---
 
 Oke William 👍
