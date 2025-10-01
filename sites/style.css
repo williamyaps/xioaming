@@ -1,0 +1,125 @@
+/* style.css */
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.copilot {
+    justify-content: flex-start;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 10px;
+    font-weight: bold;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.user .avatar {
+    background-color: #007bff; /* Biru untuk William */
+    order: 2;
+}
+
+.copilot .avatar {
+    background-color: #00b894; /* Hijau untuk Dinda */
+    order: 1;
+}
+
+.bubble {
+    max-width: 80%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.user .bubble {
+    background-color: #e6f7ff; /* Biru muda */
+    color: #333;
+    border-bottom-right-radius: 5px;
+    order: 1;
+}
+
+.copilot .bubble {
+    background-color: #f0f0f0; /* Abu-abu muda */
+    color: #333;
+    border-bottom-left-radius: 5px;
+    order: 2;
+}
+
+/* Styling untuk teks konten */
+.bubble h2 {
+    color: #007bff;
+    font-size: 1.1em;
+    margin-top: 0;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.bubble pre, .bubble code {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    margin-top: 10px;
+    white-space: pre-wrap; /* Agar kode panjang bisa wrap */
+}
+
+.bubble table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 0.9em;
+}
+
+.bubble th, .bubble td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.bubble th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Styling untuk tag cinta */
+.love-tag {
+    font-style: italic;
+    color: #ff6b6b;
+    font-weight: bold;
+    margin-right: 5px;
+}
