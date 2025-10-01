@@ -257,7 +257,201 @@
                 <strong>ControlD P2</strong> menawarkan keseimbangan terbaik antara keamanan tinggi, DNSSEC kuat, anti-spoofing excellent, ping rendah, dan adblock yang sangat efektif (98%).
             </p>
         </div>
+		
+		<style>
+			body {
+			  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			  background: #f9fbfd;
+			  color: #2d3748;
+			  line-height: 1.6;
+			  padding: 30px;
+			  max-width: 1200px;
+			  margin: 0 auto;
+			}
+			h1 {
+			  text-align: center;
+			  color: #2c5282;
+			  margin-bottom: 10px;
+			}
+			.subtitle {
+			  text-align: center;
+			  color: #4a5568;
+			  margin-bottom: 30px;
+			  font-style: italic;
+			}
+			table {
+			  width: 100%;
+			  border-collapse: collapse;
+			  margin: 25px 0;
+			  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+			  border-radius: 12px;
+			  overflow: hidden;
+			}
+			th, td {
+			  padding: 16px 12px;
+			  text-align: center;
+			}
+			th {
+			  background: #3182ce;
+			  color: white;
+			  font-weight: 600;
+			}
+			tr:nth-child(even) {
+			  background-color: #edf2f7;
+			}
+			tr:hover {
+			  background-color: #e2e8f0;
+			}
+			.score {
+			  font-weight: bold;
+			  display: inline-block;
+			  width: 32px;
+			  height: 32px;
+			  line-height: 32px;
+			  border-radius: 50%;
+			  color: white;
+			}
+			.score-1 { background: #e53e3e; } /* 1–3 */
+			.score-2 { background: #dd6b20; } /* 4–6 */
+			.score-3 { background: #38a169; } /* 7–8 */
+			.score-4 { background: #2b6cb0; } /* 9–10 */
+			.conclusion {
+			  background: #ebf8ff;
+			  padding: 20px;
+			  border-left: 5px solid #3182ce;
+			  border-radius: 8px;
+			  margin-top: 30px;
+			  font-size: 1.05em;
+			}
+			.conclusion strong {
+			  color: #2c5282;
+			}
+		  </style>
+		</head>
+		<body>
+
+		<h1>Tabel Perbandingan Security Level DNS</h1>
+		<p class="subtitle">ISP Indonesia vs Bank/Institusi vs Brahma World vs ControlD P2</p>
+
+		<table>
+		  <thead>
+			<tr>
+			  <th>Aspek Keamanan</th>
+			  <th>ISP Indonesia</th>
+			  <th>Bank / Institusi</th>
+			  <th>Brahma World</th>
+			  <th>ControlD P2</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td><strong>DNSSEC Support</strong></td>
+			  <td><span class="score score-1">3</span></td>
+			  <td><span class="score score-2">5</span></td>
+			  <td><span class="score score-3">8</span></td>
+			  <td><span class="score score-4">9</span></td>
+			</tr>
+			<tr>
+			  <td><strong>Anti-Spoofing</strong></td>
+			  <td><span class="score score-1">2</span></td>
+			  <td><span class="score score-2">4</span></td>
+			  <td><span class="score score-3">8</span></td>
+			  <td><span class="score score-4">9</span></td>
+			</tr>
+			<tr>
+			  <td><strong>Privasi (DoH/DoT)</strong></td>
+			  <td><span class="score score-1">2</span></td>
+			  <td><span class="score score-1">3</span></td>
+			  <td><span class="score score-4">9</span></td>
+			  <td><span class="score score-3">8</span></td>
+			</tr>
+			<tr>
+			  <td><strong>Filtering (Iklan/Malware)</strong></td>
+			  <td><span class="score score-1">1</span></td>
+			  <td><span class="score score-1">2</span></td>
+			  <td><span class="score score-3">7</span></td>
+			  <td><span class="score score-4">10</span></td>
+			</tr>
+		  </tbody>
+		</table>
+
+		<div class="conclusion">
+		  <p><strong>Ringkasan:</strong> Berdasarkan analisis komprehensif, <strong>ControlD P2</strong> menawarkan keseimbangan terbaik antara keamanan tinggi, dukungan DNSSEC kuat, perlindungan anti-spoofing excellent, privasi penuh via DoH/DoT, serta filtering iklan/malware yang sangat efektif (98%). Cocok untuk pengguna yang mengutamakan keamanan dan privasi tanpa mengorbankan performa.</p>
+		</div>
+		
+		<!-- Tambahkan opsi choose -->
+		<div class="recommendation-engine">
+			<h3>🔧 Rekomendasi Berdasarkan Kebutuhan Anda</h3>
+			<div class="user-inputs">
+				<label>
+					<input type="checkbox" id="needPrivacy"> Privasi Tinggi
+				</label>
+				<label>
+					<input type="checkbox" id="needSpeed"> Kecepatan Tertinggi
+				</label>
+				<label>
+					<input type="checkbox" id="needFiltering"> Filter Iklan/Malware
+				</label>
+				<label>
+					<input type="checkbox" id="needReliability"> Reliabilitas Tertinggi
+				</label>
+			</div>
+			<button onclick="calculateRecommendation()">Dapatkan Rekomendasi</button>
+			<div id="recommendationResult" class="recommendation-result"></div>
+		</div>
     </div>
+	
+	<style>
+	.recommendation-engine {
+		background: #f8f9fa;
+		padding: 20px;
+		border-radius: 10px;
+		margin: 20px 0;
+	}
+	.user-inputs {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 10px;
+		margin: 15px 0;
+	}
+	.recommendation-result {
+		margin-top: 15px;
+		padding: 15px;
+		background: white;
+		border-radius: 8px;
+		display: none;
+	}
+	</style>
+
+	<script>
+	function calculateRecommendation() {
+		const privacy = document.getElementById('needPrivacy').checked;
+		const speed = document.getElementById('needSpeed').checked;
+		const filtering = document.getElementById('needFiltering').checked;
+		const reliability = document.getElementById('needReliability').checked;
+		
+		let recommendations = [];
+		
+		if (privacy && filtering) {
+			recommendations.push("🎯 <strong>ControlD P2</strong> - Terbaik untuk privasi dan filtering");
+		}
+		if (speed && reliability) {
+			recommendations.push("⚡ <strong>ControlD P2</strong> - Kombinasi kecepatan dan reliabilitas terbaik");
+		}
+		if (!privacy && speed) {
+			recommendations.push("🏠 <strong>ISP Indonesia</strong> - Tercepat (tapi kurang aman)");
+		}
+		
+		const resultDiv = document.getElementById('recommendationResult');
+		if (recommendations.length > 0) {
+			resultDiv.innerHTML = "<h4>Rekomendasi untuk Anda:</h4>" + recommendations.join('<br>');
+			resultDiv.style.display = 'block';
+		} else {
+			resultDiv.innerHTML = "<p>Pilih setidaknya satu kebutuhan untuk mendapatkan rekomendasi</p>";
+			resultDiv.style.display = 'block';
+		}
+	}
+	</script>
 
     <script>
         // Data untuk chart
