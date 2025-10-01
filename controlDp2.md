@@ -479,3 +479,69 @@ Siap sayang 💖 ini aku buatkan tabel ringkas hasil uji coba kamu — sudah len
 
 Mau aku bikinkan juga **versi konfigurasi siap pakai (Windows / Android / Router)** untuk ketiga server ini, biar kamu tinggal copy-paste?
 
+---
+
+Oke sayang 🤍, aku bikin tabel perbandingan biar jelas kelihatan jurang perbedaan security level DNS antara **ISP Indonesia**, **Bank/Institusi besar**, dan **resolver favoritmu (ControlD P2 & Brahma World)**.
+
+---
+
+# 🔒 Perbandingan Security Level DNS
+
+| Aspek Keamanan DNS          | ISP Indonesia (umum)                                                     | Bank/Institusi Besar (praktik nyata)                                             | ControlD P2                                     | Brahma World                                            |
+| --------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------- |
+| **Anti-Spoofing**           | Lemah (entropi sering rendah, stuck bits, external query terbuka)        | Campuran (sering salah konfigurasi, bisa bocor)                                  | Sangat kuat (Excellent entropy, spoofing minim) | Sangat kuat (Excellent entropy, aman)                   |
+| **DNSSEC**                  | Kadang ada, sering error / inconclusive (seperti hasil testmu)           | Harusnya aktif, tapi sering *misconfigured* (banyak kebobolan justru karena ini) | Aktif & stabil (supported)                      | Aktif & stabil (supported)                              |
+| **External Query Handling** | Buruk (sering *replied*, artinya bisa dipakai orang luar → rentan abuse) | Beberapa *replied*, beberapa ignore (tidak konsisten)                            | Ignored (lebih aman, spoof-resistant)           | Ignored (lebih aman, spoof-resistant)                   |
+| **Ping / Latency**          | Rendah (karena lokal), tapi tidak aman                                   | Rendah (lokal), tapi tidak aman                                                  | Sangat rendah (15ms di Medan – stabil)          | Sedang (ping lebih tinggi, ±100–200ms)                  |
+| **Privacy**                 | Buruk (ISP log semua query DNS, bisa inject iklan, bisa snoop)           | Biasanya log internal (bisa disalahgunakan staf IT)                              | Bagus (No log/optional log, transparan)         | Bagus (No log, komunitas independen)                    |
+| **Filter Iklan/Tracking**   | Tidak ada (malah bisa inject iklan tambahan)                             | Tidak ada (kadang whitelist justru penuh tracking)                               | Sangat kuat (98% block list coverage)           | Kuat (98% block list coverage)                          |
+| **Reliabilitas**            | Bergantung ISP (sering down / hijack)                                    | Tergantung internal IT (bisa kena ransomware / salah setting)                    | Tinggi (CDN global, load balanced)              | Tinggi tapi kadang ping besar                           |
+| **Cocok untuk…**            | User awam (tanpa proteksi)                                               | Bisnis besar, tapi sering salah konfigurasi                                      | Power user, anti-spoofing + adblock maksimal    | User yang butuh alternatif kuat, meski ping agak tinggi |
+
+---
+
+## 🎯 Kesimpulan cepat
+
+* **ISP Indonesia** → cepat (lokal), tapi paling **berbahaya**. Anti-spoofing rendah, DNSSEC kadang gagal, bisa inject iklan, log pasti disimpan.
+* **Bank/Institusi besar** → seharusnya paling aman, tapi kenyataan di lapangan sering **salah setting** (DNSSEC error, open query, patch telat). Ini yang bikin mereka sering bocor/hack.
+* **ControlD P2** → **juara balance** → keamanan tinggi, DNSSEC kuat, anti-spoofing excellent, ping rendah, plus adblock sangat efektif (98%).
+* **Brahma World** → bagus (98% filter, DNSSEC bagus, anti-spoofing aman), tapi **ping lebih tinggi**. Cocok sebagai cadangan jika ControlD down.
+
+---
+
+👉 Jadi, kalau bicara **security level DNS**:
+**1️⃣ ControlD P2 (utama)**
+**2️⃣ Brahma World (backup)**
+**3️⃣ Bank/Institusi (sering salah setting)**
+**4️⃣ ISP Indonesia (lemah & rawan hijack)**
+
+---
+
+Mau aku bikinin **diagram/skema flow** (misalnya pakai panah, dari paling lemah ke paling kuat) biar kamu bisa pakai di GitHub kamu juga?
+
+------
+
+ok sayang 🤍 aku bikinin tabel perbandingan **security level DNS** dengan warna hijau (aman), kuning (sedang), merah (lemah).
+
+### 🔒 Perbandingan Security Level DNS
+
+| Kategori             | Anti-Spoofing  | DNSSEC Support | Privasi (DoH/DoT) | Filtering (Ads/Malware) | Level Keamanan    |
+| -------------------- | -------------- | -------------- | ----------------- | ----------------------- | ----------------- |
+| **ISP Indonesia**    | 🔴 Lemah       | 🟡 Kadang ada  | 🔴 Tidak ada      | 🔴 Tidak ada            | ⚠️ Rendah         |
+| **Bank / Institusi** | 🟡 Sedang      | 🟢 Wajib ada   | 🟡 Bervariasi     | 🔴 Umumnya tidak        | 🔐 Sedang         |
+| **Brahma World**     | 🟢 Kuat        | 🟢 Ada         | 🟢 Ada (DoH/DoT)  | 🟡 Dasar                | 🔐 Tinggi         |
+| **ControlD P2**      | 🟢 Sangat Kuat | 🟢 Full        | 🟢 Full (DoH/DoT) | 🟢 Advanced + Policy    | 🛡️ Sangat Tinggi |
+
+### 📊 Skema Visual (Lemah → Kuat)
+
+```
+ISP Indonesia  →  Bank/Institusi  →  Brahma World  →  ControlD P2
+   ⚠️ Rendah          🔐 Sedang          🔐 Tinggi          🛡️ Sangat Tinggi
+```
+
+kalau kamu mau, aku bisa bikin **HTML Chart.js** pie chart / radar chart
+biar langsung kelihatan siapa yang paling kuat 👌
+
+mau aku bikinin versi grafiknya juga sayang? 🎨
+
+
