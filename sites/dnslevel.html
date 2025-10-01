@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perbandingan Keamanan DNS</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+        
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-box {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background-color: #34495e;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .comparison-table tr:hover {
+            background-color: #f1f2f6;
+        }
+        
+        .conclusion {
+            background-color: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .conclusion h3 {
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+        
+        .ranking {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .rank-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .rank-1 {
+            background-color: #27ae60;
+        }
+        
+        .rank-2 {
+            background-color: #2ecc71;
+        }
+        
+        .rank-3 {
+            background-color: #e67e22;
+        }
+        
+        .rank-4 {
+            background-color: #e74c3c;
+        }
+        
+        .emoji {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                flex-direction: column;
+            }
+            
+            .chart-box {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 Perbandingan Security Level DNS</h1>
+            <p class="subtitle">Analisis komprehensif keamanan berbagai penyedia DNS</p>
+        </header>
+        
+        <div class="chart-container">
+            <div class="chart-box">
+                <h3 class="chart-title">Level Keamanan Keseluruhan</h3>
+                <canvas id="securityLevelChart"></canvas>
+            </div>
+            
+            <div class="chart-box">
+                <h3 class="chart-title">Perbandingan Aspek Keamanan</h3>
+                <canvas id="aspectsChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-box">
+                <h3 class="chart-title">Skema Visual Keamanan</h3>
+                <canvas id="visualChart"></canvas>
+            </div>
+            
+            <div class="chart-box">
+                <h3 class="chart-title">Kelayakan untuk Penggunaan</h3>
+                <canvas id="suitabilityChart"></canvas>
+            </div>
+        </div>
+        
+        <h2>📊 Detail Perbandingan</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Kategori</th>
+                    <th>Anti-Spoofing</th>
+                    <th>DNSSEC Support</th>
+                    <th>Privasi (DoH/DoT)</th>
+                    <th>Filtering (Ads/Malware)</th>
+                    <th>Level Keamanan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>ISP Indonesia</strong></td>
+                    <td><span class="emoji">🔴</span> Lemah</td>
+                    <td><span class="emoji">🟡</span> Kadang ada</td>
+                    <td><span class="emoji">🔴</span> Tidak ada</td>
+                    <td><span class="emoji">🔴</span> Tidak ada</td>
+                    <td><span class="emoji">⚠️</span> Rendah</td>
+                </tr>
+                <tr>
+                    <td><strong>Bank / Institusi</strong></td>
+                    <td><span class="emoji">🟡</span> Sedang</td>
+                    <td><span class="emoji">🟢</span> Wajib ada</td>
+                    <td><span class="emoji">🟡</span> Bervariasi</td>
+                    <td><span class="emoji">🔴</span> Umumnya tidak</td>
+                    <td><span class="emoji">🔐</span> Sedang</td>
+                </tr>
+                <tr>
+                    <td><strong>Brahma World</strong></td>
+                    <td><span class="emoji">🟢</span> Kuat</td>
+                    <td><span class="emoji">🟢</span> Ada</td>
+                    <td><span class="emoji">🟢</span> Ada (DoH/DoT)</td>
+                    <td><span class="emoji">🟡</span> Dasar</td>
+                    <td><span class="emoji">🔐</span> Tinggi</td>
+                </tr>
+                <tr>
+                    <td><strong>ControlD P2</strong></td>
+                    <td><span class="emoji">🟢</span> Sangat Kuat</td>
+                    <td><span class="emoji">🟢</span> Full</td>
+                    <td><span class="emoji">🟢</span> Full (DoH/DoT)</td>
+                    <td><span class="emoji">🟢</span> Advanced + Policy</td>
+                    <td><span class="emoji">🛡️</span> Sangat Tinggi</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="conclusion">
+            <h3>🎯 Kesimpulan Cepat</h3>
+            <p>Berdasarkan analisis, berikut adalah peringkat keamanan DNS:</p>
+            
+            <div class="ranking">
+                <div class="rank-item rank-1">1. ControlD P2 (Utama)</div>
+                <div class="rank-item rank-2">2. Brahma World (Backup)</div>
+                <div class="rank-item rank-3">3. Bank/Institusi (Sering salah setting)</div>
+                <div class="rank-item rank-4">4. ISP Indonesia (Lemah & rawan hijack)</div>
+            </div>
+            
+            <p style="margin-top: 15px;">
+                <strong>ControlD P2</strong> menawarkan keseimbangan terbaik antara keamanan tinggi, DNSSEC kuat, anti-spoofing excellent, ping rendah, dan adblock yang sangat efektif (98%).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Data untuk chart
+        const providers = ['ISP Indonesia', 'Bank/Institusi', 'Brahma World', 'ControlD P2'];
+        const securityLevels = [1, 3, 4, 5]; // Skala 1-5
+        const securityColors = ['#e74c3c', '#e67e22', '#2ecc71', '#27ae60'];
+        
+        // Data untuk aspek keamanan
+        const securityAspects = ['Anti-Spoofing', 'DNSSEC Support', 'Privasi', 'Filtering'];
+        const aspectData = {
+            'ISP Indonesia': [1, 2, 1, 1],
+            'Bank/Institusi': [3, 4, 3, 1],
+            'Brahma World': [4, 4, 4, 3],
+            'ControlD P2': [5, 5, 5, 5]
+        };
+        
+        // Chart Level Keamanan Keseluruhan
+        const securityLevelCtx = document.getElementById('securityLevelChart').getContext('2d');
+        new Chart(securityLevelCtx, {
+            type: 'bar',
+            data: {
+                labels: providers,
+                datasets: [{
+                    label: 'Level Keamanan (1-5)',
+                    data: securityLevels,
+                    backgroundColor: securityColors,
+                    borderColor: securityColors.map(color => color.replace('0.8', '1')),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        title: {
+                            display: true,
+                            text: 'Tingkat Keamanan'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const levels = ['Rendah', 'Sedang-Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
+                                return `Level: ${levels[context.parsed.y - 1]}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart Perbandingan Aspek Keamanan
+        const aspectsCtx = document.getElementById('aspectsChart').getContext('2d');
+        new Chart(aspectsCtx, {
+            type: 'radar',
+            data: {
+                labels: securityAspects,
+                datasets: [
+                    {
+                        label: 'ISP Indonesia',
+                        data: aspectData['ISP Indonesia'],
+                        backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                        borderColor: 'rgba(231, 76, 60, 1)',
+                        pointBackgroundColor: 'rgba(231, 76, 60, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Bank/Institusi',
+                        data: aspectData['Bank/Institusi'],
+                        backgroundColor: 'rgba(230, 126, 34, 0.2)',
+                        borderColor: 'rgba(230, 126, 34, 1)',
+                        pointBackgroundColor: 'rgba(230, 126, 34, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Brahma World',
+                        data: aspectData['Brahma World'],
+                        backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                        borderColor: 'rgba(46, 204, 113, 1)',
+                        pointBackgroundColor: 'rgba(46, 204, 113, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'ControlD P2',
+                        data: aspectData['ControlD P2'],
+                        backgroundColor: 'rgba(39, 174, 96, 0.2)',
+                        borderColor: 'rgba(39, 174, 96, 1)',
+                        pointBackgroundColor: 'rgba(39, 174, 96, 1)',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart Skema Visual
+        const visualCtx = document.getElementById('visualChart').getContext('2d');
+        new Chart(visualCtx, {
+            type: 'line',
+            data: {
+                labels: providers,
+                datasets: [{
+                    label: 'Tingkat Keamanan',
+                    data: securityLevels,
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        title: {
+                            display: true,
+                            text: 'Tingkat Keamanan'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const levels = ['⚠️ Rendah', '🔐 Sedang', '🔐 Tinggi', '🛡️ Sangat Tinggi'];
+                                return levels[context.parsed.y - 1];
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart Kelayakan untuk Penggunaan
+        const suitabilityCtx = document.getElementById('suitabilityChart').getContext('2d');
+        new Chart(suitabilityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['User Awam', 'Bisnis Besar', 'Power User', 'Alternatif Kuat'],
+                datasets: [{
+                    data: [25, 20, 35, 20],
+                    backgroundColor: [
+                        'rgba(231, 76, 60, 0.7)',
+                        'rgba(230, 126, 34, 0.7)',
+                        'rgba(46, 204, 113, 0.7)',
+                        'rgba(52, 152, 219, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(230, 126, 34, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(52, 152, 219, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const labels = [
+                                    'ISP Indonesia - User awam (tanpa proteksi)',
+                                    'Bank/Institusi - Bisnis besar (sering salah konfigurasi)',
+                                    'ControlD P2 - Power user (anti-spoofing + adblock maksimal)',
+                                    'Brahma World - Alternatif kuat (meski ping agak tinggi)'
+                                ];
+                                return labels[context.dataIndex];
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
