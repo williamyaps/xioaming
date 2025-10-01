@@ -171,3 +171,102 @@ Oke William 👍 aku kasih rekomendasi berdasarkan hasil tes kamu:
 ---
 
 Mau aku bikinin juga **versi konfigurasi siap pakai** untuk Windows / Android / Router (DoH / DoT / DNS IP)?
+
+---
+
+versi buatan ringkasan gpt
+
+Sip 🔥 aku bikinin versi dengan **Daftar Isi (TOC)** otomatis, biar siapa pun buka langsung bisa klik ke bagian yang mau dipelajari.
+
+---
+
+# 🛡️ ControlD p2 – Ads & Tracking Block (98%)
+
+## 📑 Daftar Isi
+
+* [📌 Pendahuluan](#-pendahuluan)
+* [📸 Hasil Uji (Screenshot)](#-hasil-uji-screenshot)
+* [📊 Ringkasan Uji GRC DNS Benchmark](#-ringkasan-uji-grc-dns-benchmark)
+* [📊 Perbandingan Server](#-perbandingan-server)
+* [🔧 Rekomendasi Konfigurasi](#-rekomendasi-konfigurasi)
+* [📘 Catatan Belajar](#-catatan-belajar)
+
+---
+
+## 📌 Pendahuluan
+
+Dokumen ini adalah arsip pembelajaran tentang penggunaan **ControlD DoH (Profile p2)**, yang berfungsi memblokir **Iklan & Tracking (98%)**.
+Hasil uji dilakukan dengan **GRC DNS Benchmark** untuk mengecek **keamanan & stabilitas resolver**.
+
+---
+
+## 📸 Hasil Uji (Screenshot)
+
+![Hasil Benchmark](images/controlDp2.jpg)
+
+---
+
+## 📊 Ringkasan Uji GRC DNS Benchmark
+
+### Jumlah Server
+
+* **2 Server DNS** terdeteksi:
+
+  * `43.245.50.152`
+  * `23.171.240.157`
+
+### Anti-Spoofing
+
+* Status: **Excellent**
+* Artinya server DNS tahan terhadap serangan **spoofing** (pemalsuan jawaban DNS).
+
+### Randomness & Security
+
+* **Source Port Randomness:** Excellent
+* **Transaction ID Randomness:** Excellent
+* **DNSSEC Support:** ✅ Supported (jawaban DNS tervalidasi kriptografi)
+
+---
+
+## 📊 Perbandingan Server
+
+| Fitur / Analisis              | `43.245.50.152`           | `23.171.240.157`            |
+| ----------------------------- | ------------------------- | --------------------------- |
+| **Anti-Spoofing**             | Excellent                 | Excellent                   |
+| **Source Port Randomness**    | Excellent                 | Excellent                   |
+| **Transaction ID Randomness** | Excellent                 | Excellent                   |
+| **External Ping**             | Replied (terlihat publik) | Ignored (lebih tersembunyi) |
+| **External Query**            | Ignored (aman)            | Ignored (aman)              |
+| **DNSSEC Support**            | ✅ Supported               | ✅ Supported                 |
+| **Alphabetic Case Encoding**  | All Lower Case            | All Lower Case              |
+| **Extra Anti-Spoofing Check** | Unknown                   | Unknown                     |
+| **Total Query Diuji**         | 335 query                 | 44 query                    |
+
+---
+
+## 🔧 Rekomendasi Konfigurasi
+
+* **Primary DNS:** `43.245.50.152`
+  (Balas ping → lebih cepat dideteksi, stabil untuk koneksi utama).
+* **Secondary DNS:** `23.171.240.157`
+  (Stealth mode → lebih tersembunyi, sebagai cadangan).
+
+Dengan kombinasi ini, pengguna mendapatkan:
+
+* **Stabilitas** (primary aktif cepat)
+* **Keamanan** (backup stealth + DNSSEC)
+* **Proteksi iklan & tracking 98%**
+
+---
+
+## 📘 Catatan Belajar
+
+* Arsip ini dibuat sebagai bahan pembelajaran & dokumentasi.
+* Metode pembelajaran dengan **meng-archive** hasil percobaan → memudahkan review di kemudian hari.
+* GRC DNS Benchmark bisa dipakai untuk mengecek kualitas resolver lain.
+
+---
+
+✨ Versi ini sudah ada **TOC klik-able** di GitHub (otomatis link ke section).
+
+Mau aku sekalian tambahin **highlight code block konfigurasi DNS (Windows / Android / Router)** supaya praktis diingat langsung dari sini?
