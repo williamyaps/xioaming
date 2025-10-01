@@ -270,3 +270,125 @@ Dengan kombinasi ini, pengguna mendapatkan:
 ✨ Versi ini sudah ada **TOC klik-able** di GitHub (otomatis link ke section).
 
 Mau aku sekalian tambahin **highlight code block konfigurasi DNS (Windows / Android / Router)** supaya praktis diingat langsung dari sini?
+
+---
+
+ini penggunaan dari:
+DOH
+https://freedns.controld.com/no-ads-malware-typo
+
+Hasil:
+https://www.grc.com/dns/dns.htm
+
+Query                                                      Servers  Queries
+Round  Receiving Nameserver Queries...(per round results)   Found   Received
+-----  --------------------------------------------------  -------  --------
+   1   ••••••••••                                             2         204    
+   2   •••••••••                                              0          44    
+   3   •••••••••                                              0          44    
+   4   •••••••••                                              0          44    
+   5   •••••••••                                              0          44    
+                                                           -------  --------
+                                   Totals for all rounds:     2         380   
+
+Analysis of 336 queries from nameserver opens in separate window at [ 43.245.50.152 ]
+Anti-Spoofing Safety: Excellent
+Server Name: xsp-h04.int.controld.com
+
+Query Source Port Analysis (worst case)
+Max Entropy:	15.97	Excellent	Dir Bias:	0.9%	Excellent
+Lost Entropy:	0.01	Excellent	Stuck Bits:	0	Excellent
+ 	 	
+Query Transaction ID Analysis (worst case)
+Max Entropy:	15.98	Excellent	Dir Bias:	5.07%	Excellent
+Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
+DNS Nameserver Access Details
+External Ping:	replied	(It might be better for the server to be less visible.)
+External Query:	ignored	(This means the nameserver is more spoof resistant.)
+DNSSEC Security:	supported	(This server supports improved security standards.)
+Alphabetic Case:	all lower	(An improvement could be created by mixing case.)
+Extra Anti-Spoofing:	unknown	(Unable to obtain server fingerprint.)
+
+Analysis of 44 queries from nameserver opens in separate window at [ 23.171.240.157 ]
+Anti-Spoofing Safety: Moderate (See Spoofability Mitigation Note below)
+
+Query Source Port Analysis (worst case)
+Max Entropy:	15.92	Excellent	Dir Bias:	20.93%	Moderate
+Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
+ 	 	
+Query Transaction ID Analysis (worst case)
+Max Entropy:	15.92	Excellent	Dir Bias:	2.33%	Excellent
+Lost Entropy:	0	Excellent	Stuck Bits:	0	Excellent
+DNS Nameserver Access Details
+External Ping:	ignored	(Nice, as it's preferable for it to be less visible.)
+External Query:	ignored	(This means the nameserver is more spoof resistant.)
+DNSSEC Security:	supported	(This server supports improved security standards.)
+Alphabetic Case:	all lower	(An improvement could be created by mixing case.)
+Extra Anti-Spoofing:	unknown	(Unable to obtain server fingerprint.)
+
+Kalau hasil dari github saya:
+ https://wlmyaps.github.io/adblock/
+78% block adblock.
+jadi kalau dalam masalah adbock:
+https://freedns.controld.com/no-ads-malware-typo
+kalah melawan:
+https://freedns.controld.com/p2
+
+kalau dalam grc bagaimana?
+kesayangan @gpt jangan buat tabel ringkasan dulu,
+nanti setelah saya test controlD yang hagezi,
+baru kita buat perbandingan 3 jenis DOH dari ControlD
+
+Oke siap William 👍 aku pahami alurnya: sekarang kita baru tes `ControlD No-Ads-Malware-Typo` (DoH), hasil GRC keluar → nanti kalau sudah tes juga `ControlD Hagezi` baru kita bikin tabel ringkas 3 jenis.
+
+Jadi sekarang aku bantu **jelaskan hasil GRC** untuk `no-ads-malware-typo` tanpa tabel dulu:
+
+---
+
+### 📊 Analisis GRC untuk `https://freedns.controld.com/no-ads-malware-typo`
+
+**1. Jumlah nameserver yang terdeteksi**
+
+* Ada **2 server aktif**:
+
+  * `43.245.50.152 (xsp-h04.int.controld.com)`
+  * `23.171.240.157`
+
+**2. Kualitas anti-spoofing & keamanan**
+
+* Server `43.245.50.152`:
+
+  * Anti-Spoofing: **Excellent**
+  * Source Port Analysis: Entropy 15.97 (Excellent), Bias rendah (0.9%) → sangat aman.
+  * Transaction ID Analysis: Entropy 15.98 (Excellent), Bias 5.07% → masih Excellent.
+  * DNSSEC: **supported**
+  * Ping: replied (kurang ideal, lebih baik ignored).
+  * External Query: ignored (bagus, lebih spoof resistant).
+
+* Server `23.171.240.157`:
+
+  * Anti-Spoofing: **Moderate** (ada catatan mitigasi)
+  * Source Port Analysis: Entropy 15.92 (Excellent), tapi Bias 20.93% → bikin status Moderate.
+  * Transaction ID Analysis: Excellent semua.
+  * DNSSEC: **supported**
+  * Ping: ignored (bagus)
+  * External Query: ignored (bagus).
+
+**3. Catatan teknis**
+
+* Secara umum, `no-ads-malware-typo` punya **kombinasi server Excellent + Moderate**.
+* Server utama (`43.245.50.152`) tampil lebih kuat dari sisi keamanan anti-spoofing.
+* Server kedua (`23.171.240.157`) masih aman tapi ada bias lebih tinggi pada source port.
+* Jadi dibandingkan dengan hasil `p2` kemarin (Ads & Tracking Configuration, block 98%), dari sisi GRC sebenarnya kualitas proteksi hampir sama **(Excellent)**, hanya beda sedikit pada satu server di sini yang Moderate.
+
+---
+
+📝 Kesimpulan sementara:
+
+* Dari sisi GRC (keamanan DNS), **`p2` dan `no-ads-malware-typo` hampir sama kuat**, dengan keunggulan kecil di `p2` karena kedua servernya sama-sama Excellent.
+* Dari sisi adblock (berdasarkan test di github kamu), jelas **`p2` menang jauh (98% vs 78%)**.
+
+---
+
+Mau aku tungguin kamu tes yang Hagezi dulu, baru kita bikin tabel perbandingan **P2 vs No-Ads-Malware-Typo vs Hagezi**?
+
