@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perbandingan Security DNS</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --text: #333;
+      --card-bg: #fff;
+      --card-shadow: rgba(0,0,0,0.1);
+    }
+    body.dark {
+      --bg: #1e293b;
+      --text: #f1f5f9;
+      --card-bg: #334155;
+      --card-shadow: rgba(0,0,0,0.4);
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    h1, h2 {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeInUp 1s forwards;
+    }
+    h1 { animation-delay: 0.2s; }
+    h2 { animation-delay: 0.4s; }
+    .chart-container, .table-container {
+      width: 90%;
+      max-width: 900px;
+      margin: 30px auto;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px var(--card-shadow);
+      transition: background 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s forwards;
+    }
+    .table-container { animation-delay: 0.6s; }
+    .chart-container:nth-of-type(1) { animation-delay: 0.8s; }
+    .chart-container:nth-of-type(2) { animation-delay: 1s; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    th {
+      background: #e2e8f0;
+    }
+    body.dark th {
+      background: #475569;
+    }
+    .toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 14px;
+      background: var(--card-bg);
+      color: var(--text);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px var(--card-shadow);
+      transition: background 0.3s, color 0.3s;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle" onclick="toggleDarkMode()">🌙 Mode Gelap</button>
+
+  <h1>🔒 Perbandingan Security Level DNS</h1>
+  <p style="text-align:center">ISP Indonesia vs Bank/Institusi vs ControlD P2 vs Brahma World</p>
+
+  <div class="table-container">
+    <h2>Comparison Table</h2>
+    <table>
+      <tr>
+        <th>Aspek</th>
+        <th>ISP Indonesia</th>
+        <th>Bank/Institusi</th>
+        <th>ControlD P2</th>
+        <th>Brahma World</th>
+      </tr>
+      <tr>
+        <td>DNSSEC</td>
+        <td>3/10</td>
+        <td>5/10</td>
+        <td>9/10</td>
+        <td>8/10</td>
+      </tr>
+      <tr>
+        <td>Anti-Spoofing</td>
+        <td>2/10</td>
+        <td>4/10</td>
+        <td>9/10</td>
+        <td>8/10</td>
+      </tr>
+      <tr>
+        <td>Privacy</td>
+        <td>2/10</td>
+        <td>3/10</td>
+        <td>8/10</td>
+        <td>9/10</td>
+      </tr>
+      <tr>
+        <td>Filtering</td>
+        <td>1/10</td>
+        <td>2/10</td>
+        <td>10/10</td>
+        <td>7/10</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="chart-container">
+    <h2>Skema Visual Keamanan (Radar Chart)</h2>
+    <canvas id="radarChart"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <h2>Kelayakan untuk Penggunaan (Bar Chart)</h2>
+    <canvas id="barChart"></canvas>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const btn = document.querySelector(".toggle");
+      if (document.body.classList.contains("dark")) {
+        btn.textContent = "☀️ Mode Terang";
+      } else {
+        btn.textContent = "🌙 Mode Gelap";
+      }
+    }
+
+    const labels = ["DNSSEC", "Anti-Spoofing", "Privacy", "Filtering"];
+
+    const dataRadar = {
+      labels: labels,
+      datasets: [
+        {
+          label: "ISP Indonesia",
+          data: [3, 2, 2, 1],
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 2
+        },
+        {
+          label: "Bank/Institusi",
+          data: [5, 4, 3, 2],
+          backgroundColor: "rgba(255, 206, 86, 0.2)",
+          borderColor: "rgba(255, 206, 86, 1)",
+          borderWidth: 2
+        },
+        {
+          label: "ControlD P2",
+          data: [9, 9, 8, 10],
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 2
+        },
+        {
+          label: "Brahma World",
+          data: [8, 8, 9, 7],
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 2
+        }
+      ]
+    };
+
+    new Chart(document.getElementById("radarChart"), {
+      type: "radar",
+      data: dataRadar,
+      options: {
+        responsive: true,
+        scales: {
+          r: { suggestedMin: 0, suggestedMax: 10 }
+        },
+        animation: {
+          duration: 1500,
+          easing: "easeOutQuart"
+        }
+      }
+    });
+
+    const dataBar = {
+      labels: labels,
+      datasets: [
+        {
+          label: "ISP Indonesia",
+          data: [3, 2, 2, 1],
+          backgroundColor: "rgba(255, 99, 132, 0.6)"
+        },
+        {
+          label: "Bank/Institusi",
+          data: [5, 4, 3, 2],
+          backgroundColor: "rgba(255, 206, 86, 0.6)"
+        },
+        {
+          label: "ControlD P2",
+          data: [9, 9, 8, 10],
+          backgroundColor: "rgba(75, 192, 192, 0.6)"
+        },
+        {
+          label: "Brahma World",
+          data: [8, 8, 9, 7],
+          backgroundColor: "rgba(54, 162, 235, 0.6)"
+        }
+      ]
+    };
+
+    new Chart(document.getElementById("barChart"), {
+      type: "bar",
+      data: dataBar,
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, suggestedMax: 10 }
+        },
+        animation: {
+          duration: 1500,
+          easing: "easeOutBounce"
+        }
+      }
+    });
+  </script>
+</body>
+</html>
