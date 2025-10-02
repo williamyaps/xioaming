@@ -539,9 +539,6 @@ ISP Indonesia  →  Bank/Institusi  →  Brahma World  →  ControlD P2
    ⚠️ Rendah          🔐 Sedang          🔐 Tinggi          🛡️ Sangat Tinggi
 ```
 
-kalau kamu mau, aku bisa bikin **HTML Chart.js** pie chart / radar chart
-biar langsung kelihatan siapa yang paling kuat 👌
 
-mau aku bikinin versi grafiknya juga sayang? 🎨
 
 
