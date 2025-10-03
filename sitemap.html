@@ -1,0 +1,16 @@
+<div id="sitemap-container"></div>
+
+<script>
+fetch('sitemap.json')
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById('sitemap-container');
+    const ul = document.createElement('ul');
+    data.forEach(item => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+      ul.appendChild(li);
+    });
+    container.appendChild(ul);
+  });
+</script>
