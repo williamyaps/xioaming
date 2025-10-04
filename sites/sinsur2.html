@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perbandingan Kaligrafi</title>
+
+    <!-- Google Fonts: Kaligrafi Cina yang indah -->
+    <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #1e1e2f, #3e3e5f);
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 4em;
+      text-align: center;
+      margin-top: 50px;
+      text-shadow:
+        1px 1px 0 #ccc,
+        2px 2px 0 #bbb,
+        3px 3px 0 #aaa;
+    }
+
+    .animate__animated.animate__fadeInUp {
+      animation-duration: 2s;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .btn {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      background: #ff4081;
+      border: none;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Ma Shan Zheng", cursive;
+            background: linear-gradient(135deg, #fdf6e3, #f5e6d3);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .comparison-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Audio notification */
+        .audio-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(52, 152, 219, 0.95);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 25px;
+            border-radius: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .audio-btn {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 0 8px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .audio-btn:hover {
+            background: linear-gradient(135deg, #d35400, #a04000);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            margin-left: 5px;
+        }
+
+        /* Judul dengan efek 3D shadow + animasi mengambang */
+        .table-header {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            text-align: center;
+            font-family: "Liu Jian Mao Cao", cursive;
+            font-size: 38px;
+            padding: 26px 20px;
+            text-shadow:
+                2px 2px 0 #b03a2e,
+                4px 4px 0 rgba(0, 0, 0, 0.25);
+            letter-spacing: 1.5px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .column-header {
+            background: #f39c12;
+            color: white;
+            text-align: center;
+            font-family: "Liu Jian Mao Cao", cursive;
+            font-size: 24px;
+            padding: 18px 12px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .comparison-table td {
+            padding: 16px;
+            border: 1px solid #f0e0d0;
+            vertical-align: middle;
+            font-size: 18px;
+            line-height: 1.6;
+            transition: all 0.25s ease;
+        }
+
+        .row-light {
+            background: #fef9e7;
+        }
+
+        .row-dark {
+            background: #fdf2e9;
+        }
+
+        .chinese-text {
+            font-family: "Ma Shan Zheng", "Liu Jian Mao Cao", cursive;
+            font-size: 20px;
+        }
+
+        .fang-song-text {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 19px;
+        }
+
+        .footnote {
+            font-size: 14px;
+            color: #7f8c8d;
+            font-style: italic;
+            text-align: right;
+        }
+
+        /* Animasi */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            }
+        }
+
+        /* Hover halus pada baris */
+        .comparison-table tr:hover td:not(.table-header):not(.column-header) {
+            background-color: #fff8e1 !important;
+            transform: scale(1.005);
+        }
+
+        /* Loading indicator */
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsif untuk HP */
+        @media (max-width: 600px) {
+            .table-header {
+                font-size: 28px;
+                padding: 20px 12px;
+            }
+            .column-header {
+                font-size: 20px;
+                padding: 14px 10px;
+            }
+            .chinese-text, .fang-song-text {
+                font-size: 17px;
+            }
+            .comparison-table td {
+                padding: 12px 10px;
+            }
+            .audio-notification {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                font-size: 12px;
+                padding: 10px 15px;
+                text-align: center;
+            }
+            .audio-controls {
+                bottom: 10px;
+                padding: 10px 15px;
+            }
+            .audio-btn {
+                padding: 8px 12px;
+                margin: 0 4px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Notifikasi audio -->
+<div class="audio-notification" id="audioNotification">
+    <span class="loading"></span>?? Klik di mana saja untuk memutar musik
+</div>
+
+<!-- Kontrol audio -->
+<div class="audio-controls" id="audioControls">
+    <button class="audio-btn" onclick="playAudio()">?? Putar</button>
+    <button class="audio-btn" onclick="pauseAudio()">?? Jeda</button>
+    <button class="audio-btn" onclick="stopAudio()">?? Stop</button>
+    <div class="volume-control">
+        Vol: <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+    </div>
+</div>
+
+<h1 class="animate__animated animate__fadeInUp">Sinsur 3D</h1>
+  <button class="btn" id="animateBtn">Animasi GSAP</button>
+
+  <!-- Three.js Canvas -->
+  <canvas id="bg"></canvas>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r148/three.min.js"></script>
+
+  <script>
+    // GSAP Animation
+    document.getElementById('animateBtn').addEventListener('click', () => {
+      gsap.to("h1", {
+        duration: 1,
+        scale: 1.2,
+        rotation: 360,
+        ease: "elastic.out(1, 0.3)"
+      });
+    });
+
+    // Three.js Background
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg') });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+    const material = new THREE.MeshStandardMaterial({ color: 0xff0077 });
+    const torus = new THREE.Mesh(geometry, material);
+    scene.add(torus);
+
+    const light = new THREE.PointLight(0xffffff);
+    light.position.set(20, 20, 20);
+    scene.add(light);
+
+    camera.position.z = 30;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      torus.rotation.x += 0.01;
+      torus.rotation.y += 0.005;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+
+<table class="comparison-table">
+    <tr>
+        <td colspan="2" class="table-header">
+            Tabel Perbandingan ???
+        </td>
+    </tr>
+    <tr>
+        <td class="column-header chinese-text">???</td>
+        <td class="column-header chinese-text">???</td>
+    </tr>
+    <tr class="row-dark">
+        <td class="chinese-text">???????</td>
+        <td class="chinese-text">??????</td>
+    </tr>
+    <tr class="row-light">
+        <td class="chinese-text">???,?????????????</td>
+        <td class="chinese-text fang-song-text">?????????????</td>
+    </tr>
+    <tr class="row-dark">
+        <td class="chinese-text">?????????</td>
+        <td class="chinese-text">????????</td>
+    </tr>
+    <tr class="row-light">
+        <td>&nbsp;</td>
+        <td class="footnote">�i chai kha ki u kui niu tang (Hokkien)</td>
+    </tr>
+    <tr class="row-dark">
+        <td class="chinese-text">??????????</td>
+        <td class="chinese-text">(????????)</td>
+    </tr>
+    <tr class="row-light">
+        <td>&nbsp;</td>
+        <td class="chinese-text">????????</td>
+    </tr>
+    <tr class="row-dark">
+        <td class="chinese-text">??????,????</td>
+        <td class="chinese-text">??????????????</td>
+    </tr>
+    <tr class="row-light">
+        <td class="chinese-text">??:???????????</td>
+        <td class="chinese-text">?????????,??????????</td>
+    </tr>
+    <tr class="row-dark">
+        <td class="chinese-text">??????</td>
+        <td class="chinese-text">??????</td>
+    </tr>
+</table>
+
+<!-- Elemen Audio -->
+<audio id="backgroundAudio" loop preload="metadata">
+    <source src="https://priskilapeh.github.io/files/Halleluyah.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung elemen audio.
+</audio>
+
+<script>
+    let audioInitialized = false;
+    let userInteracted = false;
+    const audio = document.getElementById('backgroundAudio');
+    const audioNotification = document.getElementById('audioNotification');
+    const audioControls = document.getElementById('audioControls');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    // Preload audio metadata untuk performa lebih baik
+    audio.addEventListener('loadedmetadata', function() {
+        console.log('Audio metadata loaded');
+    });
+
+    // Tampilkan notifikasi saat halaman dimuat
+    window.addEventListener('load', function() {
+        console.log('Page loaded, waiting for user interaction...');
+        
+        // Sembunyikan notifikasi setelah 8 detik (lebih lama untuk UX)
+        setTimeout(() => {
+            if (!userInteracted) {
+                audioNotification.style.display = 'none';
+            }
+        }, 8000);
+    });
+
+    // Inisialisasi audio saat user berinteraksi dengan halaman
+    function initializeAudio() {
+        if (!audioInitialized && !userInteracted) {
+            userInteracted = true;
+            console.log('User interacted, initializing audio...');
+            
+            // Preload audio fully
+            audio.load();
+            audio.volume = volumeSlider.value / 100;
+            
+            // Tampilkan kontrol audio
+            audioControls.style.display = 'flex';
+            audioNotification.style.display = 'none';
+            
+            audioInitialized = true;
+            
+            // Coba putar audio langsung setelah interaksi
+            playAudio();
+        }
+    }
+
+    function playAudio() {
+        if (audioInitialized) {
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Autoplay prevented, showing controls:', error);
+                    // Tetap tampilkan kontrol meski autoplay dicegah
+                    audioControls.style.display = 'flex';
+                });
+            }
+        }
+    }
+
+    function pauseAudio() {
+        if (audioInitialized) {
+            audio.pause();
+        }
+    }
+
+    function stopAudio() {
+        if (audioInitialized) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    }
+
+    // Volume control
+    volumeSlider.addEventListener('input', function() {
+        if (audioInitialized) {
+            audio.volume = this.value / 100;
+        }
+    });
+
+    // Event listeners untuk user interaction - lebih comprehensive
+    document.body.addEventListener('click', initializeAudio);
+    document.body.addEventListener('touchstart', initializeAudio, { passive: true });
+    document.body.addEventListener('keydown', initializeAudio);
+    document.body.addEventListener('scroll', initializeAudio);
+
+    // Handle berbagai event audio
+    audio.addEventListener('play', function() {
+        console.log('Audio started playing successfully');
+    });
+
+    audio.addEventListener('error', function(e) {
+        console.error('Audio error:', e);
+        audioNotification.innerHTML = '? Error memuat audio';
+        audioNotification.style.background = '#e74c3c';
+    });
+
+    audio.addEventListener('canplaythrough', function() {
+        console.log('Audio can play through');
+    });
+
+    // Fallback: jika user tidak berinteraksi, sembunyikan notifikasi
+    setTimeout(() => {
+        if (!userInteracted) {
+            audioNotification.style.animation = 'none';
+            setTimeout(() => {
+                audioNotification.style.display = 'none';
+            }, 1000);
+        }
+    }, 10000);
+
+</script>
+
+</body>
+</html>
