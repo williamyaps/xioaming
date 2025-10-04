@@ -23,7 +23,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            cursor: pointer; /* Indikasikan bahwa halaman bisa diklik */
+            cursor: pointer;
         }
 
         .comparison-table {
@@ -42,14 +42,15 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(52, 152, 219, 0.9);
+            background: rgba(52, 152, 219, 0.95);
             color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
+            padding: 12px 18px;
+            border-radius: 25px;
             font-size: 14px;
             z-index: 1000;
             animation: pulse 2s infinite;
-            display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid white;
         }
 
         .audio-controls {
@@ -57,27 +58,47 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 10px 20px;
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 25px;
+            border-radius: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             z-index: 1000;
             display: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .audio-btn {
-            background: #e67e22;
+            background: linear-gradient(135deg, #e67e22, #d35400);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 18px;
+            border-radius: 25px;
             cursor: pointer;
-            margin: 0 5px;
+            margin: 0 8px;
             font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .audio-btn:hover {
-            background: #d35400;
+            background: linear-gradient(135deg, #d35400, #a04000);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            margin-left: 5px;
         }
 
         /* Judul dengan efek 3D shadow + animasi mengambang */
@@ -162,10 +183,12 @@
 
         @keyframes pulse {
             0%, 100% {
-                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             }
             50% {
-                opacity: 0.7;
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             }
         }
 
@@ -173,6 +196,22 @@
         .comparison-table tr:hover td:not(.table-header):not(.column-header) {
             background-color: #fff8e1 !important;
             transform: scale(1.005);
+        }
+
+        /* Loading indicator */
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Responsif untuk HP */
@@ -194,8 +233,19 @@
             .audio-notification {
                 top: 10px;
                 right: 10px;
+                left: 10px;
                 font-size: 12px;
+                padding: 10px 15px;
+                text-align: center;
+            }
+            .audio-controls {
+                bottom: 10px;
+                padding: 10px 15px;
+            }
+            .audio-btn {
                 padding: 8px 12px;
+                margin: 0 4px;
+                font-size: 12px;
             }
         }
     </style>
@@ -204,7 +254,7 @@
 
 <!-- Notifikasi audio -->
 <div class="audio-notification" id="audioNotification">
-    🎵 Klik di mana saja untuk memutar musik
+    <span class="loading"></span>🎵 Klik di mana saja untuk memutar musik
 </div>
 
 <!-- Kontrol audio -->
@@ -212,6 +262,9 @@
     <button class="audio-btn" onclick="playAudio()">▶️ Putar</button>
     <button class="audio-btn" onclick="pauseAudio()">⏸️ Jeda</button>
     <button class="audio-btn" onclick="stopAudio()">⏹️ Stop</button>
+    <div class="volume-control">
+        Vol: <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+    </div>
 </div>
 
 <table class="comparison-table">
@@ -263,52 +316,68 @@
 </table>
 
 <!-- Elemen Audio -->
-<audio id="backgroundAudio" loop>
+<audio id="backgroundAudio" loop preload="metadata">
     <source src="https://priskilapeh.github.io/files/Halleluyah.mp3" type="audio/mpeg">
     Browser Anda tidak mendukung elemen audio.
 </audio>
 
 <script>
     let audioInitialized = false;
+    let userInteracted = false;
     const audio = document.getElementById('backgroundAudio');
     const audioNotification = document.getElementById('audioNotification');
     const audioControls = document.getElementById('audioControls');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    // Preload audio metadata untuk performa lebih baik
+    audio.addEventListener('loadedmetadata', function() {
+        console.log('Audio metadata loaded');
+    });
 
     // Tampilkan notifikasi saat halaman dimuat
     window.addEventListener('load', function() {
-        audioNotification.style.display = 'block';
+        console.log('Page loaded, waiting for user interaction...');
         
-        // Sembunyikan notifikasi setelah 5 detik
+        // Sembunyikan notifikasi setelah 8 detik (lebih lama untuk UX)
         setTimeout(() => {
-            audioNotification.style.display = 'none';
-        }, 5000);
+            if (!userInteracted) {
+                audioNotification.style.display = 'none';
+            }
+        }, 8000);
     });
 
     // Inisialisasi audio saat user berinteraksi dengan halaman
     function initializeAudio() {
-        if (!audioInitialized) {
-            // Preload audio
+        if (!audioInitialized && !userInteracted) {
+            userInteracted = true;
+            console.log('User interacted, initializing audio...');
+            
+            // Preload audio fully
             audio.load();
-            audio.volume = 0.7; // Volume 70%
+            audio.volume = volumeSlider.value / 100;
             
             // Tampilkan kontrol audio
-            audioControls.style.display = 'block';
+            audioControls.style.display = 'flex';
             audioNotification.style.display = 'none';
             
             audioInitialized = true;
             
-            // Otomatis putar setelah inisialisasi (opsional)
-            setTimeout(() => {
-                playAudio();
-            }, 1000);
+            // Coba putar audio langsung setelah interaksi
+            playAudio();
         }
     }
 
     function playAudio() {
         if (audioInitialized) {
-            audio.play().catch(error => {
-                console.log('Autoplain dicegah:', error);
-            });
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Autoplay prevented, showing controls:', error);
+                    // Tetap tampilkan kontrol meski autoplay dicegah
+                    audioControls.style.display = 'flex';
+                });
+            }
         }
     }
 
@@ -325,26 +394,44 @@
         }
     }
 
-    // Event listeners untuk user interaction
-    document.body.addEventListener('click', initializeAudio);
-    document.body.addEventListener('touchstart', initializeAudio);
-    document.body.addEventListener('keydown', initializeAudio);
+    // Volume control
+    volumeSlider.addEventListener('input', function() {
+        if (audioInitialized) {
+            audio.volume = this.value / 100;
+        }
+    });
 
-    // Handle autoplay restrictions
+    // Event listeners untuk user interaction - lebih comprehensive
+    document.body.addEventListener('click', initializeAudio);
+    document.body.addEventListener('touchstart', initializeAudio, { passive: true });
+    document.body.addEventListener('keydown', initializeAudio);
+    document.body.addEventListener('scroll', initializeAudio);
+
+    // Handle berbagai event audio
     audio.addEventListener('play', function() {
-        console.log('Audio mulai diputar');
+        console.log('Audio started playing successfully');
     });
 
     audio.addEventListener('error', function(e) {
-        console.error('Error audio:', e);
+        console.error('Audio error:', e);
         audioNotification.innerHTML = '❌ Error memuat audio';
         audioNotification.style.background = '#e74c3c';
     });
 
-    // Volume control untuk mobile
-    audio.addEventListener('volumechange', function() {
-        console.log('Volume changed:', audio.volume);
+    audio.addEventListener('canplaythrough', function() {
+        console.log('Audio can play through');
     });
+
+    // Fallback: jika user tidak berinteraksi, sembunyikan notifikasi
+    setTimeout(() => {
+        if (!userInteracted) {
+            audioNotification.style.animation = 'none';
+            setTimeout(() => {
+                audioNotification.style.display = 'none';
+            }, 1000);
+        }
+    }, 10000);
+
 </script>
 
 </body>
