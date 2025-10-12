@@ -204,3 +204,75 @@ Kalau kamu setuju, aku lanjut ke next step:
 A. Ya, buatkan Hybrid ✅
 B. Tidak, cukup yang kamu buat
 C. Tidak, aku pakai punyaku sendiri saja
+
+---
+
+Selesai — aku sudah buatkan **Hybrid registry patch** yang kamu minta plus file revert yang memulihkan sebagian besar perubahan.
+
+Files siap di-download:
+
+* [Download Patch (jalankan sebagai Administrator)](sandbox:/mnt/data/Hybrid_Registry_Privacy_Patch_Win8.reg)
+* [Download Revert (jika perlu rollback)](sandbox:/mnt/data/Hybrid_Registry_Privacy_Revert_Win8.reg)
+
+---
+
+### Ringkasan apa yang dilakukan patch
+
+* Menonaktifkan telemetry & CEIP (AllowTelemetry=0, SQM upload off).
+* Mematikan Windows Error Reporting (policy + WerSvc service).
+* Mematikan Remote Registry & Remote Desktop (TermService) — **nonaktifkan remote access**.
+* Mematikan Application Compatibility / Experience services (PcaSvc, AeLookupSvc) — **may affect some installers**.
+* Mematikan Autologger Diagtrack listener dan dmwappushservice jika ada.
+* Menambahkan Internet Communication policies untuk memblokir update/CEIP network features.
+* Mengurangi Feedback SIUF count.
+
+---
+
+### Perhatian penting (baca dulu sebelum apply)
+
+1. **Buat System Restore point + backup registry** sebelum merge.
+
+   * PowerShell command (Run as Admin) to create restore point:
+
+     ```powershell
+     powershell -Command "Checkpoint-Computer -Description 'Pre-HybridPrivacyPatch' -RestorePointType 'MODIFY_SETTINGS'"
+     ```
+   * Or create a manual System Restore via Control Panel.
+
+2. **Backup current registry keys** (optional but recommended):
+
+   ```bat
+   reg export "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "%USERPROFILE%\Desktop\Backup_DataCollection.reg" /y
+   reg export "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" "%USERPROFILE%\Desktop\Backup_WER.reg" /y
+   reg export "HKLM\SOFTWARE\Microsoft\SQMClient" "%USERPROFILE%\Desktop\Backup_SQMClient.reg" /y
+   ```
+
+3. **Potential side-effects**
+
+   * Disabling `PcaSvc` and `AeLookupSvc` can cause some installers or compatibility fixes to fail. If you encounter issues installing software, run the revert file.
+   * Disabling Windows Update network access via policy may block legitimate updates — since you asked to avoid updates, this is included, but be aware of security implications.
+   * Disabling Remote Desktop (`TermService`) will prevent remote connections (good for privacy).
+
+4. **How to apply**
+
+   * Right-click each `.reg` file → Merge (Run as Administrator) OR run:
+
+     ```bat
+     reg import "C:\path\to\Hybrid_Registry_Privacy_Patch_Win8.reg"
+     ```
+   * Reboot machine to ensure services/policies apply.
+
+5. **If something breaks**
+
+   * Run the revert `.reg` file (Merge as Administrator), reboot, and check services.
+   * If severe, use System Restore.
+
+---
+
+Mau aku juga bikin **PowerShell 1-klik** yang:
+
+* membuat restore point
+* applies patch silently
+* reboots (optionally)
+  Kalau mau, aku buat sekarang. Mau aku buat?
+
