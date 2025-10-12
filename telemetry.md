@@ -80,3 +80,54 @@ C. Hardening **manual** (step by step)
 D. **Cek lagi services & registry** kamu dulu?
 
 Pilih salah satu ✅
+
+---
+
+Siap, bagus — biar kamu tidak perlu kirim semua registry.
+Cukup **export bagian yang terkait telemetry dan data collection saja.**
+Berikut ini daftar **folder registry yang perlu kamu export**:
+
+---
+
+### 📂 Daftar Registry yang Perlu Di-Export
+
+| Kategori                                           | Lokasi Registry                                                                        | Perlu?       |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------ |
+| **Telemetry utama Windows**                        | `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection`                | ✅ WAJIB      |
+| **Layanan Telemetry (DiagTrack)**                  | `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DiagTrack`                       | ✅ WAJIB      |
+| **Telemetry via dmwappush**                        | `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dmwappushservice`                | ✅ WAJIB      |
+| **Windows Error Reporting (WER)**                  | `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting`                | ✅ WAJIB      |
+| **Error Reporting Policy**                         | `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting`       | ✅ WAJIB      |
+| **Customer Experience Improvement Program (CEIP)** | `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient`                                      | ✅ WAJIB      |
+| **Application Telemetry**                          | `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Privacy`                  | ✅ Disarankan |
+| **Feedback & Diagnostics**                         | `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection` | ✅ Disarankan |
+| **Advertising ID**                                 | `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo`               | Opsional     |
+| **Cloud Content / Suggestions**                    | `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent`                  | Opsional     |
+| **Telemetry tugas tambahan**                       | `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC`                      | Opsional     |
+
+---
+
+### ✅ Jadi total export 10 bagian ini:
+
+Copy saja list ini, lalu Export satu per satu di Registry Editor:
+
+```
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\DiagTrack
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dmwappushservice
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Privacy
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent
+```
+
+---
+
+Kalau sudah export, **gabungkan jadi satu file .zip lalu upload di sini**.
+Aku cekkan satu per satu dan tinggal kasih kamu versi **optimized privacy**.
+
+✅ Siap bantu lanjut kapan saja. Mau mulai export sekarang?
+
