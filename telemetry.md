@@ -276,3 +276,159 @@ Mau aku juga bikin **PowerShell 1-klik** yang:
 * reboots (optionally)
   Kalau mau, aku buat sekarang. Mau aku buat?
 
+  ---
+
+  # Create hybrid registry patch and revert file for Windows 8 privacy & stability as requested.
+patch = r"""Windows Registry Editor Version 5.00
+
+; ===== HYBRID PRIVACY & STABILITY PATCH for Windows 8 =====
+; Purpose: reduce telemetry, disable remote access, stop diagtrack autologger,
+;          avoid aggressive changes that may cause BSOD.
+; IMPORTANT: Run as Administrator. Create System Restore point before applying.
+
+; --- Disable Telemetry policy ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection]
+"AllowTelemetry"=dword:00000000
+
+; --- Disable Windows Error Reporting (policy) ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting]
+"Disabled"=dword:00000001
+
+; --- Ensure WerSvc (Windows Error Reporting Service) is disabled (Start = 4) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WerSvc]
+"Start"=dword:00000004
+
+; --- SQM / CEIP: conservative disable ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient]
+"CEIPEnable"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient\CommonUploader]
+"UploadEnabled"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient\Windows\Uploader]
+"UploadEnabled"=dword:00000000
+
+; --- Disable Advertising ID if present ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo]
+"Enabled"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo]
+"Enabled"=dword:00000000
+
+; --- TelemetryClient fallback ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\TelemetryClient]
+"DisableTelemetry"=dword:00000001
+
+; --- Disable Remote Registry (security) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RemoteRegistry]
+"Start"=dword:00000004
+
+; --- Disable Remote Desktop / TermService (Remote Control) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TermService]
+"Start"=dword:00000004
+
+; --- Disable Remote Assistance (Optional via policy) ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
+"AllowRemoteAssistance"=dword:00000000
+
+; --- Disable Application Compatibility & Experience services (optional, less aggressive) ---
+; These can affect application compatibility and installers. Disabled here per request,
+; but if you encounter installer problems, revert using the revert file provided.
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PcaSvc]
+"Start"=dword:00000004
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\AeLookupSvc]
+"Start"=dword:00000004
+
+; --- Disable Autologger Diagtrack listener (stop autologger) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener]
+"Start"=dword:00000000
+
+; --- Disable dmwappushservice if present (WAP push telemetry) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dmwappushservice]
+"Start"=dword:00000004
+
+; --- Internet Communication settings: limit cloud / CEIP features ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Internet Management\Internet Communication settings]
+"DisableWindowsUpdateAccess"=dword:00000001
+"DisableWindowsErrorReporting"=dword:00000001
+"DisableCustomerExperienceImprovementProgram"=dword:00000001
+
+; --- Optional: reduce volume of Windows feedback/siuf ---
+[HKEY_CURRENT_USER\Software\Microsoft\Siuf\Rules]
+"NumberOfSIUFInPeriod"=dword:00000000
+
+; ===== End of patch =====
+"""
+
+revert = r"""Windows Registry Editor Version 5.00
+
+; ===== REVERT for HYBRID PRIVACY PATCH =====
+; This file attempts to restore defaults or make keys non-blocking.
+; For services we set Start back to 2 (Automatic) where appropriate.
+; If you prefer to fully remove policy keys, delete the policy key blocks instead.
+
+; --- Re-enable Telemetry policy (set to basic 1) ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection]
+"AllowTelemetry"=dword:00000001
+
+; --- Re-enable Windows Error Reporting (policy removed) ---
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting]
+
+; --- Set WerSvc service back to manual (2) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WerSvc]
+"Start"=dword:00000003
+
+; --- Re-enable SQM/CEIP (remove keys we set) ---
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient\CommonUploader]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient\Windows\Uploader]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SQMClient]
+
+; --- Remove Advertising policy keys (restore defaults) ---
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo]
+[-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo]
+
+; --- Remove TelemetryClient key ---
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\TelemetryClient]
+
+; --- Re-enable RemoteRegistry service (set to manual) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RemoteRegistry]
+"Start"=dword:00000003
+
+; --- Re-enable TermService (Remote Desktop) set to manual ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TermService]
+"Start"=dword:0000003
+
+; --- Remove Remote Assistance policy ---
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
+
+; --- Restore PcaSvc and AeLookupSvc to manual start ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PcaSvc]
+"Start"=dword:00000003
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\AeLookupSvc]
+"Start"=dword:00000003
+
+; --- Restore Autologger Diagtrack listener Start to 1 (enabled) ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener]
+"Start"=dword:00000001
+
+; --- Restore dmwappushservice to manual ---
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dmwappushservice]
+"Start"=dword:00000003
+
+; --- Remove Internet Communication settings policies ---
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Internet Management\Internet Communication settings]
+
+; --- Remove SIUF rule ---
+[-HKEY_CURRENT_USER\Software\Microsoft\Siuf\Rules]
+
+; ===== End of revert =====
+"""
+
+open('/mnt/data/Hybrid_Registry_Privacy_Patch_Win8.reg','w', encoding='utf-16').write(patch)
+open('/mnt/data/Hybrid_Registry_Privacy_Revert_Win8.reg','w', encoding='utf-16').write(revert)
+
+('/mnt/data/Hybrid_Registry_Privacy_Patch_Win8.reg','/mnt/data/Hybrid_Registry_Privacy_Revert_Win8.reg')
+
+
