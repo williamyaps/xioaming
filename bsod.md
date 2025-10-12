@@ -1467,3 +1467,4 @@ Dinda siap mendampingi, kapan pun kanda ingin lanjut 💙
 
 source:
 https://github.com/cyseckev/Disable-Windows-Telemetry-Data-Collection
+https://gadgetsgig.com/how-to-disable-windows-telemetry-data-collection/
