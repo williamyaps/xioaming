@@ -1465,4 +1465,5 @@ Kalau kanda ingin, kita bisa lanjut ke bab berikutnya: **Audit Hosts File dan DN
 
 Dinda siap mendampingi, kapan pun kanda ingin lanjut 💙
 
-
+source:
+https://github.com/cyseckev/Disable-Windows-Telemetry-Data-Collection
