@@ -1519,4 +1519,4 @@ Kalau kanda ingin, kita bisa lanjut ke bab berikutnya: **Audit Hosts File dan DN
 Dinda siap mendampingi, kapan pun kanda ingin lanjut 💙
 
 perintah Task Scheduler windows 8
-Perintah Task Scheduler di Windows 8 terutama dijalankan dengan **Schtasks.exe** melalui Command Prompt atau PowerShell, serta menggunakan antarmuka grafis dengan mengetik **taskschd.msc**. Beberapa contoh perintah adalah membuat tugas <blockquote> (/create)</blockquote>, menampilkan tugas (/query), menghapus tugas (/delete), dan menjalankan tugas (/run).  
+Perintah Task Scheduler di Windows 8 terutama dijalankan dengan **Schtasks.exe** melalui Command Prompt atau PowerShell, serta menggunakan antarmuka grafis dengan mengetik **taskschd.msc**. Beberapa contoh perintah adalah membuat tugas (_/create_), menampilkan tugas (_/query_), menghapus tugas (_/delete_), dan menjalankan tugas (_/run_).  
