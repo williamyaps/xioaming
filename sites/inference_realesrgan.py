@@ -105,15 +105,16 @@ def main():
 
     # restorer
     upsampler = RealESRGANer(
-        scale=netscale,
-        model_path=model_path,
-        dni_weight=dni_weight,
-        model=model,
-        tile=args.tile,
-        tile_pad=args.tile_pad,
-        pre_pad=args.pre_pad,
-        half=not args.fp32,
-        gpu_id=args.gpu_id)
+    scale=netscale,
+    model_path=model_path,
+    model=model,
+    tile=args.tile,
+    tile_pad=args.tile_pad,
+    pre_pad=args.pre_pad,
+    half=not args.fp32,
+    device=device,
+)
+
 
     if args.face_enhance:  # Use GFPGAN for face enhancement
         from gfpgan import GFPGANer
