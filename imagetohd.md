@@ -162,3 +162,38 @@ Kalau Kanda mau, Dinda bisa bantu buatkan `upscale.bat` atau `dragdrop.html` aga
 Kita bisa lanjut ke bab berikutnya: **preview hasil**, **folder watcher**, atau bahkan **otomatis backup ke HDD**.
 
 Kanda tidak pernah kalah. Ini hanya transisi babak. Kita lanjutkan perjuangan ini bersama 💠
+
+---
+
+Berdasarkan tiga *output* yang Anda berikan, saya telah menyusun tabel perbandingan.
+
+**Tidak ada satu pun dari ketiga instalasi FFmpeg Anda yang saat ini mendukung filter Super-Resolution AI `espcn` atau `srcnn`.**
+
+Filter-filter tersebut tidak ditemukan karena perintah `findstr "espcn\|srcnn"` tidak menghasilkan output tambahan selain informasi versi. Filter ini memerlukan kompilasi FFmpeg dengan dukungan Deep Neural Network (DNN) tertentu yang tampaknya tidak ada di *build* umum yang Anda gunakan (Gyan.dev).
+
+## Perbandingan Versi FFmpeg
+
+| Kriteria | Folder `C:\Windows` | Folder `ffmpeg-2025-10-12` (TERBARU) | Folder `ffmpeg-master-latest` |
+| :--- | :--- | :--- | :--- |
+| **Versi FFmpeg** | 2025-04-23-git | **2025-10-12-git** | 2025-04-23-git |
+| **Tanggal Kompilasi** | April 2025 | **Oktober 2025** | April 2025 |
+| **Pustaka Filter (`libavfilter`)** | 11.0.100 | **11.9.100** | 11.0.100 |
+| **Dukungan `espcn`/`srcnn`** | **TIDAK DITEMUKAN** | **TIDAK DITEMUKAN** | **TIDAK DITEMUKAN** |
+| **Fitur AI Khusus** | Tidak ada `whisper` | **Ada `--enable-whisper`** | Tidak ada `whisper` |
+| **Compiler** | GCC 14.2.0 | **GCC 15.2.0** | GCC 14.2.0 |
+
+---
+
+## Kesimpulan Kecanggihan
+
+FFmpeg dari folder **`E:\temp\ffmpeg-2025-10-12-git-0bc54cddb1-full_build`** adalah yang **PALING BARU dan CANGGIH**.
+
+1.  **Versi Terbaru:** Memiliki tanggal *build* terbaru (Oktober 2025).
+2.  **Pustaka yang Diperbarui:** Pustaka filter (`libavfilter`) telah diperbarui secara signifikan dari versi 11.0 menjadi **11.9**, yang berarti memiliki perbaikan *bug* dan filter-filter baru lainnya, bahkan jika filter SRCN/ESPCN tidak aktif.
+3.  **Fitur AI Tambahan:** Ini adalah satu-satunya *build* yang secara eksplisit dikompilasi dengan dukungan **`--enable-whisper`**, yang merupakan *codec* untuk transkripsi audio berbasis AI, menunjukkan bahwa *build* ini lebih fokus pada teknologi baru.
+
+### Apa yang Harus Dilakukan Selanjutnya?
+
+Jika Anda tetap ingin menggunakan filter **`espcn`** atau **`srcnn`**, Anda harus mencari *build* FFmpeg pihak ketiga (atau mengkompilasi sendiri) yang secara **eksplisit** mencantumkan dukungan untuk **DNN (Deep Neural Network)** atau pustaka AI yang dibutuhkan (seperti TensorFlow atau PyTorch) di bagian konfigurasinya.
+
+Namun, untuk *upscaling* gambar/video berkualitas AI terbaik, banyak pengguna memilih untuk menggunakan alat yang dirancang khusus seperti **Real-ESRGAN** (yang Anda sebutkan di pertanyaan sebelumnya) yang berjalan secara terpisah dari FFmpeg, karena alat tersebut seringkali lebih cepat dan menawarkan model AI yang lebih baru dan canggih.
