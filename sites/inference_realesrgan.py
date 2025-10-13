@@ -193,11 +193,10 @@ def inference_video(args, video_save_path, device=None, total_workers=1, worker_
         model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=16, upscale=4, act_type='prelu')
         netscale = 4
         file_url = ['https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-animevideov3.pth']
-    elif args.model_name == 'realesr-general-x4v3':  # x4 VGG-style model (S size)
+   elif args.model_name == 'realesr-general-x4v3':  # x4 VGG-style model (S size)
         model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
         netscale = 4
         file_url = [
-            'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-wdn-x4v3.pth',
             'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth'
         ]
 
@@ -216,16 +215,11 @@ if args.model_name == 'realesr-general-x4v3' and args.denoise_strength != 1:
     model_path = model_path.replace('realesr-general-x4v3', 'realesr-general-wdn-x4v3')
 
     # restorer
-    upsampler = RealESRGANer(
-        scale=netscale,
-        model_path=model_path,        
-        model=model,
-        tile=args.tile,
-        tile_pad=args.tile_pad,
-        pre_pad=args.pre_pad,
-        half=not args.fp32,
-        device=device,
-    )
+    model_path = [
+  'realesr-general-x4v3.pth',
+  'realesr-general-wdn-x4v3.pth'
+    ]
+
 
     if 'anime' in args.model_name and args.face_enhance:
         print('face_enhance is not supported in anime models, we turned this option off for you. '
