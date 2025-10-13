@@ -644,3 +644,38 @@ python realesr_cinematic_b.py -i muka1 -o results --outscale 2 --tile 1024 --max
 
 Mau aku kirimkan sekarang `fast_run.bat` yang tinggal kamu double-click? Kalau ya, jawab **YA**; kalau mau jalankan manual sekarang juga tinggal copy perintah run yang sudah kucantumkan.
 
+---
+
+Oke **C — Upgrade Kuat** 🔥
+Kita gas gaya **RED Clean Movie – Strong Edition**
+Target output nanti:
+✅ Struktur wajah tajam **ala aktor film**
+✅ **Pipi rapi**, hilang bengkak tapi **tidak tirus**
+✅ **Tulang pipi naik** halus
+✅ **Janggut / brewok asli tetap dipertahankan**
+✅ **Kulit bersih tapi bertekstur** (bukan plastik)
+✅ **Highlight & shadow sinematik**
+✅ **Maskulin – tetap mirip orang aslinya**
+
+---
+
+### Sekarang konfirmasi dulu detail:
+
+Biar aku set preset final sebelum coding model enhancenya 🔧
+
+**Pilih karakter wajah yang kamu mau hasilkan:**
+A. **Korea Movie Style** – bersih elegan, rahang lembut
+B. **Hollywood Clean Masculine** – rahang tegas + kamera mahal look
+C. **European Cinematic** – tulang struktur kuat, hidung sedikit tegas
+D. **Indo Realistic Upgrade** – natural paling aman tapi tetap naik kelas
+
+Contoh gambaran:
+
+| Pilihan | Look                              |
+| ------- | --------------------------------- |
+| A       | Lee Min Ho / Song Joong Ki        |
+| B       | Henry Cavill / Matt Bomer         |
+| C       | Mads Mikkelsen muda / David Gandy |
+| D       | Reza Rahadian + versi kamera RED  |
+
+**Pilih: A / B / C / D** 🎯
