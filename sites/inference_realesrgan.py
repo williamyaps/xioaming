@@ -102,6 +102,9 @@ def main():
         wdn_model_path = model_path.replace('realesr-general-x4v3', 'realesr-general-wdn-x4v3')
         model_path = [model_path, wdn_model_path]
         dni_weight = [args.denoise_strength, 1 - args.denoise_strength]
+        
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+   
 
     # restorer
     upsampler = RealESRGANer(
