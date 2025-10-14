@@ -1116,3 +1116,180 @@ Kanda tinggal beri arah, dan dinda akan lanjut dengan cinta dan ketelitian 💙
 Dan jangan khawatir — alat-alat ini tidak akan menulis HTML panjang, tidak akan bikin wajah jadi puzzle, dan tidak akan memaki kanda walau error muncul 🤣
 
 Sources: [AIarty Image Enhancer](https://www.aiarty.com/ai-upscale-image/open-source-image-upscaler-enhancer.htm)[SourceForge Image Upscalers](https://sourceforge.net/directory/image-upscalers/windows/)[Beebom AI Upscaler List](https://beebom.com/best-ai-image-upscaler-tools/)
+
+---
+
+Pesan *error* **`NameError: name 'torch' is not defined`** menunjukkan masalah yang sangat umum dalam menjalankan skrip Python yang bergantung pada *Deep Learning*: **Pustaka utama belum diimpor (di-*import*) atau belum terinstal dengan benar.**
+
+*Torch* adalah nama singkat untuk **PyTorch**, *framework* yang digunakan oleh Real-ESRGAN. Skrip Anda tidak mengenali *Torch* karena belum dimuat ke dalam memori Python.
+
+Namun, yang lebih penting lagi adalah kekhawatiran Anda tentang **BSOD (Blue Screen of Death)** saat menjalankan GPU. Jika Anda sering mengalami BSOD saat menjalankan kode intensif GPU, kita harus membuat dua perubahan kritis: **Memastikan PyTorch terinstal benar dengan dukungan CUDA** dan **Membatasi penggunaan sumber daya GPU (VRAM)**.
+
+## Solusi 1: Memperbaiki Error 'torch' dan Instalasi
+
+Kita harus memastikan PyTorch diinstal dengan benar dan dipanggil di awal skrip.
+
+### A. Perbaikan Error 'torch'
+
+Meskipun skrip seharusnya sudah meng-*import* `torch` di bagian atas, mari kita tambahkan *import* secara eksplisit untuk memastikan.
+
+**Langkah Perbaikan:**
+
+1.  Buka file `inference_realesrgan.py`.
+
+2.  Di bagian paling atas file, tambahkan baris berikut (jika belum ada):
+
+    ```python
+    import torch 
+    ```
+
+3.  Simpan perubahan pada file tersebut.
+
+### B. Memastikan Instalasi PyTorch dengan CUDA
+
+Kesalahan `NameError` ini sering terjadi jika instalasi PyTorch Anda gagal atau Anda tidak menginstal versi yang mendukung **CUDA** (untuk GPU NVIDIA).
+
+Di terminal Anda, jalankan perintah instalasi PyTorch dengan dukungan CUDA (sesuaikan nomor CUDA Anda, misalnya `11.8` atau `12.1`):
+
+```bash
+# Perintah instalasi PyTorch + CUDA yang paling umum:
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+Setelah instalasi selesai, coba jalankan kembali skrip Real-ESRGAN Anda.
+
+-----
+
+## Solusi 2: Mencegah BSOD dan Membatasi GPU (VRAM)
+
+Untuk mencegah BSOD dan *error* **"CUDA out of memory"** yang sering terjadi pada *upscale* gambar besar, kita harus mengaktifkan **Tiling** (memotong gambar menjadi bagian-bagian kecil) dan **mengatur batas memori GPU**.
+
+Parameter `tile` di Real-ESRGAN adalah kunci untuk menghemat memori.
+
+### A. Menggunakan Tiling (Wajib untuk GPU kecil/BSOD)
+
+*Tiling* memaksa AI memproses gambar per segmen kecil. Anda harus menentukan ukuran *tile* (misalnya 512x512) agar gambar besar tidak membebani VRAM sekaligus.
+
+Gunakan perintah ini, dengan menambahkan `-t 512`:
+
+```bash
+python inference_realesrgan.py -i gbr13102025.jpg -o output_hd --face_enhance -t 512
+```
+
+  * **`-t 512`**: Memproses gambar dalam potongan 512x512 piksel. Jika masih BSOD, coba turunkan angkanya (misalnya, `-t 256`).
+
+### B. Opsional: Mematikan 'Half Precision' (FP16)
+
+Secara *default*, Real-ESRGAN menggunakan **FP16** (*half precision*) untuk kecepatan dan penghematan VRAM. Namun, pada beberapa kartu grafis yang lebih lama atau kurang stabil, FP16 bisa memicu *crash*.
+
+Untuk memaksanya menggunakan presisi penuh (**FP32**), yang sedikit lebih lambat tetapi lebih stabil, tambahkan `—fp32` pada perintah:
+
+```bash
+python inference_realesrgan.py -i gbr13102025.jpg -o output_hd --face_enhance -t 512 --fp32
+```
+
+### Rekapitulasi Perintah Terbaik
+
+Perintah paling stabil dan paling mungkin memperbaiki gambar wajah Anda tanpa BSOD adalah:
+
+```bash
+python inference_realesrgan.py -i gbr13102025.jpg -o output_hd --face_enhance -t 512 --fp32
+```
+
+Lakukan langkah perbaikan error `torch` terlebih dahulu, lalu jalankan perintah rekapitulasi ini. Hasil yang menggunakan `--face_enhance` akan membuat wajah jauh lebih **padat** dan mendekati HD.
+
+---
+
+Saya paham, Anda khawatir dengan BSOD, jadi kita **matikan penggunaan GPU** dan paksa Real-ESRGAN berjalan hanya menggunakan CPU. Ini akan **sangat lambat**, tetapi jauh lebih stabil.
+
+Ada dua langkah penting untuk memastikan skrip Anda berjalan hanya di CPU:
+
+## 1\. Perbaikan Error `torch` (Wajib)
+
+Pertama, kita harus atasi dulu *error* `NameError: name 'torch' is not defined`. Ini terjadi karena pustaka **PyTorch** belum di-*import* di awal skrip.
+
+**Langkah Perbaikan:**
+
+1.  Buka file `inference_realesrgan.py`.
+2.  Di bagian paling atas (atau setelah *import* lainnya), pastikan baris ini ada:
+    ```python
+    import torch
+    ```
+3.  Simpan file.
+
+-----
+
+## 2\. Perintah Real-ESRGAN Khusus CPU (Paling Stabil)
+
+Kita akan menggunakan perintah yang sama, tetapi kita **secara eksplisit memaksa perangkat menjadi CPU** dan menonaktifkan semua fitur yang berhubungan dengan GPU (*half precision*).
+
+Perintah di terminal Anda seharusnya menjadi:
+
+```bash
+python inference_realesrgan.py -i gbr13102025.jpg -o output_cpu_hd --face_enhance -g -1
+```
+
+| Argumen | Keterangan & Fungsi |
+| :--- | :--- |
+| `python inference_realesrgan.py` | Menjalankan program AI. |
+| `-i gbr13102025.jpg` | Gambar input Anda. |
+| `-o output_cpu_hd` | Folder hasil output. |
+| **`-g -1`** | **KUNCI CPU:** Mengatur `gpu-id` menjadi `-1`. Dalam konfigurasi PyTorch, ini memaksa program untuk menggunakan **CPU** saja, mengabaikan GPU. |
+| `--face_enhance` | **KUNCI Wajah HD:** Tetap menggunakan **GFPGAN** untuk memperbaiki wajah, yang merupakan satu-satunya cara membuat muka terlihat "padat" dan detail, meskipun proses ini akan sangat memakan waktu di CPU. |
+
+**Catatan:**
+
+  * **Kecepatan:** Pemrosesan dengan AI *Super Resolution* (seperti Real-ESRGAN dan GFPGAN) di CPU akan **sangat lambat** (bisa memakan waktu beberapa menit per gambar, tergantung resolusi).
+  * **Stabilitas:** Metode ini harus **menghilangkan BSOD** karena beban komputasi intensif beralih dari GPU ke CPU.
+  * **Tiling (`-t`):** Karena kita menggunakan CPU, Anda tidak perlu khawatir tentang memori VRAM. Anda bisa menghapus `-t 512`, atau menyimpannya jika Anda mengalami *crash* memori sistem (RAM) saat memproses gambar yang sangat besar.
+
+---
+
+Tolong jangan panik. **Error** yang Anda lihat ini bukan masalah pada skrip Real-ESRGAN, melainkan masalah pada **Pip** (manajer paket Python) saat mencoba menginstal dependensi.
+
+Ada dua masalah utama di sini:
+
+1.  **`ResolutionTooDeep`**: Ini berarti Pip lama Anda kesulitan menemukan kombinasi versi pustaka yang kompatibel, terutama untuk **Pillow**.
+2.  **Pip Versi Lama**: Anda menggunakan Pip versi `21.1.1` yang sudah sangat tua.
+
+Kita harus mengatasi masalah Pip ini dulu sebelum bisa menginstal PyTorch dan menjalankan Real-ESRGAN.
+
+-----
+
+## 1\. Upgrade Pip (Wajib)
+
+Langkah pertama adalah memperbarui Pip ke versi terbaru. Ini akan mengatasi *error* `ResolutionTooDeep` dan masalah kompatibilitas.
+
+Jalankan perintah ini di terminal Anda:
+
+```bash
+c:\users\williamyaps\appdata\local\programs\python\python38\python.exe -m pip install --upgrade pip
+```
+
+-----
+
+## 2\. Instalasi PyTorch Khusus CPU (Setelah Upgrade Pip)
+
+Setelah Pip berhasil di-*upgrade*, kita dapat mencoba lagi menginstal PyTorch. Karena Anda tidak ingin menggunakan GPU, kita harus **menghapus bagian CUDA (`cu118`)** dari *link* instalasi.
+
+Jalankan perintah ini setelah Pip berhasil di-*upgrade*:
+
+```bash
+pip install torch torchvision torchaudio
+```
+
+**Penjelasan:** Menghapus `--index-url https://download.pytorch.org/whl/cu118` akan memaksa Pip untuk mencari dan menginstal versi PyTorch yang kompatibel untuk **CPU** Anda.
+
+-----
+
+## 3\. Jalankan Real-ESRGAN (Mode CPU Wajah HD)
+
+Setelah langkah 1 dan 2 selesai tanpa *error*, coba jalankan kembali skrip Real-ESRGAN Anda menggunakan mode CPU dan peningkatan wajah (`--face_enhance`):
+
+```bash
+python inference_realesrgan.py -i gbr13102025.jpg -o output_cpu_hd --face_enhance -g -1
+```
+
+Jika ada masalah lagi, itu kemungkinan besar karena Anda perlu menginstal dependensi lain yang disebutkan sebelumnya (`basicsr` dan `gfpgan`), atau ada masalah dengan *Path* Python Anda.
+
+Coba lagi dari Langkah 1. Semoga berhasil\! 🤞
