@@ -708,3 +708,104 @@ print(f"✅ Selesai! Disimpan di: {output_path}")
 ---
 
 Kamu mau nanti aku bantu tambahkan *“mode B – balance natural”* juga (lebih tajam dan tegas sedikit dari versi gentle ini)?
+
+---
+
+Oke, aku paham banget frustrasinya bro 😓
+Kita udah terlalu lama muter di hal teknis, malah ke-downgrade ke “upgrade ke pro” — padahal kamu cuma mau **script ringan yang bisa jalan di CPU**, offline, dan **hasilnya kayak FaceApp Movie (natural tapi elegan)**.
+
+Jadi gini aja biar **langsung beres** dan kamu gak perlu jawab pertanyaan lagi.
+Aku kasih **1 script final baru**, tanpa GPU, tanpa download model besar, tanpa GFPGAN/RealESRGAN, cuma **OpenCV + NumPy + PIL** — tapi tetap kasih efek *cinematic halus* seperti “FaceApp Movie”.
+
+Kita fokus ke tiga hal:
+✅ halus dan glow elegan
+✅ tone warm-cinematic
+✅ tetap wajah asli, tidak berubah proporsi
+
+---
+
+### 📜 Simpan ini sebagai `face_cinematic_cpu.py`
+
+```python
+import cv2
+import numpy as np
+from PIL import Image, ImageEnhance, ImageFilter
+import os
+
+def face_cinematic_effect(input_path, output_path):
+    # buka gambar
+    img = Image.open(input_path).convert("RGB")
+    img = img.filter(ImageFilter.SMOOTH_MORE)
+
+    # ubah ke numpy
+    np_img = np.array(img).astype(np.float32) / 255.0
+
+    # ---- WARM CINEMATIC COLOR ----
+    r, g, b = np_img[..., 0], np_img[..., 1], np_img[..., 2]
+    r = np.clip(r * 1.05 + 0.02, 0, 1)
+    g = np.clip(g * 1.00 + 0.00, 0, 1)
+    b = np.clip(b * 0.95 - 0.01, 0, 1)
+    np_img = np.stack([r, g, b], axis=-1)
+
+    # ---- SMOOTH SKIN ----
+    smooth = cv2.bilateralFilter((np_img * 255).astype(np.uint8), 15, 80, 80)
+    blend = cv2.addWeighted((np_img * 255).astype(np.uint8), 0.7, smooth, 0.3, 0)
+
+    # ---- CONTRAST dan SHARPNESS ----
+    img_out = Image.fromarray(blend)
+    img_out = ImageEnhance.Contrast(img_out).enhance(1.1)
+    img_out = ImageEnhance.Sharpness(img_out).enhance(1.15)
+
+    # ---- SEDIKIT GLOW ----
+    glow = img_out.filter(ImageFilter.GaussianBlur(radius=2))
+    img_final = Image.blend(img_out, glow, 0.2)
+
+    # simpan hasil
+    os.makedirs(output_path, exist_ok=True)
+    base = os.path.basename(input_path)
+    save_path = os.path.join(output_path, f"cinematic_{base}")
+    img_final.save(save_path)
+    print(f"Selesai: {save_path}")
+
+# Contoh pakai:
+# python face_cinematic_cpu.py input.jpg results/
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) < 3:
+        print("Cara pakai: python face_cinematic_cpu.py <input.jpg> <output_folder>")
+    else:
+        face_cinematic_effect(sys.argv[1], sys.argv[2])
+```
+
+---
+
+### ⚙️ Cara pakai
+
+1. Simpan script di folder yang sama dengan foto kamu.
+2. Jalankan di Command Prompt:
+
+```bash
+python face_cinematic_cpu.py muka1.jpg results
+```
+
+Hasil akan keluar di folder `results/` dengan nama:
+
+```
+cinematic_muka1.jpg
+```
+
+---
+
+✨ Efek hasil:
+
+* Tone hangat (seperti FaceApp Movie)
+* Kulit halus elegan tapi tidak plastik
+* Wajah tetap asli
+* Tidak perlu GPU, tidak download apa pun
+* 100% offline dan aman dari BSOD
+
+---
+
+Kalau kamu mau, aku bisa tambahkan opsional *"mode kuat"* (lebih glowing & cinematic) tanpa nambah beban CPU.
+Kamu mau aku kasih versi itu juga?
+
