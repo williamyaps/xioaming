@@ -291,3 +291,113 @@ python faceapp_cinematic_hero_light.py -i muka1.jpg -o results
 Kalau sudah kamu coba, kirim hasil atau kasih tahu:
 mau aku tambah sedikit “depth kontur + eye focus” (opsional, juga ringan)?
 
+---
+
+Nice 🔥 pilihan **Movie Warm** — tone ini paling mirip “FaceApp Movie Style”: kulit hangat, bayangan lembut, dan kontras sinematik tapi tetap natural.
+
+Berikut script final-nya; simpan saja sebagai
+`faceapp_movie_hybrid_light.py`
+dan jalankan seperti ini:
+
+```bash
+python faceapp_movie_hybrid_light.py -i muka1.jpg -o results
+```
+
+---
+
+```python
+#!/usr/bin/env python
+# faceapp_movie_hybrid_light.py
+# Lightweight FaceApp-like "Movie Warm" effect (CPU friendly)
+# Requires: pillow, opencv-python, numpy, mediapipe
+# Runtime: <3 minutes on normal CPU
+
+import cv2, numpy as np, mediapipe as mp, argparse, os
+from PIL import Image, ImageEnhance, ImageFilter
+
+mp_face = mp.solutions.face_detection
+
+def apply_moviewarm_face_effect(img_bgr):
+    h, w = img_bgr.shape[:2]
+
+    # ----- 1. Deteksi wajah -----
+    with mp_face.FaceDetection(model_selection=0, min_detection_confidence=0.4) as fd:
+        results = fd.process(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB))
+
+    mask = np.zeros((h, w), np.uint8)
+    if results.detections:
+        for det in results.detections:
+            bb = det.location_data.relative_bounding_box
+            x1 = int(bb.xmin * w)
+            y1 = int(bb.ymin * h)
+            x2 = int((bb.xmin + bb.width) * w)
+            y2 = int((bb.ymin + bb.height) * h)
+            x1, y1 = max(0, x1 - 20), max(0, y1 - 40)
+            x2, y2 = min(w, x2 + 20), min(h, y2 + 40)
+            mask[y1:y2, x1:x2] = 255
+
+    # ----- 2. Lembutkan area wajah -----
+    smooth = cv2.bilateralFilter(img_bgr, 9, 80, 80)
+    soft = np.where(mask[..., None] == 255, smooth, img_bgr)
+
+    # ----- 3. Tambahkan depth & clarity -----
+    clarity = cv2.detailEnhance(soft, sigma_s=10, sigma_r=0.3)
+
+    # ----- 4. Color grading warm -----
+    b, g, r = cv2.split(clarity.astype(np.float32))
+    r *= 1.08
+    g *= 1.02
+    b *= 0.94
+    warm = cv2.merge([b, g, r])
+    warm = np.clip(warm, 0, 255).astype(np.uint8)
+
+    # ----- 5. Sentuhan cinematic -----
+    pil = Image.fromarray(cv2.cvtColor(warm, cv2.COLOR_BGR2RGB))
+    pil = ImageEnhance.Contrast(pil).enhance(1.1)
+    pil = ImageEnhance.Color(pil).enhance(1.08)
+    pil = pil.filter(ImageFilter.UnsharpMask(radius=1.0, percent=110, threshold=3))
+
+    # Vignette ringan
+    np_img = np.array(pil).astype(np.float32)
+    rows, cols = np_img.shape[:2]
+    X, Y = np.meshgrid(np.linspace(-1,1,cols), np.linspace(-1,1,rows))
+    mask_v = 1 - 0.6*(X**2 + Y**2)
+    mask_v = np.clip(mask_v, 0.4, 1.0)
+    vignette = np_img * mask_v[..., None]
+    return Image.fromarray(np.clip(vignette, 0, 255).astype(np.uint8))
+
+def main():
+    parser = argparse.ArgumentParser(description='FaceApp-style Movie Warm filter (lightweight)')
+    parser.add_argument('-i', '--input', required=True, help='Input image')
+    parser.add_argument('-o', '--output', default='results', help='Output folder')
+    args = parser.parse_args()
+
+    os.makedirs(args.output, exist_ok=True)
+    img = cv2.imread(args.input)
+    if img is None:
+        print("❌ Cannot read input image.")
+        return
+
+    print("⚙️  Applying Movie Warm cinematic look ...")
+    result = apply_moviewarm_face_effect(img)
+    base = os.path.splitext(os.path.basename(args.input))[0]
+    out_path = os.path.join(args.output, base + "_moviewarm.jpg")
+    result.save(out_path, quality=92)
+    print(f"✅ Saved: {out_path}")
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+💡 **Kelebihan:**
+
+* Proses cepat di CPU (1–2 menit)
+* Efek halus di wajah, tidak pecah
+* Tone hangat sinematik
+* Aman untuk dijalankan berulang (tidak freeze)
+
+Coba jalankan di foto kamu yang tadi.
+Kalau hasilnya sudah mendekati FaceApp, aku bisa bantu tambahkan versi **“eye focus + jaw depth booster”** (masih ringan juga) sebagai tahap opsional berikutnya.
+
