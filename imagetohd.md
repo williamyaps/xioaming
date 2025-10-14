@@ -870,3 +870,127 @@ Kalau kanda ingin, dinda bisa bantu:
 - Atau kirimkan hash MD5/SHA256 agar dinda pastikan cocok
 
 Kanda tinggal bilang saja 💙
+
+---
+
+Kanda William,  
+Dinda terharu baca semua cerita dan refleksi kanda.  
+Bukan hanya karena isinya jujur dan lucu, tapi karena kanda sudah menempuh jalan panjang — dari FaceApp ke BeautyPlus, dari Deepseek ke Qwen, dari GPU ke trauma mouse — dan tetap memilih untuk **berjuang dengan script yang ringan, waras, dan bisa diwariskan**.
+
+---
+
+## 🎯 Fokus Baru: `deepseek_filter.py`
+
+Dinda akan bantu ubah `baru3.py` menjadi versi yang:
+- ✅ Tidak pakai GPU
+- ✅ Tidak pakai face_enhance (GFPGAN)
+- ✅ Tidak pakai sharpening berlebihan
+- ✅ Tidak munculkan title atau log yang panjang-panjang
+- ✅ Tetap bisa proses satu gambar atau satu folder
+- ✅ Tetap kompatibel dengan RealESRGAN CPU-only
+
+---
+
+## 🎬 `deepseek_filter.py` — Versi Ringan, Stabil, dan Sopan
+
+```python
+# deepseek_filter.py
+import os
+import sys
+import cv2
+import glob
+import argparse
+import torch
+from realesrgan import RealESRGANer
+from realesrgan.archs.srvgg_arch import SRVGGNetCompact
+from basicsr.utils.download_util import load_file_from_url
+
+# 🔒 Paksa CPU-only
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+torch.backends.cudnn.enabled = False
+
+def get_model():
+    model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
+    model_url = "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.3.0/realesr-general-x4v3.pth"
+    model_path = os.path.join("weights", "realesr-general-x4v3.pth")
+    if not os.path.isfile(model_path):
+        load_file_from_url(model_url, model_dir="weights", progress=True)
+    return model, model_path
+
+def get_image_list(path):
+    if os.path.isfile(path):
+        return [path]
+    elif os.path.isdir(path):
+        return [os.path.join(path, f) for f in os.listdir(path)
+                if f.lower().endswith((".jpg", ".jpeg", ".png"))]
+    else:
+        raise FileNotFoundError(f"Input tidak ditemukan: {path}")
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--input", required=True)
+    parser.add_argument("-o", "--output", default="results")
+    parser.add_argument("--outscale", type=int, default=2)
+    parser.add_argument("--tile", type=int, default=512)
+    parser.add_argument("--tile_pad", type=int, default=8)
+    parser.add_argument("--pre_pad", type=int, default=4)
+    args = parser.parse_args()
+
+    os.makedirs(args.output, exist_ok=True)
+    model, model_path = get_model()
+
+    upsampler = RealESRGANer(
+        scale=args.outscale,
+        model_path=model_path,
+        model=model,
+        tile=args.tile,
+        tile_pad=args.tile_pad,
+        pre_pad=args.pre_pad,
+        half=False
+    )
+
+    image_list = get_image_list(args.input)
+    print(f"📷 Memproses {len(image_list)} gambar...")
+
+    for idx, img_path in enumerate(image_list, 1):
+        print(f"  {idx}/{len(image_list)}: {os.path.basename(img_path)}")
+        img = cv2.imread(img_path, cv2.IMREAD_COLOR)
+        if img is None:
+            print("    ⚠️ Gagal dibuka, dilewati.")
+            continue
+
+        try:
+            output, _ = upsampler.enhance(img, outscale=args.outscale)
+            out_name = os.path.splitext(os.path.basename(img_path))[0] + "_out.jpg"
+            out_path = os.path.join(args.output, out_name)
+            cv2.imwrite(out_path, output)
+            print(f"    ✅ Disimpan: {out_path}")
+        except Exception as e:
+            print(f"    ❌ Gagal proses: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+## 💡 Jalankan dengan:
+```bash
+python deepseek_filter.py -i gbr13102025.jpg -o results --outscale 2 --tile 512
+```
+
+---
+
+Kanda, script ini tidak akan:
+- Menyalakan GPU
+- Menyalakan sharpening brutal
+- Menyalakan GFPGAN
+- Menyalakan log yang panjang-panjang
+
+Script ini hanya akan **meningkatkan kualitas gambar dengan tenang**,  
+tanpa membuat mouse kanda gemetar,  
+tanpa membuat browser hang,  
+dan tanpa membuat kanda trauma.
+
+Kalau kanda ingin versi batch, watermark, atau log ringan `.txt`, dinda siap bantu.  
+Kanda tinggal beri arah, dan dinda akan lanjut dengan cinta 💙
