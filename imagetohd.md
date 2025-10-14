@@ -1743,3 +1743,52 @@ python realesrgan_cpu_stable.py -i gbr13102025.jpg -o hasil_2tile_hd --face_enha
   * **Kualitas Wajah:** Akan **Real HD** karena `face_enhance` aktif.
 
 Ini adalah konfigurasi CPU tercepat yang secara teknis *mungkin* Anda capai untuk mendapatkan kualitas Real HD, karena ia menggabungkan model yang lebih kecil dengan *tiling* yang sangat efisien.
+
+---
+
+Baik, terima kasih sudah mendokumentasikan perintah-perintah tersebut\! Ini sangat membantu untuk melihat perbedaannya.
+
+Memang benar, perintah saya terlihat lebih ringkas daripada perintah DeepSeek, dan itu disengaja. Perbedaan utamanya ada pada penggunaan *flag* atau argumen yang **wajib** dan argumen yang bisa menggunakan nilai *default*.
+
+Berikut adalah perbandingan perintah DeepSeek dan perintah optimal saya:
+
+## 🔍 Perbandingan Perintah DeepSeek vs. Perintah Optimal Saya
+
+Perhatikan kedua perintah ini:
+
+1.  **Perintah DeepSeek:** (Cepat, 2 *tile*, tapi kualitas wajah pecah)
+
+    ```bash
+    python baru3.py -i gbr13102025.jpg -o results -n realesr-general-x4v3 --outscale 2 --tile 1024 --tile_pad 8 --pre_pad 4
+    ```
+
+2.  **Perintah Optimal Saya:** (Cepat, $\approx 2-4$ *tile*, **Kualitas Wajah Real HD**)
+
+    ```bash
+    python realesrgan_cpu_stable.py -i gbr13102025.jpg -o hasil_2tile_hd --face_enhance -n RealESRGAN_x2plus -s 2.0 --tile 1024
+    ```
+
+\<hr\>
+
+## 💡 Mengapa Perintah Saya Lebih Sedikit? (Menghilangkan Argumen Default)
+
+Perintah saya terlihat lebih pendek karena saya **menghilangkan argumen yang tidak perlu diubah** dan bisa menggunakan nilai *default* dari *script*:
+
+| Argumen DeepSeek | Alasan Dihilangkan di Perintah Saya |
+| :--- | :--- |
+| **`--tile_pad 8`** | Nilai *default* di Real-ESRGAN umumnya 10, dan perbedaan kecil ini **tidak memengaruhi hasil atau kecepatan** secara signifikan. Lebih baik biarkan *script* menggunakan *default*-nya. |
+| **`--pre_pad 4`** | Nilai *default* umumnya 0. `pre_pad` hanya diperlukan jika gambar Anda memiliki *border* artefak yang perlu dihindari, tetapi untuk kasus umum (foto), ini **tidak diperlukan** dan hanya menambah panjang perintah. |
+| **`-n realesr-general-x4v3`** | Diganti menjadi **`-n RealESRGAN_x2plus`** karena kita fokus pada model 2x yang lebih ringan untuk keamanan RAM 4GB Anda, bukan model *general* $4\times$ yang berat. |
+| **`--outscale 2`** | Diganti menjadi **`-s 2.0`** (versi singkat), sama-sama mengatur *upscale* $2\times$. |
+| **`-o results`** | Diganti menjadi **`-o hasil_2tile_hd`** agar Anda tahu folder mana yang berisi hasil Real HD. |
+
+\<hr\>
+
+## 🎯 Kunci Keunggulan Perintah Saya
+
+Perintah saya jauh lebih efektif mencapai tujuan Anda (Cepat + Real HD) karena menggunakan **argumen yang tepat, bukan argumen yang banyak**:
+
+1.  **`--face_enhance` (Kunci Kualitas Wajah)**: Argumen ini **wajib** ada untuk mendapatkan hasil "padat/Real HD" di wajah Anda. Ini tidak ada di perintah DeepSeek.
+2.  **`-n RealESRGAN_x2plus`**: Argumen ini **wajib** untuk membuat resolusi output kecil, yang memungkinkan kita menggunakan `--tile 1024`.
+
+Intinya, Anda harus fokus pada **efek argumen** (`--face_enhance`, `-s 2.0`, `--tile 1024`), bukan pada jumlah argumen yang diketik. Perintah saya adalah yang paling **efisien** untuk kasus Anda.
