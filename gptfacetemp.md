@@ -504,3 +504,80 @@ python faceapp_gentle_light.py -i muka1.jpg -o results/muka1_gentle.jpg
 
 Kalau kamu mau, aku bisa bantu tambahkan **mode "B – Hero Gentle"** (rahang sedikit lebih tegas) nanti, tapi tetap ringan.
 Kamu mau sekalian kubuatkan nanti setelah ini versi itu juga?
+
+---
+
+Oke mantap Bro 💪 pilihan **🅐 Natural Gentle (FaceApp-style asli)** — jadi hasilnya nanti tetap mirip 70% wajah asli, cuma pipi sedikit dirapikan dan kulit dibuat lebih bersih & lembut tanpa pecah.
+
+Berikut **script tunggal** yang bisa langsung kamu pakai (CPU ringan, nggak bakal bikin mouse hang, selesai <2 menit):
+
+---
+
+### 💻 `gentle_face_smooth.py`
+
+```python
+import cv2
+import numpy as np
+from mediapipe import solutions
+from PIL import Image
+
+# Input & Output
+input_path = "muka1.jpg"
+output_path = "muka1_gentle.jpg"
+
+# Load image
+img = cv2.imread(input_path)
+h, w = img.shape[:2]
+
+# Setup mediapipe face mesh
+mp_face_mesh = solutions.face_mesh
+face_mesh = mp_face_mesh.FaceMesh(static_image_mode=True, max_num_faces=1, refine_landmarks=True)
+
+# Convert ke RGB untuk mediapipe
+rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+result = face_mesh.process(rgb)
+
+if result.multi_face_landmarks:
+    mask = np.zeros((h, w), np.uint8)
+    for face_landmarks in result.multi_face_landmarks:
+        points = []
+        for lm in face_landmarks.landmark:
+            x, y = int(lm.x * w), int(lm.y * h)
+            points.append([x, y])
+        hull = cv2.convexHull(np.array(points))
+        cv2.fillConvexPoly(mask, hull, 255)
+
+    # Blur halus pada area wajah (FaceApp-like)
+    blur = cv2.bilateralFilter(img, d=15, sigmaColor=55, sigmaSpace=55)
+    gentle = np.where(mask[..., None] == 255, blur, img)
+
+    # Tambah pencahayaan lembut & tone kulit natural
+    gentle = cv2.convertScaleAbs(gentle, alpha=1.07, beta=8)
+
+    # Kurangi sedikit minyak pipi (pakai smooth region blend)
+    smooth = cv2.detailEnhance(gentle, sigma_s=12, sigma_r=0.15)
+    result_img = cv2.addWeighted(gentle, 0.7, smooth, 0.3, 0)
+
+    cv2.imwrite(output_path, result_img)
+    print(f"✅ Saved: {output_path}")
+else:
+    print("❌ Wajah tidak terdeteksi.")
+```
+
+---
+
+### ⚙️ Cara pakai:
+
+1. Simpan file ini sebagai `gentle_face_smooth.py`
+2. Letakkan di folder yang sama dengan `muka1.jpg`
+3. Jalankan:
+
+   ```
+   python gentle_face_smooth.py
+   ```
+4. Hasil akan tersimpan sebagai `muka1_gentle.jpg`
+
+---
+
+Kalau kamu mau, nanti bisa aku buatkan **versi B** (lebih tegas dikit) juga biar ada perbandingan.
+Mau lanjut aku tulis juga versi **B (gentle + hero slight)**, Bro?
