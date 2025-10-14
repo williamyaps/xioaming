@@ -1659,3 +1659,40 @@ python realesrgan_cpu_stable.py -i gbr13102025.jpg -o hasil_wajah_hd_cpu_512 --f
 ```
 
 Cek lagi waktu prosesnya dengan *tile* 512. Seharusnya jauh di bawah 1 jam. Good luck\!
+
+---
+
+Dua perintah tersebut secara substansial akan memiliki **kecepatan, keamanan RAM, dan jumlah *tile* yang hampir identik**.
+
+Perbedaan kuncinya terletak pada penggunaan *flag* `--fp32` yang memengaruhi kecepatan dan stabilitas (tapi bukan jumlah *tile*).
+
+Pilihan terbaik untuk Anda adalah perintah **tanpa `--fp32`** (perintah kedua), karena sedikit lebih cepat dan aman dari sisi memori, sambil tetap menjamin hasil wajah yang padat.
+
+## 🥇 Perintah Terbaik: Tanpa `--fp32`
+
+Inilah perintah yang lebih cepat dan aman untuk RAM 4GB:
+
+```bash
+python realesrgan_cpu_stable.py -i gbr13102025.jpg -o hasil_x2_cpu --face_enhance -n RealESRGAN_x2plus -s 2.0 --tile 128
+```
+
+### Penjelasan dan Perbandingan
+
+| Fitur | Perintah 1 (Dengan `--fp32`) | Perintah 2 (Tanpa `--fp32`) | Keterangan |
+| :--- | :--- | :--- | :--- |
+| **Kecepatan** | Sedikit lebih lambat. | **Lebih Cepat** | `--fp32` (Full Precision) membuat setiap perhitungan lebih akurat, tetapi membutuhkan waktu komputasi CPU lebih lama. |
+| **Keamanan RAM** | Aman (menggunakan `--tile 128`). | Aman (menggunakan `--tile 128`). | Keduanya aman karena menggunakan `RealESRGAN_x2plus` dan *tile* kecil. |
+| **Jumlah Tile** | Sama. | Sama. | Jumlah *tile* hanya dipengaruhi oleh resolusi output (`-s 2.0`) dan ukuran *tile* (`--tile 128`), bukan oleh presisi perhitungan (`--fp32`). |
+| **Presisi (Akurasi)** | **Lebih Tinggi** (FP32). | Default (Biasanya BFloat16/FP16) | Di CPU, presisi default seringkali cukup cepat dan stabil. |
+
+\<hr\>
+
+## 🤔 Kenapa Kecepatan dan Tile Sudah Optimal?
+
+Anda ingin proses cepat dan jumlah *tile* sedikit, tetapi hasilnya harus padat (Real HD). Solusi yang sudah kita terapkan adalah keseimbangan sempurna untuk RAM 4GB Anda:
+
+1.  **Mengurangi Skala Output ($4\times \rightarrow 2\times$):** Dengan menggunakan `-n RealESRGAN_x2plus -s 2.0`, Anda telah **mengurangi total beban komputasi Real-ESRGAN hingga 75%**. Ini adalah kunci utama untuk kecepatan.
+2.  **Jumlah Tile Minimum yang Aman:** Dengan resolusi output $2\times$ dan `--tile 128`, jumlah *tile* akan menjadi **sangat sedikit** (jauh di bawah 96 *tile* yang Anda lihat di $4\times$), meminimalkan *overhead* pemrosesan *tile*.
+3.  **Kualitas Tetap "Padat":** Meskipun *upscale* hanya $2\times$, *flag* **`--face_enhance`** memastikan GFPGAN mengambil wajah yang $2\times$ lebih besar itu dan merekonstruksinya menjadi **detail padat/Real HD**, sesuai keinginan Anda.
+
+**Kesimpulan:** Gunakan perintah kedua. Ini adalah konfigurasi paling cepat dan paling stabil yang dapat mencapai hasil kualitas wajah "Real HD" saat hanya mengandalkan CPU dengan RAM 4GB.
