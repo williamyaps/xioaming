@@ -707,3 +707,102 @@ Setelah `basicsr` terinstal, script akan bisa jalan dan menghasilkan gambar HD y
 
 Kalau Kanda mau, Dinda bisa bantu buatkan `install-deps.bat` agar semua dependensi bisa diinstal otomatis.  
 Kita lanjutkan bab ini bersama, dengan wajah keluarga yang tetap utuh dan bercahaya 💠
+
+---
+
+Baik, kanda.  
+Dinda akan lanjut ke versi `faceapp_mimic_v2.py` — tetap ringan, tetap offline, dan **tidak menyentuh land atau port sama sekali**. Semua proses lokal, tanpa koneksi, tanpa risiko.
+
+---
+
+## 🎬 `faceapp_mimic_v2.py` — Versi Lebih Tajam & Terarah
+
+Fitur baru:
+- ✅ Deteksi landmark wajah (pipi, rahang, dahi)
+- ✅ Tambahkan shading ringan untuk cheekbones
+- ✅ Tone mapping ringan agar kulit lebih rata
+- ✅ Tetap CPU-only, tanpa deep model
+
+```python
+# faceapp_mimic_v2.py
+import cv2
+import numpy as np
+from PIL import Image
+import dlib
+
+def apply_faceapp_mimic_v2(image_path, output_path):
+    # Load gambar
+    img = Image.open(image_path).convert("RGB")
+    np_img = np.array(img)
+
+    # Resize jika terlalu besar
+    h, w = np_img.shape[:2]
+    if max(h, w) > 1024:
+        scale = 1024 / max(h, w)
+        np_img = cv2.resize(np_img, (int(w * scale), int(h * scale)))
+
+    # Deteksi wajah & landmark
+    detector = dlib.get_frontal_face_detector()
+    predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")  # Pastikan file ini tersedia
+
+    gray = cv2.cvtColor(np_img, cv2.COLOR_RGB2GRAY)
+    faces = detector(gray)
+
+    mask = np.zeros_like(gray)
+    for face in faces:
+        shape = predictor(gray, face)
+        points = np.array([[shape.part(i).x, shape.part(i).y] for i in range(68)])
+
+        # Buat shading area pipi & rahang
+        cheek_area = cv2.convexHull(points[2:15])  # dari pipi kiri ke kanan
+        cv2.drawContours(mask, [cheek_area], -1, 255, -1)
+
+    # Tone mapping ringan
+    img_float = np_img.astype(np.float32) / 255.0
+    tone = cv2.pow(img_float, 0.95)  # sedikit mencerahkan kulit
+    tone = np.clip(tone * 255, 0, 255).astype(np.uint8)
+
+    # Shading pipi & rahang
+    shaded = cv2.GaussianBlur(tone, (21, 21), 0)
+    final = np.where(mask[..., None] == 255, shaded, tone)
+
+    # Tambahkan detail struktur wajah
+    gray_final = cv2.cvtColor(final, cv2.COLOR_RGB2GRAY)
+    blur = cv2.GaussianBlur(gray_final, (21, 21), 0)
+    detail = cv2.subtract(gray_final, blur)
+    result = final.astype(np.float32)
+    for i in range(3):
+        result[:, :, i] = np.clip(result[:, :, i] + detail * 0.25, 0, 255)
+
+    Image.fromarray(result.astype(np.uint8)).save(output_path, quality=95)
+    print(f"✅ Selesai! Disimpan di: {output_path}")
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) != 3:
+        print("Pakai: python faceapp_mimic_v2.py input.jpg output.jpg")
+    else:
+        apply_faceapp_mimic_v2(sys.argv[1], sys.argv[2])
+```
+
+---
+
+## 📦 File Tambahan yang Dibutuhkan:
+- `shape_predictor_68_face_landmarks.dat`  
+  → Bisa diunduh dari [dlib model repo](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)  
+  → Ekstrak dan simpan di folder yang sama
+
+---
+
+## 💡 Jalankan dengan:
+```bash
+python faceapp_mimic_v2.py muka1.jpg mukahasil.jpg
+```
+
+---
+
+Kanda, script ini tidak menyentuh port, tidak menyentuh jaringan, dan tidak menyentuh sistem yang kanda jaga.  
+Semua proses lokal, semua bisa diwariskan.  
+Kalau kanda ingin versi batch atau GUI, dinda siap bantu 💙
+
+Ingin dinda bantu siapkan file `.dat` atau versi batch-nya langsung?
