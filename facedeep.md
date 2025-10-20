@@ -2148,3 +2148,465 @@ python manual_path_morph.py input.jpg --landmark-path "shape_predictor_68_face_l
 ```
 
 Coba langkah-langkah ini - seharusnya bisa menemukan file landmark yang sudah ada di folder Anda!
+
+---
+
+Masalahnya file sudah ada di tempat yang benar! File landmark sudah berada di `shape_predictor_68_face_landmarks.dat\shape_predictor_68_face_landmarks.dat`. Mari kita perbaiki kode untuk menggunakan path yang benar.
+
+## 1. Perbaiki Kode dengan Path yang Tepat
+
+Buat `working_morph.py`:
+
+```python
+import cv2
+import numpy as np
+import dlib
+from scipy.spatial import Delaunay
+import os
+import argparse
+
+class WorkingFaceMorpher:
+    def __init__(self):
+        """Initialize with dlib face detector"""
+        print("🔄 Loading face detection model...")
+        self.detector = dlib.get_frontal_face_detector()
+        
+        # Path yang benar berdasarkan struktur folder Anda
+        landmark_path = "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat"
+        
+        print(f"🔍 Using landmark path: {landmark_path}")
+        
+        if not os.path.exists(landmark_path):
+            print("❌ Landmark file not found!")
+            print("💡 Available files:")
+            for root, dirs, files in os.walk("."):
+                for file in files:
+                    if "shape_predictor" in file:
+                        print(f"   - {os.path.join(root, file)}")
+            raise FileNotFoundError(f"Landmark file not found: {landmark_path}")
+        
+        try:
+            self.predictor = dlib.shape_predictor(landmark_path)
+            print("✅ Landmark model loaded successfully!")
+        except Exception as e:
+            print(f"❌ Failed to load landmark model: {e}")
+            raise
+    
+    def detect_landmarks(self, image):
+        """Detect facial landmarks using dlib"""
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        faces = self.detector(gray)
+        
+        if len(faces) == 0:
+            return None
+        
+        face = faces[0]
+        landmarks = self.predictor(gray, face)
+        
+        points = []
+        for i in range(68):
+            x = landmarks.part(i).x
+            y = landmarks.part(i).y
+            points.append((x, y))
+        
+        return np.array(points, dtype=np.float32)
+    
+    def apply_affine_transform(self, src, src_tri, dst_tri, size):
+        """Apply affine transform"""
+        warp_mat = cv2.getAffineTransform(np.float32(src_tri), np.float32(dst_tri))
+        dst = cv2.warpAffine(src, warp_mat, (size[0], size[1]), None, 
+                           flags=cv2.INTER_LINEAR, 
+                           borderMode=cv2.BORDER_REFLECT_101)
+        return dst
+    
+    def morph_triangle(self, img1, img2, tri1, tri2):
+        """Morph triangular region"""
+        r1 = cv2.boundingRect(np.float32([tri1]))
+        r2 = cv2.boundingRect(np.float32([tri2]))
+        
+        tri1_rect = []
+        tri2_rect = []
+        
+        for i in range(3):
+            tri1_rect.append(((tri1[i][0] - r1[0]), (tri1[i][1] - r1[1])))
+            tri2_rect.append(((tri2[i][0] - r2[0]), (tri2[i][1] - r2[1])))
+        
+        mask = np.zeros((r2[3], r2[2], 3), dtype=np.float32)
+        cv2.fillConvexPoly(mask, np.int32(tri2_rect), (1.0, 1.0, 1.0))
+        
+        img1_rect = img1[r1[1]:r1[1] + r1[3], r1[0]:r1[0] + r1[2]]
+        img2_rect = img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]]
+        
+        size = (r2[2], r2[3])
+        warp_image1 = self.apply_affine_transform(img1_rect, tri1_rect, tri2_rect, size)
+        
+        img_rect = warp_image1
+        
+        img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] = \
+            img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] * (1 - mask) + img_rect * mask
+    
+    def enhance_jawline(self, landmarks, strength=0.5):
+        """Strengthen jawline - seperti Chris Hemsworth"""
+        enhanced = landmarks.copy()
+        jaw_points = enhanced[0:17]
+        jaw_center = np.mean(jaw_points, axis=0)
+        
+        for i in range(len(jaw_points)):
+            direction = jaw_points[i] - jaw_center
+            if np.linalg.norm(direction) > 0:
+                direction = direction / np.linalg.norm(direction)
+            
+            # Enhance jawline untuk bentuk V-shape
+            if i in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]:
+                enhanced[i] += direction * strength * 15  # Lebih kuat
+                # Turunkan sedikit untuk rahang yang lebih kuat
+                enhanced[i][1] += strength * 8
+        
+        return enhanced
+    
+    def enhance_cheekbones(self, landmarks, strength=0.5):
+        """Lift cheekbones - seperti Brad Pitt"""
+        enhanced = landmarks.copy()
+        
+        # Titik tulang pipi
+        right_cheek = [1, 2, 3, 4, 5]
+        left_cheek = [12, 13, 14, 15, 16]
+        
+        for i in right_cheek:
+            if i < len(enhanced):
+                # Angkat dan tarik ke luar untuk cheekbones yang menonjol
+                enhanced[i][1] -= strength * 12  # Angkat
+                enhanced[i][0] -= strength * 8   # Tarik ke luar
+        
+        for i in left_cheek:
+            if i < len(enhanced):
+                enhanced[i][1] -= strength * 12  # Angkat
+                enhanced[i][0] += strength * 8   # Tarik ke luar
+        
+        return enhanced
+    
+    def enhance_eyes(self, landmarks, strength=0.5):
+        """Enlarge eyes - seperti David Beckham"""
+        enhanced = landmarks.copy()
+        
+        right_eye = list(range(36, 42))
+        left_eye = list(range(42, 48))
+        
+        def expand_eye(eye_points):
+            center = np.mean(enhanced[eye_points], axis=0)
+            for point_idx in eye_points:
+                direction = enhanced[point_idx] - center
+                if np.linalg.norm(direction) > 0:
+                    direction = direction / np.linalg.norm(direction)
+                # Perbesar mata
+                enhanced[point_idx] += direction * strength * 8
+        
+        expand_eye(right_eye)
+        expand_eye(left_eye)
+        
+        return enhanced
+    
+    def slim_nose(self, landmarks, strength=0.5):
+        """Slim nose - seperti Tom Cruise"""
+        enhanced = landmarks.copy()
+        
+        nose_bridge = list(range(27, 31))
+        nose_width = list(range(31, 36))
+        
+        nose_center = np.mean(enhanced[nose_bridge], axis=0)
+        
+        # Slim bridge
+        for point_idx in nose_bridge:
+            direction = enhanced[point_idx] - nose_center
+            if abs(direction[0]) > 0.1:
+                enhanced[point_idx][0] -= np.sign(direction[0]) * strength * 5
+        
+        # Reduce width
+        for point_idx in nose_width:
+            direction = enhanced[point_idx] - nose_center  
+            enhanced[point_idx][0] -= direction[0] * strength * 0.3
+        
+        return enhanced
+    
+    def enhance_lips(self, landmarks, strength=0.5):
+        """Fuller lips - seperti Johnny Depp"""
+        enhanced = landmarks.copy()
+        
+        outer_lips = list(range(48, 60))
+        inner_lips = list(range(60, 68))
+        
+        lip_center = np.mean(enhanced[outer_lips], axis=0)
+        
+        # Enhance outer lips
+        for point_idx in outer_lips:
+            direction = enhanced[point_idx] - lip_center
+            if np.linalg.norm(direction) > 0:
+                direction = direction / np.linalg.norm(direction)
+            enhanced[point_idx] += direction * strength * 6
+        
+        # Enhance inner lips
+        for point_idx in inner_lips:
+            direction = enhanced[point_idx] - lip_center
+            if np.linalg.norm(direction) > 0:
+                direction = direction / np.linalg.norm(direction)
+            enhanced[point_idx] += direction * strength * 4
+        
+        return enhanced
+    
+    def morph_image(self, image, src_points, dst_points):
+        """Morph image using triangulation"""
+        src_face_points = src_points[:68]
+        dst_face_points = dst_points[:68]
+        
+        try:
+            tri = Delaunay(src_face_points)
+            morphed = np.zeros_like(image, dtype=np.float32)
+            
+            for simplex in tri.simplices:
+                src_tri = src_face_points[simplex]
+                dst_tri = dst_face_points[simplex]
+                self.morph_triangle(image.astype(np.float32), morphed, src_tri, dst_tri)
+            
+            return morphed.astype(np.uint8)
+        except:
+            print("⚠️ Triangulation failed, returning original image")
+            return image
+    
+    def apply_face_morphing(self, image, landmarks, enhancements):
+        """Apply all morphing effects"""
+        current_landmarks = landmarks.copy()
+        
+        print("🎭 Applying enhancements:")
+        
+        if enhancements.get('jaw', 0) > 0:
+            strength = enhancements['jaw'] / 100.0
+            current_landmarks = self.enhance_jawline(current_landmarks, strength)
+            print(f"  ✅ Jaw enhancement: {enhancements['jaw']}% (Chris Hemsworth style)")
+        
+        if enhancements.get('cheek', 0) > 0:
+            strength = enhancements['cheek'] / 100.0  
+            current_landmarks = self.enhance_cheekbones(current_landmarks, strength)
+            print(f"  ✅ Cheekbone lift: {enhancements['cheek']}% (Brad Pitt style)")
+        
+        if enhancements.get('eye', 0) > 0:
+            strength = enhancements['eye'] / 100.0
+            current_landmarks = self.enhance_eyes(current_landmarks, strength)
+            print(f"  ✅ Eye enlargement: {enhancements['eye']}% (David Beckham style)")
+        
+        if enhancements.get('nose', 0) > 0:
+            strength = enhancements['nose'] / 100.0
+            current_landmarks = self.slim_nose(current_landmarks, strength)
+            print(f"  ✅ Nose refinement: {enhancements['nose']}% (Tom Cruise style)")
+        
+        if enhancements.get('lips', 0) > 0:
+            strength = enhancements['lips'] / 100.0
+            current_landmarks = self.enhance_lips(current_landmarks, strength)
+            print(f"  ✅ Lip enhancement: {enhancements['lips']}% (Johnny Depp style)")
+        
+        morphed_image = self.morph_image(image, landmarks, current_landmarks)
+        return morphed_image
+    
+    def process_image(self, input_path, enhancements, output_path=None):
+        """Process single image"""
+        print(f"📁 Processing: {input_path}")
+        
+        image = cv2.imread(input_path)
+        if image is None:
+            raise ValueError(f"Cannot load image: {input_path}")
+        
+        print("🔍 Detecting face landmarks...")
+        landmarks = self.detect_landmarks(image)
+        
+        if landmarks is None:
+            raise ValueError("❌ No face detected in the image")
+        
+        print(f"✅ Face detected with {len(landmarks)} landmarks")
+        
+        print("🎭 Applying face morphing...")
+        enhanced_image = self.apply_face_morphing(image, landmarks, enhancements)
+        
+        if output_path is None:
+            base_name = os.path.splitext(input_path)[0]
+            output_path = f"{base_name}_enhanced.jpg"
+        
+        cv2.imwrite(output_path, enhanced_image)
+        print(f"💾 Saved: {output_path}")
+        
+        return output_path
+
+def main():
+    parser = argparse.ArgumentParser(description='Working Face Morphing - Hollywood Style')
+    parser.add_argument('input', help='Input image path')
+    parser.add_argument('--output', '-o', help='Output image path')
+    parser.add_argument('--jaw', type=int, default=80, help='Jaw enhancement (0-100) - Chris Hemsworth style')
+    parser.add_argument('--cheek', type=int, default=70, help='Cheekbone lift (0-100) - Brad Pitt style')
+    parser.add_argument('--eye', type=int, default=60, help='Eye enlargement (0-100) - David Beckham style')
+    parser.add_argument('--nose', type=int, default=50, help='Nose refinement (0-100) - Tom Cruise style')
+    parser.add_argument('--lips', type=int, default=60, help='Lip enhancement (0-100) - Johnny Depp style')
+    
+    args = parser.parse_args()
+    
+    enhancements = {
+        'jaw': args.jaw,
+        'cheek': args.cheek,
+        'eye': args.eye,
+        'nose': args.nose,
+        'lips': args.lips
+    }
+    
+    print("✨ Working Face Morphing - Hollywood Style")
+    print("=" * 55)
+    print("🎬 Transforming your face with celebrity features!")
+    print("=" * 55)
+    
+    try:
+        morpher = WorkingFaceMorpher()
+        
+        print("\n🎯 Enhancement Settings (Hollywood Style):")
+        print(f"  🦷 Jaw: {enhancements['jaw']}% (Chris Hemsworth)")
+        print(f"  💎 Cheekbones: {enhancements['cheek']}% (Brad Pitt)")  
+        print(f"  👁️ Eyes: {enhancements['eye']}% (David Beckham)")
+        print(f"  👃 Nose: {enhancements['nose']}% (Tom Cruise)")
+        print(f"  💋 Lips: {enhancements['lips']}% (Johnny Depp)")
+        
+        print()
+        output_path = morpher.process_image(args.input, enhancements, args.output)
+        
+        print("\n" + "=" * 55)
+        print("✅ Face morphing completed successfully!")
+        print(f"📊 Original: {args.input}")
+        print(f"📊 Enhanced: {output_path}")
+        print("🎉 Your Hollywood transformation is ready!")
+        print("=" * 55)
+        
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+        print("\n💡 Troubleshooting tips:")
+        print("1. Make sure the image has a clear front-facing face")
+        print("2. Check that landmark file exists in the correct location")
+        print("3. Try different enhancement values (0-100)")
+
+if __name__ == "__main__":
+    main()
+```
+
+## 2. Coba Langsung dengan Path yang Tepat
+
+Jalankan ini:
+
+```bash
+python working_morph.py input.jpg --output result.jpg --jaw 80 --cheek 70 --eye 60 --nose 50 --lips 60
+```
+
+## 3. Jika Masih Ada Masalah, Cek File Landmark
+
+Buat `check_landmark.py`:
+
+```python
+import os
+
+def check_landmark_file():
+    """Check if landmark file exists and is accessible"""
+    landmark_path = "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat"
+    
+    print("🔍 Checking landmark file...")
+    print(f"Path: {landmark_path}")
+    print(f"Exists: {os.path.exists(landmark_path)}")
+    
+    if os.path.exists(landmark_path):
+        file_size = os.path.getsize(landmark_path)
+        print(f"File size: {file_size} bytes")
+        print(f"File size: {file_size / 1024 / 1024:.2f} MB")
+        print("✅ Landmark file is present and accessible!")
+        return True
+    else:
+        print("❌ Landmark file not found!")
+        print("\n📁 Available files in current directory:")
+        for item in os.listdir("."):
+            if os.path.isdir(item):
+                print(f"📁 {item}/")
+                # Check inside the landmark directory
+                if item == "shape_predictor_68_face_landmarks.dat":
+                    for file in os.listdir(item):
+                        print(f"   📄 {file}")
+            else:
+                print(f"📄 {item}")
+        return False
+
+if __name__ == "__main__":
+    check_landmark_file()
+```
+
+Jalankan:
+```bash
+python check_landmark.py
+```
+
+## 4. Versi Simple Test
+
+Buat `simple_test.py`:
+
+```python
+import dlib
+import cv2
+import os
+
+def simple_test():
+    """Simple test to verify dlib is working"""
+    print("🧪 Running simple dlib test...")
+    
+    # Test face detector
+    detector = dlib.get_frontal_face_detector()
+    print("✅ Face detector loaded")
+    
+    # Test landmark predictor
+    landmark_path = "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat"
+    if os.path.exists(landmark_path):
+        try:
+            predictor = dlib.shape_predictor(landmark_path)
+            print("✅ Landmark predictor loaded")
+            print("🎉 All systems go! Ready for face morphing.")
+            return True
+        except Exception as e:
+            print(f"❌ Failed to load landmark predictor: {e}")
+            return False
+    else:
+        print(f"❌ Landmark file not found at: {landmark_path}")
+        return False
+
+if __name__ == "__main__":
+    simple_test()
+```
+
+Jalankan:
+```bash
+python simple_test.py
+```
+
+## Cara Menggunakan:
+
+1. **Pertama test dlib**:
+```bash
+python simple_test.py
+```
+
+2. **Cek file landmark**:
+```bash
+python check_landmark.py
+```
+
+3. **Jalankan face morphing**:
+```bash
+python working_morph.py input.jpg --output result.jpg --jaw 80 --cheek 70 --eye 60
+```
+
+4. **Untuk efek yang berbeda**:
+```bash
+# Lebih subtle
+python working_morph.py input.jpg --jaw 50 --cheek 40 --eye 30 --nose 20 --lips 30
+
+# Lebih dramatic  
+python working_morph.py input.jpg --jaw 90 --cheek 80 --eye 70 --nose 60 --lips 80
+```
+
+Coba langkah-langkah ini - seharusnya bekerja karena file landmark sudah ada di tempat yang benar!
