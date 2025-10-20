@@ -1631,3 +1631,520 @@ python simple_morph.py input.jpg --output result.jpg --jaw 70 --cheek 50
 ```
 
 Coba yang mana saja yang berhasil!
+
+---
+
+Saya lihat masalahnya! File `shape_predictor_68_face_landmarks.dat` ada di dalam folder dengan nama yang sama, bukan di root. Mari kita perbaiki kodenya untuk mencari file yang benar.
+
+## 1. Perbaiki Path Landmark Model
+
+Buat `fixed_path_morph.py`:
+
+```python
+import cv2
+import numpy as np
+import dlib
+from scipy.spatial import Delaunay
+import os
+import argparse
+
+class FixedPathFaceMorpher:
+    def __init__(self):
+        """Initialize with dlib face detector"""
+        print("🔄 Loading face detection model...")
+        self.detector = dlib.get_frontal_face_detector()
+        
+        # Cari file landmark model di beberapa lokasi yang mungkin
+        landmark_paths = [
+            "shape_predictor_68_face_landmarks.dat",  # Di root folder
+            "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat",  # Dalam folder
+            "./shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat",  # Path relatif
+            "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat"  # Path lengkap
+        ]
+        
+        self.predictor = None
+        for path in landmark_paths:
+            if os.path.exists(path):
+                try:
+                    print(f"🔍 Trying to load: {path}")
+                    self.predictor = dlib.shape_predictor(path)
+                    print(f"✅ Landmark model loaded from: {path}")
+                    break
+                except Exception as e:
+                    print(f"❌ Failed to load from {path}: {e}")
+                    continue
+        
+        if self.predictor is None:
+            # Coba cari file secara manual
+            print("🔍 Searching for landmark file in directory...")
+            for root, dirs, files in os.walk("."):
+                for file in files:
+                    if "shape_predictor_68_face_landmarks.dat" in file:
+                        full_path = os.path.join(root, file)
+                        print(f"🔍 Found: {full_path}")
+                        try:
+                            self.predictor = dlib.shape_predictor(full_path)
+                            print(f"✅ Landmark model loaded from: {full_path}")
+                            break
+                        except Exception as e:
+                            print(f"❌ Failed to load from {full_path}: {e}")
+                            continue
+                if self.predictor is not None:
+                    break
+        
+        if self.predictor is None:
+            print("❌ Landmark model not found in any location")
+            print("💡 Let me create the correct path...")
+            # Coba buat path yang benar
+            correct_path = "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat"
+            if os.path.exists("shape_predictor_68_face_landmarks.dat"):
+                if os.path.isdir("shape_predictor_68_face_landmarks.dat"):
+                    # Ini adalah folder, cari file di dalamnya
+                    for file in os.listdir("shape_predictor_68_face_landmarks.dat"):
+                        if "shape_predictor_68_face_landmarks.dat" in file:
+                            correct_path = os.path.join("shape_predictor_68_face_landmarks.dat", file)
+                            break
+                
+                try:
+                    self.predictor = dlib.shape_predictor(correct_path)
+                    print(f"✅ Landmark model loaded from: {correct_path}")
+                except Exception as e:
+                    print(f"❌ Final attempt failed: {e}")
+                    raise FileNotFoundError("Cannot load landmark model file")
+    
+    def detect_landmarks(self, image):
+        """Detect facial landmarks using dlib"""
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        faces = self.detector(gray)
+        
+        if len(faces) == 0:
+            return None
+        
+        face = faces[0]
+        landmarks = self.predictor(gray, face)
+        
+        points = []
+        for i in range(68):
+            x = landmarks.part(i).x
+            y = landmarks.part(i).y
+            points.append((x, y))
+        
+        return np.array(points, dtype=np.float32)
+    
+    def apply_affine_transform(self, src, src_tri, dst_tri, size):
+        """Apply affine transform"""
+        warp_mat = cv2.getAffineTransform(np.float32(src_tri), np.float32(dst_tri))
+        dst = cv2.warpAffine(src, warp_mat, (size[0], size[1]), None, 
+                           flags=cv2.INTER_LINEAR, 
+                           borderMode=cv2.BORDER_REFLECT_101)
+        return dst
+    
+    def morph_triangle(self, img1, img2, tri1, tri2):
+        """Morph triangular region"""
+        r1 = cv2.boundingRect(np.float32([tri1]))
+        r2 = cv2.boundingRect(np.float32([tri2]))
+        
+        tri1_rect = []
+        tri2_rect = []
+        
+        for i in range(3):
+            tri1_rect.append(((tri1[i][0] - r1[0]), (tri1[i][1] - r1[1])))
+            tri2_rect.append(((tri2[i][0] - r2[0]), (tri2[i][1] - r2[1])))
+        
+        mask = np.zeros((r2[3], r2[2], 3), dtype=np.float32)
+        cv2.fillConvexPoly(mask, np.int32(tri2_rect), (1.0, 1.0, 1.0))
+        
+        img1_rect = img1[r1[1]:r1[1] + r1[3], r1[0]:r1[0] + r1[2]]
+        img2_rect = img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]]
+        
+        size = (r2[2], r2[3])
+        warp_image1 = self.apply_affine_transform(img1_rect, tri1_rect, tri2_rect, size)
+        
+        img_rect = warp_image1
+        
+        img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] = \
+            img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] * (1 - mask) + img_rect * mask
+    
+    def enhance_jawline(self, landmarks, strength=0.5):
+        """Strengthen jawline"""
+        enhanced = landmarks.copy()
+        jaw_points = enhanced[0:17]
+        jaw_center = np.mean(jaw_points, axis=0)
+        
+        for i in range(len(jaw_points)):
+            direction = jaw_points[i] - jaw_center
+            if np.linalg.norm(direction) > 0:
+                direction = direction / np.linalg.norm(direction)
+            
+            if i in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]:
+                enhanced[i] += direction * strength * 12
+                enhanced[i][1] += strength * 6
+        
+        return enhanced
+    
+    def enhance_cheekbones(self, landmarks, strength=0.5):
+        """Lift cheekbones"""
+        enhanced = landmarks.copy()
+        
+        right_cheek = [1, 2, 3, 4, 5]
+        left_cheek = [12, 13, 14, 15, 16]
+        
+        for i in right_cheek:
+            if i < len(enhanced):
+                enhanced[i][1] -= strength * 10
+                enhanced[i][0] -= strength * 6
+        
+        for i in left_cheek:
+            if i < len(enhanced):
+                enhanced[i][1] -= strength * 10
+                enhanced[i][0] += strength * 6
+        
+        return enhanced
+    
+    def enhance_eyes(self, landmarks, strength=0.5):
+        """Enlarge eyes"""
+        enhanced = landmarks.copy()
+        
+        right_eye = list(range(36, 42))
+        left_eye = list(range(42, 48))
+        
+        def expand_eye(eye_points):
+            center = np.mean(enhanced[eye_points], axis=0)
+            for point_idx in eye_points:
+                direction = enhanced[point_idx] - center
+                if np.linalg.norm(direction) > 0:
+                    direction = direction / np.linalg.norm(direction)
+                enhanced[point_idx] += direction * strength * 6
+        
+        expand_eye(right_eye)
+        expand_eye(left_eye)
+        
+        return enhanced
+    
+    def slim_nose(self, landmarks, strength=0.5):
+        """Slim nose"""
+        enhanced = landmarks.copy()
+        
+        nose_bridge = list(range(27, 31))
+        nose_width = list(range(31, 36))
+        
+        nose_center = np.mean(enhanced[nose_bridge], axis=0)
+        for point_idx in nose_bridge:
+            direction = enhanced[point_idx] - nose_center
+            if abs(direction[0]) > 0.1:
+                enhanced[point_idx][0] -= np.sign(direction[0]) * strength * 4
+        
+        for point_idx in nose_width:
+            direction = enhanced[point_idx] - nose_center  
+            enhanced[point_idx][0] -= direction[0] * strength * 0.2
+        
+        return enhanced
+    
+    def enhance_lips(self, landmarks, strength=0.5):
+        """Fuller lips"""
+        enhanced = landmarks.copy()
+        
+        outer_lips = list(range(48, 60))
+        inner_lips = list(range(60, 68))
+        
+        lip_center = np.mean(enhanced[outer_lips], axis=0)
+        
+        for point_idx in outer_lips:
+            direction = enhanced[point_idx] - lip_center
+            if np.linalg.norm(direction) > 0:
+                direction = direction / np.linalg.norm(direction)
+            enhanced[point_idx] += direction * strength * 5
+        
+        for point_idx in inner_lips:
+            direction = enhanced[point_idx] - lip_center
+            if np.linalg.norm(direction) > 0:
+                direction = direction / np.linalg.norm(direction)
+            enhanced[point_idx] += direction * strength * 3
+        
+        return enhanced
+    
+    def morph_image(self, image, src_points, dst_points):
+        """Morph image using triangulation"""
+        src_face_points = src_points[:68]
+        dst_face_points = dst_points[:68]
+        
+        tri = Delaunay(src_face_points)
+        morphed = np.zeros_like(image, dtype=np.float32)
+        
+        for simplex in tri.simplices:
+            src_tri = src_face_points[simplex]
+            dst_tri = dst_face_points[simplex]
+            self.morph_triangle(image.astype(np.float32), morphed, src_tri, dst_tri)
+        
+        return morphed.astype(np.uint8)
+    
+    def apply_face_morphing(self, image, landmarks, enhancements):
+        """Apply all morphing effects"""
+        current_landmarks = landmarks.copy()
+        
+        if enhancements.get('jaw', 0) > 0:
+            strength = enhancements['jaw'] / 100.0
+            current_landmarks = self.enhance_jawline(current_landmarks, strength)
+            print(f"  ✅ Jaw enhancement applied: {enhancements['jaw']}%")
+        
+        if enhancements.get('cheek', 0) > 0:
+            strength = enhancements['cheek'] / 100.0  
+            current_landmarks = self.enhance_cheekbones(current_landmarks, strength)
+            print(f"  ✅ Cheekbone lift applied: {enhancements['cheek']}%")
+        
+        if enhancements.get('eye', 0) > 0:
+            strength = enhancements['eye'] / 100.0
+            current_landmarks = self.enhance_eyes(current_landmarks, strength)
+            print(f"  ✅ Eye enlargement applied: {enhancements['eye']}%")
+        
+        if enhancements.get('nose', 0) > 0:
+            strength = enhancements['nose'] / 100.0
+            current_landmarks = self.slim_nose(current_landmarks, strength)
+            print(f"  ✅ Nose refinement applied: {enhancements['nose']}%")
+        
+        if enhancements.get('lips', 0) > 0:
+            strength = enhancements['lips'] / 100.0
+            current_landmarks = self.enhance_lips(current_landmarks, strength)
+            print(f"  ✅ Lip enhancement applied: {enhancements['lips']}%")
+        
+        morphed_image = self.morph_image(image, landmarks, current_landmarks)
+        return morphed_image
+    
+    def process_image(self, input_path, enhancements, output_path=None):
+        """Process single image"""
+        print(f"📁 Processing: {input_path}")
+        
+        image = cv2.imread(input_path)
+        if image is None:
+            raise ValueError(f"Cannot load image: {input_path}")
+        
+        print("🔍 Detecting face landmarks...")
+        landmarks = self.detect_landmarks(image)
+        
+        if landmarks is None:
+            raise ValueError("No face detected in the image")
+        
+        print("🎭 Applying face morphing...")
+        enhanced_image = self.apply_face_morphing(image, landmarks, enhancements)
+        
+        if output_path is None:
+            base_name = os.path.splitext(input_path)[0]
+            output_path = f"{base_name}_enhanced.jpg"
+        
+        cv2.imwrite(output_path, enhanced_image)
+        print(f"💾 Saved: {output_path}")
+        
+        return output_path
+
+def main():
+    parser = argparse.ArgumentParser(description='Fixed Path Face Morphing - CPU Version')
+    parser.add_argument('input', help='Input image path')
+    parser.add_argument('--output', '-o', help='Output image path')
+    parser.add_argument('--jaw', type=int, default=70, help='Jaw enhancement (0-100)')
+    parser.add_argument('--cheek', type=int, default=60, help='Cheekbone lift (0-100)')
+    parser.add_argument('--eye', type=int, default=50, help='Eye enlargement (0-100)')
+    parser.add_argument('--nose', type=int, default=40, help='Nose refinement (0-100)')
+    parser.add_argument('--lips', type=int, default=50, help='Lip enhancement (0-100)')
+    
+    args = parser.parse_args()
+    
+    enhancements = {
+        'jaw': args.jaw,
+        'cheek': args.cheek,
+        'eye': args.eye,
+        'nose': args.nose,
+        'lips': args.lips
+    }
+    
+    print("✨ Fixed Path Face Morphing - CPU Version")
+    print("=" * 50)
+    
+    try:
+        morpher = FixedPathFaceMorpher()
+        
+        print("\n🎯 Enhancement Settings:")
+        for key, value in enhancements.items():
+            print(f"  {key}: {value}%")
+        
+        print()
+        output_path = morpher.process_image(args.input, enhancements, args.output)
+        
+        print("\n✅ Face morphing completed successfully!")
+        print(f"📊 Original: {args.input}")
+        print(f"📊 Enhanced: {output_path}")
+        
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+
+## 2. Atau Copy File ke Root Folder
+
+Sebelum menjalankan, coba copy file landmark ke root folder:
+
+```bash
+# Copy file dari dalam folder ke root
+copy "shape_predictor_68_face_landmarks.dat\shape_predictor_68_landmarks.dat" .
+```
+
+Atau gunakan Python untuk copy:
+
+Buat `copy_landmark.py`:
+
+```python
+import os
+import shutil
+
+def copy_landmark_file():
+    """Copy landmark file to root directory"""
+    source_dir = "shape_predictor_68_face_landmarks.dat"
+    target_file = "shape_predictor_68_face_landmarks.dat"
+    
+    if os.path.exists(source_dir) and os.path.isdir(source_dir):
+        print(f"📁 Found directory: {source_dir}")
+        
+        # Cari file di dalam folder
+        for file in os.listdir(source_dir):
+            if "shape_predictor" in file and file.endswith(".dat"):
+                source_path = os.path.join(source_dir, file)
+                print(f"📄 Found file: {source_path}")
+                
+                # Copy ke root
+                shutil.copy2(source_path, target_file)
+                print(f"✅ Copied to: {target_file}")
+                
+                # Verifikasi
+                if os.path.exists(target_file):
+                    file_size = os.path.getsize(target_file)
+                    print(f"📊 File size: {file_size} bytes")
+                    return True
+                else:
+                    print("❌ Copy failed")
+                    return False
+    
+    print("❌ Landmark directory or file not found")
+    return False
+
+if __name__ == "__main__":
+    print("🔄 Copying landmark file to root directory...")
+    if copy_landmark_file():
+        print("🎉 Ready to run face morphing!")
+    else:
+        print("❌ Failed to copy landmark file")
+```
+
+Jalankan:
+```bash
+python copy_landmark.py
+```
+
+## 3. Jika Masih Gagal, Gunakan Versi Manual Path
+
+Buat `manual_path_morph.py`:
+
+```python
+import cv2
+import numpy as np
+import dlib
+from scipy.spatial import Delaunay
+import os
+import argparse
+
+# Tentukan path manual ke file landmark
+LANDMARK_PATH = "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat"
+
+class ManualPathFaceMorpher:
+    def __init__(self, landmark_path=LANDMARK_PATH):
+        """Initialize with manual path"""
+        print("🔄 Loading face detection model...")
+        self.detector = dlib.get_frontal_face_detector()
+        
+        print(f"🔍 Using manual path: {landmark_path}")
+        if not os.path.exists(landmark_path):
+            print("❌ Landmark file not found at manual path")
+            print("💡 Available files in landmark directory:")
+            if os.path.exists("shape_predictor_68_face_landmarks.dat"):
+                for file in os.listdir("shape_predictor_68_face_landmarks.dat"):
+                    print(f"   - {file}")
+            raise FileNotFoundError(f"Landmark file not found: {landmark_path}")
+        
+        try:
+            self.predictor = dlib.shape_predictor(landmark_path)
+            print("✅ Landmark model loaded successfully!")
+        except Exception as e:
+            print(f"❌ Failed to load landmark model: {e}")
+            raise
+    
+    # ... (sisanya sama seperti class sebelumnya)
+    # Copy semua method dari FixedPathFaceMorpher mulai dari detect_landmarks sampai process_image
+
+def main():
+    parser = argparse.ArgumentParser(description='Manual Path Face Morphing')
+    parser.add_argument('input', help='Input image path')
+    parser.add_argument('--output', '-o', help='Output image path')
+    parser.add_argument('--jaw', type=int, default=70, help='Jaw enhancement (0-100)')
+    parser.add_argument('--cheek', type=int, default=60, help='Cheekbone lift (0-100)')
+    parser.add_argument('--eye', type=int, default=50, help='Eye enlargement (0-100)')
+    parser.add_argument('--nose', type=int, default=40, help='Nose refinement (0-100)')
+    parser.add_argument('--lips', type=int, default=50, help='Lip enhancement (0-100)')
+    parser.add_argument('--landmark-path', default=LANDMARK_PATH, help='Manual path to landmark file')
+    
+    args = parser.parse_args()
+    
+    enhancements = {
+        'jaw': args.jaw,
+        'cheek': args.cheek,
+        'eye': args.eye,
+        'nose': args.nose,
+        'lips': args.lips
+    }
+    
+    print("✨ Manual Path Face Morphing")
+    print("=" * 50)
+    
+    try:
+        morpher = ManualPathFaceMorpher(args.landmark_path)
+        
+        print("\n🎯 Enhancement Settings:")
+        for key, value in enhancements.items():
+            print(f"  {key}: {value}%")
+        
+        print()
+        output_path = morpher.process_image(args.input, enhancements, args.output)
+        
+        print("\n✅ Face morphing completed successfully!")
+        print(f"📊 Original: {args.input}")
+        print(f"📊 Enhanced: {output_path}")
+        
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+
+## Cara Menggunakan:
+
+1. **Pertama, coba copy file landmark**:
+```bash
+python copy_landmark.py
+```
+
+2. **Kemudian jalankan fixed version**:
+```bash
+python fixed_path_morph.py input.jpg --output result.jpg --jaw 70 --cheek 50
+```
+
+3. **Jika masih gagal, gunakan manual path**:
+```bash
+python manual_path_morph.py input.jpg --output result.jpg --jaw 70 --cheek 50
+```
+
+4. **Atau coba dengan path yang spesifik**:
+```bash
+python manual_path_morph.py input.jpg --landmark-path "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat" --output result.jpg --jaw 70 --cheek 50
+```
+
+Coba langkah-langkah ini - seharusnya bisa menemukan file landmark yang sudah ada di folder Anda!
