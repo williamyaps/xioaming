@@ -3798,3 +3798,341 @@ python faceapp_level.py input.jpg --output perfect_result.jpg
 **Ini adalah pendekatan yang lebih mirip FaceApp** - fokus pada **preservation dan blending** bukan geometric morphing!
 
 Coba versi ini! Seharusnya hasilnya lebih natural dan preserve semua detail seperti FaceApp! 🎭✨
+
+---
+
+Wah! Sekarang saya lihat jelas perbedaannya! 😮
+
+**FaceApp unggul di:** 
+- **Cheekbones yang kuat dan natural** 
+- **Lesung pipi tetap terlihat**
+- **Struktur wajah lebih masculine**
+
+**Python kita:** Cheekbones-nya kalah, kurang prominent!
+
+## 🎯 **FIXED VERSION - STRONG CHEEKBONES + DIMPLES PRESERVATION**
+
+Buat `strong_cheekbones.py`:
+
+```python
+import cv2
+import numpy as np
+import dlib
+from scipy.spatial import Delaunay
+import os
+import argparse
+
+class StrongCheekboneMorpher:
+    def __init__(self):
+        """Initialize with advanced cheekbone enhancement"""
+        print("🔄 Loading strong cheekbone model...")
+        self.detector = dlib.get_frontal_face_detector()
+        
+        landmark_path = "shape_predictor_68_face_landmarks.dat/shape_predictor_68_face_landmarks.dat"
+        self.predictor = dlib.shape_predictor(landmark_path)
+        print("✅ Strong cheekbone model ready!")
+    
+    def detect_landmarks(self, image):
+        """Detect facial landmarks"""
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        faces = self.detector(gray)
+        if len(faces) == 0:
+            return None
+        face = faces[0]
+        landmarks = self.predictor(gray, face)
+        points = []
+        for i in range(68):
+            x = landmarks.part(i).x
+            y = landmarks.part(i).y
+            points.append((x, y))
+        return np.array(points, dtype=np.float32)
+    
+    def enhance_cheekbones_strong(self, landmarks, strength=0.7):
+        """Strong cheekbone enhancement like FaceApp"""
+        enhanced = landmarks.copy()
+        
+        # Face proportions for smart adjustments
+        face_width = landmarks[16][0] - landmarks[0][0]
+        face_height = landmarks[8][1] - landmarks[27][1]
+        
+        # **STRONG CHEEKBONE ENHANCEMENT**
+        # Key cheekbone points (strategic points for prominent cheekbones)
+        right_cheek_main = [3, 4, 5]    # Main cheekbone prominence
+        right_cheek_support = [1, 2]     # Supporting points
+        left_cheek_main = [13, 14, 15]   # Main cheekbone prominence  
+        left_cheek_support = [16, 17]    # Supporting points
+        
+        cheek_strength = strength * 0.8  # Strong enhancement
+        
+        # Enhance right cheekbone
+        for i in right_cheek_main:
+            if i < len(enhanced):
+                # Strong upward and outward movement for prominent cheekbones
+                enhanced[i][1] -= cheek_strength * face_height * 0.08  # Strong lift
+                enhanced[i][0] -= cheek_strength * face_width * 0.04   # Strong outward
+        
+        for i in right_cheek_support:
+            if i < len(enhanced):
+                # Supporting points - less movement
+                enhanced[i][1] -= cheek_strength * face_height * 0.05  # Moderate lift
+                enhanced[i][0] -= cheek_strength * face_width * 0.02   # Moderate outward
+        
+        # Enhance left cheekbone
+        for i in left_cheek_main:
+            if i < len(enhanced):
+                enhanced[i][1] -= cheek_strength * face_height * 0.08  # Strong lift
+                enhanced[i][0] += cheek_strength * face_width * 0.04   # Strong outward
+        
+        for i in left_cheek_support:
+            if i < len(enhanced):
+                enhanced[i][1] -= cheek_strength * face_height * 0.05  # Moderate lift
+                enhanced[i][0] += cheek_strength * face_width * 0.02   # Moderate outward
+        
+        return enhanced
+    
+    def enhance_jawline_strong(self, landmarks, strength=0.6):
+        """Strong jawline enhancement"""
+        enhanced = landmarks.copy()
+        jaw_points = enhanced[0:17]
+        jaw_center = np.mean(jaw_points, axis=0)
+        face_width = landmarks[16][0] - landmarks[0][0]
+        
+        jaw_strength = strength * 0.7
+        
+        for i in range(len(jaw_points)):
+            if i in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]:
+                direction = jaw_points[i] - jaw_center
+                if np.linalg.norm(direction) > 0:
+                    direction = direction / np.linalg.norm(direction)
+                
+                # Strong jaw enhancement
+                enhanced[i] += direction * jaw_strength * face_width * 0.03
+                # Strong downward for masculine jaw
+                if i in [6, 7, 8, 9, 10]:  # Chin area
+                    enhanced[i][1] += jaw_strength * 5
+        
+        return enhanced
+    
+    def preserve_dimples_and_features(self, original, landmarks, enhanced_img):
+        """Preserve dimples and facial features"""
+        # Create dimple detection mask
+        gray = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
+        
+        # Detect high-contrast features (dimples, moles)
+        laplacian = cv2.Laplacian(gray, cv2.CV_64F)
+        feature_map = cv2.convertScaleAbs(laplacian)
+        
+        # Threshold to get feature locations
+        _, feature_mask = cv2.threshold(feature_map, 15, 255, cv2.THRESH_BINARY)
+        
+        # Create regions around cheek areas for dimple preservation
+        cheek_region_mask = np.zeros_like(feature_mask)
+        
+        # Right cheek region (for dimples)
+        right_cheek_points = np.array([
+            [landmarks[3][0], landmarks[3][1]],
+            [landmarks[4][0], landmarks[4][1]], 
+            [landmarks[5][0], landmarks[5][1]],
+            [landmarks[48][0], landmarks[48][1]]
+        ], dtype=np.int32)
+        
+        # Left cheek region (for dimples)
+        left_cheek_points = np.array([
+            [landmarks[13][0], landmarks[13][1]],
+            [landmarks[14][0], landmarks[14][1]],
+            [landmarks[15][0], landmarks[15][1]], 
+            [landmarks[54][0], landmarks[54][1]]
+        ], dtype=np.int32)
+        
+        cv2.fillPoly(cheek_region_mask, [right_cheek_points], 255)
+        cv2.fillPoly(cheek_region_mask, [left_cheek_points], 255)
+        
+        # Combine feature mask with cheek regions
+        dimple_mask = cv2.bitwise_and(feature_mask, cheek_region_mask)
+        
+        # Soften mask
+        dimple_mask = cv2.GaussianBlur(dimple_mask, (11, 11), 3)
+        dimple_mask_float = dimple_mask.astype(np.float32) / 255.0
+        
+        # Preserve original features in dimple areas
+        result = np.zeros_like(original, dtype=np.float32)
+        for i in range(3):
+            result[:,:,i] = original[:,:,i] * dimple_mask_float + enhanced_img[:,:,i] * (1 - dimple_mask_float)
+        
+        return result.astype(np.uint8)
+    
+    def create_cheekbone_contour_effect(self, image, landmarks):
+        """Create natural cheekbone contouring effect"""
+        # Create contour mask for cheekbone shading
+        contour_mask = np.zeros(image.shape[:2], dtype=np.float32)
+        
+        # Right cheekbone contour area
+        right_cheek_contour = np.array([
+            [landmarks[2][0], landmarks[2][1]],
+            [landmarks[3][0], landmarks[3][1]],
+            [landmarks[4][0], landmarks[4][1]],
+            [landmarks[5][0], landmarks[5][1]],
+            [landmarks[6][0], landmarks[6][1]],
+            [landmarks[48][0], landmarks[48][1]]
+        ], dtype=np.int32)
+        
+        # Left cheekbone contour area  
+        left_cheek_contour = np.array([
+            [landmarks[12][0], landmarks[12][1]],
+            [landmarks[13][0], landmarks[13][1]],
+            [landmarks[14][0], landmarks[14][1]],
+            [landmarks[15][0], landmarks[15][1]],
+            [landmarks[16][0], landmarks[16][1]],
+            [landmarks[54][0], landmarks[54][1]]
+        ], dtype=np.int32)
+        
+        # Fill contour areas
+        cv2.fillPoly(contour_mask, [right_cheek_contour], 0.3)  # Darken for contour
+        cv2.fillPoly(contour_mask, [left_cheek_contour], 0.3)   # Darken for contour
+        
+        # Soften contour mask
+        contour_mask = cv2.GaussianBlur(contour_mask, (51, 51), 15)
+        
+        # Apply contour effect
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        hsv[:,:,2] = np.clip(hsv[:,:,2] * (1 - contour_mask), 0, 255)  # Darken value channel
+        contoured = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+        
+        return contoured
+    
+    def apply_affine_transform(self, src, src_tri, dst_tri, size):
+        """Apply affine transform"""
+        warp_mat = cv2.getAffineTransform(np.float32(src_tri), np.float32(dst_tri))
+        dst = cv2.warpAffine(src, warp_mat, (size[0], size[1]), None, 
+                           flags=cv2.INTER_CUBIC, 
+                           borderMode=cv2.BORDER_REFLECT_101)
+        return dst
+    
+    def morph_triangle(self, img1, img2, tri1, tri2):
+        """Morph triangular region"""
+        r1 = cv2.boundingRect(np.float32([tri1]))
+        r2 = cv2.boundingRect(np.float32([tri2]))
+        
+        tri1_rect = []
+        tri2_rect = []
+        
+        for i in range(3):
+            tri1_rect.append(((tri1[i][0] - r1[0]), (tri1[i][1] - r1[1])))
+            tri2_rect.append(((tri2[i][0] - r2[0]), (tri2[i][1] - r2[1])))
+        
+        mask = np.zeros((r2[3], r2[2], 3), dtype=np.float32)
+        cv2.fillConvexPoly(mask, np.int32(tri2_rect), (1.0, 1.0, 1.0))
+        
+        img1_rect = img1[r1[1]:r1[1] + r1[3], r1[0]:r1[0] + r1[2]]
+        img2_rect = img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]]
+        
+        size = (r2[2], r2[3])
+        warp_image1 = self.apply_affine_transform(img1_rect, tri1_rect, tri2_rect, size)
+        
+        img_rect = warp_image1
+        
+        img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] = \
+            img2[r2[1]:r2[1] + r2[3], r2[0]:r2[0] + r2[2]] * (1 - mask) + img_rect * mask
+    
+    def morph_image(self, image, src_points, dst_points):
+        """Morph image using triangulation"""
+        src_face_points = src_points[:68]
+        dst_face_points = dst_points[:68]
+        
+        try:
+            tri = Delaunay(src_face_points)
+            morphed = np.zeros_like(image, dtype=np.float32)
+            
+            for simplex in tri.simplices:
+                src_tri = src_face_points[simplex]
+                dst_tri = dst_face_points[simplex]
+                self.morph_triangle(image.astype(np.float32), morphed, src_tri, dst_tri)
+            
+            return morphed.astype(np.uint8)
+        except:
+            return image
+    
+    def process_strong_cheekbones(self, input_path, output_path=None):
+        """Process image with strong cheekbone enhancement"""
+        print(f"📁 Processing: {input_path}")
+        
+        original = cv2.imread(input_path)
+        if original is None:
+            raise ValueError(f"Cannot load image: {input_path}")
+        
+        print("🔍 Detecting face landmarks...")
+        landmarks = self.detect_landmarks(original)
+        
+        if landmarks is None:
+            raise ValueError("❌ No face detected")
+        
+        print("💪 Enhancing cheekbones strongly...")
+        
+        # Strong cheekbone enhancement
+        enhanced_landmarks = self.enhance_cheekbones_strong(landmarks, strength=0.8)
+        
+        # Strong jawline enhancement
+        enhanced_landmarks = self.enhance_jawline_strong(enhanced_landmarks, strength=0.7)
+        
+        # Apply morphing
+        morphed = self.morph_image(original, landmarks, enhanced_landmarks)
+        
+        # Add cheekbone contour effect
+        contoured = self.create_cheekbone_contour_effect(morphed, enhanced_landmarks)
+        
+        # Preserve dimples and features
+        final_result = self.preserve_dimples_and_features(original, landmarks, contoured)
+        
+        if output_path is None:
+            base_name = os.path.splitext(input_path)[0]
+            output_path = f"{base_name}_strong_cheekbones.jpg"
+        
+        cv2.imwrite(output_path, final_result)
+        print(f"💾 Saved: {output_path}")
+        return output_path
+
+def main():
+    parser = argparse.ArgumentParser(description='Strong Cheekbone Enhancement')
+    parser.add_argument('input', help='Input image path')
+    parser.add_argument('--output', '-o', help='Output image path')
+    
+    args = parser.parse_args()
+    
+    print("✨ Strong Cheekbone Enhancement")
+    print("=" * 50)
+    print("🎯 Goal: Strong cheekbones like FaceApp + preserve dimples")
+    print("=" * 50)
+    
+    try:
+        morpher = StrongCheekboneMorpher()
+        output_path = morpher.process_strong_cheekbones(args.input, args.output)
+        
+        print("\n" + "=" * 50)
+        print("✅ Strong cheekbone enhancement completed!")
+        print(f"📊 Result: {output_path}")
+        print("💪 Cheekbones enhanced + dimples preserved!")
+        print("=" * 50)
+        
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+
+## 🎯 **CARA PAKAI:**
+
+```bash
+python strong_cheekbones.py input.jpg --output strong_result.jpg
+```
+
+## 🏆 **FITUR BARU:**
+
+1. **Strong Cheekbone Enhancement** - Cheekbones lebih prominent seperti FaceApp
+2. **Dimple Preservation** - Lesung pipi tetap terlihat  
+3. **Cheekbone Contouring** - Efek shading natural untuk cheekbones
+4. **Strategic Point Enhancement** - Titik-titik strategis untuk cheekbones kuat
+
+**Ini khusus fokus pada cheekbones yang kuat seperti FaceApp!** 💪
+
+Coba versi ini! Seharusnya cheekbones-nya sekarang **sangat kuat dan prominent** seperti FaceApp, tapi **lesung pipi tetap ada**! 🎭✨
