@@ -371,10 +371,12 @@
         let isEnhanced = false;
         let faceMeshModel = null;
 
-        // Load model on page load
+        // Load model function
         async function loadModel() {
             try {
-                faceMeshModel = await facemesh.load();
+                statusDiv.textContent = '⏳ Loading FaceMesh model...';
+                // Panggil facemesh.load() hanya setelah tf dan facemesh siap
+                faceMeshModel = await facemesh.load(); 
                 statusDiv.textContent = '✅ Model loaded. Siap untuk upload foto.';
             } catch (err) {
                 statusDiv.textContent = '⚠️ Error loading model. Refresh page.';
@@ -382,27 +384,16 @@
             }
         }
 
-        // Wait for TensorFlow & FaceMesh to load
-        Promise.all([
-            new Promise(resolve => {
-                const checkTF = setInterval(() => {
-                    if (typeof tf !== 'undefined') {
-                        clearInterval(checkTF);
-                        resolve();
-                    }
-                }, 100);
-            }),
-            new Promise(resolve => {
-                const checkFace = setInterval(() => {
-                    if (typeof facemesh !== 'undefined') {
-                        clearInterval(checkFace);
-                        resolve();
-                    }
-                }, 100);
-            })
-        ]).then(() => {
-            loadModel();
-        });
+        // --- BAGIAN YANG DIPERBAIKI: Menunggu TF dan FaceMesh siap ---
+        // Mengganti Promise.all yang rumit dengan Interval check yang lebih stabil.
+        const checkLibraries = setInterval(() => {
+            // Periksa apakah kedua variabel global sudah terdefinisi
+            if (typeof tf !== 'undefined' && typeof facemesh !== 'undefined') {
+                clearInterval(checkLibraries); // Hentikan pemeriksaan
+                loadModel(); // Panggil fungsi pemuatan model
+            }
+        }, 100); 
+        // -----------------------------------------------------------------
 
         // Drop area events
         dropArea.addEventListener('click', () => fileInput.click());
@@ -416,7 +407,6 @@
             dropArea.classList.remove('dragover');
             if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
         });
-
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length) handleFile(e.target.files[0]);
         });
@@ -448,7 +438,6 @@
 
                     filenameSpan.textContent = file.name;
                     statusDiv.textContent = '⏳ Mendeteksi wajah...';
-
                     // Detect face
                     await detectFace(img);
                 };
@@ -499,7 +488,6 @@
             }
 
             statusDiv.textContent = '⏳ Memproses face morphing...';
-
             const jaw = parseInt(document.getElementById('jaw').value);
             const cheek = parseInt(document.getElementById('cheek').value);
             const eye = parseInt(document.getElementById('eye').value);
@@ -559,7 +547,6 @@
             ];
             const kernelSum = 16;
             const newData = new Uint8ClampedArray(data);
-
             for (let y = 1; y < height - 1; y++) {
                 for (let x = 1; x < width - 1; x++) {
                     for (let c = 0; c < 3; c++) {
@@ -619,7 +606,6 @@
         }
 
         enhanceBtn.addEventListener('click', distortImage);
-
         resetBtn.addEventListener('click', () => {
             if (originalImage) {
                 enhCtx.drawImage(originalImage, 0, 0);
@@ -634,7 +620,6 @@
                 statusDiv.textContent = '🔄 Reset ke gambar original.';
             }
         });
-
         downloadBtn.addEventListener('click', () => {
             if (!isEnhanced) {
                 statusDiv.textContent = '⚠️ Harap terapkan enhancement terlebih dahulu!';
