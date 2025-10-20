@@ -342,7 +342,7 @@
     </div>
 
     <!-- TensorFlow.js & Face-api.js Library -->
-    <script async src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3"></script>
+   <script async src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3"></script>
     <script async src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh@0"></script>
 
     <script>
@@ -379,21 +379,33 @@
                 faceMeshModel = await facemesh.load(); 
                 statusDiv.textContent = '✅ Model loaded. Siap untuk upload foto.';
             } catch (err) {
-                statusDiv.textContent = '⚠️ Error loading model. Refresh page.';
-                console.error(err);
+                // Biasanya error di sini berarti kegagalan download file model
+                statusDiv.textContent = '⚠️ Error saat memuat file model. Cek koneksi atau AdBlocker (Langkah 2 di bawah).';
+                console.error("Error loading FaceMesh model file:", err);
             }
         }
 
-        // --- BAGIAN YANG DIPERBAIKI: Menunggu TF dan FaceMesh siap ---
-        // Mengganti Promise.all yang rumit dengan Interval check yang lebih stabil.
+        // --- BAGIAN KUNCI: Menunggu Library dengan Timeout (Perbaikan Robust) ---
+        let attempts = 0;
+        const MAX_ATTEMPTS = 100; // 100 attempts * 100ms = 10 detik waktu habis
+
+        statusDiv.textContent = '⏳ Menunggu library TensorFlow & FaceMesh siap...';
+
         const checkLibraries = setInterval(() => {
             // Periksa apakah kedua variabel global sudah terdefinisi
             if (typeof tf !== 'undefined' && typeof facemesh !== 'undefined') {
                 clearInterval(checkLibraries); // Hentikan pemeriksaan
                 loadModel(); // Panggil fungsi pemuatan model
+            } else {
+                attempts++;
+                if (attempts > MAX_ATTEMPTS) {
+                    clearInterval(checkLibraries);
+                    statusDiv.textContent = '❌ Gagal memuat library (TensorFlow/FaceMesh) setelah 10 detik. Cek koneksi internet atau AdBlocker Anda.';
+                    console.error("TensorFlow/FaceMesh failed to load. Check network or AdBlocker.");
+                }
             }
         }, 100); 
-        // -----------------------------------------------------------------
+        // -----------------------------------------------------------------------
 
         // Drop area events
         dropArea.addEventListener('click', () => fileInput.click());
@@ -449,7 +461,8 @@
 
         async function detectFace(img) {
             if (!faceMeshModel) {
-                statusDiv.textContent = '⏳ Menunggu model siap...';
+                // Pesan ini hanya muncul jika Anda mengklik Drop Area sebelum model siap
+                statusDiv.textContent = '⏳ Menunggu model siap...'; 
                 return;
             }
 
