@@ -257,11 +257,26 @@
                 transform: rotate(360deg);
             }
         }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #d97706;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #92400e;
+            text-align: left;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>✨ Face Enhancement Pro - Face Morphing</h1>
-    <h2>dengan Face Landmarks Detection & Distortion</h2>
+    <h2>dengan Face Landmarks Detection & Distortion (CPU Mode)</h2>
+
+    <div class="warning-box">
+        ⚠️ <strong>Mode CPU Aktif:</strong> Aplikasi berjalan dalam mode CPU. Proses deteksi wajah mungkin lebih lambat tetapi lebih stabil.
+    </div>
 
     <div id="drop-area">📸 Klik atau seret file gambar ke sini (JPG, PNG, etc)</div>
     <div>File terpilih: (<span id="filename">-</span>)</div>
@@ -326,7 +341,7 @@
         </div>
     </div>
 
-    <div id="status"></div>
+    <div id="status">⏳ Menunggu library TensorFlow & Face Landmarks siap...</div>
 
     <div class="preview-section">
         <div class="preview-box">
@@ -372,27 +387,53 @@
         let isEnhanced = false;
         let detector = null;
 
+        // Force CPU backend
+        async function forceCPUBackend() {
+            try {
+                // Set backend to CPU sebelum memuat model apapun
+                await tf.setBackend('cpu');
+                console.log('✅ Backend diatur ke CPU');
+                return true;
+            } catch (error) {
+                console.error('❌ Gagal mengatur backend ke CPU:', error);
+                return false;
+            }
+        }
+
         // Load model function
         async function loadModel() {
             try {
-                statusDiv.textContent = '⏳ Loading Face Landmarks model...';
-                await tf.ready();
+                statusDiv.textContent = '⏳ Memaksa mode CPU...';
+                
+                // Force CPU backend first
+                const cpuSuccess = await forceCPUBackend();
+                if (!cpuSuccess) {
+                    statusDiv.textContent = '❌ Gagal mengatur mode CPU';
+                    return;
+                }
+
+                statusDiv.textContent = '⏳ Loading Face Landmarks model (CPU Mode)...';
+                
+                // Load model dengan konfigurasi yang lebih sederhana
                 detector = await faceLandmarksDetection.load(
                     faceLandmarksDetection.SupportedPackages.mediapipeFacemesh,
-                    { maxFaces: 1 }
+                    { 
+                        maxFaces: 1,
+                        shouldLoadIrisModel: false, // Nonaktifkan deteksi iris untuk performa lebih baik
+                    }
                 );
-                statusDiv.textContent = '✅ Model loaded. Siap untuk upload foto.';
+                
+                statusDiv.textContent = '✅ Model loaded (CPU Mode). Siap untuk upload foto.';
+                console.log('✅ Model berhasil dimuat dengan backend:', tf.getBackend());
             } catch (err) {
-                statusDiv.textContent = '⚠️ Error saat memuat model. Cek koneksi atau AdBlocker.';
                 console.error("Error loading model:", err);
+                statusDiv.textContent = '❌ Error saat memuat model: ' + err.message;
             }
         }
 
         // Wait for libraries to load
         let attempts = 0;
-        const MAX_ATTEMPTS = 100;
-
-        statusDiv.textContent = '⏳ Menunggu library TensorFlow & Face Landmarks siap...';
+        const MAX_ATTEMPTS = 150; // Tambah waktu timeout
 
         const checkLibraries = setInterval(() => {
             if (typeof tf !== 'undefined' && typeof faceLandmarksDetection !== 'undefined') {
@@ -402,7 +443,7 @@
                 attempts++;
                 if (attempts > MAX_ATTEMPTS) {
                     clearInterval(checkLibraries);
-                    statusDiv.textContent = '❌ Gagal memuat library. Cek koneksi atau AdBlocker.';
+                    statusDiv.textContent = '❌ Gagal memuat library setelah 15 detik. Refresh halaman atau cek koneksi.';
                 }
             }
         }, 100);
@@ -436,15 +477,18 @@
             reader.onload = (e) => {
                 const img = new Image();
                 img.onload = async () => {
-                    // Set canvas size
-                    originalCanvas.width = img.width;
-                    originalCanvas.height = img.height;
-                    enhancedCanvas.width = img.width;
-                    enhancedCanvas.height = img.height;
+                    // Set canvas size (maksimal 800px untuk performa lebih baik)
+                    const maxWidth = 800;
+                    const scale = Math.min(1, maxWidth / img.width);
+                    
+                    originalCanvas.width = img.width * scale;
+                    originalCanvas.height = img.height * scale;
+                    enhancedCanvas.width = img.width * scale;
+                    enhancedCanvas.height = img.height * scale;
 
-                    // Draw original
-                    origCtx.drawImage(img, 0, 0);
-                    enhCtx.drawImage(img, 0, 0);
+                    // Draw original (scaled)
+                    origCtx.drawImage(img, 0, 0, originalCanvas.width, originalCanvas.height);
+                    enhCtx.drawImage(img, 0, 0, enhancedCanvas.width, enhancedCanvas.height);
 
                     originalImage = img;
                     originalImageData = origCtx.getImageData(0, 0, originalCanvas.width, originalCanvas.height);
@@ -469,9 +513,12 @@
             }
 
             try {
-                statusDiv.textContent = '⏳ Mendeteksi wajah...';
+                statusDiv.textContent = '⏳ Mendeteksi wajah (mungkin membutuhkan waktu beberapa detik)...';
+                
+                // Gunakan gambar yang sudah di-scale untuk performa lebih baik
                 const predictions = await detector.estimateFaces({ 
-                    input: img 
+                    input: img,
+                    predictIrises: false // Nonaktifkan prediksi iris
                 });
 
                 if (predictions && predictions.length > 0) {
@@ -484,8 +531,8 @@
                     statusDiv.textContent = '❌ Tidak dapat mendeteksi wajah. Pastikan wajah terlihat jelas di foto.';
                 }
             } catch (err) {
-                console.error(err);
-                statusDiv.textContent = '⚠️ Error saat mendeteksi wajah. Coba foto lain.';
+                console.error('Error deteksi wajah:', err);
+                statusDiv.textContent = '⚠️ Error saat mendeteksi wajah: ' + err.message;
             }
         }
 
@@ -507,55 +554,60 @@
             }
 
             statusDiv.textContent = '⏳ Memproses face morphing...';
-            const jaw = parseInt(document.getElementById('jaw').value);
-            const cheek = parseInt(document.getElementById('cheek').value);
-            const eye = parseInt(document.getElementById('eye').value);
-            const nose = parseInt(document.getElementById('nose').value);
-            const lips = parseInt(document.getElementById('lips').value);
-            const skin = parseInt(document.getElementById('skin').value);
+            
+            // Beri waktu untuk UI update
+            setTimeout(() => {
+                try {
+                    const jaw = parseInt(document.getElementById('jaw').value);
+                    const cheek = parseInt(document.getElementById('cheek').value);
+                    const eye = parseInt(document.getElementById('eye').value);
+                    const nose = parseInt(document.getElementById('nose').value);
+                    const lips = parseInt(document.getElementById('lips').value);
+                    const skin = parseInt(document.getElementById('skin').value);
 
-            // Copy original image data
-            enhCtx.drawImage(originalImage, 0, 0);
-            let imageData = enhCtx.getImageData(0, 0, enhancedCanvas.width, enhancedCanvas.height);
-            let data = imageData.data;
+                    // Copy original image data
+                    enhCtx.drawImage(originalImage, 0, 0, enhancedCanvas.width, enhancedCanvas.height);
+                    let imageData = enhCtx.getImageData(0, 0, enhancedCanvas.width, enhancedCanvas.height);
+                    let data = imageData.data;
 
-            // Apply skin smoothing
-            if (skin > 50) {
-                data = applySkinSmoothing(data, enhancedCanvas.width, enhancedCanvas.height, (skin - 50) / 50);
-            }
+                    // Apply skin smoothing
+                    if (skin > 50) {
+                        data = applySkinSmoothing(data, enhancedCanvas.width, enhancedCanvas.height, (skin - 50) / 50);
+                    }
 
-            // Apply face distortion using landmarks
-            const landmarks = detections[0].scaledMesh;
+                    // Apply face distortion using landmarks
+                    const landmarks = detections[0].scaledMesh;
 
-            // Jaw distortion
-            if (jaw !== 50) {
-                distortRegion(data, landmarks, jaw, 'jaw', enhancedCanvas.width, enhancedCanvas.height);
-            }
+                    // Apply distortions based on slider values
+                    if (jaw !== 50) {
+                        distortRegion(data, landmarks, jaw, 'jaw', enhancedCanvas.width, enhancedCanvas.height);
+                    }
 
-            // Cheek enhancement
-            if (cheek !== 50) {
-                distortRegion(data, landmarks, cheek, 'cheek', enhancedCanvas.width, enhancedCanvas.height);
-            }
+                    if (cheek !== 50) {
+                        distortRegion(data, landmarks, cheek, 'cheek', enhancedCanvas.width, enhancedCanvas.height);
+                    }
 
-            // Eye enhancement
-            if (eye !== 50) {
-                distortRegion(data, landmarks, eye, 'eye', enhancedCanvas.width, enhancedCanvas.height);
-            }
+                    if (eye !== 50) {
+                        distortRegion(data, landmarks, eye, 'eye', enhancedCanvas.width, enhancedCanvas.height);
+                    }
 
-            // Nose refinement
-            if (nose !== 50) {
-                distortRegion(data, landmarks, nose, 'nose', enhancedCanvas.width, enhancedCanvas.height);
-            }
+                    if (nose !== 50) {
+                        distortRegion(data, landmarks, nose, 'nose', enhancedCanvas.width, enhancedCanvas.height);
+                    }
 
-            // Lips enhancement
-            if (lips !== 50) {
-                distortRegion(data, landmarks, lips, 'lips', enhancedCanvas.width, enhancedCanvas.height);
-            }
+                    if (lips !== 50) {
+                        distortRegion(data, landmarks, lips, 'lips', enhancedCanvas.width, enhancedCanvas.height);
+                    }
 
-            imageData.data.set(data);
-            enhCtx.putImageData(imageData, 0, 0);
-            isEnhanced = true;
-            statusDiv.textContent = '✅ Face morphing berhasil diterapkan!';
+                    imageData.data.set(data);
+                    enhCtx.putImageData(imageData, 0, 0);
+                    isEnhanced = true;
+                    statusDiv.textContent = '✅ Face morphing berhasil diterapkan!';
+                } catch (error) {
+                    console.error('Error dalam distortImage:', error);
+                    statusDiv.textContent = '❌ Error saat memproses gambar: ' + error.message;
+                }
+            }, 100);
         }
 
         // Skin smoothing algorithm
@@ -567,7 +619,12 @@
             ];
             const kernelSum = 16;
             const newData = new Uint8ClampedArray(data);
-            for (let y = 1; y < height - 1; y++) {
+            
+            // Batasi area pemrosesan untuk performa
+            const startY = Math.max(1, Math.floor(height * 0.2));
+            const endY = Math.min(height - 1, Math.floor(height * 0.8));
+            
+            for (let y = startY; y < endY; y++) {
                 for (let x = 1; x < width - 1; x++) {
                     for (let c = 0; c < 3; c++) {
                         let sum = 0;
@@ -593,8 +650,8 @@
 
             // Brighten and sharpen selected regions
             landmarks.forEach((point, idx) => {
-                const x = Math.round(point[0]);
-                const y = Math.round(point[1]);
+                const x = Math.round(point[0] * (width / originalImage.width));
+                const y = Math.round(point[1] * (height / originalImage.height));
 
                 if (x > 0 && x < width && y > 0 && y < height) {
                     // Determine if point is in target region based on FaceMesh landmarks
@@ -610,7 +667,7 @@
                     if (isTarget) {
                         // Apply brightness and contrast
                         const idx_data = (y * width + x) * 4;
-                        if (idx_data < data.length) {
+                        if (idx_data < data.length - 3) {
                             if (factor > 0) {
                                 data[idx_data] = Math.min(255, data[idx_data] + 20 * intensity);
                                 data[idx_data + 1] = Math.min(255, data[idx_data + 1] + 20 * intensity);
@@ -630,7 +687,7 @@
         enhanceBtn.addEventListener('click', distortImage);
         resetBtn.addEventListener('click', () => {
             if (originalImage) {
-                enhCtx.drawImage(originalImage, 0, 0);
+                enhCtx.drawImage(originalImage, 0, 0, enhancedCanvas.width, enhancedCanvas.height);
                 document.getElementById('jaw').value = 50;
                 document.getElementById('cheek').value = 50;
                 document.getElementById('eye').value = 50;
@@ -648,12 +705,16 @@
                 return;
             }
 
-            const link = document.createElement('a');
-            const baseName = originalFileName.replace(/\.[^/.]+$/, '');
-            link.href = enhancedCanvas.toDataURL('image/png');
-            link.download = `${baseName}_enhanced.png`;
-            link.click();
-            statusDiv.textContent = '✅ File berhasil diunduh!';
+            try {
+                const link = document.createElement('a');
+                const baseName = originalFileName.replace(/\.[^/.]+$/, '');
+                link.href = enhancedCanvas.toDataURL('image/png');
+                link.download = `${baseName}_enhanced.png`;
+                link.click();
+                statusDiv.textContent = '✅ File berhasil diunduh!';
+            } catch (error) {
+                statusDiv.textContent = '❌ Error saat mengunduh file: ' + error.message;
+            }
         });
 
         document.querySelectorAll('input[type="range"]').forEach(slider => {
