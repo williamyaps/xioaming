@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone comparison-table: Rekomendasi HP Terbaik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .questions {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .question-box h3 {
+            margin-bottom: 10px;
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .ai-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .ai-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+
+        .gemini::before { background: linear-gradient(90deg, #4285F4, #34A853); }
+        .copilot::before { background: linear-gradient(90deg, #0078D4, #00BCF2); }
+        .gpt::before { background: linear-gradient(90deg, #10a37f, #6ec8a0); }
+        .qwen::before { background: linear-gradient(90deg, #FF6B6B, #FFE66D); }
+        .deepseek::before { background: linear-gradient(90deg, #667eea, #764ba2); }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .ai-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .gemini .ai-icon { background: linear-gradient(135deg, #4285F4, #34A853); }
+        .copilot .ai-icon { background: linear-gradient(135deg, #0078D4, #00BCF2); }
+        .gpt .ai-icon { background: linear-gradient(135deg, #10a37f, #6ec8a0); }
+        .qwen .ai-icon { background: linear-gradient(135deg, #FF6B6B, #FFE66D); }
+        .deepseek .ai-icon { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+        .ai-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .ranking-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .rank-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .brand-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .analysis-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            margin-top: 30px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .score {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .score-high { background: #d4edda; color: #155724; }
+        .score-medium { background: #fff3cd; color: #856404; }
+        .score-low { background: #f8d7da; color: #721c24; }
+
+        .insight-box {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .insight-box h3 {
+            color: #d35400;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .ai-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        .legend {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Smartphone comparison-table</h1>
+            <p class="subtitle">Perbandingan 5 AI dalam Merekomendasikan HP Terbaik Value for Money</p>
+        </header>
+
+        <div class="questions">
+            <div class="question-box">
+                <h3>📱 Pertanyaan 1:</h3>
+                <p>Dari semua merk HP terkemuka seperti Oppo, Vivo, Samsung, iPhone - siapa yang paling unggul kinerjanya dan performancenya dalam hal harga yang tidak menduduki rangking 1 tetapi memiliki performance dan spesifikasi nomor 1-5?</p>
+            </div>
+            <div class="question-box">
+                <h3>📊 Pertanyaan 2:</h3>
+                <p>Urutkan 1 sampai 5 berdasarkan MERK HP (bukan tipe) mana yang paling murah harganya dengan performa kinerja dan spesifikasi terbaik!</p>
+            </div>
+        </div>
+
+        <div class="ai-grid">
+            <!-- Gemini -->
+            <div class="ai-card gemini">
+                <div class="ai-header">
+                    <div class="ai-icon">G</div>
+                    <div class="ai-name">Gemini</div>
+                </div>
+                <h4>Top 5 Rekomendasi Merek:</h4>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-number">1</div>
+                        <div class="brand-name">POCO (Xiaomi)</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">2</div>
+                        <div class="brand-name">Xiaomi</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">3</div>
+                        <div class="brand-name">Infinix</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">4</div>
+                        <div class="brand-name">Realme</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">5</div>
+                        <div class="brand-name">Vivo</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copilot -->
+            <div class="ai-card copilot">
+                <div class="ai-header">
+                    <div class="ai-icon">C</div>
+                    <div class="ai-name">Copilot</div>
+                </div>
+                <h4>Top 5 Rekomendasi Model:</h4>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-number">1</div>
+                        <div class="brand-name">POCO X7 Pro</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">2</div>
+                        <div class="brand-name">Realme 13 Pro+ 5G</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">3</div>
+                        <div class="brand-name">Samsung Galaxy A56 5G</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">4</div>
+                        <div class="brand-name">Honor X60 GT</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">5</div>
+                        <div class="brand-name">Vivo V30e 5G</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GPT -->
+            <div class="ai-card gpt">
+                <div class="ai-header">
+                    <div class="ai-icon">G</div>
+                    <div class="ai-name">ChatGPT</div>
+                </div>
+                <h4>Top 5 Rekomendasi Merek:</h4>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-number">1</div>
+                        <div class="brand-name">Xiaomi / POCO</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">2</div>
+                        <div class="brand-name">Vivo</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">3</div>
+                        <div class="brand-name">Samsung</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">4</div>
+                        <div class="brand-name">OPPO</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">5</div>
+                        <div class="brand-name">Apple (iPhone)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Qwen -->
+            <div class="ai-card qwen">
+                <div class="ai-header">
+                    <div class="ai-icon">Q</div>
+                    <div class="ai-name">Qwen</div>
+                </div>
+                <h4>Top 5 Rekomendasi Merek:</h4>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-number">1</div>
+                        <div class="brand-name">iQOO (Vivo)</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">2</div>
+                        <div class="brand-name">Xiaomi</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">3</div>
+                        <div class="brand-name">OnePlus</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">4</div>
+                        <div class="brand-name">Samsung</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">5</div>
+                        <div class="brand-name">Apple (iPhone)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deepseek -->
+            <div class="ai-card deepseek">
+                <div class="ai-header">
+                    <div class="ai-icon">D</div>
+                    <div class="ai-name">DeepSeek</div>
+                </div>
+                <h4>Top 5 Rekomendasi Merek:</h4>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-number">1</div>
+                        <div class="brand-name">Xiaomi (POCO/Redmi)</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">2</div>
+                        <div class="brand-name">Realme</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">3</div>
+                        <div class="brand-name">Samsung (Seri A)</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">4</div>
+                        <div class="brand-name">Tecno / Infinix</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number">5</div>
+                        <div class="brand-name">OPPO / Vivo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h2>📊 Analisis Komprehensif</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>AI Model</th>
+                        <th>Konsistensi</th>
+                        <th>Detail Teknis</th>
+                        <th>Relevansi Pasar</th>
+                        <th>Skor Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Gemini</strong></td>
+                        <td><span class="score score-high">Sangat Baik</span></td>
+                        <td><span class="score score-high">Sangat Detail</span></td>
+                        <td><span class="score score-high">Akurat</span></td>
+                        <td><span class="score score-high">9.5/10</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Copilot</strong></td>
+                        <td><span class="score score-medium">Baik</span></td>
+                        <td><span class="score score-high">Spesifik</span></td>
+                        <td><span class="score score-high">Relevan</span></td>
+                        <td><span class="score score-high">9/10</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ChatGPT</strong></td>
+                        <td><span class="score score-low">Kurang</span></td>
+                        <td><span class="score score-medium">Cukup</span></td>
+                        <td><span class="score score-medium">Cukup</span></td>
+                        <td><span class="score score-medium">6.5/10</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Qwen</strong></td>
+                        <td><span class="score score-high">Sangat Baik</span></td>
+                        <td><span class="score score-high">Sangat Detail</span></td>
+                        <td><span class="score score-high">Sangat Akurat</span></td>
+                        <td><span class="score score-high">9.8/10</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>DeepSeek</strong></td>
+                        <td><span class="score score-high">Excellent</span></td>
+                        <td><span class="score score-high">Komprehensif</span></td>
+                        <td><span class="score score-high">Akurat</span></td>
+                        <td><span class="score score-high">9.7/10</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="insight-box">
+                <h3>💡 Key Insights:</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><strong>Konsensus Juara #1:</strong> Xiaomi/POCO mendapat 4 dari 5 suara sebagai value champion</li>
+                    <li><strong>iPhone Reality Check:</strong> Semua AI setuju iPhone bukan pilihan terbaik untuk value for money - hanya GPT & Qwen yang memasukkan di top 5 dengan disclaimer</li>
+                    <li><strong>Samsung Position:</strong> Masuk top 5 di semua AI karena after-sales & software update, bukan raw performance</li>
+                    <li><strong>Dark Horse:</strong> iQOO (Qwen) dan Honor (Copilot) muncul sebagai alternatif menarik</li>
+                    <li><strong>Copilot Unik:</strong> Satu-satunya yang jawab dengan MODEL spesifik, bukan merek umum</li>
+                    <li><strong>GPT Controversy:</strong> Memasukkan Vivo di #2 padang fokusnya desain/kamera, bukan performance murni</li>
+                </ul>
+            </div>
+
+            <div class="insight-box" style="background: linear-gradient(135deg, #a8e6cf, #56CCF2); border-left-color: #00B894; margin-top: 20px;">
+                <h3>🏆 Verdict Akhir:</h3>
+                <p style="font-size: 1.1em; line-height: 1.8;">
+                    <strong>Qwen</strong> memberikan jawaban paling komprehensif dengan menjelaskan MENGAPA iQOO (sub-brand performance-focused dari Vivo) unggul.<br><br>
+                    <strong>Gemini & DeepSeek</strong> paling konsisten dengan pasar Indonesia dan memberikan penjelasan filosofi setiap brand.<br><br>
+                    <strong>Copilot</strong> paling praktis dengan langsung sebutkan model spesifik + harga.<br><br>
+                    <strong>ChatGPT</strong> kurang akurat menempatkan Vivo & iPhone terlalu tinggi untuk kategori "value for performance".
+                </p>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color score-high"></div>
+                    <span>Sangat Baik (9-10)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color score-medium"></div>
+                    <span>Cukup Baik (7-8.9)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color score-low"></div>
+                    <span>Perlu Perbaikan (< 7)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
