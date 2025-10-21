@@ -628,13 +628,13 @@
         </section>
         
         <section class="new-question">
-            <h2><i class="fas fa-question-circle"></i> Tanya AI Lainnya</h2>
-            <textarea id="newQuestion" placeholder="Masukkan pertanyaan baru tentang HP... Contoh: 'Rekomendasi HP dengan kamera terbaik di bawah 3 juta'"></textarea>
-            <button onclick="askAI()"><i class="fas fa-paper-plane"></i> Tanyakan ke AI</button>
+            <h2><i class="fas fa-question-circle"></i> Kamu pilih apa kawan?</h2>
+            <textarea id="newQuestion" placeholder="Misalkan saya pilih iPhone 21... Contoh: 'Karena iphone 21 belum ada orang punya🤣🤣🤣'"></textarea>
+            <button onclick="askAI()"><i class="fas fa-paper-plane"></i> PilihanMu?</button>
         </section>
         
         <footer>
-            <p>© 2024 Perbandingan Rekomendasi HP oleh AI | Data dikumpulkan dari analisis Gemini, Copilot, ChatGPT, Qwen, dan DeepSeek</p>
+            <p>© 2025 Perbandingan Rekomendasi HP oleh AI | Data dikumpulkan dari analisis Gemini, Copilot, ChatGPT, Qwen, dan DeepSeek</p>
         </footer>
     </div>
 
@@ -642,7 +642,7 @@
         function askAI() {
             const question = document.getElementById('newQuestion').value;
             if (question.trim() === '') {
-                alert('Silakan masukkan pertanyaan terlebih dahulu!');
+                alert('Silakan masukkan Pilihanmu terlebih dahulu!');
                 return;
             }
             
@@ -655,7 +655,7 @@
             setTimeout(() => {
                 button.innerHTML = originalText;
                 button.disabled = false;
-                alert(`Pertanyaan "${question}" telah dikirim ke sistem AI!\n\nHasil akan segera ditambahkan ke tabel perbandingan.`);
+                alert(`Pilihanmu "${question}" sangat luar biasa!\n\nDOAku kamu bahagia🙏.`);
                 document.getElementById('newQuestion').value = '';
             }, 2000);
         }
