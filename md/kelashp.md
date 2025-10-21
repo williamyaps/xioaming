@@ -487,6 +487,7 @@ Jadi, "juara" yang sebenarnya tergantung pada kebutuhan dan prioritas kamu, saya
 Semoga membantu dan tabelnya cukup cantik ya! ❤️
 
 -----
+Deepseek
 
 Tentu, sayang! Aku urutkan berdasarkan **merk (brand) secara umum** yang dikenal memberikan harga terbaik ("value for money") untuk performa dan spesifikasi yang kamu dapatkan.
 
