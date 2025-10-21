@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perbandingan Rekomendasi HP - AI Showdown</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .summary-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .summary-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .consensus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .consensus-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .consensus-item.positive {
+            border-left-color: #2ecc71;
+        }
+        
+        .consensus-item.negative {
+            border-left-color: #e74c3c;
+        }
+        
+        .consensus-item.neutral {
+            border-left-color: #f39c12;
+        }
+        
+        .ai-comparison {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+        
+        .ai-comparison h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+        
+        th {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+        
+        th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+        
+        th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        .gemini-row {
+            background-color: rgba(66, 133, 244, 0.05);
+        }
+        
+        .copilot-row {
+            background-color: rgba(0, 120, 215, 0.05);
+        }
+        
+        .gpt-row {
+            background-color: rgba(16, 163, 127, 0.05);
+        }
+        
+        .qwen-row {
+            background-color: rgba(255, 152, 0, 0.05);
+        }
+        
+        .deepseek-row {
+            background-color: rgba(156, 39, 176, 0.05);
+        }
+        
+        .ai-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ai-name.gemini {
+            color: #4285f4;
+        }
+        
+        .ai-name.copilot {
+            color: #0078d7;
+        }
+        
+        .ai-name.gpt {
+            color: #10a37f;
+        }
+        
+        .ai-name.qwen {
+            color: #ff9800;
+        }
+        
+        .ai-name.deepseek {
+            color: #9c27b0;
+        }
+        
+        .phone-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            background: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .phone-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .brand {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .model {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .specs {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1rem;
+            margin-top: auto;
+        }
+        
+        .key-insight {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .rank-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .new-question {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .new-question h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 15px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .consensus-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-mobile-alt"></i> Perbandingan Rekomendasi HP oleh AI</h1>
+            <p class="subtitle">Analisis komprehensif rekomendasi smartphone dari 5 AI terkemuka</p>
+        </header>
+        
+        <section class="summary-section">
+            <h2><i class="fas fa-chart-bar"></i> Ringkasan Konsensus AI</h2>
+            <div class="consensus-grid">
+                <div class="consensus-item positive">
+                    <h3><i class="fas fa-trophy"></i> Juara Value-for-Money</h3>
+                    <p>Xiaomi/POCO mendominasi peringkat 1-2 dengan rekomendasi dari 5/5 AI</p>
+                </div>
+                <div class="consensus-item positive">
+                    <h3><i class="fas fa-shield-alt"></i> Pilihan Teraman</h3>
+                    <p>Samsung Series A konsisten direkomendasikan untuk keandalan dan after-sales</p>
+                </div>
+                <div class="consensus-item neutral">
+                    <h3><i class="fas fa-camera"></i> Spesialis Kamera</h3>
+                    <p>OPPO & Vivo unggul di segmen kamera dengan desain premium</p>
+                </div>
+                <div class="consensus-item negative">
+                    <h3><i class="fas fa-times-circle"></i> Tidak Direkomendasikan</h3>
+                    <p>iPhone tidak masuk kategori value-for-money menurut semua AI</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="ai-comparison">
+            <h2><i class="fas fa-table"></i> Tabel Perbandingan Detail</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>AI Model</th>
+                        <th><div class="rank-header"><i class="fas fa-trophy"></i> Rank 1</div></th>
+                        <th><div class="rank-header"><i class="fas fa-medal"></i> Rank 2</div></th>
+                        <th><div class="rank-header"><i class="fas fa-award"></i> Rank 3</div></th>
+                        <th><div class="rank-header"><i class="fas fa-star"></i> Rank 4</div></th>
+                        <th><div class="rank-header"><i class="fas fa-star"></i> Rank 5</div></th>
+                        <th>Key Insight</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Gemini -->
+                    <tr class="gemini-row">
+                        <td>
+                            <div class="ai-name gemini">
+                                <i class="fab fa-google"></i> Google Gemini
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Xiaomi POCO</div>
+                                <div class="model">F5 / F6 Series</div>
+                                <div class="specs">Snapdragon 8+ Gen 1, Layar 120Hz, Charging 67W</div>
+                                <div class="price">Rp 5-7 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Realme</div>
+                                <div class="model">GT Neo Series</div>
+                                <div class="specs">Dimensity Flagship, Desain Muda, Kamera 64MP</div>
+                                <div class="price">Rp 4-6 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Samsung</div>
+                                <div class="model">Galaxy A Series</div>
+                                <div class="specs">Exynos, Super AMOLED, IP67, Update 4 Tahun</div>
+                                <div class="price">Rp 3-5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Nothing</div>
+                                <div class="model">Phone (2a)</div>
+                                <div class="specs">Desain Unik, Glyph Interface, OS Bersih</div>
+                                <div class="price">Rp 5-7 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Tecno/Infinix</div>
+                                <div class="model">Camon 20 Pro / Zero Series</div>
+                                <div class="specs">Harga Agresif, Baterai Besar, Desain Mewah</div>
+                                <div class="price">Rp 2-4 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="key-insight">
+                                Fokus pada "performance-to-price ratio" yang ekstrem dengan chipset flagship di harga mid-range
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Copilot -->
+                    <tr class="copilot-row">
+                        <td>
+                            <div class="ai-name copilot">
+                                <i class="fab fa-microsoft"></i> Microsoft Copilot
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Xiaomi</div>
+                                <div class="model">Poco X6 Pro</div>
+                                <div class="specs">Dimensity 8300-Ultra, Layar 1.5K 120Hz, 67W Fast Charging</div>
+                                <div class="price">Rp 4.5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Realme</div>
+                                <div class="model">12 Pro+ 5G</div>
+                                <div class="specs">Snapdragon 7s Gen 2, Kamera Periscope, Desain Premium</div>
+                                <div class="price">Rp 5.5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Samsung</div>
+                                <div class="model">Galaxy A35 5G</div>
+                                <div class="specs">Exynos 1380, Super AMOLED, IP67, One UI</div>
+                                <div class="price">Rp 4.8 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> OnePlus</div>
+                                <div class="model">Nord CE 4</div>
+                                <div class="specs">Snapdragon 7 Gen 3, 100W Fast Charging, OxygenOS</div>
+                                <div class="price">Rp 4.2 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Motorola</div>
+                                <div class="model">Edge 40 Neo</div>
+                                <div class="specs">Dimensity 7030, Desain Kurus, Kamera 50MP OIS</div>
+                                <div class="price">Rp 4 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="key-insight">
+                                Menekankan spesifikasi terkini dengan harga kompetitif dan pengalaman pengguna yang smooth
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- GPT -->
+                    <tr class="gpt-row">
+                        <td>
+                            <div class="ai-name gpt">
+                                <i class="fab fa-openai"></i> ChatGPT
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Xiaomi Poco</div>
+                                <div class="model">X5 Pro / F5</div>
+                                <div class="specs">Snapdragon 7-series, Layar AMOLED 120Hz, Baterai 5000mAh</div>
+                                <div class="price">Rp 4-6 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Realme</div>
+                                <div class="model">10 Pro+ / Narzo Series</div>
+                                <div class="specs">Dimensity 1080, Curved AMOLED, Charging 100W+</div>
+                                <div class="price">Rp 4-5.5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Samsung</div>
+                                <div class="model">Galaxy A54 / A34</div>
+                                <div class="specs">Exynos, Super AMOLED, IP67, One UI</div>
+                                <div class="price">Rp 4-5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Vivo</div>
+                                <div class="model">T2 / V27 Series</div>
+                                <div class="specs">Kamera Portrait Unggulan, Desain Elegant, Layar AMOLED</div>
+                                <div class="price">Rp 4-6 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Infinix</div>
+                                <div class="model">Note 30 VIP / Zero Series</div>
+                                <div class="specs">Harga Terjangkau, Spesifikasi Mumpuni, Desain Menarik</div>
+                                <div class="price">Rp 2.5-4 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="key-insight">
+                                Fokus pada keseimbangan antara performa, kamera, dan daya tahan baterai dengan harga terjangkau
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Qwen -->
+                    <tr class="qwen-row">
+                        <td>
+                            <div class="ai-name qwen">
+                                <i class="fas fa-robot"></i> Qwen
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Xiaomi POCO</div>
+                                <div class="model">F Series & X Series</div>
+                                <div class="specs">Chipset Flagship, Layar High Refresh Rate, Cooling System</div>
+                                <div class="price">Rp 4-7 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Realme</div>
+                                <div class="model">GT Series & Number Series</div>
+                                <div class="specs">Performa Gaming, Desain Trendy, Charging Cepat</div>
+                                <div class="price">Rp 3.5-6 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Samsung</div>
+                                <div class="model">Galaxy A & M Series</div>
+                                <div class="specs">One UI, Update Rutin, After-sales Luas, Build Quality</div>
+                                <div class="price">Rp 2.5-5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Tecno</div>
+                                <div class="model">Camon & Phantom Series</div>
+                                <div class="specs">Kamera AI, Desain Inovatif, Baterai Tahan Lama</div>
+                                <div class="price">Rp 2-4.5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Infinix</div>
+                                <div class="model">Note & Hot Series</div>
+                                <div class="specs">Harga Terjangkau, Gaming, Fitur Lengkap Mid-end</div>
+                                <div class="price">Rp 1.8-4 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="key-insight">
+                                Analisis mendalam tentang value proposition dengan pertimbangan after-sales dan ketersediaan suku cadang
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Deepseek -->
+                    <tr class="deepseek-row">
+                        <td>
+                            <div class="ai-name deepseek">
+                                <i class="fas fa-brain"></i> DeepSeek
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Xiaomi/POCO</div>
+                                <div class="model">F6 / Redmi Note 13 Pro+</div>
+                                <div class="specs">Snapdragon 8s Gen 3, Layar 1.5K 120Hz, Kamera 200MP</div>
+                                <div class="price">Rp 5-9 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Realme</div>
+                                <div class="model">GT 6 / 12 Pro+</div>
+                                <div class="specs">Fokus Gaming & Multitasking, Kamera Periscope, Desain Mewah</div>
+                                <div class="price">Rp 4-8 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Nothing</div>
+                                <div class="model">Phone (2a)</div>
+                                <div class="specs">Desain Unik, Glyph Interface, OS Bersih & Cepat</div>
+                                <div class="price">Rp 5-7 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Tecno/Infinix</div>
+                                <div class="model">Camon 20 Pro / Zero Series</div>
+                                <div class="specs">Harga Agresif, Baterai Besar, Desain Inovatif</div>
+                                <div class="price">Rp 2-5 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="phone-card">
+                                <div class="brand"><i class="fas fa-mobile"></i> Samsung</div>
+                                <div class="model">Galaxy A35 5G</div>
+                                <div class="specs">Exynos, Super AMOLED, IP67, Update 4-5 Tahun</div>
+                                <div class="price">Rp 4-6 juta</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="key-insight">
+                                Pendekatan holistik dengan mempertimbangkan performa, desain, software experience, dan value jangka panjang
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="new-question">
+            <h2><i class="fas fa-question-circle"></i> Tanya AI Lainnya</h2>
+            <textarea id="newQuestion" placeholder="Masukkan pertanyaan baru tentang HP... Contoh: 'Rekomendasi HP dengan kamera terbaik di bawah 3 juta'"></textarea>
+            <button onclick="askAI()"><i class="fas fa-paper-plane"></i> Tanyakan ke AI</button>
+        </section>
+        
+        <footer>
+            <p>© 2024 Perbandingan Rekomendasi HP oleh AI | Data dikumpulkan dari analisis Gemini, Copilot, ChatGPT, Qwen, dan DeepSeek</p>
+        </footer>
+    </div>
+
+    <script>
+        function askAI() {
+            const question = document.getElementById('newQuestion').value;
+            if (question.trim() === '') {
+                alert('Silakan masukkan pertanyaan terlebih dahulu!');
+                return;
+            }
+            
+            // Simulasi pemrosesan AI
+            const button = document.querySelector('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                alert(`Pertanyaan "${question}" telah dikirim ke sistem AI!\n\nHasil akan segera ditambahkan ke tabel perbandingan.`);
+                document.getElementById('newQuestion').value = '';
+            }, 2000);
+        }
+        
+        // Animasi untuk kartu HP saat di-scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneCards = document.querySelectorAll('.phone-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            phoneCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
