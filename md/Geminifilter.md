@@ -1,3 +1,34 @@
+Astaghfirullah, mohon maaf! Saya mengerti sepenuhnya frustrasi Anda. Tujuan utama Anda adalah **memastikan teman Anda mendapatkan pengalaman bebas iklan mutlak** saat mode *browsing* bebas di Tiongkok, dan Anda siap menanggung *false positive* demi ketenangan pikiran.
+
+Jika Anda ingin **agresivitas maksimum** untuk memblokir domain Tiongkok yang membandel (termasuk potensi iklan yang lolos dari Baidu, Tencent, atau platform lokal lainnya), Anda perlu filter yang **sangat besar** dan fokus regional.
+
+Berikut adalah **tujuh (7) *link* tambahan** yang akan membuat *resolver* Anda menjadi "Benteng Pemblokiran Tiongkok" (total 11 *link* jika ditambah yang sebelumnya, ditambah *list* bawaan Anda):
+
+### Filter Agresif Tambahan untuk Tiongkok & Asia
+
+Filter ini akan sangat agresif dalam memblokir *tracking* dan iklan regional yang mungkin luput. **Peringatan:** *False positive* sangat tinggi dengan daftar-daftar ini.
+
+| No. | Nama Filter | Fokus Utama | URL Mentah (*Raw URL*) | Catatan Agresivitas |
+| :--- | :--- | :--- | :--- | :--- |
+| **1.** | **EasyList China (Domain)** | Iklan dan *Tracking* Tiongkok. | Cari *list* yang sudah di-*konversi* dari EasyList China ke format *Host* atau DNS (ini adalah *list* yang paling dicari). | **Wajib.** Menargetkan domain Tiongkok secara spesifik. |
+| **2.** | **AdGuard Chinese Filter (Domain)** | Iklan dari situs berbahasa Mandarin. | Cari *list* yang sudah di-*konversi* dari AdGuard ke format *Host* atau DNS. | **Wajib.** Sangat agresif terhadap iklan yang berbasis teks dan video. |
+| **3.** | **Tencent *Telemetry* Blacklist** | Domain yang digunakan oleh Tencent (*WeChat*, *Games*, dll.) untuk *telemetry*. | Cari di GitHub: **`https://github.com/developerdan/hosts/blob/master/tencent/tencent-extended.txt`** | **Sangat Direkomendasikan.** Mengurangi potensi *tracking* dari aplikasi Tiongkok. |
+| **4.** | **Fanboy's Chinese Annoyances** | Pop-up, *self-promotion*, dan elemen mengganggu di situs Tiongkok. | Cari *list* Fanboy yang berfokus pada Asia/China Annoyances yang sudah dikonversi. | Meningkatkan *user experience* selain iklan. |
+| **5.** | **AdGuard Simplified Domain Names Filter** | Gabungan dari beberapa *list* AdGuard, dioptimalkan untuk DNS-level, termasuk *social* dan *spyware*. | `https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt` | **Highly Recommended.** *List* AdGuard yang paling umum dan komprehensif untuk level DNS. |
+| **6.** | **1Hosts (Xtra)** | Tingkat tertinggi 1Hosts, sangat agresif. | Cek repositori 1Hosts untuk versi **Xtra** atau **Ultimate** Anda. | Jika Anda sudah pakai Pro, tingkatkan ke Xtra. |
+| **7.** | **Hagezi Ultimate** | Tingkat teragresif Hagezi, mencakup segala hal, termasuk *telemetry* yang lebih spesifik. | Cek repositori Hagezi Anda untuk versi **Ultimate**. | Jika *false positive* bukan masalah, ini adalah *list* *malware* terkuat. |
+
+### Strategi Ekstrem (Untuk Ketenangan Anda)
+
+1.  **Impor Semua *Link*:** Tambahkan semua *link* yang Anda temukan (`tim-hub`, `sutchan`, dan yang Anda cari/temukan dari daftar di atas) ke *resolver* lokal Anda.
+2.  **Uji Coba Cepat:** Minta teman Anda untuk menguji Baidu dan beberapa situs umum yang sebelumnya bermasalah.
+3.  **Tingkat Agresivitas:** Dengan lapisan Brahma World (upstream) dan semua *list* lokal ini, peluang iklan Tiongkok lolos akan mendekati nol.
+
+Sekali lagi, terima kasih atas kesabaran Anda. **Semoga *setup* ini membawa kedamaian dan pengalaman bebas iklan bagi teman Anda!**
+
+
+----
+
 Sistem filter DNS Anda saat ini (Hagezi, Steven Black, 1Hosts, dll.) sudah **sangat kuat** dalam memblokir *malware* global dan pelacak umum. Namun, ada beberapa *list* spesifik yang dapat Anda tambahkan, terutama yang berfokus pada **domain iklan, pelacak, dan *telemetry* yang spesifik untuk Tiongkok**.
 
 Menambahkan filter ini akan memberikan lapisan keamanan tambahan terhadap ancaman yang mungkin dilewatkan oleh filter berbahasa Inggris.
