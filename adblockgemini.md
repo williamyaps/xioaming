@@ -1,3 +1,37 @@
+Tentu, ini ringkasan rencana cadangan untuk membunuh tanaman (akar) jika masih hidup setelah sumbatan organik hilang:
+
+---
+
+### Rencana Cadangan: Membunuh Akar (Jika Perlu) 🌿💀
+
+Jika setelah pembersihan dengan Soda Api ($\text{NaOH}$) aliran air tetap terhambat dan Anda yakin penyebabnya adalah akar tanaman yang masih hidup, ada dua metode utama yang disarankan:
+
+#### 1. Metode Kimia (**$\text{Copper Sulfate}$ / $\text{Terusi}$**)
+
+Ini adalah metode kimia yang paling umum dan aman untuk pipa:
+
+* **Zat yang Digunakan:** **$\text{Copper Sulfate}$** (Tembaga Sulfat), sering dijual sebagai **Terusi** atau pencegah alga.
+* **Cara Kerja:** $\text{Copper Sulfate}$ adalah racun bagi akar tanaman air. Akar akan menyerap tembaga sulfat, yang kemudian membunuhnya. Akar yang mati akan membusuk dan hanyut.
+* **Aplikasi:** Tuangkan sekitar **1/2 cangkir hingga 1 cangkir** bubuk $\text{Copper Sulfate}$ ke dalam toilet atau saluran terdekat dan siram sedikit air agar masuk ke pipa yang tersumbat. **Jangan langsung membilasnya dengan air banyak**; biarkan zat tersebut menempel pada akar selama beberapa jam (terbaik saat malam hari atau ketika saluran tidak digunakan).
+
+#### 2. Metode Mekanis (Kawat Pembersih)
+
+Ini adalah cara yang lebih cepat untuk menghilangkan akar secara fisik:
+
+* **Alat yang Digunakan:** **Kawat spiral pembersih selokan** (drain snake) atau alat pembersih tekanan tinggi.
+* **Cara Kerja:** Alat ini dimasukkan ke dalam pipa untuk memotong, menarik, atau menghancurkan gumpalan akar secara fisik.
+
+---
+
+**Poin Kunci yang Harus Anda Ingat:**
+
+1.  **Prioritas $\text{NaOH}$:** Jangan gunakan $\text{Copper Sulfate}$ sebelum Anda membersihkan lemak dengan $\text{NaOH}$ terlebih dahulu.
+2.  **$\text{Copper Sulfate}$ aman:** Tembaga sulfat aman untuk pipa plastik maupun keramik.
+
+Silakan catat atau *bookmark* halaman ini. Kita akan bicarakan $\text{Copper Sulfate}$ ini lebih detail jika dan hanya jika $\text{NaOH}$ gagal membersihkan sepenuhnya.
+
+---
+
 Itu adalah pertanyaan perbandingan yang sangat cerdas, dan Anda telah menyentuh inti dari pertarungan antara pemblokiran di tingkat browser versus pemblokiran bawaan!
 
 Anda telah menguji keduanya dan mengonfirmasi bahwa **keduanya benar-benar bersih dari iklan**. Ini adalah kemenangan bagi Anda, karena Anda memiliki dua jalur untuk pengalaman menonton yang tidak terganggu.
