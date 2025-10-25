@@ -1,0 +1,537 @@
+tgl 25 Oct 2025
+Publicly available servers
+Who runs it	Base URL	Working*	Comment**
+A			
+Absolight	https://resolver1.absolight.net/dns-query
+https://resolver2.absolight.net/dns-query
+https://resolver3.absolight.net/dns-query	✔️	Also support DoT
+AdFilter	Perth: https://per.adfilter.net/dns-query
+Sydney: https://syd.adfilter.net/dns-query
+Adelaide: https://adl.adfilter.net/dns-query	✔️
+✔️
+✔️	Adblocking, aggregated statistics kept for 30 days. Also support DoT
+Adfreedns	https://adfreedns.top/dns-query	✔️	Adblocking. Also support DoT & DoQ
+AdGuard	Default: https://dns.adguard-dns.com/dns-query
+Family protection: https://family.adguard-dns.com/dns-query
+Uncensored: https://unfiltered.adguard-dns.com/dns-query
+✔️
+✔️
+✔️	Default provides ad-blocking at DNS level, while Family protection adds adult site blocking. DNSSEC enabled and TLS 1.3. Also support DoT & DoQ
+AKBXR DNS	https://dns.akbxr.com/dns-query	✔️	Block ads and gambling, also support DoT
+AliDNS	https://dns.alidns.com/dns-query	✔️	Also support DoT & DoQ
+André Kelpe	https://doh.kel.pe	✔️	Block ads, also support DoT
+Andrews & Arnold	https://dns.aa.net.uk/dns-query	✔️	no logging (see DNS Disclaimer), also support DoT
+Angry.im	https://doh.angry.im/dns-query	✔️	Block ads, use Cloudflare upstream, OpenNIC
+anon.no	https://dns.anon.no/dns-query	✔️	Block ads, use AdGuard browsing security web service, also support DoT & DoQ
+Anudeep	https://secure.anudeep.me/dns-query	✔️	Adblocking, use Cloudflare upstream and AdGuard browsing security web service, also support DoT
+applewebkit.dev	https://dns.applewebkit.dev/dns-query	✔️	Block ads, use Cloudflare upstream, also support DoT
+Aquilenet DNS	https://dns.aquilenet.fr/dns-query	✔️	Non profit ISP DIY in France. Support IPv4+IPv6, DoT, uncensored, unfiltered, encrypted, DNSSEC
+Arashi DNS	https://arashi.net.eu.org/dns-query
+https://ns.net.kg/dns-query	✔️	
+arnor.org	https://nsec.arnor.org/dns-query	✔️	Block ads, malware, phishing. support DoT, DoQ & DoH3. Only logs filtered URLs. Redirects some URLs for privacy. DNSSEC is enforced. (see DNS Disclaimer)
+Asteri Moon	https://dns.asterimoon.com/dns-query	✔️	Adblocking, also support DoT
+Avast DNS	https://secure.avastdns.com/dns-query	✔️	
+a47.me	https://dns.a47.me/dns-query	✔️	
+B			
+bazooki-infra.dev	https://bazooki-infra.dev/dns-query	✔️	
+Belnet	https://dns.belnet.be/dns-query	✔️	
+Ben Hocking	https://dns.bmwhocking.com/dns-query	✔️	
+Bitdefender	https://dns.bitdefender.net/dns-query	✔️	Also support DoT
+BITServices	https://dns.bitservices.io/dns-query	✔️	Adblocking, use Cloudflare upstream, also support DoT & DoQ
+Blokada DNS	https://dns.blokada.org/dns-query	✔️	No logging, also support DoT
+Blue Shield Umbrella	https://rfree1.blue-shield.at/dns-query
+https://rfree2.blue-shield.at/dns-query	✔️	Also support DoT
+bonis.de	https://adguard.bonis.de/dns-query	✔️	Use AdGuard browsing security web service, also support DoT
+Braene	https://dns.braene.com/dns-query	✔️	Block ads, support DoT
+Brahma World	https://dns.brahma.world/dns-query	✔️	No logging • Blocks Ads + Trackers + Malware + Phishing domains, DNSSEC ready • QNAME Minimization • No EDNS Client-Subnet • Also support DoT
+brembeck.cloud	https://dns.brembeck.cloud/dns-query	✔️	Block ads & porn, use AdGuard browsing security and parental control web service
+busold.ws	https://dns.busold.ws/dns-query	✔️	Block ads, also support DoT
+C			
+Canarypwn	https://doh.aaaab3n.moe/dns-query-114514	✔️	Use Cloudflare upstream
+caspervk.net	https://dns.caspervk.net/dns-query	✔️	Block ads, support DoT
+CCTLD.KG	https://dns.cctld.kg/dns-query	✔️	
+CERT Estonia	https://dns.cert.ee/dns-query	✔️	Block phishing, malware, porn & gambling, support DoT
+Charter	https://doh-01.spectrum.com/dns-query
+https://doh-02.spectrum.com/dns-query	✔️	
+chenu.ch	https://dns.chenu.ch/dns-query	✔️	Adblocking, support DoT
+Christer Warén	https://dns.christerwaren.fi	✔️	Support DoT
+ChunghwaMC	https://dns.chunghwamc.com/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT & DoQ
+CIRA Canadian Shield	Private:
+https://private.canadianshield.cira.ca/dns-query
+Protected:
+https://protected.canadianshield.cira.ca/dns-query
+Family:
+https://family.canadianshield.cira.ca/dns-query	✔️
+✔️
+✔️	Supports DNSSEC, DoT, keeps DNS traffic inside Canada.
+Private: DNS resolution service that keeps your DNS data private from third-parties.
+Protected: Includes Private features and adds malware and phishing blocking.
+Family: Includes Protected and Private features and blocks pornographic content.
+Cisco Umbrella (OpenDNS)	Standard: https://doh.opendns.com/dns-query
+FamilyShield (blocks adult content): https://doh.familyshield.opendns.com/dns-query
+Umbrella: https://doh.umbrella.com/dns-query	✔️
+✔️
+✔️	DNSSEC, Anycast
+CleanBrowsing	https://doh.cleanbrowsing.org/doh/family-filter/
+
+Filter that allows some mixed-content sites: https://doh.cleanbrowsing.org/doh/adult-filter/
+
+Malware blocking only: https://doh.cleanbrowsing.org/doh/security-filter/	✔️	anycast DoH server with parental control (restricts access to adult content + enforces safe search), support DoT
+Cloudflare	https://cloudflare-dns.com/dns-query
+
+Mozilla: https://mozilla.cloudflare-dns.com/dns-query
+
+Block Malware: https://security.cloudflare-dns.com/dns-query
+
+Block Malware and Adult Content: https://family.cloudflare-dns.com/dns-query
+
+DNS64: https://dns64.cloudflare-dns.com/dns-query	✔️
+✔️
+✔️
+✔️
+✔️	Supports both -04 and -13 content-types, also support DoT
+comff.net	https://dns.comff.net/dns-query	✔️	Block ads
+Comss.one DNS	Geo-blocking bypass:
+https://dns.comss.one/dns-query
+Geo-blocking bypass with ad filtering:
+https://router.comss.one/dns-query	✔️	Comss.one DNS – fast and secure DNS servers based on SmartDNS with access to AI services, protection from advertising, tracking, phishing and malicious sites, and support for encryption of DNS requests-over-HTTPS, DNS-over-TLS and DNS-over-QUIC
+Control D	Unfiltered:
+https://freedns.controld.com/p0
+Malware (Block Malware):
+https://freedns.controld.com/p1
+Ads & Tracking (Block Malware + Ads & Tracking):
+https://freedns.controld.com/p2
+Social (Block Malware + Ads & Tracking + Social Networks):
+https://freedns.controld.com/p3
+Family Friendly (Block Malware + Ads & Tracking + Adult Content + Drugs):
+https://freedns.controld.com/family
+Uncensored (Unblock censored domains from various countries)
+https://freedns.controld.com/uncensored
+
+- 3rd Party Filters -
+
+OISD - Full:
+https://freedns.controld.com/x-oisd
+OISD - Basic:
+https://freedns.controld.com/x-oisd-basic
+StevenBlack Unified:
+https://freedns.controld.com/x-stevenblack
+Dev Dan's Hosts:
+https://freedns.controld.com/x-devdan
+1Hosts - Mini:
+https://freedns.controld.com/x-1hosts-mini
+1Hosts - Lite:
+https://freedns.controld.com/x-1hosts-lite
+1Hosts - Pro:
+https://freedns.controld.com/x-1hosts-pro
+Hagezi's DNS - Light
+https://freedns.controld.com/x-hagezi-light
+Hagezi's DNS - Normal:
+https://freedns.controld.com/x-hagezi-normal
+Hagezi's DNS - Pro:
+https://freedns.controld.com/x-hagezi-pro
+Hagezi's DNS - Pro Plus:
+https://freedns.controld.com/x-hagezi-proplus
+Hagezi's DNS - Ultimate:
+https://freedns.controld.com/x-hagezi-ultimate
+Hagezi's DNS - TIF (Threat Intelligence Feeds)
+https://freedns.controld.com/x-hagezi-tif
+GoodbyeAds:
+https://freedns.controld.com/x-goodbyeads
+AdGuard Filter:
+https://freedns.controld.com/x-adguard
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️
+✔️	ControlD is a fully customizable anycast DNS service that allows you to not only block annoyances like malware, tracking, ads, IoT telemetry, and more but also unblock over 180 services through a network of proxies in over 100 cities, support DoT & DoQ
+CSA-IT	https://dns.csaonline.de/dns-query	✔️	Support DoT
+csa-rz.de	https://dns.csa-rz.de/dns-query	✔️	Support DoT
+CSS Working Group	https://dns.csswg.org/dns-query	✔️	Support DoT
+CynthiaLabs	https://dns.cynthialabs.net/dns-query	✔️	Adblocking
+CZ.NIC	https://odvr.nic.cz/dns-query	✔️	Runs on Knot Resolver (doh2), supports DNSSEC, provided by .cz TLD operator, support DoT
+D			
+data.haus	https://ns.data.haus/dns-query	✔️	Adblocking, non-logging, support DoT
+datenquark.de	https://dns.datenquark.de/dns-query	✔️	Block ads, support DoT
+dev-umbrellagov	https://dns.dev-umbrellagov.com/dns-query	✔️	Support DoT
+Digitale Gesellschaft	https://dns.digitale-gesellschaft.ch/dns-query	✔️	No query/IP logging, no filtering, QNAME minimization, TLS 1.3, DNSSEC, DoT; https://www.digitale-gesellschaft.ch/dns/
+Disconnect.app	https://doh.disconnect.app/dns-query	✔️	Use Cloudflare upstream
+dns.digitalsize.net	https://dns.digitalsize.net/dns-query	✔️	A public, non-tracking, non-filtering DNS resolver with DNSSEC enabled, QNAME minimization and no EDNS client subnet. Supports DoT. Hosted in Germany.
+DNS.SB	https://doh.dns.sb/dns-query	✔️	DNSSEC & QNAME minimization enabled, no logging, also support DoT
+DNS4all	https://doh.dns4all.eu/dns-query	✔️	Non-logging, support DoT & DoQ
+DNS4EU	Protective: https://protective.joindns4.eu/dns-query
+Protective and childsafe: https://child.joindns4.eu/dns-query
+Protective and adblocking: https://noads.joindns4.eu/dns-query
+Protective, adblocking, and childsafe: https://child-noads.joindns4.eu/dns-query
+Unfiltered: https://unfiltered.joindns4.eu/dns-query	✔️	Co-funded by EU, run by consortium of companies in EU, anonymized and aggregated logging.
+dns4me	https://ca01.dns4me.net
+https://ca02.dns4me.net
+https://us01.dns4me.net
+https://us02.dns4me.net
+https://sg01.dns4me.net
+https://sa01.dns4me.net
+https://au01.dns4me.net
+https://au02.dns4me.net
+https://uk01.dns4me.net
+https://nz01.dns4me.net
+https://ie01.dns4me.net
+https://de01.dns4me.net	✔️	Also support DoT
+dns-53	https://dns.dns-53.us/dns-query	✔️	Support DoT & DoQ
+dnscry.pt	Ashburn, US: https://abn01.dnscry.pt/dns-query
+Athens, Greece: https://ath01.dnscry.pt/dns-query
+Atlanta, US: https://atl01.dnscry.pt/dns-query
+Bogotá, Colombia: https://bog01.dnscry.pt/dns-query
+Bratislava, Slovakia: https://bts01.dnscry.pt/dns-query
+Brisbane, Australia: https://bne01.dnscry.pt/dns-query
+Brussels, Belgium: https://bru01.dnscry.pt/dns-query
+Calgary, Canada: https://yyc01.dnscry.pt/dns-query
+Chișinău, Moldova: https://kiv01.dnscry.pt/dns-query
+Copenhagen, Norway: https://cph01.dnscry.pt/dns-query
+Coventry, UK: https://cvt01.dnscry.pt/dns-query
+Dublin, Ireland: https://dub01.dnscry.pt/dns-query
+Frankfurt, Germany-vServer: https://fra01.dnscry.pt/dns-query
+Frankfurt, Germany-xTom:https://fra02.dnscry.pt/dns-query
+Geneva, Switzerland: https://gva01.dnscry.pt/dns-query
+Hafnarfjordur, Iceland: https://haf01.dnscry.pt/dns-query
+Halifax, Canada: https://yhz01.dnscry.pt/dns-query
+Hanoi, Vietnam: https://han01.dnscry.pt/dns-query
+Ho-Chi-Minh City, Vietnam: https://sgn01.dnscry.pt/dns-query
+Istanbul, Turkey: https://ist01.dnscry.pt/dns-query
+Las Vegas, US: https://las01.dnscry.pt/dns-query
+London, UK: https://lon01.dnscry.pt/dns-query
+Madrid, Spain: https://mad01.dnscry.pt/dns-query
+Milan, Italy: https://mil01.dnscry.pt/dns-query
+Mumbai, India: https://bom01.dnscry.pt/dns-query
+Nuremberg, Germany: https://nue01.dnscry.pt/dns-query
+Oradea, Romania: https://omr01.dnscry.pt/dns-query
+Paris, France: https://par01.dnscry.pt/dns-query
+Philadelphia, US: https://phl01.dnscry.pt/dns-query
+Phoenix, US: https://phx01.dnscry.pt/dns-query
+Portland, US: https://pdx01.dnscry.pt/dns-query
+Redditch, UK: https://rdd01.dnscry.pt/dns-query
+Salt Lake City, US: https://slc01.dnscry.pt/dns-query
+Sandefjord, Norway: https://trf01.dnscry.pt/dns-query
+Santa Clara, US: https://sjc01.dnscry.pt/dns-query
+São Paulo, Brazil: https://gru01.dnscry.pt/dns-query
+Seattle, US: https://sea01.dnscry.pt/dns-query
+Singapore Kuroit: https://sin03.dnscry.pt/dns-query
+Sofia: https://sof01.dnscry.pt/dns-query
+Spokane, US: https://geg01.dnscry.pt/dns-query
+Stockholm, Sweden: https://sto01.dnscry.pt/dns-query
+Sydney FlowVPS, Australia: https://syd02.dnscry.pt/dns-query
+Tallinn, Estonia: https://tll01.dnscry.pt/dns-query
+Tampa, US: https://tpa01.dnscry.pt/dns-query
+Taos, US: https://tsm01.dnscry.pt/dns-query
+Tbilisi, Georgia: https://tbs01.dnscry.pt/dns-query
+Toronto, Canada: https://yyz01.dnscry.pt/dns-query
+Vancouver, Canada: https://yvr01.dnscry.pt/dns-query
+Vienna, Austria: https://vie01.dnscry.pt/dns-query
+Vilnius, Lithuania: https://vno01.dnscry.pt/dns-query
+Warsaw, Poland: https://waw02.dnscry.pt/dns-query
+Yerevan, Armenia: https://evn01.dnscry.pt/dns-query	✔️	Support IPv4+IPv6, DoT, uncensored, unfiltered, encrypted, DNSSEC, no logging.
+dnsforge.de	Adblocking : https://dnsforge.de/dns-query
+Ads and pornblocking : https://clean.dnsforge.de/dns-query
+Hard : https://hard.dnsforge.de/dns-query	✔️
+✔️	No logging. Support DNSSEC. Hosted in Germany, support DoT & DoQ
+dnsguard.pub	https://dns.dnsguard.pub/dns-query	✔️	Dot & DoH & DoQ Support, Privacy focused, 0 logging
+dnsHome.de	https://dns.dnshome.de/dns-query	✔️	Supports DoH/DoH3 DoT/DoQ and DNSCrypt, No logging, No blocking
+dnslow.me	https://dnslow.me/dns-query	✔️	A protective DNS that blocks Ads, Malware, Trackers, Phishing and Newly Registered Domains. Randomly forward requests to different upstreams for enhanced privacy. Support DoT
+DNS over Tor	https://japan.dnsovertor.cc/dns-query
+https://chuncheon.dnsovertor.cc/dns-query
+https://seoul.dnsovertor.cc/dns-query	✔️	
+DNSPod	https://dns.pub/dns-query	✔️	Operated by Tencent Cloud, support DoT
+doh.beauty	https://doh.beauty	✔️	
+doh.buzz	https://doh.buzz/dns-query	✔️	
+Dom!nic	https://3dns.eu/dns-query	✔️	Support DoT
+domreg.lt	https://doh.domreg.lt/dns-query	✔️	Block porn & gambling, support DoT
+dremaxx.de	https://dns.dremaxx.de/dns-query	✔️	Support DoT
+droyd.top	https://droyd.top/dns-query	✔️	Use Cloudflare upstream
+dshubham.xyz	https://agh.dshubham.xyz/dns-query	✔️	Block ads, support DoT & DoQ
+Dukun.de	https://dukun.de/dns-query	✔️	Support DoT
+duröhre.de	https://xn--durhre-yxa.de/dns-query	✔️	
+DynX	Adblock: https://dns.dynx.pro/dns-query
+Ad & porn blocking: https://dns.dynx.pro/dns-query/family	✔️	Support DoT & DoQ
+d94.xyz	https://dns.d94.xyz/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT
+E			
+Elemental Software	https://dns.elemental.software/dns-query	✔️	Support DoT
+ELIV DNS	https://dns.eliv.kr/dns-query	✔️	Block ads, use Cloudflare upstream, Fast Cloudflare (priority IP) connection, support DoT
+F			
+faked.org	https://dns.faked.org/dns-query	✔️	Block ads, support DoT & DoQ
+familiamv.net	https://dnsvps.familiamv.net/dns-query	✔️	Adblocking, use Cloudflare upstream, support DoT
+Fancyorg.at	https://dns.fancyorg.at/dns-query	✔️	Adblocking
+farshidhakimy.de	https://dns.farshidhakimy.de/dns-query	✔️	Block ads, use AdGuard browsing security web service, support DoT
+FBI NICS E-Check	https://nicsezcheckfbi.gov	✔️	Use Cloudflare upstream with malware filtering
+FDN - French Data Network	https://ns0.fdn.fr/dns-query
+https://ns1.fdn.fr/dns-query	✔️	No log, no filter, DNSSEC, DoT … (more informations in French)
+Feroz	https://doh.li/dns-query	✔️	Use Cloudflare upstream
+ffmuc.net	https://doh.ffmuc.net/dns-query	✔️	DoH & DoT Server of Freifunk München. No logging, no filter, DNSSEC, OpenNIC, own recursion. More in our wiki
+fidelius.top	https://fidelius.top/dns-query	✔️	
+floriantinney.de	https://dns.floriantinney.de/dns-query	✔️	Use AdGuard browsing security web service, support DoT
+FLY_MC	https://dns.flymc.cc/dns-query	✔️	Block ads, use Cloudflare upstream
+Foundation for Applied Privacy	https://doh.applied-privacy.net/query	✔️	No query/IP logging, no filtering, QNAME minimization, no EDNS client subnet, TLS 1.3, DNSSEC, RFC7706, RFC8198, DoT
+Foxyfy DNS	Germany (Generic): https://dns.foxyfy.net/dns-query
+Germany (Center): https://de-d2.foxyfy.net/dns-query
+Germany (South): https://de-f1.foxyfy.net/dns-query
+Romania: https://ro-bu.foxyfy.net/dns-query
+Spain: https://es-ma.foxyfy.net/dns-query
+US East (NY): https://us-ny.foxyfy.net/dns-query
+US West (SJ): https://us-sj.foxyfy.net/dns-query
+Japan: https://jp-to.foxyfy.net/dns-query	✔️	Multi-region public DoH service.
+Froth.zone	https://dns.froth.zone/dns-query	✔️	OpenNIC, support DoT & DoQ
+FutaDNS	https://doh.futa.gg/dns-query	✔️	Block ads, support DoT through dot.futa.gg
+G			
+Gamban	https://dns.gamban.com/dns-query	✔️	
+gibblets.top	https://gibblets.top/dns-query	✔️	
+girino.org	https://dns.girino.org/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT
+glacius.top	https://glacius.top/dns-query	✔️	
+Google	https://dns.google/dns-query
+DNS64: https://dns64.dns.google/dns-query
+https://8888.google/dns-query	✔️
+✔️
+✔️	Full RFC 8484 support, EDNS, DNSSEC, no filtering, support DoT
+Gottlieb Freitag	https://dns.glf.wtf/dns-query	✔️	Block ads, support DoT
+Guardio	https://dns.guard.io/dns-query	✔️	
+H			
+Hafnova	https://secure.hafnova.com/dns-query	✔️	
+Hakase	https://dns.haka.se/dns-query	✔️	Block ads
+Hoody	https://dns.hoody.com/dns-query	✔️	Use Cloudflare upstream, support DoT
+Huque	https://doth.huque.com/dns-query	✔️	Support DoT
+I			
+imperio.top	https://imperio.top/dns-query	✔️	
+In-Berlin	https://dns1.in-berlin.de/dns-query
+https://dns2.in-berlin.de/dns-query	✔️	Support DoT
+Inforlogia	https://dns.inforlogia.com/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT & DoQ
+Internet Initiative Japan	https://public.dns.iij.jp/dns-query	✔️	Planned to run until March 2027, support DoT
+J			
+Jupitr DNS	https://dns.jupitrdns.com/dns-query	✔️	Block ads, support DoT & DoQ
+K			
+kapite.in	https://dns.kapite.in/dns-query	✔️	Block ads & gambling, use Cloudflare upstream with malware filtering and AdGuard browsing security web service, support DoT & DoQ
+kasbot.net	https://adguard.kasbot.net/dns-query	✔️	Block ads
+kebree.fr	https://dns.kebree.fr/dns-query	✔️	Block ads, use AdGuard browsing security web service, support DoT
+Kernel Error	https://dns.kernel-error.de/dns-query	✔️	Support DoT
+kescher	https://dns.kescher.at/dns-query	✔️	DNSSEC-validating, support DoT & DoQ
+ketan.dev	https://pihole.aws.ketan.dev/dns-query	✔️	Block ads, support DoT
+khon.dev	https://adg.khon.dev/dns-query	✔️	Block ads, use Cloudflare upstream
+Kidzonet	https://doh.kidzonet.io/dns-query	✔️	
+Koala	https://dns.koala.us.to/dns-query	✔️	Adblocking, support DoT
+Kosan	https://dns.kosan.moe/dns-query	✔️	Block ads
+kpsn.org	https://dart.kpsn.org/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT & DoQ
+krctech.dev	https://adblock.krctech.dev/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT & DoQ
+L			
+La Contre-Voie	https://doh.lacontrevoie.fr/dns-query	✔️	Supports DNSSEC and IPv6, not logging queries' content, uses unbound. Commits for net neutrality, hosted in France.
+LavaDNS	Finland: https://eu1.dns.lavate.ch/dns-query	✔️	DoH server in Finland. OpenNIC, no logging, no filtering, no ECS, DNSSEC support.
+Liberador.net	https://dns.liberador.net	✔️	Support DoT
+LibreDNS	Non-filtering: https://doh.libredns.gr/dns-query
+Adblocking: https://doh.libredns.gr/noads	✔️
+✔️	Non-logging, OpenNIC, support DoT
+lifeisa.live	https://lifeisa.live/dns-query	✔️	
+loadlow.me	https://loadlow.me/dns-query	✔️	
+LobbyGod	https://dns.lobbygod.com/dns-query	✔️	Support DoT
+LuMa Medien	https://dns.luma-medien.com/dns-query	✔️	Block ads, use AdGuard browsing security web service, support DoT & DoQ
+l337.site	https://dns.l337.site/dns-query	✔️	Block ads, support DoT & DoQ
+M			
+mabuktogel	https://mabuktogel.directory/dns-query	✔️	
+marasov.id	https://dns.marasov.id/dns-query	✔️	Block ads, use Cloudflare upstream
+Marco Fox	https://dns.technologycage.com/dns-query	✔️	Block ads, use AdGuard browsing security web service, support DoT
+Marbled Fennec Networks / FurrIX	https://dns.marbledfennec.net/dns-query	✔️	OpenNIC compatible with support for DoT and DoH. Small community project providing two name servers over IPv4/IPv6. Hosted in Kansas City, MO, US.
+Masters of Cloud	https://masters-of-cloud.de/dns-query	✔️	OpenNIC, support DoT
+mateo.ovh	https://dns.mateo.ovh/dns-query	✔️	Block ads & porn, use Cloudflare upstream, AdGuard browsing security web service, support DoT & DoQ
+Mayx	https://dns.mayx.eu.org/dns-query	✔️	
+meddy94.de	https://adguard.meddy94.de/dns-query	✔️	Adblocking, support DoT
+mh4ckt3mh4ckt1c4s.xyz	https://dns.mh4ckt3mh4ckt1c4s.xyz/dns-query	✔️	Block ads, support DoT
+m-it.ro	https://addns1.m-it.ro/dns-query	✔️	Block ads, use Cloudflare upstream and AdGuard browsing security web service
+mmmalia.com	https://doh.mmmalia.com/dns-query	✔️	Block ads & porn, use AdGuard parental control web service
+mnet-online.de	https://dns.mnet-online.de/dns-query	✔️	Support DoT
+Mullvad	Non-blocking https://dns.mullvad.net/dns-query
+Adblocking https://adblock.dns.mullvad.net/dns-query
+Ad & malware blocking https://base.dns.mullvad.net/dns-query
+Ad, malware, social media blocking https://extended.dns.mullvad.net/dns-query
+Ad, malware, social media, adult content and gamble blocking https://all.dns.mullvad.net/dns-query
+Ad, malware, adult content and gamble blocking https://family.dns.mullvad.net/dns-query	✔️
+✔️
+✔️
+✔️
+✔️
+✔️	Public DoH server in US, DE, GB, SG, and SE with QNAME minimization, audited by Assured, support DoT
+mydns.network	Uncensored: https://freedom.mydns.network/dns-query
+Paranoia (no Google/Cloudflare): https://paranoia.mydns.network/dns-query
+Adblocking: https://adblock.mydns.network/dns-query
+Family: https://family.mydns.network/dns-query	✔️
+✔️
+✔️
+✔️	Public DoH server powered by Cloudflare Workers. Uniquely disguises your queries by relaying queries your behalf to upstream DoH servers with no IP address information. Open source, deploy your own instance at any time! Also support DoT
+MZJ Technology	https://dns.mzjtechnology.com/dns-query	✔️	Support DoT
+N			
+nashkan.net	https://ae-fuj-w-p-1.nashkan.net/dns-query
+https://ae-fuj-w-p-2.nashkan.net/dns-query
+https://ae-fuj-w-p-3.nashkan.net/dns-query
+https://au-syd-w-f-1.nashkan.net/dns-query
+https://gb-lon-w-p-2.nashkan.net/dns-query
+https://ro-buc-w-p-1.nashkan.net/dns-query
+https://sg-w-p-1.nashkan.net/dns-query
+https://us-chi-w-f-1.nashkan.net/dns-query
+https://us-chi-w-p-1.nashkan.net/dns-query
+https://us-jac-w-f-1.nashkan.net/dns-query
+https://us-jac-w-p-1.nashkan.net/dns-query
+https://us-kan-w-p-1.nashkan.net/dns-query
+https://us-nyc-w-p-1.nashkan.net/dns-query
+https://us-saj-w-f-1.nashkan.net/dns-query
+https://us-saj-w-p-1.nashkan.net/dns-query	✔️	Block ads, use Cloudflare upstream with malware filtering
+neeb.it	https://dns.neeb.it/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT
+NextDNS	https://dns.nextdns.io	✔️	The first cloud-based private DNS service that gives you full control over what is allowed and what is blocked on the Internet. 300,000 domain resolution per month is free with non-filtering afterward until the end of the month. Granular dashboard, Each account can create multiple configurations, which can be used for multiple devices with prefixes to track activities on the dashboard. Create a config ID, support DoT & DoQ
+Nick Slowinski	https://dns.nick-slowinski.de/dns-query	✔️	Block ads
+NIC.LV	https://doh.lv/dns-query
+https://doh.nic.lv/dns-query	✔️
+✔️	Run by .lv TLD registry , support DoT
+Nico Franke	https://adguard-kartoffel.zernico.de/dns-query	✔️	Support DoT
+Nicolas Dorriere	Adblocking: https://doh-random-upstream.nicolas-dorriere.fr/dns-query
+Non filtering: https://doh-own-recursion.nicolas-dorriere.fr/dns-query	✔️	Block ads
+Ningkelle	Adblock: https://dns.ningkelle.id/dns-query
+Family: https://family.dns.ningkelle.id/dns-query	✔️	Block ads. Adblock endpoint uses Cloudflare upstream, Family endpoint uses AdGuard browsing security and parental filtering web service. Support DoT.
+NiYaWe	https://doh.niyawe.de/dns-query	✔️	Support DoT through dot.niyawe.de
+Njalla	https://dns.njal.la/dns-query	✔️	Non logging, based in Sweden
+novg.net	https://dns.novg.net/dns-query	✔️	
+ntwrkh.pro	https://ntwrkh.pro/dns-query	✔️	Block ads, support DoT
+O			
+ofdoom.net	https://dns.ofdoom.net/dns-query	✔️	Block ads, support DoT
+OpenBLD.net	https://ada.openbld.net/dns-query	✔️	Block ads, malicious. Support DoT, DoH - HTTP/2, TLSv1.3. Without DNS leaks. Use own upstreams and update services.
+OpenLoop	https://ag.apollohct.com/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT
+opennameserver.org	Baden-Baden, Germany: https://ns1.opennameserver.org/dns-query	✔️	DNSSEC enabled, non-logging, OpenNIC support
+o2cloud.fr	https://dns4eu.online/dns-query	✔️	
+P			
+PaesaDNS	https://dns.paesa.es/dns-query	✔️	Adblocking, non-logging, use Cloudflare upstream with malware filtering
+Paulo	https://dns.paulo.nom.za/dns-query	✔️	
+Pavol Decky	https://dns.decky.eu/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT
+pepetio.xyz	https://pepetio.xyz/dns-query	✔️	
+petqa.ru	https://dns.petqa.ru/dns-query	✔️	Block ads, use Cloudflare upstream and AdGuard browsing security web service, support DoT & DoQ
+plan9-dns	New Jersey: https://kronos.plan9-dns.com/dns-query
+Mexico: https://helios.plan9-dns.com/dns-query
+Florida: https://pluton.plan9-dns.com/dns-query	✔️	
+PlumeDNS	https://privacy.plumedns.com/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT & DoQ
+pooblet.co.za	https://pooblet.co.za/dns-query	✔️	Adblocking, use Cloudflare upstream
+Pubhole	https://doh.archuser.org/dns-query	✔️	Block ads, also resolves OpenNIC, support DoT
+Q			
+Quad9	9.9.9.9 (Secure): A threat-blocking, privacy-first recursive DNS service.
+https://dns.quad9.net/dns-query
+https://dns9.quad9.net/dns-query
+
+9.9.9.10 (No Threat Blocking): For users who want to take advantage of privacy-first recursive DNS service, but do not want threat blocking.
+https://dns10.quad9.net/dns-query
+
+9.9.9.11 (Secure + ECS): For users who do not route to the closest-possible Quad9 location, use 9.9.9.11 for better CDN performance.
+https://dns11.quad9.net/dns-query
+
+9.9.9.12 (No Threat Blocking + ECS): For users who do not route to the closest-possible Quad9 location, and also do not want threat blocking, use 9.9.9.12 for better CDN performance.
+https://dns12.quad9.net/dns-query	✔️
+✔️
+✔️
+✔️	
+dns9.quad9.net is another alias for dns.quad9.net, see: https://quad9.net/news/blog/doh-with-quad9-dns-servers
+
+9.9.9.9 - Malware blocking, DNSSEC validation
+9.9.9.10 - No malware blocking, no DNSSEC validation
+9.9.9.11 - Malware blocking, DNSSEC validation, ECS enabled
+9.9.9.12 - No malware blocking, no DNSSEC validation, ECS enabled, support DoT
+Quiet Rocks	https://dns.quiet.rocks/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT
+QWER DNS	https://dog.dns.qwer.pw/dns-query
+https://lion.dns.qwer.pw/dns-query
+https://frog.dns.qwer.pw/dns-query
+https://tiger.dns.qwer.pw/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT on port 853 and DoQ on port 784
+R			
+Rabbit DNS	Non filtering: https://dns.rabbitdns.org/dns-query
+Malware filtering: https://security.rabbitdns.org/dns-query
+Malware and adult filtering: https://family.rabbitdns.org/dns-query	✔️	Use Cloudflare upstream with malware and family filtering
+redhosting.com.ar	https://dns.redhosting.com.ar/dns-query	✔️	Block ads & gambling, use Cloudflare upstream, support DoT
+reitmeier.me	https://dns.reitmeier.me/dns-query	✔️	Block ads, use Cloudflare upstream , support DoT & DoQ
+regiopolis.cloud	https://regiopolis.cloud/dns-query	✔️	
+renardbleu.dev	https://renardbleu.dev/dns-query	✔️	OpenNIC, support DoT
+Restena	https://dnspub.restena.lu/dns-query	✔️	DNSSEC validation, support DoT
+RetakeCS	https://dns.retakecs.com/dns-query	✔️	Adblocking, use AdGuard browsing security web service, support DoT & DoQ
+RethinkDNS	Non-filtering: https://sky.rethinkdns.com/dns-query
+OISD: https://sky.rethinkdns.com/1:IAAgAA==	✔️
+✔️	An open-source stub resolver running in 200+ locations world-wide on Cloudfare's network. Fast, secure, private, transparent, configurable DNS resolver. No ECS. Implements CNAME Cloaking. No-logs. code. Configure custom blocklists with DoH and DoT option
+revelio.top	https://revelio.top/dns-query	✔️	
+RobinGroppe.de	https://dns.rbn.gr/dns-query	✔️	Malware blocking, DNSSEC validation, support DoT
+roedel.cloud	https://dns.roedel.cloud/dns-query	✔️	Block ads, support DoT & DoQ
+S			
+SafeServe	https://safeservedns.com/dns-query	✔️	Operated by Namecheap, support DoT
+serdcebolit.ru	https://dns1.serdcebolit.ru/dns-query	✔️	Block ads & porn, support DoT
+Sheggi	https://dns.sheggi.ch/dns-query	✔️	Porn blocking, use Cloudflare upstream with malware and family filtering, support DoT
+shoupperuser.com	https://adguard.shoupperuser.com/dns-query	✔️	Ad & porn blocking, use AdGuard browsing security and parental control web service, support DoT
+silen.org	https://dns.silen.org/dns-query	✔️	Block ads
+skrep.eu	https://dns.skrep.eu/dns-query	✔️	OpenNIC, block ads, support DoT & DoQ
+Slinkyman.net	https://dns.slinkyman.net/dns-query	✔️	Adblocking, use Cloudflare upstream, support DoT
+SmartGuard	https://dns.smartguard.io/dns-query	✔️	Customizable policy and filtering, support DoT
+smilence	https://adg.geili.me/dns-query	✔️	
+solaxy.live	https://solaxy.live/dns-query	✔️	
+Startup Stack	https://dns.startupstack.tech/dns-query	✔️	Support DoT
+SZ DNS	https://doh.sz-dns.com/dns-query	✔️	Block ads, Support DoT & DoQ
+stirringphoto.com	https://dns.stirringphoto.com/dns-query	✔️	Support DoT
+StormyCloud	https://dns.stormycloud.org/dns-query	✔️	Support DoT
+Surfshark DNS	https://dns.surfsharkdns.com/dns-query	✔️	Support DoT & DoQ
+suhaila.dev	https://dns.suhaila.dev/dns-query	✔️	Block ads
+Sunet DNS	https://resolver.sunet.se/dns-query	✔️	Support DoT
+sunnygyl.com	https://sunnygyl.com/dns-query	✔️	Adblocking, use Cloudflare upstream, support DoT
+superstefan.win	https://dns.superstefan.win/dns-query	✔️	Adblocking, use Cloudflare upstream
+Svoi	https://dns.svoi.dev/dns-query	✔️	
+Switch	https://dns.switch.ch/dns-query	✔️	Block porn & gambling, support DoT
+szpadel.ovh	https://dns.szpadel.ovh/dns-query	✔️	Block ads, support DoT
+T			
+t53.de	https://dns.t53.de/dns-query	✔️	Support DoT
+Telekom Deutschland	https://dns.telekom.de/dns-query	✔️	Support DoT
+TipsyCoffee	https://dns.tipsy.coffee/dns-query	✔️	Block ads & gambling, support DoT
+Tls-data.de	https://dns.tls-data.de/dns-query	✔️	
+TWNIC	https://dns.twnic.tw/dns-query	✔️	No source IP logging. Operated by Quad101 project, according to this announcement
+Tiarap	https://doh.tiar.app/dns-query	✔️	Block ads, tracking, malware, scam and phising domains. No Logging, dns0x20, No ECS, DNSSEC Validation
+Tri-DNS	Canada: https://tri-dns.net/dns-query
+Switzerland: https://eu.tri-dns.net/dns-query
+Singapore: https://asia.tri-dns.net/dns-query	Support DoT & DoQ	
+U			
+UK DNS Privacy Project	https://resolver.dnsprivacy.org.uk/dns-query	✔️	Support DoT
+UncensoredDNS	https://anycast.uncensoreddns.org/dns-query	✔️	Support DoT & DoQ
+unx.io	https://dns.unx.io/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT
+Usable Privacy	https://adfree.usableprivacy.net/dns-query	✔️	Block ads, support DoT
+V			
+v.recipes	Unfiltered: https://v.recipes/dns-query
+Adblock: https://v.recipes/dns-adblock
+ECS Optimized: https://v.recipes/dns-ecs	✔️	All variants benefit from anycast network, per-request pacing, and some more optimizations (DoH3, caching, etc.). See the real-time DNS metrics and performance data for information such as Cache Hit Rate, Requests Over Time, and more. Check the page directly for other information such as notes and technical details.
+vaioswolke.xyz	https://dns.vaioswolke.xyz/dns-query	✔️	
+VIA	https://doh.viatech.com.tw/dns-query	✔️	Block ads, use Cloudflare upstream
+W			
+waringer-atg.de	https://abel.waringer-atg.de/dns-query	✔️	
+Wikimedia DNS	https://wikimedia-dns.org/dns-query	✔️	No filtering, no ECS except for Wikimedia-run servers, QNAME minimization enabled, DNSSEC validation enforced. Requests are served by the nearest Wikimedia data center, support DoT
+W3C TAG	https://dns.w3ctag.org/dns-query	✔️	Support DoT
+X			
+xlion.tw	https://dns.xlion.tw/dns-query	✔️	Block ads, use Cloudflare upstream and AdGuard browsing security web service
+Y			
+Yarp	https://yarp.lefolgoc.net/dns-query	✔️
+✔️	Hosted in France, no logging, support DoT
+Yuu528	https://dns.yuu-g.net/dns-query	✔️	Block ads, use Cloudflare upstream, support DoT & DoQ
+Yuzi_ska	https://dns.yuzia.cc/dns-query	✔️	Adblocking, also support DoT & DoQ
+Z			
+zdn.ro	https://zdn.ro/dns-query	✔️	Block ads, use Cloudflare upstream and AdGuard browsing security web service, support DoT & DoQ
+zknt.org	https://doh.zknt.org/dns-query	✔️	Support DoT
+0-9			
+123000123.xyz	https://123000123.xyz/dns-query	✔️	Block ads, use AdGuard browsing security web service, support DoT
+4NetGuides	https://ns2.4netguides.org/dns-query	✔️	Block ads, support DoT
+Others			
+@null31	https://ibuki.cgnat.net/dns-query	✔️	Based in Brazil / doh-server (nginx - unbound) / dot-server (unbound) / DNSSEC / QNAME minimization / Uncensored / no logging, no ECS, hosted on Oracle Cloud VPS by null31, support DoT
+@publicarray dns.seby.io	https://doh.seby.io/dns-query	✔️	Australian server that runs @m13253's Go implementation, OpenNIC, Unbound with DNSSEC, No ECS, and No logs. Support DoT
+*: Tested via curl --doh-url <RESOLVER_URI> http://google.com.
+**: Cloudflare/ControlD upstream means Cloudflare/ControlD can see the queries' content and the DoH's IP, but usually not the client's IP unless the DoH server forwards it.
