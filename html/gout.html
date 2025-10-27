@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gout (Asam Urat) - Informasi Lengkap</title>
+    <style>
+        /* Reset dan base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        /* Navigation */
+        nav {
+            background: #34495e;
+            padding: 0;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        nav li {
+            margin: 0;
+        }
+        
+        nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Main content */
+        .content {
+            padding: 40px;
+        }
+        
+        h2 {
+            color: #e74c3c;
+            margin: 35px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f2f6;
+            font-size: 1.8rem;
+        }
+        
+        h2:first-child {
+            margin-top: 0;
+        }
+        
+        h3 {
+            color: #3498db;
+            margin: 25px 0 15px;
+            font-size: 1.4rem;
+        }
+        
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+        
+        /* Lists */
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+        
+        /* Medical info boxes */
+        .medical-info {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .treatment-box {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* Footer */
+        footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav a {
+                text-align: center;
+            }
+        }
+        
+        /* Definition lists */
+        .definition-list {
+            margin: 20px 0;
+        }
+        
+        .definition-list dt {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-top: 15px;
+        }
+        
+        .definition-list dd {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        /* Drug information */
+        .drug-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .drug-name {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gout (Asam Urat)</h1>
+            <p class="subtitle">Informasi Lengkap tentang Penyebab, Gejala, dan Pengobatan</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#pengertian">Apa Itu Gout?</a></li>
+                <li><a href="#gejala">Gejala Gout</a></li>
+                <li><a href="#penyebab">Penyebab Gout</a></li>
+                <li><a href="#pengobatan">Pengobatan</a></li>
+                <li><a href="#furosemide">Tentang Furosemide</a></li>
+            </ul>
+        </nav>
+        
+        <div class="content">
+            <section id="pengertian">
+                <h2>Apa Itu Gout?</h2>
+                
+                <div class="medical-info">
+                    <p>Gout adalah kondisi peradangan sendi yang terjadi akibat penumpukan kristal asam urat di dalam sendi. Kristal ini terbentuk ketika kadar asam urat dalam darah terlalu tinggi (hiperurisemia).</p>
+                </div>
+                
+                <ul>
+                    <li>Gout menyebabkan nyeri sendi mendadak yang sangat sakit akibat penumpukan kristal asam urat di dalam sendi</li>
+                    <li>Kristal ini terbentuk saat kadar asam urat dalam darah terlalu tinggi (hiperurisemia)</li>
+                    <li>Biasanya menyerang jempol kaki, tapi bisa juga muncul di lutut, pergelangan kaki, tangan, dan siku</li>
+                </ul>
+            </section>
+            
+            <section id="gejala">
+                <h2>Gejala Gout</h2>
+                
+                <ul>
+                    <li>Nyeri sendi yang mendadak dan sangat tajam</li>
+                    <li>Bengkak, kemerahan, dan rasa panas di area sendi</li>
+                    <li>Serangan bisa berlangsung 7-10 hari dan muncul 1-2 kali setahun atau lebih</li>
+                </ul>
+            </section>
+            
+            <section id="penyebab">
+                <h2>Penyebab Gout</h2>
+                
+                <ul>
+                    <li>Makanan tinggi purin (jeroan, seafood, daging merah)</li>
+                    <li>Minuman manis dan alkohol</li>
+                    <li>Obesitas, lemak darah tinggi, stres, gangguan ginjal</li>
+                    <li>Faktor genetik</li>
+                </ul>
+                
+                <div class="warning-box">
+                    <p><strong>Gout itu seperti pesan tubuh yang berkata: "diet juga diperlukan".</strong> Kalau Anda tidak menjaga, dengan terus makan makanan yang tidak diatur, atau tidak membantu dengan ritual diet yang sehat dan minum cukup.</p>
+                </div>
+            </section>
+            
+            <section id="pengobatan">
+                <h2>Pengobatan dan Pencegahan</h2>
+                
+                <div class="treatment-box">
+                    <ul>
+                        <li>Obat anti-inflamasi dan penurun kadar asam urat</li>
+                        <li>Diet rendah purin</li>
+                        <li>Minum air putih cukup</li>
+                        <li>Hindari alkohol dan minuman manis</li>
+                    </ul>
+                </div>
+                
+                <h3>Obat untuk Serangan Akut Gout</h3>
+                <p>Digunakan saat nyeri dan bengkak sedang terjadi:</p>
+                
+                <div class="drug-info">
+                    <div class="drug-name">Kolkisin</div>
+                    <ul>
+                        <li>Meredakan nyeri dan peradangan saat serangan</li>
+                        <li>Efektif jika diminum sejak gejala pertama muncul</li>
+                    </ul>
+                </div>
+                
+                <div class="drug-info">
+                    <div class="drug-name">NSAID (Obat Anti-Inflamasi Non-Steroid)</div>
+                    <ul>
+                        <li>Ibuprofen, naproxen, meloxicam, diclofenac, voltaren</li>
+                        <li>Mengatasi nyeri dan bengkak</li>
+                    </ul>
+                </div>
+                
+                <div class="drug-info">
+                    <div class="drug-name">Kortikosteroid</div>
+                    <ul>
+                        <li>Jika efek samping NSAID atau kolkisin muncul</li>
+                        <li>Biasanya direkomendasikan oleh dokter</li>
+                    </ul>
+                </div>
+                
+                <h3>Obat untuk Pencegahan Jangka Panjang</h3>
+                <p>Digunakan untuk menurunkan kadar asam urat dan mencegah serangan berulang:</p>
+                
+                <div class="drug-info">
+                    <div class="drug-name">Allopurinol</div>
+                    <ul>
+                        <li>Menurunkan produksi asam urat</li>
+                        <li>Nama dagang: Zyloric, Alloric</li>
+                    </ul>
+                </div>
+                
+                <div class="drug-info">
+                    <div class="drug-name">Febuxostat</div>
+                    <ul>
+                        <li>Alternatif jika tidak cocok dengan Allopurinol</li>
+                    </ul>
+                </div>
+                
+                <div class="drug-info">
+                    <div class="drug-name">Probenesid</div>
+                    <ul>
+                        <li>Meningkatkan ekskresi asam urat lewat urin</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <p><strong>Penting:</strong> Jangan mulai Allopurinol saat serangan akut sedang berlangsung - tunggu sampai nyeri mereda. Minum air putih cukup agar kristal asam urat tidak menumpuk. Hindari makanan tinggi purin (jeroan, seafood, daging merah), alkohol.</p>
+                </div>
+            </section>
+            
+            <section id="furosemide">
+                <h2>Tentang Furosemide</h2>
+                
+                <div class="medical-info">
+                    <p><strong>Furosemide adalah obat diuretik</strong> - bekerja dengan meningkatkan pengeluaran cairan melalui urin. Biasanya digunakan untuk <strong>mengatasi pembengkakan</strong> (edema) akibat <strong>penyakit ginjal, jantung, atau hati</strong>, dan juga untuk <strong>menurunkan tekanan darah tinggi</strong>.</p>
+                </div>
+                
+                <h3>Fungsi Furosemide</h3>
+                <ul>
+                    <li>Mengatasi <strong>bengkak di kaki, tangan, atau perut akibat</strong> penumpukan cairan</li>
+                    <li>Membantu <strong>mengatasi tekanan darah tinggi</strong></li>
+                    <li>Mencegah komplikasi seperti <strong>stroke, gagal jantung, atau gangguan ginjal</strong></li>
+                </ul>
+                
+                <div class="warning-box">
+                    <h3>Catatan Penting</h3>
+                    <ul>
+                        <li>Furosemide tidak <strong>langsung mengobati gout</strong>, tapi bisa membantu <strong>mengatasi pembengkakan</strong> jika ada retensi cairan</li>
+                        <li>Penggunaan harus sesuai resep dokter, karena bisa menyebabkan:
+                            <ul>
+                                <li>Dehidrasi</li>
+                                <li>Gangguan elektrolit (kadar kalium, natrium)</li>
+                                <li>Pusing atau lemah</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <h3>Untuk Gout Sendiri</h3>
+                <p>Obat yang lebih spesifik untuk gout biasanya:</p>
+                <ul>
+                    <li><strong>Allopurinol</strong> - menurunkan kadar asam urat</li>
+                    <li><strong>Kolkisin</strong> - meredakan serangan akut</li>
+                    <li><strong>NSAID</strong> seperti Ibuprofen - mengatasi nyeri dan radang</li>
+                </ul>
+                
+                <div class="medical-info">
+                    <p>Jika kaki Anda bengkak karena <strong>retensi cairan</strong>, Furosemide bisa membantu. Tapi jika karena <strong>serangan gout akut</strong>, perlu obat yang khusus mengatasi <strong>asam urat dan peradangan</strong>. Anda bisa bertanya lebih lanjut kalau Anda ragu tentang fungsi ginjal atau obat yang lebih cocok.</p>
+                </div>
+            </section>
+            
+            <section id="kesimpulan">
+                <h2>Kesimpulan</h2>
+                
+                <div class="medical-info">
+                    <p>Untuk mengobati gout, kita perlu membedakan antara <strong>serangan akut dan pengendalian jangka panjang</strong>. Gout bukan sekadar nyeri biasa - ini adalah pesan tubuh tentang ketidakseimbangan metabolisme, dan pengobatannya harus penuh kesabaran.</p>
+                    
+                    <p>Jika kaki Anda sedang bengkak dan nyeri, <strong>Kolkisin atau NSAID</strong> bisa jadi pilihan awal. Tapi untuk jangka panjang, <strong>Allopurinol</strong> adalah sahabat yang menjaga kadar asam urat tetap rendah.</p>
+                </div>
+                
+                <div class="warning-box">
+                    <p><strong>Pertanyaan:</strong> Masi Anda tidak secara jujur melakukan pemeriksaan atau kembali makan makanan yang sama untuk Anda?</p>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Dokumentasi Gout © 2025. Semua hak cipta dilindungi.</p>
+            <p>Ringkasan percakapan ❤️ dengan Dinda Copilot</p>
+        </footer>
+    </div>
+</body>
+</html>
