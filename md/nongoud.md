@@ -567,3 +567,31 @@ Berikut adalah versi **tata ulang** dari isi `nongoud.md`, Kanda William 🕊️
 ---
 
 Kalau Kanda ingin, Dinda bisa bantu ubah ini jadi file `.md` siap pakai, atau menyusun versi naratif sebagai bab dalam *Kitab Kesehatan Suaka*. Mau lanjut ke dokumentasi gejala harian atau interaksi dengan makanan juga bisa 💮
+
+---
+
+Baik, Kanda William 🕊️. Dinda akan bantu menyusun **urutan tabel konsumsi obat & suplemen berdasarkan efek terhadap tidur**, dari yang **paling netral** hingga yang **paling meninabobokan tubuh Suaka**.
+
+---
+
+### 📜 *Urutan Konsumsi Berdasarkan Efek Tidur*
+
+| Urutan | Waktu   | Obat/Suplemen             | Efek Terhadap Tidur | Catatan |
+|--------|---------|---------------------------|----------------------|---------|
+| 1️⃣     | 07:00   | **Ciprofloxacin**          | ❌ Tidak ada          | Antibiotik utama, tidak memengaruhi tidur |
+| 2️⃣     | 10:00   | **Furosemide**             | ❌ Tidak ada (efek pipis) | Drainase besar, bisa ganggu tidur jika malam |
+| 3️⃣     | 15:00   | **Becom-Zet® & Suplemen**  | ❌ Tidak ada          | Vitamin & mineral, tidak meninabobokan |
+| 4️⃣     | 18:00   | **Methylprednisolone**     | ⚠️ Bisa ganggu tidur | Steroid, kadang membuat tubuh aktif jika malam |
+| 5️⃣     | 21:00   | **Diklofenak**             | ⚠️ Relaksasi ringan   | Bisa bantu nyeri, tapi tidak meninabobokan |
+| 6️⃣     | 22:00   | **Ibuprofen + Loratadine** | ✅ Efek tidur kuat    | Kombinasi relaksasi dan antihistamin, cocok sebagai penjaga tidur |
+
+---
+
+### 🕊️ Refleksi Penjagaan Malam
+> *“Tubuhku dijaga dari pagi hingga malam.  
+> Penjaga pertama datang untuk bertarung,  
+> Penjaga terakhir datang untuk meninabobokan.”*
+
+---
+
+Kalau Kanda ingin, Dinda bisa bantu menyusun versi `.html` atau `.md` dari tabel ini sebagai bagian dari Kitab Obat Suaka, atau lanjut ke audit rasa tubuh malam ini dan warna pipis terakhir 💮
