@@ -59,3 +59,166 @@ npx javascript-obfuscator kalkulator.txt --output kalkulator.obfuscated.html --c
 3. Atau bikin versi obfuscated tingkat dewa via online tool yang kompatibel
 
 Tinggal bilang: **“Bro, bantu ekstrak script.js-nya.”** 💪
+
+---
+
+Bro, **itu bukti bahwa `javascript-obfuscator`-nya JALAN di Windows 8 kamu!** 💪
+
+Kamu sudah:
+1. Buat file `test.js` → ✅  
+2. Obfuscate pakai `javascript-obfuscator` → ✅  
+3. Jalankan hasilnya dengan `node test-obf.js` → ✅  
+4. Outputnya tetap jalan: `Halo dari sei kera hulu!` → ✅
+
+Artinya:  
+> **Tool-nya kompatibel dengan sistemmu — meski pakai Node.js 12.**
+
+---
+
+### ✅ Langkah Selanjutnya: Obfuscate Kalkulatormu
+
+Karena kalkulatormu adalah **file HTML penuh**, kita perlu:
+
+#### 🔧 **Ekstrak Bagian JavaScript-nya Saja**
+Dari file `kalkulator.txt`, bagian `<script>...</script>` adalah:
+
+```js
+const display = document.getElementById("display");
+const body = document.body;
+const historyContent = document.getElementById("history-content");
+let historyArr = [];
+let memory = 0;
+function appendValue(val){display.value+=val;}
+function appendFunction(func){display.value+=func+'(';}
+function appendMemory(mem){ 
+  if(mem==='M+') memory = parseFloat(display.value.replace(/\./g,''))||0;
+  if(mem==='MR') display.value+=memory;
+}
+function clearDisplay(){display.value="";}
+function deleteLast(){display.value = display.value.slice(0,-1);}
+function toggleMode(){body.classList.toggle("light");}
+function formatInput(){
+  let val = display.value.replace(/\./g,'');
+  let parts = val.split(/([+\-*/%^()])/);
+  for(let i=0;i<parts.length;i++){
+    if(parts[i]!==''){
+      if(!isNaN(parts[i])) parts[i] = Number(parts[i]).toLocaleString('id-ID');
+    }
+  }
+  display.value = parts.join('');
+}
+function formatResult(num){
+  num = Math.round(num*100)/100;
+  return num % 1 === 0 ? num.toLocaleString('id-ID') : num.toLocaleString('id-ID',{minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function calculate(){
+  try{
+    let expr = display.value.replace(/\./g,'').replace(/\^/g,'**');
+    let tokens = expr.match(/(\d+(\.\d+)?%?|Math\.[a-z]+\(|\+|\-|\*|\/|\(|\))/g);
+    if(!tokens) return;
+    let stack = [];
+    let lastNumber = 0;
+    tokens.forEach(tok=>{
+      if(tok.endsWith('%')){
+        let num = parseFloat(tok.replace('%',''));
+        let value = lastNumber * num/100;
+        stack.push(value);
+        lastNumber = value;
+      } else if(!isNaN(tok)){
+        let num = parseFloat(tok);
+        stack.push(num);
+        lastNumber = num;
+      } else stack.push(tok);
+    });
+    let safeExpr = stack.join('');
+    let result = Function('"use strict";return ('+safeExpr+')')();
+    display.value = formatResult(result);
+    addToHistory(safeExpr, display.value);
+  } catch(e){
+    display.value="Error";
+  }
+}
+function addToHistory(exp,res){
+  const item = document.createElement("div");
+  item.classList.add("history-item");
+  item.innerHTML = `${exp}<span>= ${res}</span>`;
+  item.onclick = ()=>display.value = res;
+  historyContent.prepend(item);
+}
+```
+
+---
+
+### 📂 Simpan sebagai `kalkulator-script.js`
+
+Lalu di terminal:
+```bash
+javascript-obfuscator kalkulator-script.js --output kalkulator-script.obf.js --controlFlowFlattening true --deadCodeInjection true --stringArray true --stringArrayEncoding base64 --debugProtection true
+```
+
+---
+
+### 🧩 Lalu Masukkan ke HTML
+
+Buat file baru: `kalkulator-obf.html`
+
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator BRO Ultimate Scientific</title>
+<style>
+/* SALIN SEMUA CSS DARI kalkulator.txt DI SINI */
+:root{--bg:#1e1e1e; /* ... semua CSS ... */}
+/* ... (seluruh bagian <style> ...) */
+</style>
+</head>
+<body>
+  <!-- SALIN SEMUA HTML DARI kalkulator.txt DI SINI -->
+  <div class="calculator">...</div>
+
+  <!-- GANTI SCRIPT DENGAN VERSI OBFUSCATED -->
+  <script src="kalkulator-script.obf.js"></script>
+</body>
+</html>
+```
+
+---
+
+### ✅ Hasilnya:
+- Tampilan & fungsi **sama persis**
+- Tapi kode JavaScript-nya **sudah diacak total**, seperti:
+  ```js
+  var _0xabc123 = ['log', 'getElementById', ...];
+  (function(...) { ... })()
+  ```
+- **Gemini & GPT tidak bisa langsung baca logikanya**
+- **Tidak bisa di-decode dengan Notepad++ atau URL decoder**
+
+---
+
+### 🎯 Bonus: Bikin Gemini Kesal Tapi Tidak Bisa Marah
+
+Karena:
+- Kodenya valid  
+- Tidak ada malware  
+- Hanya obfuscation legal
+
+Jadi dia cuma bisa bilang:  
+> “This code is obfuscated. I cannot analyze it.”  
+> → Tapi **tidak bisa menuduh kamu salah**.
+
+---
+
+Bro, **kamu sudah siap**.  
+Kalau mau, aku bisa:
+1. Ekstrak script-nya otomatis  
+2. Beri perintah obfuscate siap jalan  
+3. Atau bahkan hasilkan file HTML obfuscated-nya langsung
+
+Tinggal bilang:  
+> “Bro, ekstrak script-nya dan obfuscate pakai setting maksimal.” 💥
+
+---
