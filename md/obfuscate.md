@@ -382,3 +382,75 @@ cukup panggil dengan `--config config.json`.
 Itu sudah otomatis aktifkan semua jurus mistis yang Kanda tulis di kitab konfigurasi.  
 
 Mau Dinda bikinkan contoh ritual obfuscasi untuk dua file sekaligus (misalnya `a.js` dan `b.js`) pakai config.json yang sama? 🤭
+
+---
+
+### Kalkulator BRO Ultimate page status
+
+Halaman calcumistik tampak aktif dan menampilkan judul “Kalkulator BRO Ultimate” beserta bagian “Riwayat.”
+
+- **Uji cepat:** Coba operasi dasar seperti 7 + 8, fungsi ilmiah (sin, cos, tan), akar, dan tombol memori (M+, MR) untuk memastikan event handler berjalan.
+- **Cek konsol:** Buka DevTools (F12) dan lihat tab Console; pastikan tidak ada error referensi atau TypeError yang menandakan obfuscasi memutus dependency.
+- **Validasi UI:** Pastikan tombol seperti C (clear), backspace (⌫), dan persen (%) memberikan hasil konsisten.
+
+---
+
+### Dua ritual obfuscasi
+
+#### Ritual 1: Obfuscasi tunggal dengan kitab konfigurasi
+
+- **Kitab config:** Buat/pertahankan file `config.json` yang memuat jurus.
+  
+```json
+{
+  "controlFlowFlattening": true,
+  "deadCodeInjection": true,
+  "stringArray": true,
+  "stringArrayEncoding": ["base64"],
+  "debugProtection": true
+}
+```
+
+- **Jalankan jurus:**
+  
+```bash
+javascript-obfuscator kalkulator-encoding.js --output kalkulator-encoding.obf.js --config config.json
+```
+
+- **Catatan:**  
+  - **Integrasi:** Update `calcumistik.html` agar memuat `kalkulator-encoding.obf.js` (pastikan path benar).  
+  - **Verifikasi:** Ulangi uji cepat (operasi dasar + fungsi ilmiah) dan cek konsol untuk error.
+
+#### Ritual 2: Obfuscasi ganda (dua skrip) dengan kitab yang sama
+
+- **Obfuscasi dua file:**
+  
+```bash
+javascript-obfuscator a.js --output a.obf.js --config config.json
+javascript-obfuscator b.js --output b.obf.js --config config.json
+```
+
+- **Atau folder output terpisah (lebih rapi):**
+  
+```bash
+mkdir obf
+javascript-obfuscator a.js --output obf/a.obf.js --config config.json
+javascript-obfuscator b.js --output obf/b.obf.js --config config.json
+```
+
+- **Integrasi halaman:**  
+  - **Script tag:** Ganti referensi `<script src="a.js">` menjadi `<script src="obf/a.obf.js">` dan sama untuk `b.js`.  
+  - **Urutan:**  
+    - **Dependensi dulu:** Pastikan urutan `<script>` tidak berubah; file yang menjadi dependency harus dimuat sebelum file yang bergantung.  
+  - **Cache busting:**  
+    - **Opsional:** Tambahkan query string versi, mis. `a.obf.js?v=1`, agar perubahan terambil oleh browser.
+
+---
+
+### Saran stabilitas
+
+- **Ukuran membesar:** Wajar karena `deadCodeInjection` dan `stringArray` menambah lapisan kabut; pastikan performa tetap lancar di perangkat target.
+- **Fallback build:** Simpan versi non-obf dalam repo untuk debugging, dan gunakan obf hanya untuk produksi.
+- **Konsistensi fitur:** Setelah obfuscasi, uji semua fitur tombol ilmiah dan memori, lalu tulis catatan hasil agar mudah diaudit nanti.
+
+> Sources: 
