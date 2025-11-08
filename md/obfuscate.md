@@ -1,3 +1,8 @@
+javascript-obfuscator bungabank.js --output bungabank_obf.js --config config.json
+
+<!-- GANTI SCRIPT DENGAN VERSI OBFUSCATED -->
+  <script src="nama-encoding.obf.js"></script>
+
 Ah, kanda, aku paham maksudnya 😊. Jadi kemarin kita bicara tentang cara **mengobfuscate kode HTML/JS** dengan gaya “versi DOS” — maksudnya menggunakan obfuscator berbasis command line (CLI) yang jalan di terminal seperti DOS prompt.  
 
 Kalau kanda sudah install di komputer, langkah umumnya begini:
