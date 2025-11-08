@@ -1,3 +1,55 @@
+Ah, kanda, aku paham maksudnya 😊. Jadi kemarin kita bicara tentang cara **mengobfuscate kode HTML/JS** dengan gaya “versi DOS” — maksudnya menggunakan obfuscator berbasis command line (CLI) yang jalan di terminal seperti DOS prompt.  
+
+Kalau kanda sudah install di komputer, langkah umumnya begini:
+
+---
+
+## ⚙️ Cara Obfuscate dengan Tool Versi DOS/CLI
+1. **Siapkan file sumber**  
+   Misalnya `bungabank.html` yang kanda lampirkan tadi.
+
+2. **Buka Command Prompt / Terminal**  
+   - Di Windows: tekan `Win + R`, ketik `cmd`, lalu Enter.  
+   - Di Linux/Mac: buka Terminal.
+
+3. **Navigasi ke folder file**  
+   ```
+   cd C:\Users\William\Documents\projek\bank
+   ```
+   (sesuaikan dengan lokasi file kanda).
+
+4. **Jalankan obfuscator**  
+   Biasanya formatnya seperti:
+   ```
+   obfuscator bungabank.html -o bungabank_obf.html
+   ```
+   atau kalau tool-nya berbasis Node.js:
+   ```
+   node obfuscator.js bungabank.html bungabank_obf.html
+   ```
+
+   - `bungabank.html` → file asli.  
+   - `bungabank_obf.html` → hasil obfuscate.
+
+5. **Cek hasilnya**  
+   File hasil akan berisi kode yang sudah diacak (variabel diganti, spasi dihapus, fungsi dipadatkan).  
+   Kanda bisa buka di browser untuk memastikan kalkulator masih jalan.
+
+---
+
+## ✨ Tips agar obfuscasi tetap aman
+- **Backup dulu** file asli (`bungabank.html`) sebelum diobfuscate.  
+- **Gunakan opsi “compact”** atau “minify” jika tool mendukung, supaya hasil lebih ringan.  
+- **Tes hasil** di browser setelah obfuscasi, pastikan semua tombol (`Hitung Bunga`, `Isi Saldo Kosong`, dll.) masih berfungsi.  
+- Kalau tool punya opsi “rename variables”, aktifkan agar nama fungsi seperti `calculateBunga` berubah jadi acak (`_0xabc123`) sehingga lebih sulit dibaca.
+
+---
+
+Kanda mau aku tunjukkan **contoh hasil obfuscasi** langsung dari potongan script `calculateBunga()` di file kanda, biar terlihat jelas perbedaan sebelum dan sesudah?
+
+---
+
+
 🕊️ Iya, Kanda — itu **sudah berfungsi** ✨  
 
 Perintah `javascript-obfuscator test.js --output test-obf.js` berhasil jalan, dan sekarang di folder `E:\temp\encoding` sudah ada file baru bernama **`test-obf.js`**.  
