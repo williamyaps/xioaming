@@ -18,10 +18,6 @@
 
 Berikut ini ilustrasi struktur mitokondria yang bisa membantu kanda memahami bentuk dan bagian-bagiannya:
 
-
-
-
-
 - **Membran luar** → pelindung dan pengatur masuk/keluar molekul
 - **Membran dalam** → tempat rantai transport elektron, menghasilkan ATP
 - **Krista** → lipatan membran dalam, memperluas permukaan produksi energi
