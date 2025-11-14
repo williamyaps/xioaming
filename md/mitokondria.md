@@ -517,3 +517,36 @@ Kanda bisa menambahkan sub‑bab baru:
 Artikel mitokondria kanda sudah jadi fondasi spiritual tubuh. Dengan menambahkan **B kompleks, folat, E, magnesium, tembaga, omega‑3, CoQ10, dan K2**, dokumentasi akan lebih lengkap untuk tema *kebas tangan & kaki* sekaligus *pencegahan stroke*.  
 
 Mau Dinda bantu susun **tabel nutrisi tambahan** (fungsi + sumber makanan + kaitan ke stroke) agar langsung bisa ditempel ke artikel kanda?
+
+---
+
+Baik, kanda ✨. Berikut tabel nutrisi tambahan yang bisa langsung ditempel ke artikel *mitokondria.md* untuk melengkapi tema *tangan & kaki kebas* serta *pencegahan stroke*.  
+
+---
+
+### 📑 Tabel Nutrisi Tambahan untuk Saraf & Pencegahan Stroke
+
+| Nutrisi | Fungsi Utama | Sumber Makanan | Kaitan dengan Stroke & Neuropati |
+|---------|--------------|----------------|----------------------------------|
+| **Vitamin B Kompleks (B1, B6, B12)** | Mendukung metabolisme energi, produksi neurotransmiter, regenerasi saraf | Daging, telur, susu, kacang-kacangan, biji-bijian | Kekurangan B12/folat → neuropati perifer, meningkatkan homosistein (risiko stroke) |
+| **Asam Folat (B9)** | Sintesis DNA & sel darah merah, menurunkan homosistein | Sayuran hijau (bayam, brokoli), kacang-kacangan, jeruk | Homosistein tinggi → kerusakan pembuluh darah, risiko stroke meningkat |
+| **Vitamin E** | Antioksidan, melindungi membran sel saraf dari radikal bebas | Minyak nabati, kacang almond, biji bunga matahari | Menurunkan stres oksidatif, melindungi otak & pembuluh darah |
+| **Magnesium** | Mengatur kontraksi otot, transmisi saraf, fungsi enzim mitokondria | Pisang, alpukat, kacang-kacangan, dark chocolate | Defisiensi → kram, kebas, hipertensi (faktor risiko stroke) |
+| **Tembaga (Cu)** | Kofaktor enzim mitokondria, produksi energi, elastisitas pembuluh darah | Hati sapi, kerang, biji wijen, kacang mete | Kekurangan → gangguan saraf & pembuluh darah |
+| **Omega‑3 (EPA & DHA)** 🐟 | Anti‑inflamasi, menjaga fluiditas membran neuron | Ikan laut (salmon, sarden, makarel), minyak ikan | Menurunkan aterosklerosis, menjaga elastisitas arteri, proteksi otak |
+| **Coenzyme Q10 (CoQ10)** 💪 | Komponen rantai transport elektron mitokondria, produksi ATP | Jeroan (hati, ginjal), ikan, suplemen CoQ10 | Meningkatkan energi sel saraf, proteksi terhadap neuropati & kelemahan otot |
+| **Vitamin K2** 🦴 | Mengatur distribusi kalsium, mencegah kalsifikasi arteri | Natto, keju fermentasi, kuning telur | Menjaga elastisitas pembuluh darah, mencegah stroke akibat kalsifikasi |
+
+---
+
+### 🌱 Catatan Praktis
+- **B kompleks + folat** → bisa dari multivitamin (misalnya Becom‑Zet).  
+- **Omega‑3** → fish oil kapsul atau konsumsi ikan laut 2–3x/minggu.  
+- **CoQ10 & Vitamin K2** → biasanya dari suplemen khusus.  
+- **Magnesium & tembaga** → cukup dari pola makan seimbang (kacang, biji, sayuran hijau).  
+
+---
+
+Dengan tabel ini, artikel kanda akan lebih lengkap: menghubungkan **mitokondria → saraf perifer → pencegahan stroke** dalam satu alur dokumentasi.  
+
+Mau Dinda bantu format tabel ini langsung dalam **Markdown siap tempel** ke GitHub artikel kanda?
