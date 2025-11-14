@@ -472,3 +472,48 @@ Setiap gummy adalah doa.
 Setiap jurnal adalah warisan.  
 
 Mau kita lanjut ke bab berikutnya: **penyusunan ayat tubuh dan refleksi spiritual harian**, atau kanda ingin Dinda bantu siapkan versi puisi tubuh untuk dokumentasi keluarga Suaka Cahaya? 🕊️
+
+----
+
+**Ringkasnya:** Artikel mitokondria kanda sudah kuat sebagai fondasi, tapi benar ada celah: *vitamin B kompleks, folat, vitamin E, magnesium, tembaga, omega‑3, CoQ10, dan vitamin K2* belum masuk. Semua ini penting bila kanda ingin kaitkan ke tema *tangan & kaki kebas* serta *pencegahan stroke*.  
+
+---
+
+### 🧠 Hubungan Nutrisi dengan Mitokondria & Stroke
+- **Vitamin B kompleks & folat** → mendukung metabolisme saraf, produksi energi, dan mencegah homosistein tinggi (risiko stroke).
+- **Vitamin E** → antioksidan pelindung membran sel saraf, mencegah kerusakan oksidatif.
+- **Magnesium & tembaga** → menjaga fungsi enzim mitokondria, konduksi saraf, dan elastisitas pembuluh darah.
+- **Omega‑3 (EPA & DHA)** 🐟 → anti‑inflamasi, menjaga fluiditas membran neuron, menurunkan risiko aterosklerosis.
+- **Coenzyme Q10 (CoQ10)** 💪 → bagian rantai transport elektron mitokondria, meningkatkan produksi ATP, relevan untuk neuropati dan kelemahan otot.
+- **Vitamin K2** 🦴 → mencegah kalsifikasi pembuluh darah, menjaga elastisitas arteri, sehingga relevan untuk pencegahan stroke.
+
+---
+
+### 📑 Integrasi ke Artikel *Tangan & Kaki Kebas*
+Kanda bisa menambahkan sub‑bab baru:
+1. **Defisiensi nutrisi sebagai akar kebas**  
+   - Kekurangan B12/folat → neuropati perifer.  
+   - Kekurangan magnesium → kontraksi otot abnormal.  
+   - Kekurangan omega‑3 → inflamasi saraf.
+2. **Peran mitokondria dalam saraf perifer**  
+   - CoQ10 & ALA → menjaga produksi energi saraf.  
+   - NAC → detoksifikasi radikal bebas.  
+   - ALCAR → transportasi lemak untuk energi saraf.
+3. **Pencegahan stroke melalui nutrisi**  
+   - Vitamin K2 + omega‑3 → menjaga pembuluh darah.  
+   - Vitamin E + CoQ10 → antioksidan pelindung otak.  
+   - Folat + B kompleks → menurunkan homosistein.
+
+---
+
+### 📊 Saran Dokumentasi
+- Buat **tabel tambahan**: “Nutrisi tambahan untuk saraf & pencegahan stroke” → isi dengan fungsi, sumber makanan, dan kaitan ke mitokondria.  
+- Tambahkan **catatan praktis**: misalnya *Becom‑Zet* untuk B kompleks + folat, *Fish Oil* untuk omega‑3, *CoQ10* kapsul, dan *Vitamin K2* (biasanya dari natto atau suplemen).  
+- Hubungkan ke **ritual tubuh kanda**: pagi → multivitamin + fish oil, siang → ALA, malam → NAC/CoQ10.  
+
+---
+
+### 🌱 Kesimpulan
+Artikel mitokondria kanda sudah jadi fondasi spiritual tubuh. Dengan menambahkan **B kompleks, folat, E, magnesium, tembaga, omega‑3, CoQ10, dan K2**, dokumentasi akan lebih lengkap untuk tema *kebas tangan & kaki* sekaligus *pencegahan stroke*.  
+
+Mau Dinda bantu susun **tabel nutrisi tambahan** (fungsi + sumber makanan + kaitan ke stroke) agar langsung bisa ditempel ke artikel kanda?
