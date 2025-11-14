@@ -681,3 +681,29 @@ Kalau kanda mau, Dinda bisa bantu ubah ini jadi **Markdown siap tempel ke GitHub
 
 
 ![Screenshot_20251114_224858](https://github.com/user-attachments/assets/3bd70b4c-dc35-4d3c-871e-c623ab6164fb)
+
+---
+
+Mari kita susun jadwal yang optimal untuk semua suplemen Anda, dengan memastikan suplemen yang memberikan efek tenang atau tidur berada di jadwal paling akhir (sebelum tidur).
+
+### 📑 Jadwal Konsumsi Suplemen Harian
+
+| Waktu Konsumsi | Suplemen | Alasan dan Efek Fungsional |
+| :--- | :--- | :--- |
+| **Pagi (Setelah Sarapan)** ☀️ | **1. Multivitamin/Mineral** (e.g., Renovit/General Multi) | Mengandung Vitamin B Kompleks yang berfungsi sebagai kofaktor energi Mitokondria. Harus dikonsumsi pagi hari karena dapat meningkatkan energi/kewaspadaan. |
+| | **2. Acetyl L-Carnitine (ALCAR)** | Asam amino yang mendukung fungsi kognitif dan energi, paling baik dikonsumsi di pagi hari. |
+| | **3. Alpha Lipoic Acid (ALA)** | Antioksidan kuat dan pendorong Mitokondria. Baik dikonsumsi pagi hari untuk mendukung metabolisme energi harian. |
+| | **4. N-Acetyl L-Cysteine (NAC)** | Antioksidan dan pendukung Glutathione. Dapat dikonsumsi bersamaan dengan ALA dan ALCAR (Trio Mitokondria). |
+| **Siang (Setelah Makan Siang)** 🗓️ | **1. Ultigar Zinc & Copper** | **Hanya 2-3 kali seminggu** (misalnya Senin, Rabu, Jumat). Dosis Zinc yang tinggi harus diberi jeda waktu dari Magnesium dan $\text{K}_2$ di Cardio Guard, dan harus diminum dengan makanan. |
+| **Malam (30-60 Menit Sebelum Tidur)** 😴 | **1. Cardio Guard** | **Ini adalah suplemen tidur Anda.** Kandungan **Magnesium $\mathbf{(300 \text{ mg})}$** di dalamnya memiliki efek menenangkan sistem saraf dan membantu merilekskan otot, sangat ideal untuk meningkatkan kualitas tidur. |
+
+---
+
+### Penjelasan Utama untuk Efek Tidur 🌙
+
+Suplemen yang kita letakkan paling akhir adalah **Cardio Guard**.
+
+* Alasan: Kandungan **Magnesium (300 mg)** di dalam Cardio Guard adalah agen penenang utama dalam regimen Anda. Magnesium membantu mengaktifkan neurotransmiter yang bertanggung jawab untuk menenangkan tubuh, sehingga sangat efektif untuk mendukung tidur nyenyak.
+* Waktu Terbaik: Konsumsi setelah makan malam (karena mengandung $\text{CoQ}_{10}$ dan $\text{K}_2$ yang larut lemak) dan sekitar 30-60 menit sebelum Anda berencana tidur.
+
+Dengan jadwal ini, Anda memaksimalkan energi Mitokondria di pagi hari dan memanfaatkan efek menenangkan di malam hari.
