@@ -52,7 +52,7 @@ ATP (Adenosin Trifosfat) adalah molekul pembawa energi utama untuk semua organis
 * Sintesis DNA dan RNA: ATP, atau dATP, adalah salah satu dari empat monomer yang diperlukan untuk sintesis DNA dan RNA. 
 * Transportasi aktif: Membantu memindahkan zat melintasi membran sel dari konsentrasi rendah ke konsentrasi tinggi dengan menempel pada protein pembawa. 
 
-*Struktur ATP*
+***Struktur ATP***
 * *Adenosin* : Terdiri dari basa nitrogen adenin dan gula lima karbon bernama ribosa. 
 * *Trifosfat* : Tiga gugus fosfat yang terikat pada ribosa. Ikatan antara gugus fosfat kedua dan ketiga adalah ikatan berenergi tinggi yang saat diputus, akan melepaskan energi yang dapat digunakan oleh sel. 
 
