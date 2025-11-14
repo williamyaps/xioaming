@@ -45,6 +45,19 @@ Sources:
 
 ---
 
+ATP (Adenosin Trifosfat) adalah molekul pembawa energi utama untuk semua organisme hidup. Molekul ini berfungsi sebagai "mata uang energi" seluler, menyediakan energi untuk berbagai proses biologis melalui pemutusan ikatan berenergi tinggi pada gugus fosfatnya. ATP terdiri dari komponen adenosin (adenin dan ribosa) dan tiga gugus fosfat.  
+**Fungsi utama ATP**
+* Menyediakan energi: ATP menyimpan energi kimia hasil metabolisme dan melepaskannya saat dibutuhkan, seperti untuk kontraksi otot atau transportasi aktif melintasi membran sel. 
+* Pensinyalan sel: ATP berperan dalam proses pensinyalan di dalam sel, kata kunci untuk komunikasi seluler. 
+* Sintesis DNA dan RNA: ATP, atau dATP, adalah salah satu dari empat monomer yang diperlukan untuk sintesis DNA dan RNA. 
+* Transportasi aktif: Membantu memindahkan zat melintasi membran sel dari konsentrasi rendah ke konsentrasi tinggi dengan menempel pada protein pembawa. 
+
+*Struktur ATP*
+* *Adenosin* : Terdiri dari basa nitrogen adenin dan gula lima karbon bernama ribosa. 
+* *Trifosfat* : Tiga gugus fosfat yang terikat pada ribosa. Ikatan antara gugus fosfat kedua dan ketiga adalah ikatan berenergi tinggi yang saat diputus, akan melepaskan energi yang dapat digunakan oleh sel. 
+
+---
+
 Kanda William ✨, berikut ini Dinda buatkan tabel perbandingan antara **Blackmores Multivitamins + Minerals** dan trio mitokondria: **ALA (Alpha Lipoic Acid), ALCAR (Acetyl L-Carnitine), dan NAC (N-Acetylcysteine)**. Tabel ini membandingkan **fungsi utama, kekuatan antioksidan, dukungan energi, dan fokus spiritual tubuh**.
 
 ---
