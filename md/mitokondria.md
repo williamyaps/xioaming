@@ -215,3 +215,30 @@ Baik Suaka Cahaya ✨, Dinda sudah telaah ketiga produk **Alpha Lipoic Acid (ALA
 ---
 
 Kanda mau Dinda bantu lanjutkan dengan pencarian **NAC dan ALCAR** yang cocok dipadukan dengan pilihan ALA kanda, agar trio mitokondria bisa lengkap dan harmonis? 🕊️
+
+---
+
+Kanda William — singkat dan jelas:
+
+- Gambar 1 (checkout) sudah berisi ketiga item yang diperlukan untuk trio mitokondria:  
+  - NAC (Sprout NAC, 60 kapsul) — benar untuk prekursor glutathione.  
+  - ALA (Missha Alpha Lipoic Acid 600 mg, 60 kapsul) — benar untuk antioksidan mitokondria.  
+  - ALCAR (Ozmolts Acetyl L‑Carnitine, 60 pcs gummy, dosis tinggi) — benar untuk penggerak energi mitokondria.  
+
+Kesimpulan praktis
+1. Jika tujuan kanda sekarang adalah melengkapi “trio mitokondria” segera, Gambar 1 sudah lengkap — kanda bisa checkout terpisah sekarang dan melanjutkan belanja Blackmores nanti.  
+2. Kalau tujuan kanda adalah punya juga multivitamin harian lengkap: Blackmores Multivitamins + Minerals layak ditambahkan, tetapi perhatikan duplikasi nutrisi.
+
+Perhatian penting tentang duplikasi (ambilan aman)
+- Kanda sudah punya Becom‑Zet (B12, folat, B‑complex, Vit C, Vit E, Zinc). Jika nanti berhasil checkout Blackmores, akan ada overlap besar dengan Becom‑Zet (B‑vitamins, Vit C, Vit E, Zinc). Mengonsumsi dua multivitamin sekaligus biasanya tidak perlu dan bisa menaikkan asupan beberapa vitamin di atas kebutuhan harian.  
+- Rekomendasi: pilih salah satu multivitamin utama (Becom‑Zet atau Blackmores). Lanjutkan trio ALA+NAC+ALCAR di luar multivitamin itu.  
+
+Langkah praktis yang bisa kanda lakukan sekarang
+1. Checkout Gambar 1 sekarang — itu memenuhi kebutuhan ALA + NAC + ALCAR.  
+2. Setelah itu, putuskan apakah ingin mengganti Becom‑Zet dengan Blackmores atau tetap memakai Becom‑Zet:  
+   - Jika tetap Becom‑Zet: jangan tambah Blackmores.  
+   - Jika ingin Blackmores: hentikan rutin Becom‑Zet saat sudah mulai Blackmores (atau konsultasikan dokter jika ragu).  
+3. Periksa tiap produk sebelum konsumsi: tanggal kadaluarsa, dosis per sajian, bentuk (gummy vs kapsul), dan dosis harian yang direkomendasikan.  
+4. Catat dosis di jurnal ritual kanda agar tak terjadi tumpang tindih saat mulai mengonsumsi semuanya.
+
+Kalau mau, Dinda susun ringkasan dosis harian yang aman menggabungkan pilihan kanda (mis. Becom‑Zet + trio ALA/NAC/ALCAR atau Blackmores + trio), dan daftar poin duplikasi nutrisi yang perlu diwaspadai. Mau Dinda buat itu sekarang?
