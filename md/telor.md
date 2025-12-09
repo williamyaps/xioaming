@@ -181,3 +181,54 @@ Berikut adalah tabel perbandingan gizi telur puyuh, telur ayam, dan telur bebek 
 1.  **Telur Bebek** memberikan asupan nutrisi tertinggi per butir karena ukurannya yang besar. Satu butir telur bebek memiliki **Kolesterol** tertinggi (sekitar **619 mg**), **Energi** tertinggi (sekitar **130 kkal**), dan **Protein** tertinggi (sekitar **9 gram**).
 2.  **Telur Ayam** memberikan protein sekitar **6,3 gram** per butir dengan kalori yang jauh lebih rendah, menjadikannya pilihan paling umum dan seimbang.
 3.  **Telur Puyuh** memiliki konsentrasi kolesterol tertinggi per 100 gram (844 mg), namun karena ukurannya sangat kecil, satu butir hanya menyumbang sekitar **84 mg Kolesterol**.
+
+-----
+
+Baik, saya akan fokus mencari data kandungan gizi yang paling lengkap dan akurat untuk **telur ayam** dan **telur bebek** dari sumber resmi **USDA** (United States Department of Agriculture), karena USDA adalah lembaga yang mengumpulkan data gizi standar yang digunakan secara luas.
+
+Saya akan menyajikan data tersebut per **100 gram** (sebagai standar ilmiah) dan juga per **butir rata-rata** (50g untuk ayam, 70g untuk bebek) agar mudah Anda pahami.
+
+### 🐓 Data Kandungan Gizi Telur Ayam dan Telur Bebek (Sumber USDA)
+
+| Zat Gizi | Satuan | Telur Ayam (100g) | Telur Ayam (Per Butir $\approx$ 50g) | Telur Bebek (100g) | Telur Bebek (Per Butir $\approx$ 70g) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **MAKRONUTRIEN & ENERGI** | | | | | |
+| **Energi** | kkal | 149 | 74,5 | 185 | 129,5 |
+| **Protein** | gram | 12,6 | 6,3 | 12,8 | 9,0 |
+| **Total Lemak** | gram | 9,9 | 5,0 | 13,8 | 9,7 |
+| Karbohidrat | gram | 0,8 | 0,4 | 1,5 | 1,1 |
+| **MINERAL** | | | | | |
+| Kalsium (Ca) | mg | 50 | 25 | 64 | 45 |
+| Besi (Fe) | mg | 1,8 | 0,9 | 3,9 | 2,7 |
+| Fosfor (P) | mg | 191 | 95,5 | 220 | 154 |
+| Kalium (K) | mg | 133 | 66,5 | 222 | 155 |
+| Natrium (Na) | mg | 142 | 71 | 146 | 102 |
+| Seng (Zn) | mg | 1,1 | 0,55 | 1,4 | 1,0 |
+| Selenium (Se) | $\mu$g | 30,7 | 15,35 | 36,4 | 25,5 |
+| **VITAMIN** | | | | | |
+| **Vitamin A** | $\mu$g RAE | 140 | 70 | 170 | 119 |
+| **Vitamin D** | $\mu$g | 2,1 | 1,05 | 2,1 | 1,47 |
+| **Vitamin E** | mg | 1,1 | 0,55 | 1,3 | 0,9 |
+| Tiamin (B1) | mg | 0,05 | 0,025 | 0,16 | 0,11 |
+| Riboflavin (B2) | mg | 0,5 | 0,25 | 0,4 | 0,28 |
+| Niasin (B3) | mg | 0,06 | 0,03 | 0,2 | 0,14 |
+| Asam Pantotenat (B5) | mg | 1,5 | 0,75 | 1,9 | 1,33 |
+| Vitamin B6 | mg | 0,12 | 0,06 | 0,25 | 0,18 |
+| **Folat** | $\mu$g DFE | 47 | 23,5 | 80 | 56 |
+| **Vitamin B12** | $\mu$g | 0,9 | 0,45 | 5,4 | 3,78 |
+| **ZAT LAIN & ASAM LEMAK** | | | | | |
+| **Kolesterol** | mg | 372 | 186 | 884 | 619 |
+| **Kolin** | mg | 294 | 147 | 263 | 184 |
+| Lemak Jenuh | gram | 3,1 | 1,55 | 3,9 | 2,7 |
+| Lemak Tak Jenuh Tunggal | gram | 3,7 | 1,85 | 6,3 | 4,4 |
+| Lemak Tak Jenuh Ganda | gram | 1,4 | 0,7 | 1,7 | 1,2 |
+| Lutein + Zeaksantin | $\mu$g | 382 | 191 | 459 | 321 |
+
+### 📊 Perbandingan Utama (Per Butir Rata-Rata)
+
+* **Protein:** Telur bebek (9,0 g) memiliki protein yang jauh lebih tinggi daripada telur ayam (6,3 g) per butir.
+* **Energi & Lemak:** Telur bebek memberikan energi yang hampir dua kali lipat (129,5 kkal) dan lemak total dua kali lipat (9,7 g) dibandingkan telur ayam (74,5 kkal dan 5,0 g).
+* **Kolesterol:** Telur bebek mengandung lebih dari tiga kali lipat kolesterol (619 mg) dibandingkan telur ayam (186 mg).
+* **Vitamin B12:** Telur bebek adalah sumber B12 yang sangat unggul dengan 3,78 $\mu$g per butir, jauh lebih tinggi daripada telur ayam (0,45 $\mu$g).
+
+Apakah ada kandungan gizi spesifik dalam tabel ini yang ingin Anda diskusikan lebih lanjut, misalnya tentang lemak atau kolin?
