@@ -93,3 +93,40 @@ Secara keseluruhan, telur adalah paket nutrisi lengkap, kaya akan:
 **Apakah ada lagi kandungan spesifik yang ingin Anda ketahui lebih detail?**
 
 -----
+
+Tentu, Anda benar. Data per 100 gram kadang sulit diukur dalam konsumsi harian.
+
+Untuk mendapatkan kandungan per butir, kita harus menggunakan rata-rata berat setiap jenis telur. Perlu diingat, kandungan gizi **per butir** adalah perkiraan karena ukuran telur bervariasi.
+
+Berikut adalah perkiraan kandungan gizi **per butir** untuk ketiga jenis telur tersebut, berdasarkan data 100 gram yang dikalikan dengan berat rata-rata telur yang umum:
+
+---
+
+## 🥚 Kandungan Gizi Telur (Per Butir Rata-Rata)
+
+| Zat Gizi | Satuan | Telur Puyuh | Telur Ayam | Telur Bebek |
+| :--- | :--- | :--- | :--- | :--- |
+| **Berat Rata-Rata Butir** | gram | **10 g** | **50 g** | **70 g** |
+| | | | | |
+| **Energi** | kkal | 15,8 | 71,5 | 129,5 |
+| **Protein** | gram | 1,31 | 6,25 | 8,97 |
+| **Total Lemak** | gram | 1,11 | 4,97 | 9,64 |
+| **Karbohidrat** | gram | 0,04 | 0,39 | 1,02 |
+| | | | | |
+| **Kolesterol** | mg | **84,4** | **211,5** | **618,8** |
+| **Kolin** | mg | 26,34 | 125,55 | 184,38 |
+| | | | | |
+| **Besi (Fe)** | mg | 0,37 | 0,92 | 2,69 |
+| **Kalsium (Ca)** | mg | 6,4 | 26,5 | 44,8 |
+| **Vitamin B12** | $\mu$g | 0,16 | 0,65 | **3,78** |
+| **Lutein + Zeaksantin**| $\mu$g | 36,9 | 165,5 | 321,3 |
+
+### 💡 Analisis Singkat Per Butir:
+
+1.  **Telur Ayam:** Merupakan sumber kalori dan protein yang paling seimbang untuk porsi tunggal.
+2.  **Telur Bebek:** Karena ukurannya besar, satu butir telur bebek memberikan **Energi, Lemak, Kolesterol, dan Vitamin B12** tertinggi.
+3.  **Telur Puyuh:** Memiliki kandungan gizi terkecil per butir. Namun, jika Anda membandingkan **3-4 butir telur puyuh** (setara 30-40 gram) dengan **setengah butir telur ayam**, nutrisinya menjadi sebanding, dan kandungan Besi per gramnya tetap unggul.
+
+**Catatan:** *Angka di atas dibulatkan dan didasarkan pada perhitungan: (Kandungan Gizi per 100 g) x (Berat Rata-Rata Telur / 100).*
+
+Apakah Anda ingin membandingkan satu aspek nutrisi tertentu, misalnya Kolesterol atau Protein, per butir antara jenis telur ini?
