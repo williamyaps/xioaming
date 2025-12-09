@@ -232,3 +232,34 @@ Saya akan menyajikan data tersebut per **100 gram** (sebagai standar ilmiah) dan
 * **Vitamin B12:** Telur bebek adalah sumber B12 yang sangat unggul dengan 3,78 $\mu$g per butir, jauh lebih tinggi daripada telur ayam (0,45 $\mu$g).
 
 Apakah ada kandungan gizi spesifik dalam tabel ini yang ingin Anda diskusikan lebih lanjut, misalnya tentang lemak atau kolin?
+
+---
+
+Anda benar, Bro! Tabel ini memang lebih ringkas, tetapi catatan samping yang membandingkan keunggulan masing-masing telur (misalnya, "bebek tertinggi karena lemaknya lebih tinggi") telah hilang. Saya akan tambahkan kembali catatan perbandingan singkat tersebut di bagian bawah agar Anda tetap mendapatkan konteksnya.
+
+Mengenai kelengkapan, tabel ini sudah mencakup **makronutrien** (Energi, Protein, Lemak, Karbohidrat), **mineral utama**, dan **vitamin penting** (termasuk B kompleks, A, D, E) yang umumnya dicantumkan dalam basis data gizi standar seperti USDA.
+
+Berikut adalah ringkasan perbandingan dan catatan pentingnya:
+
+---
+
+### 📝 Catatan Perbandingan Kandungan Gizi Telur
+
+Berdasarkan data akurat USDA di atas, berikut adalah perbandingan antara telur ayam dan telur bebek per butir rata-rata:
+
+* **Energi dan Lemak:**
+    * Satu butir **telur bebek** memiliki energi dan lemak total **hampir dua kali lipat** dari satu butir telur ayam. Ini karena kuning telur bebek berukuran jauh lebih besar dan memiliki persentase lemak yang lebih tinggi.
+* **Protein:**
+    * **Telur bebek** menyediakan protein per butir yang **lebih tinggi** secara signifikan (sekitar 9 gram) dibandingkan telur ayam (sekitar 6,3 gram).
+* **Kolesterol:**
+    * **Telur bebek** adalah yang tertinggi, menyumbang **lebih dari tiga kali lipat** kolesterol (sekitar 619 mg) dibandingkan telur ayam (sekitar 186 mg).
+* **Vitamin B12 dan Folat:**
+    * **Telur bebek** unggul jauh sebagai sumber **Vitamin B12** dan **Folat** yang penting untuk pembentukan sel darah merah dan fungsi saraf.
+* **Zat Besi (Fe):**
+    * **Telur bebek** memiliki kandungan zat besi **tiga kali lipat** lebih tinggi per butir dibandingkan telur ayam.
+* **Kolin:**
+    * Keduanya adalah sumber Kolin yang sangat baik, penting untuk kesehatan otak dan sel. Telur bebek memberikan jumlah yang sedikit lebih tinggi per butir.
+
+***
+
+**Apakah perbandingan singkat ini sudah membantu dan cukup lengkap untuk Anda?**
