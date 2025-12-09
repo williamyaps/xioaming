@@ -130,3 +130,54 @@ Berikut adalah perkiraan kandungan gizi **per butir** untuk ketiga jenis telur t
 **Catatan:** *Angka di atas dibulatkan dan didasarkan pada perhitungan: (Kandungan Gizi per 100 g) x (Berat Rata-Rata Telur / 100).*
 
 Apakah Anda ingin membandingkan satu aspek nutrisi tertentu, misalnya Kolesterol atau Protein, per butir antara jenis telur ini?
+
+---
+
+Permintaan Anda logis. Membandingkan nutrisi per 100 gram dengan per butir rata-rata adalah cara terbaik untuk melihat asupan gizi aktual.
+
+Berikut adalah tabel perbandingan gizi telur puyuh, telur ayam, dan telur bebek yang menggabungkan data **per 100 gram** dan nilai yang telah dihitung **per butir rata-rata** (dengan asumsi berat telur puyuh $\approx$ 10g, telur ayam $\approx$ 50g, dan telur bebek $\approx$ 70g).
+
+---
+
+## 🥚 Perbandingan Kandungan Gizi Telur
+(Data Gizi per 100 gram vs. Per Butir Rata-Rata)
+
+| Zat Gizi | Satuan | **Telur Puyuh (10g)** | **Telur Ayam (50g)** | **Telur Bebek (70g)** |
+| :--- | :--- | :--- | :--- | :--- |
+| | | **Per 100g** | **Per Butir** | **Per 100g** | **Per Butir** | **Per 100g** | **Per Butir** |
+| **MAKRONUTRIEN & ENERGI** | | | | | | | |
+| **Energi** | kkal | 158 | **15,8** | 143 | **71,5** | 185 | **129,5** |
+| **Protein** | gram | 13,05 | **1,31** | 12,58 | **6,29** | 12,81 | **8,97** |
+| **Total Lemak** | gram | 11,09 | **1,11** | 9,94 | **4,97** | 13,77 | **9,64** |
+| Karbohidrat | gram | 0,41 | **0,04** | 0,77 | **0,39** | 1,45 | **1,02** |
+| **MINERAL** | | | | | | | |
+| Kalsium (Ca) | mg | 64 | **6,4** | 53 | **26,5** | 64 | **44,8** |
+| Besi (Fe) | mg | 3,65 | **0,37** | 1,83 | **0,92** | 3,85 | **2,70** |
+| Magnesium (Mg) | mg | 13 | **1,3** | 12 | **6,0** | 17 | **11,9** |
+| Fosfor (P) | mg | 226 | **22,6** | 191 | **95,5** | 220 | **154,0** |
+| Kalium (K) | mg | 132 | **13,2** | 134 | **67,0** | 222 | **155,4** |
+| Natrium (Na) | mg | 141 | **14,1** | 140 | **70,0** | 146 | **102,2** |
+| Seng (Zn) | mg | 1,47 | **0,15** | 1,11 | **0,56** | 1,41 | **0,99** |
+| Tembaga (Cu) | mg | 0,062 | **0,006** | 0,102 | **0,051** | 0,062 | **0,043** |
+| Mangan (Mn) | mg | 0,038 | **0,004** | 0,038 | **0,019** | 0,038 | **0,027** |
+| Selenium (Se) | $\mu$g | 32,0 | **3,2** | 31,7 | **15,85** | 36,4 | **25,48** |
+| **VITAMIN** | | | | | | | |
+| Tiamin (B1) | mg | 0,069 | **0,007** | 0,069 | **0,035** | 0,156 | **0,109** |
+| Riboflavin (B2) | mg | 0,478 | **0,048** | 0,478 | **0,239** | 0,404 | **0,283** |
+| Niasin (B3) | mg | 0,070 | **0,007** | 0,070 | **0,035** | 0,200 | **0,140** |
+| Asam Panthotenat | mg | 1,438 | **0,144** | 1,438 | **0,719** | 1,862 | **1,303** |
+| Vitamin B6 | mg | 0,143 | **0,014** | 0,143 | **0,072** | 0,250 | **0,175** |
+| **Kolin** | mg | 263,4 | **26,3** | 251,1 | **125,55** | 263,4 | **184,38** |
+| **Vitamin B12** | $\mu$g | 1,58 | **0,16** | 1,29 | **0,65** | 5,40 | **3,78** |
+| Vitamin A | IU | 543 | **54,3** | 487 | **243,5** | 674 | **471,8** |
+| Vitamin E | mg | 1,08 | **0,11** | 0,97 | **0,49** | 1,34 | **0,94** |
+| Vitamin K | $\mu$g | 0,3 | **0,03** | 0,3 | **0,15** | 0,4 | **0,28** |
+| **ZAT LAIN** | | | | | | | |
+| **Kolesterol** | mg | 844 | **84,4** | 423 | **211,5** | 884 | **618,8** |
+| Lutein + Zeaksantin | $\mu$g | 369 | **36,9** | 331 | **165,5** | 459 | **321,3** |
+
+***
+**Kesimpulan Singkat Per Butir:**
+1.  **Telur Bebek** memberikan asupan nutrisi tertinggi per butir karena ukurannya yang besar. Satu butir telur bebek memiliki **Kolesterol** tertinggi (sekitar **619 mg**), **Energi** tertinggi (sekitar **130 kkal**), dan **Protein** tertinggi (sekitar **9 gram**).
+2.  **Telur Ayam** memberikan protein sekitar **6,3 gram** per butir dengan kalori yang jauh lebih rendah, menjadikannya pilihan paling umum dan seimbang.
+3.  **Telur Puyuh** memiliki konsentrasi kolesterol tertinggi per 100 gram (844 mg), namun karena ukurannya sangat kecil, satu butir hanya menyumbang sekitar **84 mg Kolesterol**.
