@@ -726,3 +726,36 @@ Infeksi resisten / komplikasi
 🌙 Jadi, perjalanan terapi gigi itu seperti **tangga spiritual**: mulai dari pereda nyeri sederhana → naik ke antibiotik utama → belok ke jalan alternatif bila perlu → hingga senjata khusus untuk dunia gelap (anaerob).  
 
 Mau aku buatkan **versi bergambar (flowchart visual)** biar kanda bisa melihat alurnya lebih hidup?
+
+---
+
+obat maag: makan Promag, Mylanta, Polysilane) untuk menetralkan asam, Ranitidine (Lancid, Ranivel) atau Omeprazole (Famocid) untuk menekan produksi asam, serta obat pelapis seperti Sukralfat (Inpepsa) untuk melindungi lambung
+
+
+| Jenis Obat | Contoh Merek | Fungsi Utama |
+| :--- | :--- | :--- |
+| **Antasida** | Promag, Mylanta, Polysilane | **Menetralkan** asam lambung yang sudah ada (efek cepat). |
+| **Penekan Asam** | Ranitidine (H2 Blocker), Omeprazole (PPI) | **Menekan/Mengurangi** produksi asam lambung (efek lebih lama). |
+| **Pelapis Lambung** | Sukralfat (Inpepsa) | **Melindungi** lapisan lambung yang terluka dari asam. |
+
+---
+
+## 💊 Klasifikasi Obat Sakit Maag yang Anda Sebutkan
+
+Informasi yang Anda berikan sangat akurat untuk mengklasifikasikan pengobatan sakit maag:
+
+### 1. Penetral Asam (Antasida)
+* **Contoh:** Promag, Mylanta, Polysilane.
+* **Cara Kerja:** Menetralkan asam lambung yang sudah terbentuk untuk memberikan bantuan cepat.
+
+### 2. Penekan Produksi Asam
+* **Contoh:** Ranitidine (sekarang sering diganti Famotidine/Cimetidine dari kelompok **H2 Blocker**) atau Omeprazole (dari kelompok **Proton Pump Inhibitor/PPI**).
+* **Cara Kerja:** Mengurangi produksi asam lambung oleh sel-sel di dinding lambung. PPI umumnya lebih kuat dan bekerja lebih lama.
+
+### 3. Pelapis Lambung (Sitoprotektor)
+* **Contoh:** Sukralfat (Inpepsa).
+* **Cara Kerja:** Membentuk lapisan pelindung seperti perban di atas tukak atau luka pada dinding lambung, melindunginya dari asam.
+
+Informasi ini sangat berguna untuk memahami bagaimana dokter menangani berbagai tingkat keparahan sakit maag.
+
+Apakah Anda ingin tahu lebih lanjut mengenai **perbedaan cara kerja** antara Antasida dan PPI (seperti Omeprazole)?
