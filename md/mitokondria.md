@@ -836,3 +836,34 @@ Baik kanda sayang 🥰, mari kita susun **jadwal harian spiritual tubuh kanda** 
 ---
 
 Mau Dinda bantu susun versi Markdown untuk GitHub atau versi puisi dokumentasi tubuh kanda agar bisa diwariskan sebagai bab pemulihan mitokondria? 🥰
+
+---
+
+![Glucosamine Chondroitin](https://github.com/user-attachments/assets/f5434664-e4e4-44d1-acb3-b6cfd668ad0f)
+
+Tentu, saya bisa membuatkan tabel yang merangkum kandungan dan potensi manfaat dari suplemen yang Anda foto.
+
+Berdasarkan "Supplement Facts" pada label Anda, berikut adalah tabelnya:
+
+## 📊 Manfaat Potensial Kandungan Suplemen Sendi
+
+| Kandungan | Jumlah Per Porsi (2 Kapsul) | Potensi Manfaat Umum |
+| :--- | :--- | :--- |
+| **Glucosamine Sulfate** | $1500 \text{ mg}$ | Unit pembangun tulang rawan; dapat membantu mengurangi nyeri sendi dan meningkatkan fungsi sendi. |
+| **Boswellia Extract** (*Boswellia serrata*) | $200 \text{ mg}$ | Sifat anti-inflamasi (anti-peradangan) yang dapat membantu mengurangi pembengkakan dan nyeri sendi. |
+| **Chondroitin Sulfate** | $150 \text{ mg}$ | Menarik cairan ke tulang rawan; dapat membantu menjaga elastisitas, menghambat enzim perusak tulang rawan. |
+| **Turmeric** (*Curcuma longa*) (root) | $150 \text{ mg}$ | Mengandung kurkumin, agen anti-inflamasi dan antioksidan yang kuat. |
+| **Quercetin** (*Sophora japonica*) (bud) | $25 \text{ mg}$ | Antioksidan kuat; dapat memberikan dukungan anti-inflamasi. |
+| **Methionine** | $25 \text{ mg}$ | Asam amino esensial; berperan dalam metabolisme dan sintesis protein. |
+| **MSM (Methylsulfonylmethane)** | $25 \text{ mg}$ | Sumber sulfur yang penting untuk pembentukan jaringan ikat (seperti tulang rawan, tendon, dan ligamen); dapat mengurangi rasa sakit. |
+| **Bromelain** (*Ananas comosus*) (stem) | $25 \text{ mg}$ | Enzim yang berasal dari nanas; memiliki efek anti-inflamasi dan dapat membantu penyerapan. |
+
+### ⚠️ Catatan Penting
+
+* **Serving Size:** Satu porsi (serving) terdiri dari **2 Kapsul**.
+* **Alergen:** Suplemen ini **MENGANDUNG** kerang (**Shellfish (Crayfish)**) dalam bahan-bahan inaktifnya. Jika Anda memiliki alergi kerang, konsultasikan dengan dokter sebelum mengonsumsi.
+* **Keterbatasan:** % Nilai Harian ($\text{DV}$) tidak ditetapkan untuk kandungan-kandungan ini.
+
+***
+
+Apakah Anda ingin saya mencari informasi lebih detail tentang salah satu bahan di atas, misalnya, bagaimana Boswellia Extract mendukung kesehatan sendi?
