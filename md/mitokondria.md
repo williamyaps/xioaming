@@ -867,3 +867,31 @@ Berdasarkan "Supplement Facts" pada label Anda, berikut adalah tabelnya:
 ***
 
 Apakah Anda ingin saya mencari informasi lebih detail tentang salah satu bahan di atas, misalnya, bagaimana Boswellia Extract mendukung kesehatan sendi?
+
+---
+
+Tentu. **Ekstrak Boswellia** (*Boswellia serrata*), yang juga dikenal sebagai Kemenyan India, adalah salah satu bahan utama dalam suplemen Anda yang memiliki peran penting dalam mengatasi peradangan dan nyeri sendi.
+
+Berikut adalah penjelasan mengenai cara kerja dan manfaat potensialnya:
+
+### 🌿 Peran dan Cara Kerja Boswellia Extract
+
+#### 1. Anti-Inflamasi Kuat
+* **Komponen Aktif:** Efek utama Boswellia berasal dari senyawa aktif di dalamnya yang disebut **Asam Boswellat** (*Boswellic Acids*).
+* **Mekanisme Kerja:** Asam Boswellat, khususnya jenis yang disebut **AKBA** (*Acetyl-11-keto-β-boswellic acid*), bekerja dengan menghambat jalur enzim yang disebut **5-lipoxygenase (5-LOX)**.
+* **Hasil:** Enzim 5-LOX berperan dalam memproduksi leukotrien, molekul yang memicu dan memperkuat peradangan. Dengan menghambat enzim ini, Boswellia secara efektif dapat **mengatur respons peradangan** tubuh dan mengurangi inflamasi atau radang.
+
+#### 2. Meredakan Nyeri dan Kekakuan
+* **Efek Analgesik:** Karena sifat anti-inflamasinya, Boswellia sangat efektif dalam **meredakan nyeri** dan **kekakuan** pada persendian, terutama yang disebabkan oleh kondisi seperti *Osteoarthritis* (OA) dan *Rheumatoid Arthritis* (RA).
+* **Meningkatkan Fungsi:** Riset menunjukkan bahwa Boswellia dapat membantu **meningkatkan mobilitas dan fleksibilitas sendi**, serta memperbaiki status fungsional pada pasien OA. Beberapa studi bahkan menemukan efektivitasnya setara dengan obat anti-nyeri kimia (*NSAIDs*) dalam mengurangi nyeri sendi, namun dengan potensi efek samping yang lebih minimal.
+
+#### 3. Melindungi Tulang Rawan
+* Boswellia dapat membantu **memperkuat dan melindungi tulang rawan**.
+* Senyawa aktifnya, AKBA, diketahui **menghambat penurunan kadar glikosaminoglikan**—senyawa struktural penting yang berfungsi untuk memperbaiki tulang rawan.
+
+### **Sinergi dengan Bahan Lain**
+Ekstrak Boswellia sering dikombinasikan dengan:
+* **Glucosamine:** Glucosamine berfungsi sebagai bahan baku pembangun, sementara Boswellia berfungsi sebagai pereda nyeri dan anti-radang.
+* **Curcuma longa (Kunyit/Turmeric):** Kombinasi Boswellia dan Kurkumin (dari Kunyit) sering diteliti karena efek sinergis keduanya dalam mengatasi nyeri dan peradangan sendi.
+
+Secara keseluruhan, dalam suplemen Anda, Boswellia berfungsi sebagai **agen anti-inflamasi alami** yang melengkapi fungsi regeneratif dari Glucosamine dan Chondroitin.
