@@ -759,3 +759,44 @@ Informasi yang Anda berikan sangat akurat untuk mengklasifikasikan pengobatan sa
 Informasi ini sangat berguna untuk memahami bagaimana dokter menangani berbagai tingkat keparahan sakit maag.
 
 Apakah Anda ingin tahu lebih lanjut mengenai **perbedaan cara kerja** antara Antasida dan PPI (seperti Omeprazole)?
+
+---
+
+Tentu, mari kita bahas perbedaan mendasar antara Antasida dan Penghambat Pompa Proton (PPI) seperti Omeprazole, karena keduanya memiliki peran yang sangat berbeda dalam penanganan asam lambung.
+
+---
+
+## 🔬 Perbedaan Cara Kerja Antasida dan PPI (Omeprazole)
+
+| Fitur | Antasida (Contoh: Mylanta, Promag) | PPI (Contoh: Omeprazole, Lansoprazole) |
+| :--- | :--- | :--- |
+| **Mekanisme Utama** | **Menetralkan Asam** | **Menghambat Produksi Asam** |
+| **Target Aksi** | Asam lambung (HCl) yang **sudah ada** di dalam lambung. | Sel-sel parietal di dinding lambung yang **memproduksi** asam. |
+| **Kecepatan Efek** | **Sangat Cepat** (menit) | **Lambat** (butuh waktu 1-4 hari untuk efek penuh) |
+| **Durasi Efek** | **Singkat** (beberapa jam) | **Lama** (menghambat produksi asam hingga 24 jam) |
+| **Indikasi Utama** | Meredakan gejala **akut** (rasa terbakar/panas) yang muncul tiba-tiba. | Pengobatan jangka panjang untuk kondisi serius seperti GERD, tukak lambung, atau sindrom Zollinger-Ellison. |
+| **Penggunaan** | Sesuai kebutuhan (PRN - *Pro Re Nata*). | Biasanya diminum sekali sehari, 30-60 menit sebelum makan. |
+
+---
+
+### 1. Antasida (Reaksi Cepat)
+
+Antasida bekerja seperti "pemadam kebakaran" instan.
+
+* **Cara Kerja:** Antasida mengandung basa (seperti kalsium karbonat, magnesium hidroksida, atau aluminium hidroksida). Ketika basa ini bertemu dengan asam klorida ($HCl$) di lambung, terjadi reaksi kimia netralisasi yang menghasilkan air dan garam, sehingga mengurangi keasaman lambung.
+    $$HCl + Mg(OH)_2 \rightarrow MgCl_2 + 2H_2O$$
+* **Contoh Situasi:** Ketika Anda tiba-tiba merasa panas di dada (heartburn) setelah makan makanan pedas, Antasida bisa memberikan kelegaan dalam beberapa menit.
+
+### 2. Penghambat Pompa Proton (PPI - Aksi Jangka Panjang)
+
+PPI bekerja seperti "mematikan keran" air asam, sehingga mengurangi volume air yang keluar.
+
+* **Cara Kerja:** PPI seperti Omeprazole menargetkan dan **menonaktifkan** 'pompa proton' ($H^+/K^+ - ATPase$) yang bertanggung jawab memompa ion hidrogen ($H^+$) ke dalam lambung. Ion hidrogen inilah yang nantinya membentuk asam lambung ($HCl$). Dengan memblokir pompa ini, produksi asam secara drastis berkurang.
+* **Contoh Situasi:** Digunakan untuk mengobati peradangan kronis pada kerongkongan (esofagitis) atau tukak yang memerlukan lingkungan lambung yang kurang asam untuk penyembuhan.
+
+**Kesimpulan:**
+
+* **Antasida** adalah solusi cepat untuk gejala sementara.
+* **PPI** adalah pengobatan utama yang kuat dan jangka panjang untuk masalah asam lambung yang persisten.
+
+Apakah Anda ingin tahu tentang beberapa **efek samping umum** yang mungkin timbul dari penggunaan PPI jangka panjang?
