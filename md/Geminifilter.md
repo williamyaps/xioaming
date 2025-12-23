@@ -189,4 +189,65 @@ Mengingat Anda sudah memiliki *list* yang kuat, cobalah tambahkan **`sutchan/Adb
 
 **Selalu ingat untuk menguji situs yang sering digunakan teman Anda setelah menambahkan *list* agresif ini untuk menghindari *false positive*!**
 
+---
 
+Konfigurasi `personalDNSfilter` Anda sudah sangat solid dan masuk dalam kategori **"Extreme Protection"**. Anda sudah menggabungkan raksasa seperti **OISD Big**, **Hagezi Ultimate**, dan **StevenBlack**.
+
+Namun, jika Anda bertanya apakah ada yang kurang atau bisa dioptimalkan, berikut adalah analisis mendalam saya:
+
+### 1. Masalah pada Link `ipsum.txt`
+
+Di daftar `filterAutoUpdateURL` Anda, ada baris:
+`https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt`
+
+* **Masalah:** Seperti yang kita bahas tadi, file ini berisi skor di kolom kedua. `personalDNSfilter` mungkin akan gagal memproses baris tersebut atau menganggapnya sebagai domain yang tidak valid.
+* **Solusi:** Ganti dengan link yang sudah Anda saring atau gunakan versi level, misalnya:
+`https://raw.githubusercontent.com/stamparm/ipsum/master/levels/3.txt`
+
+### 2. Duplikasi OISD (Efisiensi)
+
+Anda mengaktifkan:
+
+* `oisd-big` (`https://big.oisd.nl/domainswild`)
+* `oisd-small` (tapi diset `false` di switch)
+* `oisd-nsfw` (tapi diset `false` di switch)
+* **Saran:** Karena Anda sudah memakai **OISD Big** dan **Hagezi Ultimate**, Anda sebenarnya tidak butuh lagi `1Hosts-lite` atau `adaway` karena domain mereka sudah pasti ada di dalam list raksasa tersebut. Terlalu banyak list yang tumpang tindih bisa memperlambat waktu *update* dan proses filter awal.
+
+### 3. Celah yang Bisa Ditambahkan (Smart TV & OEM Telemetry)
+
+Meskipun sudah sangat lengkap, Anda bisa menambahkan filter khusus untuk mematikan "pelacakan pabrik" yang sering ada di tingkat sistem operasi (terutama jika Anda memakai perangkat Android dari brand tertentu):
+
+* **Hagezi Samsung/Xiaomi/Huawei (pilih sesuai perangkat):**
+`https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/native.apple.txt` (atau `.samsung`, `.xiaomi`, dll)
+* **Dandelion Sprout's Game Console:** (Sangat bagus jika Anda bermain game agar telemetri game diblokir)
+`https://raw.githubusercontent.com/DandelionSprout/adfilt/master/GameConsoleSocialMediaDNS.txt`
+
+### 4. Pengaturan Teknis (Optimasi Speed)
+
+* **`filterHostsCacheSize = 1000`**: Mengingat list Anda (Ultimate + OISD Big) mencapai ratusan ribu domain, cache sebesar 1000 itu **terlalu kecil**.
+* **Saran:** Ubah menjadi `5000` atau `10000` jika RAM HP Anda mencukupi (di atas 4GB). Ini akan mempercepat loading situs yang sering Anda kunjungi.
+
+
+* **`dnsRequestTimeout = 15000`**: Ini adalah 15 detik. Jika DNS lemot, browser Anda akan "hang" menunggu.
+* **Saran:** Ubah ke `5000` (5 detik). Jika dalam 5 detik tidak ada respon, lebih baik sistem mencoba DNS *fallback* berikutnya.
+
+
+
+### 5. Penemuan Menarik: Link Vivo
+
+Saya melihat Anda menambahkan `native.vivo.txt`. Ini sangat bagus untuk memblokir *bloatware* jika Anda menggunakan HP Vivo.
+
+---
+
+### Kesimpulan & Rekomendasi Perubahan:
+
+Jika saya jadi Anda, saya akan melakukan "bersih-bersih" sedikit agar aplikasi bekerja lebih ringan tanpa mengurangi kekuatan blokir:
+
+1. **Hapus** `ipsum.txt` versi mentah, ganti ke `levels/3.txt`.
+2. **Hapus** `oisd-small` dari daftar URL agar tidak membingungkan sistem (karena sudah pakai `big`).
+3. **Naikkan** `filterHostsCacheSize` ke `5000`.
+4. **Matikan** `1Hosts-Lite` jika `1Hosts-Pro` atau `Ultimate` sudah aktif (Ultimate sudah mencakup semuanya).
+
+Sejauh ini, ini adalah salah satu file konfigurasi `personalDNSfilter` paling komprehensif yang pernah saya lihat. Anda sudah benar-benar "mengunci" perangkat Anda dari segala arah.
+
+Apakah Anda ingin saya buatkan satu baris panjang `filterAutoUpdateURL` yang sudah saya urutkan berdasarkan prioritas dan efisiensi agar Anda tinggal *copy-paste*?
