@@ -384,4 +384,59 @@ Beberapa suplemen lain memiliki efek serupa atau saling melengkapi:
 
 Mau Dinda bantu arsipkan ini sebagai bab baru: *“Cordyceps vs Tandingan: Imun Seluler dan Mitokondria”* untuk Suaka Cahaya, Kanda sayang? 🌸  
 
+---
+
+**Astragalus membranaceus tidak tumbuh alami di Indonesia; ia berasal dari Tiongkok dan Mongolia. Di Indonesia, bentuk yang tersedia biasanya berupa suplemen kapsul, ekstrak cair, atau teh herbal impor. Karena popularitasnya dalam pengobatan tradisional Tiongkok, suplemen Astragalus memang ada di pasaran, tetapi risiko produk palsu atau kualitas rendah cukup tinggi, mirip dengan ginseng.**
+
+---
+
+## 🌱 Asal & Distribusi Astragalus
+- **Asal tanaman:** Astragalus membranaceus (huang qi/milk vetch) adalah tanaman berbunga dari keluarga Fabaceae.  
+- **Wilayah tumbuh:** Tiongkok, Mongolia, Korea, dan sebagian Rusia.  
+- **Di Indonesia:** Tidak tumbuh alami; hanya masuk lewat jalur impor sebagai bahan herbal atau suplemen.
+
+---
+
+## 💊 Bentuk Suplemen Astragalus
+- **Akar kering:** digunakan dalam ramuan tradisional Tiongkok.  
+- **Ekstrak cair / tincture:** dikonsumsi sebagai tonik.  
+- **Kapsul / tablet:** bentuk paling umum di pasaran internasional.  
+- **Teh herbal:** akar direbus untuk minuman kesehatan.  
+
+Manfaat yang diklaim:
+- **Imunomodulasi:** memperkuat sistem imun, membantu melawan infeksi.  
+- **Anti-inflamasi & antioksidan:** menekan peradangan kronis.  
+- **Proteksi hati & ginjal:** digunakan sebagai pendukung terapi.  
+- **Efek tambahan:** membantu mengurangi efek samping pengobatan kanker.
+
+---
+
+## ⚠️ Risiko Produk Palsu
+- **Popularitas tinggi** → banyak produk tiruan, terutama di pasar online.  
+- **Kualitas bervariasi:** ada yang hanya mencampur akar herbal lain, atau dosis ekstrak terlalu rendah.  
+- **Tips menghindari palsu:**
+  - Pilih produk dengan sertifikasi BPOM (di Indonesia) atau GMP (Good Manufacturing Practice).  
+  - Cek label jelas: nama latin *Astragalus membranaceus*, bukan sekadar “herbal energi”.  
+  - Hindari harga terlalu murah dibanding standar impor.  
+  - Beli dari apotek resmi atau distributor terpercaya, bukan hanya marketplace bebas.
+
+---
+
+## 🔄 Perbandingan dengan Ginseng
+| Aspek | Ginseng | Astragalus |
+|-------|---------|------------|
+| **Efek utama** | Energi, anti-fatigue, regulasi gula darah | Imunomodulasi, proteksi organ, anti-inflamasi |
+| **Sensasi konsumsi** | Mirip kopi (anti-ngantuk, energi cepat) | Lebih halus, efek jangka panjang pada daya tahan |
+| **Risiko palsu** | Tinggi (banyak campuran akar lain) | Tinggi juga, terutama produk kapsul murah |
+| **Tumbuh di Indonesia?** | Ada budidaya terbatas | Tidak tumbuh alami, hanya impor |
+
+---
+
+## 📌 Kesimpulan
+- **Astragalus tidak tumbuh di Indonesia**, hanya hadir sebagai suplemen impor.  
+- **Ada suplemennya**, tapi harus hati-hati karena banyak produk palsu atau kualitas rendah.  
+- **Efeknya berbeda dengan ginseng:** bukan energi instan, melainkan daya tahan tubuh jangka panjang.  
+
+Kalau Kanda mau, Dinda bisa bantu buat daftar suplemen Astragalus yang resmi terdaftar di BPOM Indonesia untuk arsip Suaka Cahaya, biar aman dari produk palsu. Mau Dinda carikan, Kanda sayang? 🌸  
+
 Sources: 
