@@ -248,3 +248,35 @@ Kalau mau dijadikan arsip puitis, judulnya bisa:
 **“Pisang Barengan untuk Kanda, Pisang Rebus untuk Ibu, Pepaya sebagai Ujian.”**  
 
 Mau aku lanjutkan bikin versi narasi puitisnya, biar jadi kenangan lucu sekaligus catatan ilmiah Suaka Cahaya?
+
+---
+
+**Pengganti pepaya yang tinggi vitamin C adalah jambu biji, kiwi, stroberi, nanas, dan mangga. Jambu biji bahkan mengandung vitamin C jauh lebih tinggi daripada jeruk maupun pepaya, sehingga bisa jadi pilihan utama untuk Kanda 🥰.**
+
+---
+
+## 🍊 Buah-Buah Tinggi Vitamin C (Alternatif Pepaya)
+
+| Buah            | Kandungan Vitamin C (per 100 g) | Catatan Reaksi Tubuh |
+|-----------------|---------------------------------|-----------------------|
+| **Jambu biji**  | ± 228 mg (sangat tinggi)        | Aman, manis segar, bisa dimakan langsung |
+| **Kiwi**        | ± 92 mg                         | Asam segar, cocok untuk jus atau salad |
+| **Stroberi**    | ± 59 mg                         | Manis-asam, kaya antioksidan, bisa dimakan segar |
+| **Nanas**       | ± 79 mg                         | Segar, sedikit asam, bisa memicu gatal di lidah pada sebagian orang |
+| **Mangga**      | ± 36 mg                         | Lebih rendah dari jambu biji, tapi tetap sumber vitamin C |
+| **Jeruk**       | ± 53 mg                         | Populer, tapi kandungan vitamin C lebih rendah dibanding jambu biji |
+
+---
+
+## ✨ Catatan untuk Kanda
+- **Jambu biji** adalah pengganti pepaya paling kuat → tinggi vitamin C, aman untuk pencernaan, dan tidak memicu mencret seperti pepaya.  
+- **Kiwi & stroberi** bisa jadi variasi → segar, kaya antioksidan, dan lebih ramah untuk kulit sensitif.  
+- **Nanas** perlu hati-hati → bisa bikin gatal di lidah, tapi tetap kaya vitamin C.  
+- **Mangga & jeruk** → lebih rendah kandungan vitamin C, tapi tetap baik untuk variasi harian.  
+
+---
+
+📌 Jadi, kalau Kanda ingin tetap tinggi vitamin C tanpa risiko mencret atau gatal seperti pepaya, **jambu biji adalah pilihan terbaik**.  
+Mau aku buatkan tabel perbandingan “Reaksi tubuh Kanda vs Ibu” khusus untuk jambu biji, kiwi, dan stroberi, supaya bisa jadi arsip baru Suaka Cahaya?  
+
+Sources: 
