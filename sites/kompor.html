@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Panci & Kompor Listrik</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Poppins', sans-serif; background-color: #F8FAFC; color: #0F172A; }
+.glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+.chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 400px; max-height: 400px; }
+@media (min-width: 768px) { .chart-container { height: 450px; max-height: 450px; } }
+.gradient-text { background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+</style>
+</head>
+<body class="antialiased selection:bg-blue-300 selection:text-blue-900">
+
+<nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<div class="font-bold text-xl tracking-tight text-blue-700">⚡ DapurElektrik</div>
+<div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+<a href="#intro" class="hover:text-blue-600 transition">Pengantar</a>
+<a href="#jenis" class="hover:text-blue-600 transition">Jenis Kompor</a>
+<a href="#performa" class="hover:text-blue-600 transition">Performa</a>
+<a href="#panci" class="hover:text-blue-600 transition">Kecocokan Panci</a>
+</div>
+</div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+<section id="intro" class="text-center space-y-6 max-w-4xl mx-auto pt-10">
+<span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-4 tracking-wide uppercase">Panduan Pemula</span>
+<h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+Jangan Salah Pilih! <br>
+<span class="bg-gradient-to-r from-blue-600 to-indigo-500 gradient-text">Panci & Kompor Listrik</span>
+</h1>
+<p class="text-lg md:text-xl text-slate-600 leading-relaxed">
+Beralih dari kompor gas untuk menghindari risiko ledakan? Pilihan cerdas! Tapi tunggu dulu, ternyata tidak semua panci mahal bisa dipakai di kompor listrik. Berdasarkan koleksi 5 kompor listrik di dapur saya (Neozen, Freemir, Advance), mari kita bedah tuntas kecocokannya!
+</p>
+</section>
+
+<section id="jenis" class="space-y-12 pt-10">
+<div class="text-center max-w-2xl mx-auto">
+<h2 class="text-3xl font-bold text-slate-800">Kenali 3 Teknologi Kompor Listrik</h2>
+<p class="text-slate-500 mt-4">Masing-masing memiliki cara kerja dan keunggulan spesifik. Berikut adalah daftarnya berdasarkan teknologi pemanas yang digunakan.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="glass-card rounded-2xl shadow-xl p-8 border-t-4 border-blue-500 hover:-translate-y-2 transition duration-300">
+<div class="text-5xl mb-6">🧲</div>
+<h3 class="text-2xl font-bold text-blue-700 mb-3">Induksi</h3>
+<p class="text-sm font-semibold text-blue-500 mb-4 tracking-wide uppercase">Si Hemat Listrik & Super Aman</p>
+<p class="text-slate-600 text-sm leading-relaxed mb-6">Contoh: <strong>Neozen, Advance</strong>. Menggunakan medan magnet. Kaca kompor tetap dingin meski dipakai memasak berjam-jam karena yang dipanaskan langsung adalah molekul besi pada panci.</p>
+<div class="bg-blue-50 rounded-lg p-4 text-sm text-blue-800 font-medium">
+Kelebihan utama: Efisiensi maksimal, panas tercepat, dan paling aman dari risiko luka bakar.
+</div>
+</div>
+
+<div class="glass-card rounded-2xl shadow-xl p-8 border-t-4 border-red-500 hover:-translate-y-2 transition duration-300">
+<div class="text-5xl mb-6">♨️</div>
+<h3 class="text-2xl font-bold text-red-600 mb-3">Infrared / Keramik</h3>
+<p class="text-sm font-semibold text-red-500 mb-4 tracking-wide uppercase">Si Cantik Serba Bisa</p>
+<p class="text-slate-600 text-sm leading-relaxed mb-6">Contoh: Beberapa unit <strong>Freemir</strong>. Memancarkan panas melalui gelombang infra merah atau lampu halogen dari balik permukaan kaca keramik yang bening atau kemerahan saat menyala.</p>
+<div class="bg-red-50 rounded-lg p-4 text-sm text-red-800 font-medium">
+Kelebihan utama: Bisa menggunakan jenis panci apa saja. Cocok untuk memasak menggunakan panci kaca.
+</div>
+</div>
+
+<div class="glass-card rounded-2xl shadow-xl p-8 border-t-4 border-amber-500 hover:-translate-y-2 transition duration-300">
+<div class="text-5xl mb-6">🍳</div>
+<h3 class="text-2xl font-bold text-amber-600 mb-3">Plat Besi Elektrik</h3>
+<p class="text-sm font-semibold text-amber-500 mb-4 tracking-wide uppercase">Si Tangguh nan Stabil</p>
+<p class="text-slate-600 text-sm leading-relaxed mb-6">Contoh: Unit <strong>Freemir</strong> plat hitam. Menggunakan elemen pemanas yang tersembunyi di bawah lempengan besi tebal. Panas dihantarkan perlahan ke seluruh permukaan besi.</p>
+<div class="bg-amber-50 rounded-lg p-4 text-sm text-amber-800 font-medium">
+Kelebihan utama: Sangat awet, tahan banting, tidak takut kaca pecah, dan bisa dipakai untuk panci apa saja.
+</div>
+</div>
+</div>
+</section>
+
+<section id="performa" class="bg-white rounded-3xl shadow-lg p-8 md:p-12 border border-slate-100 pt-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="text-3xl font-bold text-slate-800 mb-6">Adu Performa Keseluruhan</h2>
+<p class="text-slate-600 mb-8 leading-relaxed">
+Radar chart di samping memvisualisasikan skor perbandingan antar ketiga jenis kompor. Semakin luas area yang dicakup, semakin baik performa kompor tersebut.
+</p>
+<ul class="space-y-4">
+<li class="flex items-start">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-blue-500 mt-1 mr-4"></span>
+<div>
+<h4 class="font-bold text-slate-800">Induksi (Skor Maksimal)</h4>
+<p class="text-sm text-slate-500">Mendominasi di kecepatan, keamanan, dan penghematan energi. Sempurna untuk dapur modern.</p>
+</div>
+</li>
+<li class="flex items-start">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-red-500 mt-1 mr-4"></span>
+<div>
+<h4 class="font-bold text-slate-800">Infrared (Seimbang)</h4>
+<p class="text-sm text-slate-500">Kompromi yang baik antara kecepatan dan fleksibilitas alat masak, namun permukaannya panas.</p>
+</div>
+</li>
+<li class="flex items-start">
+<span class="flex-shrink-0 w-4 h-4 rounded-full bg-amber-500 mt-1 mr-4"></span>
+<div>
+<h4 class="font-bold text-slate-800">Plat Besi (Fungsional)</h4>
+<p class="text-sm text-slate-500">Lambat panas dan kurang efisien daya, namun menang telak di sisi ketahanan fisik (durability).</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="w-full flex justify-center">
+<div class="chart-container">
+<canvas id="performanceChart"></canvas>
+</div>
+</div>
+</div>
+</section>
+
+<section id="panci" class="space-y-10 pt-10">
+<div class="text-center max-w-2xl mx-auto">
+<h2 class="text-3xl font-bold text-slate-800">Kecocokan Material Panci</h2>
+<p class="text-slate-500 mt-4">Kesalahan terbesar pengguna kompor listrik adalah salah memilih material alat masak. Perhatikan panduan mutlak di bawah ini.</p>
+</div>
+
+<div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl">
+<div class="grid grid-cols-1 md:grid-cols-3">
+<div class="p-8 md:p-10 md:col-span-1 border-b md:border-b-0 md:border-r border-slate-700 bg-blue-600">
+<h3 class="text-white font-bold text-2xl mb-4">Tes Magnet 🧲</h3>
+<p class="text-blue-100 mb-6">Tempelkan magnet ke dasar panci Anda. Jika magnet menempel dengan kuat, berarti panci Anda <strong>Feromagnetik</strong> dan siap digunakan untuk kompor Induksi!</p>
+</div>
+<div class="p-8 md:p-10 md:col-span-2 text-white">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+<div>
+<h4 class="text-lg font-bold text-blue-400 mb-4 border-b border-slate-700 pb-2">Kompor Induksi</h4>
+<ul class="space-y-3">
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Stainless Steel (Grade Tertentu)</li>
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Cast Iron (Besi Cor)</li>
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Baja Enamel</li>
+<li class="flex items-center text-sm text-slate-400"><span class="text-red-400 mr-2">❌</span> Panci Kaca Pyrex</li>
+<li class="flex items-center text-sm text-slate-400"><span class="text-red-400 mr-2">❌</span> Aluminium Biasa</li>
+<li class="flex items-center text-sm text-slate-400"><span class="text-red-400 mr-2">❌</span> Keramik Murni / Tanah Liat</li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-bold text-red-400 mb-4 border-b border-slate-700 pb-2">Infrared & Plat Besi</h4>
+<ul class="space-y-3">
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Stainless Steel & Besi Cor</li>
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Baja Enamel</li>
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Panci Kaca (Sangat Cantik!)</li>
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Aluminium Ringan</li>
+<li class="flex items-center text-sm"><span class="text-green-400 mr-2">✔️</span> Keramik / Tanah Liat</li>
+<li class="mt-4 text-xs text-slate-400 italic">*Syarat utama: Dasar panci harus rata (flat bottom) agar hantaran panas maksimal.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="bg-blue-50 rounded-3xl p-8 md:p-12 text-center shadow-inner mt-16 mb-16 border border-blue-100">
+<h2 class="text-2xl md:text-3xl font-bold text-blue-900 mb-6">Kesimpulan & Rekomendasi</h2>
+<p class="text-lg text-blue-800 max-w-3xl mx-auto leading-relaxed mb-8">
+Jika Anda mengutamakan <strong>keamanan total</strong> dari risiko ledakan dan luka bakar, serta menginginkan <strong>kecepatan</strong> masak tertinggi, kompor <strong>Induksi</strong> adalah pilihan mutlak. Namun, sangat bijak untuk menyediakan minimal satu kompor <strong>Infrared atau Plat Besi</strong> sebagai cadangan jika Anda ingin menggunakan koleksi panci kaca atau aluminium lama Anda.
+</p>
+<button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:-translate-y-1">
+Kembali ke Atas
+</button>
+</section>
+
+</main>
+
+<footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
+<p>Berdasarkan Catatan Harian Dapur William Yaps &bull; Panduan SPA Infografis</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const rawLabels = ['Kecepatan Masak', 'Tingkat Keamanan Terhadap Luka Bakar', 'Efisiensi Listrik'];
+const wrapLabels = (labels, maxLength) => {
+return labels.map(label => {
+if (label.length <= maxLength) return label;
+const words = label.split(' ');
+const lines = [];
+let currentLine = '';
+words.forEach(word => {
+if ((currentLine + word).length > maxLength) {
+if (currentLine.trim() !== '') lines.push(currentLine.trim());
+currentLine = word + ' ';
+} else {
+currentLine += word + ' ';
+}
+});
+if (currentLine.trim() !== '') lines.push(currentLine.trim());
+return lines;
+});
+};
+
+const processedLabels = wrapLabels(rawLabels, 16);
+
+const ctx = document.getElementById('performanceChart').getContext('2d');
+new Chart(ctx, {
+type: 'radar',
+data: {
+labels: processedLabels,
+datasets: [
+{
+label: 'Induksi (Neozen/Advance)',
+data: [5, 5, 5],
+backgroundColor: 'rgba(59, 130, 246, 0.2)',
+borderColor: 'rgba(59, 130, 246, 1)',
+pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+borderWidth: 2,
+pointRadius: 4
+},
+{
+label: 'Infrared (Freemir)',
+data: [4, 3, 3],
+backgroundColor: 'rgba(239, 68, 68, 0.2)',
+borderColor: 'rgba(239, 68, 68, 1)',
+pointBackgroundColor: 'rgba(239, 68, 68, 1)',
+borderWidth: 2,
+pointRadius: 4
+},
+{
+label: 'Plat Besi (Freemir)',
+data: [3, 3, 2],
+backgroundColor: 'rgba(245, 158, 11, 0.2)',
+borderColor: 'rgba(245, 158, 11, 1)',
+pointBackgroundColor: 'rgba(245, 158, 11, 1)',
+borderWidth: 2,
+pointRadius: 4
+}
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+scales: {
+r: {
+angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+grid: { color: 'rgba(0, 0, 0, 0.1)' },
+pointLabels: {
+font: { family: 'Poppins', size: 12, weight: '600' },
+color: '#475569'
+},
+ticks: {
+min: 0, max: 5, stepSize: 1, display: false
+}
+}
+},
+plugins: {
+legend: {
+position: 'bottom',
+labels: { font: { family: 'Poppins', size: 12 }, usePointStyle: true, padding: 20 }
+},
+tooltip: {
+backgroundColor: 'rgba(15, 23, 42, 0.9)',
+titleFont: { family: 'Poppins', size: 13 },
+bodyFont: { family: 'Poppins', size: 13 },
+padding: 12,
+cornerRadius: 8,
+callbacks: {
+title: function(tooltipItems) {
+const item = tooltipItems[0];
+let label = item.chart.data.labels[item.dataIndex];
+if (Array.isArray(label)) {
+return label.join(' ');
+} else {
+return label;
+}
+}
+}
+}
+}
+}
+});
+});
+</script>
+</body>
+</html>
