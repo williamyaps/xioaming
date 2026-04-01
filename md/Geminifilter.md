@@ -251,3 +251,46 @@ Jika saya jadi Anda, saya akan melakukan "bersih-bersih" sedikit agar aplikasi b
 Sejauh ini, ini adalah salah satu file konfigurasi `personalDNSfilter` paling komprehensif yang pernah saya lihat. Anda sudah benar-benar "mengunci" perangkat Anda dari segala arah.
 
 Apakah Anda ingin saya buatkan satu baris panjang `filterAutoUpdateURL` yang sudah saya urutkan berdasarkan prioritas dan efisiensi agar Anda tinggal *copy-paste*?
+
+---
+
+Tentu, ini adalah langkah "pengamanan tingkat tinggi" untuk menutup celah sekecil apa pun. Beberapa aplikasi modern sering kali mencoba "curang" dengan mengabaikan pengaturan DNS sistem dan langsung menghubungi server DNS milik mereka sendiri (ini yang disebut *Hardcoded DNS*).
+
+Untuk memastikan tidak ada **DNS Leak** (kebocoran) melalui jalur belakang ini, silakan masukkan daftar domain dan IP berikut ke dalam *Blacklist* manual di aplikasi `personalDNSfilter` Anda:
+
+### 1. Blokir Jalur "Pintu Belakang" (Hardcoded DNS)
+Aplikasi sering mencoba menghubungi server DNS publik populer jika mereka merasa jalur utama terganggu. Blokir domain-domain ini agar mereka dipaksa kembali ke jalur **Brahma**:
+
+* `dns.google`
+* `dns.google.com`
+* `8.8.8.8` (Jika aplikasi mengizinkan input IP)
+* `8.8.4.4`
+* `cloudflare-dns.com`
+* `1.1.1.1`
+* `1.0.0.1`
+* `dns.quad9.net`
+* `9.9.9.9`
+
+### 2. Blokir Telemetri Konektivitas (Silent Tracking)
+Sistem sering melakukan "cek ombak" ke server pusat untuk melihat apakah koneksi internet Anda aktif. Jalur ini sering disisipi data telemetri:
+
+* `connectivitycheck.gstatic.com` (Google)
+* `connectivitycheck.android.com` (Android System)
+* `msftconnecttest.com` (Windows/Microsoft jika ada di jaringan)
+* `captive.apple.com` (Jika ada perangkat Apple)
+
+### 3. Blokir Jalur Pelacak Global (Anti-Leak)
+Tambahkan ini untuk memastikan aplikasi vendor atau belanja tidak bisa mengirim log secara sembunyi-sembunyi:
+
+* `app-measurement.com` (Pelacak umum di banyak aplikasi Android)
+* `crashlytics.com` (Laporan error yang sering membawa metadata perangkat)
+* `settings-win.data.microsoft.com`
+* `vortex.data.microsoft.com`
+
+### Strategi Tambahan agar 100% Solid:
+1.  **Matikan "Private DNS" di Pengaturan Android:** Pastikan di menu *Settings > Network > Private DNS* dalam posisi **OFF**. Mengapa? Karena jika ini aktif (misal ke Google), dia akan "bertabrakan" dengan `personalDNSfilter` dan bisa menyebabkan kebocoran jalur. Biarkan `personalDNSfilter` yang mengelola semuanya.
+2.  **Gunakan Mode VPN Always-on:** Di pengaturan Android, cari menu VPN, pilih `personalDNSfilter`, lalu aktifkan **"Always-on VPN"** dan **"Block connections without VPN"**. Ini akan memastikan jika aplikasi filter Anda mati atau *crash*, internet otomatis terputus total (Kill Switch), sehingga tidak ada data yang bocor lewat DNS ISP secara tidak sengaja.
+
+Dengan menutup jalur-jalur di atas, aplikasi "bandel" tidak akan punya pilihan selain tunduk pada protokol **Zero Trust** Anda. 
+
+Apakah ada aplikasi tertentu yang belakangan ini terasa mencurigakan atau sering muncul di log dengan tanda centang biru `✓`?
