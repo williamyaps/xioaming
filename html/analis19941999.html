@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Analisis Pasangan: Anjing 1994 ♡ Kelinci 1999</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f5efe7;
+            color: #1e2a2e;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+        }
+
+        body.dark {
+            background: #121212;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #d4a373;
+            padding-bottom: 0.75rem;
+        }
+        body.dark .header {
+            border-bottom-color: #8b5a2b;
+        }
+        h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #b36b3c, #d9895a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        body.dark h1 {
+            background: linear-gradient(135deg, #f0a76b, #f7c58c);
+            background-clip: text;
+        }
+        .theme-btn {
+            background: #e2cfb3;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #2c3e2f;
+        }
+        body.dark .theme-btn {
+            background: #3a3028;
+            color: #f0dbb2;
+        }
+
+        .card {
+            background: #fffcf8;
+            border-radius: 1.5rem;
+            padding: 1.6rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+            border: 1px solid #ece0d2;
+        }
+        body.dark .card {
+            background: #1f1e1c;
+            border-color: #3e3a35;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f0dbc6;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #7b4a2a;
+        }
+        body.dark .badge {
+            background: #5e3e2c;
+            color: #ffdfb3;
+        }
+
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin-bottom: 1.8rem;
+        }
+        .profile {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .icon-big {
+            font-size: 2.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .detail-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        .detail-list li {
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #dba46a;
+            padding-left: 0.8rem;
+        }
+        body.dark .detail-list li {
+            border-left-color: #c28a56;
+        }
+
+        .progress-bar {
+            background: #e2d8cd;
+            border-radius: 20px;
+            height: 12px;
+            width: 100%;
+            margin: 0.8rem 0;
+        }
+        .progress-fill {
+            background: #c46d3a;
+            height: 12px;
+            border-radius: 20px;
+            width: 0%;
+        }
+
+        .harmony-badge {
+            background: #e9f5e9;
+            color: #2a6b2a;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+        body.dark .harmony-badge {
+            background: #2e4a2e;
+            color: #b8e0b8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #ddd2c2;
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        body.dark th, body.dark td {
+            border-color: #4a423b;
+        }
+        th {
+            background: #f0e5d8;
+        }
+        body.dark th {
+            background: #2e2a24;
+        }
+
+        .chinese-word {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #b36b3c;
+        }
+        body.dark .chinese-word {
+            color: #f0a76b;
+        }
+        .pinyin {
+            font-style: italic;
+            color: #7b7b7b;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.3rem; }
+        }
+        .love-heart {
+            text-align: center;
+            font-size: 1.8rem;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🐕🌿  Anjing Kayu (1994)  ❤️  🐇🌏  Kelinci Tanah (1999)</h1>
+        <button class="theme-btn" id="darkModeToggle">🌙 Mode Gelap</button>
+    </div>
+
+    <!-- DUA PROFIL -->
+    <div class="two-columns">
+        <div class="profile card">
+            <span class="badge">🐕 木狗 • Anjing Kayu</span>
+            <div class="icon-big">🌿🐕</div>
+            <h2>15 Mei 1994</h2>
+            <ul class="detail-list">
+                <li><strong>Shio + Unsur</strong> : Anjing Kayu (甲戌 / Jiǎ Xū)</li>
+                <li><strong>Zodiak Barat</strong> : Taurus ♉ (Banteng) – elemen Tanah</li>
+                <li><strong>Sifat inti</strong> : Loyal, jujur, setia, pelindung, keras kepala, suka stabilitas.</li>
+                <li><strong>Energi</strong> : Kayu (pertumbuhan, fleksibel)</li>
+            </ul>
+        </div>
+        <div class="profile card">
+            <span class="badge">🐇 土兔 • Kelinci Tanah</span>
+            <div class="icon-big">🌏🐇</div>
+            <h2>14 Februari 1999</h2>
+            <ul class="detail-list">
+                <li><strong>Shio + Unsur</strong> : Kelinci Tanah (己卯 / Jǐ Mǎo)</li>
+                <li><strong>Zodiak Barat</strong> : Aquarius ♒ – elemen Udara</li>
+                <li><strong>Sifat inti</strong> : Lembut, cerdik, elegan, sosial, suka kebebasan & inovasi.</li>
+                <li><strong>Energi</strong> : Tanah (fondasi kokoh, stabilitas)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SHIO: 六合 -->
+    <div class="card">
+        <span class="badge">⭐  Shio (生肖 / Shēngxiào)</span>
+        <div class="love-heart">🐕 + 🐇 = 六合 (Liù Hé) – Pasangan Sempurna 💯</div>
+        <p><span class="chinese-word">六合 (Liù Hé)</span> artinya <strong>"Enam Harmoni"</strong> – ini adalah <strong>tingkat kecocokan shio TERTINGGI</strong> dalam astrologi China. Anjing dan Kelinci termasuk pasangan yang disebut <strong>"jodoh sejati"</strong>.</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 98%"></div></div>
+        <p>✅ <strong>Kelebihan:</strong> Anjing memberi perlindungan & kesetiaan. Kelinci memberi kelembutan & kedamaian. Sama-sama menghargai rumah tangga yang tenang dan stabil.</p>
+        <p>📖 <strong>Dalam bahasa Mandarin:</strong> 狗和兔是六合，最和谐的夫妻组合。<br>
+        <span class="pinyin">(Gǒu hé tù shì liù hé, zuì héxié de fūqī zǔhé.)</span><br>
+        Artinya: "Anjing dan Kelinci adalah pasangan enam harmoni, kombinasi suami-istri paling harmonis."</p>
+    </div>
+
+    <!-- 5 UNSUR -->
+    <div class="card">
+        <span class="badge">🔥🌱  Lima Unsur (五行 / Wǔ Xíng)</span>
+        <h3>Kayu (木 / Mù) + Tanah (土 / Tǔ)</h3>
+        <p><span class="chinese-word">木 (Mù)</span> = Kayu (suami)<br>
+        <span class="chinese-word">土 (Tǔ)</span> = Tanah (istri)</p>
+        <p><strong>Hubungan:</strong> Kayu tumbuh subur di Tanah. Bukan "Kayu menghancurkan Tanah", tapi <strong>saling menguatkan</strong>.</p>
+        <p>✅ Istri (Tanah) memberi <strong>fondasi kokoh</strong> bagi suami. Suami (Kayu) memberi <strong>dinamika dan pertumbuhan</strong> dalam rumah tangga.</p>
+        <p>📖 <span class="pinyin">(Mù shēng zài tǔ zhōng, hù xiāng zī yǎng.)</span><br>
+        Artinya: "Kayu tumbuh di dalam tanah, saling memberi nutrisi."</p>
+    </div>
+
+    <!-- REZEKI & KEBERUNTUNGAN -->
+    <div class="card">
+        <span class="badge">💰  Rezeki & Keberuntungan (财运 / Cái Yùn)</span>
+        <table>
+            <tr><th>Aspek</th><th>Penjelasan</th></tr>
+            <tr><td>Shio (Anjing + Kelinci)</td><td>Termasuk pasangan yang <strong>membawa keberuntungan finansial</strong> satu sama lain. Anjing setia dalam kerja, Kelinci pintar cari peluang.</td></tr>
+            <tr><td>5 Unsur (Kayu + Tanah)</td><td>Tanah menyuburkan Kayu → cocok untuk <strong>bisnis bersama</strong> yang butuh fondasi kuat. Uang datang perlahan tapi pasti.</td></tr>
+            <tr><td>Zodiak (Taurus + Aquarius)</td><td>Taurus pintar mengelola uang (hemat, nabung). Aquarius pintar cari ide dan peluang baru. <strong>Kombinasi bagus</strong>: satu cari peluang, satu jaga keuangan.</td></tr>
+            <tr><td>Rekomendasi</td><td>Jangan campur utang-piutang terlalu rumit. Lebih baik kerja di bidang berbeda tapi saling dukung.</td></tr>
+        </table>
+        <p>✅ <strong>Kesimpulan Rezeki:</strong> BAIK. Saling membawa peluang. Rumah tangga stabil secara materi.</p>
+        <p>📖 <span class="pinyin">(Gǒu tù xiāng péi, cái yùn hěn hǎo.)</span><br>
+        Artinya: "Pasangan Anjing-Kelinci, rezekinya bagus."</p>
+    </div>
+
+    <!-- ZODIAK BARAT -->
+    <div class="card">
+        <span class="badge">♉♒  Zodiak Barat (西方星座 / Xīfāng Xīngzuò)</span>
+        <h3>Taurus (金牛座 / Jīn Niú Zuò) vs Aquarius (水瓶座 / Shuǐ Píng Zuò)</h3>
+        <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+        <p><strong>Tingkat kompatibilitas: Cukup cocok (perlu kompromi)</strong></p>
+        <table>
+            <tr><th>Aspek</th><th>Suami (Taurus)</th><th>Istri (Aquarius)</th></tr>
+            <tr><td>Elemen</td><td>Tanah – stabil, praktis, suka rutinitas</td><td>Udara – bebas, intelektual, suka kejutan</td></tr>
+            <tr><td>Kelebihan</td><td>Membawa stabilitas & ketenangan</td><td>Membawa kesegaran & ide baru</td></tr>
+            <tr><td>Tantangan</td><td>Terlalu kaku & keras kepala</td><td>Terlalu bebas & tidak terduga</td></tr>
+        </table>
+        <p>💡 <strong>Kunci sukses:</strong> Suami (Taurus) jangan terlalu memaksa rutinitas, beri ruang kebebasan. Istri (Aquarius) jangan terlalu sering mengubah rencana tanpa diskusi.</p>
+        <p>📖 <span class="pinyin">(Jīn Niú bié tài gù zhí, Shuǐ Píng bié tài shàn biàn.)</span><br>
+        Artinya: "Taurus jangan terlalu keras kepala, Aquarius jangan terlalu suka berubah."</p>
+    </div>
+
+    <!-- TABEL RINGKASAN KESELURUHAN -->
+    <div class="card">
+        <span class="badge">📋  Kesimpulan Akhir (总结 / Zǒngjié)</span>
+        <table>
+            <tr><th style="width:35%">Aspek</th><th>Hasil</th></tr>
+            <tr><td>Shio (Anjing + Kelinci) / 生肖</td><td>✅ <strong>SEMPURNA (六合 / Liù Hé)</strong> – pasangan paling harmonis dalam astrologi China, disebut "jodoh sejati"</td></tr>
+            <tr><td>5 Unsur (Kayu + Tanah) / 五行</td><td>✅ <strong>SALING MENGUATKAN</strong> – Kayu tumbuh subur di Tanah</td></tr>
+            <tr><td>Zodiak (Taurus + Aquarius) / 星座</td><td>⚠️ <strong>CUKUP COCOK</strong> – perlu kompromi karena beda elemen (Tanah vs Udara)</td></tr>
+            <tr><td>Rezeki & Keberuntungan / 财运</td><td>✅ <strong>BAIK</strong> – saling membawa peluang finansial</td></tr>
+            <tr><td>Prediksi Jangka Panjang</td><td>✅ <strong>LANGGENG</strong> – asalkan saling memahami perbedaan gaya hidup</td></tr>
+        </table>
+        <p style="margin-top: 1rem; font-weight: bold;">🎯 <strong>Intisari:</strong> Pasangan ini secara shio adalah <strong>jodoh sejati</strong> (六合). Fondasi pernikahan sangat kuat. Tantangan hanya pada perbedaan zodiak (Taurus yang kaku vs Aquarius yang bebas). Dengan saling pengertian, mereka bisa langgeng hingga tua.</p>
+    </div>
+
+    <!-- PESAN UNTUK SHE SHIONG -->
+    <div class="card">
+        <span class="badge">💌  Pesan untuk She Shiong</span>
+        <p><strong>She Shiong,</strong> sahabatmu ini beruntung punya istri yang secara shio adalah pasangan idealnya (<span class="chinese-word">六合</span>). Istri dia juga beruntung punya suami yang setia dan melindungi (Anjing). Doakan mereka semoga langgeng, Bro! 🙏😄</p>
+        <p>Kalau suatu saat mereka bertengkar, ingatkan ini: <em>"Lu sama istri lu itu jodoh sejati versi shio. Yang bikin ribut cuma perbedaan gaya Taurus vs Aquarius. Santai aja, jangan saling paksa. Urusan rezeki bagus, asal jangan utang-utangan sama istri ya."</em></p>
+    </div>
+
+    <footer>
+        diringkas dari percakapan dengan deepseek (by: William Yap) — ringkasan analisis pasangan sahabat | 2026
+    </footer>
+</div>
+
+<script>
+    // Dark Mode Toggle
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    if(localStorage.getItem('darkModeSheShiong') === 'enabled') {
+        body.classList.add('dark');
+        toggleBtn.textContent = '☀️ Mode Terang';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        if(body.classList.contains('dark')) {
+            localStorage.setItem('darkModeSheShiong', 'enabled');
+            toggleBtn.textContent = '☀️ Mode Terang';
+        } else {
+            localStorage.setItem('darkModeSheShiong', 'disabled');
+            toggleBtn.textContent = '🌙 Mode Gelap';
+        }
+    });
+</script>
+</body>
+</html>
