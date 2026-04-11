@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Komparasi Kurs & Emas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 60vh;
+            width: 100%;
+        }
+        .btn-toggle {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-blue-400">
+                    Market Comparison Dashboard ✨
+                </h1>
+                <p class="text-gray-400 text-sm">Data Historis: 11 Maret - 10 April 2026</p>
+            </div>
+            
+            <div class="flex bg-gray-800 p-1 rounded-xl">
+                <button id="viewRaw" class="btn-toggle px-4 py-2 rounded-lg bg-blue-600 text-sm font-medium">Nilai Asli</button>
+                <button id="viewPercent" class="btn-toggle px-4 py-2 rounded-lg text-sm font-medium">Persentase (%)</button>
+            </div>
+        </header>
+
+        <!-- Main Chart -->
+        <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl border border-gray-700 mb-8">
+            <div class="chart-container">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+            <!-- USD -->
+            <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-blue-500">
+                <p class="text-xs text-gray-400">USD/IDR</p>
+                <p class="text-lg font-bold">17.090</p>
+                <p class="text-xs text-green-400">+1,30%</p>
+            </div>
+            <!-- SGD -->
+            <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-yellow-500">
+                <p class="text-xs text-gray-400">SGD/IDR</p>
+                <p class="text-lg font-bold">13.415</p>
+                <p class="text-xs text-green-400">+1,32%</p>
+            </div>
+            <!-- JPY -->
+            <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-pink-500">
+                <p class="text-xs text-gray-400">JPY/IDR</p>
+                <p class="text-lg font-bold">107,29</p>
+                <p class="text-xs text-green-400">+1,08%</p>
+            </div>
+            <!-- AUD -->
+            <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-green-500">
+                <p class="text-xs text-gray-400">AUD/IDR</p>
+                <p class="text-lg font-bold">12.068</p>
+                <p class="text-xs text-red-400">-0,23%</p>
+            </div>
+            <!-- EUR -->
+            <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-purple-500">
+                <p class="text-xs text-gray-400">EUR/IDR</p>
+                <p class="text-lg font-bold">20.029</p>
+                <p class="text-xs text-green-400">+2,64%</p>
+            </div>
+            <!-- CHF -->
+            <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-cyan-500">
+                <p class="text-xs text-gray-400">CHF/IDR</p>
+                <p class="text-lg font-bold">21.656</p>
+                <p class="text-xs text-green-400">+0,20%</p>
+            </div>
+            <!-- GAU -->
+            <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-orange-500">
+                <p class="text-xs text-gray-400">EMAS (GAU)</p>
+                <p class="text-lg font-bold">2.609k</p>
+                <p class="text-xs text-red-400">-6,24%</p>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-500 text-xs">
+            Dibuat khusus untuk Bestie | Data diolah dari screenshot lampiran.
+        </footer>
+    </div>
+
+    <script>
+        // Label Tanggal (X-Axis)
+        const labels = ['11/03', '12/03', '13/03', '16/03', '17/03', '18/03', '19/03', '20/03', '23/03', '24/03', '25/03', '26/03', '27/03', '30/03', '31/03', '01/04', '02/04', '03/04', '05/04', '06/04', '07/04', '08/04', '09/04', '10/04'];
+
+        // Data Mentah (Dari Tabel User)
+        const dataRaw = {
+            usd: [16870, 16890, 16940, 16990, 16980, 16980, 16980, 16980, 16980, 16980, 16910, 16900, 16965, 16990, 16994, 16980, 16994, 16994, 16963, 17035, 17094, 17010, 17085, 17090],
+            sgd: [13239, 13202, 13196, 13295, 13305, 13225, 13292, 13241, 13320, 13286, 13196, 13146, 13161, 13157, 13215, 13231, 13219, 13204, 13258, 13258, 13328, 13351, 13421, 13415],
+            jpy: [106.14, 106.00, 106.06, 106.82, 106.79, 106.21, 107.65, 106.64, 107.17, 107.00, 106.04, 105.75, 105.82, 106.37, 107.08, 106.93, 106.48, 106.50, 106.17, 106.68, 107.09, 107.26, 107.48, 107.29],
+            aud: [12065, 11953, 11825, 12015, 12064, 11927, 12033, 11925, 11904, 11879, 11749, 11638, 11660, 11641, 11727, 11764, 11744, 11710, 11700, 11783, 11925, 11982, 12097, 12068],
+            eur: [19513, 19442, 19339, 19546, 19594, 19445, 19678, 19647, 19718, 19709, 19545, 19482, 19526, 19479, 19634, 19677, 19609, 19572, 19660, 19660, 19821, 19838, 19989, 20029],
+            chf: [21612, 21487, 21405, 21566, 21636, 21405, 21544, 21548, 21592, 21541, 21356, 21245, 21236, 21250, 21259, 21375, 21273, 21216, 21172, 21337, 21423, 21492, 21622, 21656],
+            gau: [2782, 2769, 2735, 2731, 2727, 2636, 2522, 2450, 2411, 2474, 2439, 2393, 2452, 2462, 2559, 2602, 2553, 2553, 2514, 2549, 2649, 2574, 2612, 2609]
+        };
+
+        // Fungsi hitung persentase dari titik awal (Base 100)
+        function toPercent(arr) {
+            const first = arr[0];
+            return arr.map(val => ((val - first) / first * 100).toFixed(2));
+        }
+
+        const dataPercent = {
+            usd: toPercent(dataRaw.usd),
+            sgd: toPercent(dataRaw.sgd),
+            jpy: toPercent(dataRaw.jpy),
+            aud: toPercent(dataRaw.aud),
+            eur: toPercent(dataRaw.eur),
+            chf: toPercent(dataRaw.chf),
+            gau: toPercent(dataRaw.gau)
+        };
+
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        let currentMode = 'raw'; // 'raw' atau 'percent'
+
+        const config = {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    { label: 'USD/IDR', data: dataRaw.usd, borderColor: '#3b82f6', backgroundColor: '#3b82f6', tension: 0.3, yAxisID: 'y' },
+                    { label: 'SGD/IDR', data: dataRaw.sgd, borderColor: '#eab308', backgroundColor: '#eab308', tension: 0.3, yAxisID: 'y' },
+                    { label: 'JPY/IDR', data: dataRaw.jpy, borderColor: '#ec4899', backgroundColor: '#ec4899', tension: 0.3, yAxisID: 'y_jpy' },
+                    { label: 'AUD/IDR', data: dataRaw.aud, borderColor: '#22c55e', backgroundColor: '#22c55e', tension: 0.3, yAxisID: 'y' },
+                    { label: 'EUR/IDR', data: dataRaw.eur, borderColor: '#a855f7', backgroundColor: '#a855f7', tension: 0.3, yAxisID: 'y' },
+                    { label: 'CHF/IDR', data: dataRaw.chf, borderColor: '#06b6d4', backgroundColor: '#06b6d4', tension: 0.3, yAxisID: 'y' },
+                    { label: 'EMAS (GAU)', data: dataRaw.gau, borderColor: '#f97316', backgroundColor: '#f97316', tension: 0.3, yAxisID: 'y_gau' }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#9ca3af', padding: 20 } },
+                    tooltip: { backgroundColor: '#1f2937', titleColor: '#fff', bodyColor: '#ccc' }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#9ca3af' } },
+                    y: { 
+                        position: 'left', 
+                        grid: { color: 'rgba(75, 85, 99, 0.2)' },
+                        ticks: { color: '#9ca3af' },
+                        title: { display: true, text: 'Nilai Kurs (IDR)', color: '#9ca3af' }
+                    },
+                    y_jpy: { 
+                        position: 'right', 
+                        display: true, 
+                        grid: { drawOnChartArea: false },
+                        ticks: { color: '#ec4899' },
+                        title: { display: true, text: 'JPY/IDR Scale', color: '#ec4899' }
+                    },
+                    y_gau: {
+                        position: 'right',
+                        display: false, // Disembunyikan saat mode raw agar tidak berantakan
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, config);
+
+        // Toggle Buttons Logic
+        const btnRaw = document.getElementById('viewRaw');
+        const btnPercent = document.getElementById('viewPercent');
+
+        btnRaw.onclick = () => {
+            currentMode = 'raw';
+            btnRaw.classList.add('bg-blue-600');
+            btnPercent.classList.remove('bg-blue-600');
+            
+            // Update Data
+            myChart.data.datasets[0].data = dataRaw.usd;
+            myChart.data.datasets[1].data = dataRaw.sgd;
+            myChart.data.datasets[2].data = dataRaw.jpy;
+            myChart.data.datasets[3].data = dataRaw.aud;
+            myChart.data.datasets[4].data = dataRaw.eur;
+            myChart.data.datasets[5].data = dataRaw.chf;
+            myChart.data.datasets[6].data = dataRaw.gau;
+
+            // Restore Multi-Axis
+            myChart.options.scales.y.title.text = 'Nilai Kurs (IDR)';
+            myChart.options.scales.y_jpy.display = true;
+            myChart.options.scales.y_gau.display = false;
+            
+            myChart.update();
+        };
+
+        btnPercent.onclick = () => {
+            currentMode = 'percent';
+            btnPercent.classList.add('bg-blue-600');
+            btnRaw.classList.remove('bg-blue-600');
+            
+            // Update Data
+            myChart.data.datasets[0].data = dataPercent.usd;
+            myChart.data.datasets[1].data = dataPercent.sgd;
+            myChart.data.datasets[2].data = dataPercent.jpy;
+            myChart.data.datasets[3].data = dataPercent.aud;
+            myChart.data.datasets[4].data = dataPercent.eur;
+            myChart.data.datasets[5].data = dataPercent.chf;
+            myChart.data.datasets[6].data = dataPercent.gau;
+
+            // Unified Axis for Percentages
+            myChart.options.scales.y.title.text = 'Perubahan (%) dari 11 Maret';
+            myChart.options.scales.y_jpy.display = false;
+            myChart.options.scales.y_gau.display = false;
+            
+            myChart.update();
+        };
+    </script>
+</body>
+</html>
