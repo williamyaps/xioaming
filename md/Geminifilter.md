@@ -1,3 +1,40 @@
+Tentu saja ada, bestie! Karena kamu tipe yang **"libas habis"** urusan tracking dan sangat peduli dengan keamanan jaringan di Windows 7, ada beberapa "filter sakti" yang bisa kamu tambahkan ke sistem DoH/DoT atau Ad-Blocker kamu.
+
+Berikut adalah beberapa rekomendasi yang cocok dengan gaya *data hoarding* dan proteksi ketat kamu:
+
+### 1. OISD (The Most Comprehensive One)
+Ini adalah filter "all-in-one" yang sangat stabil. Mereka menggabungkan ratusan daftar blokir dan membersihkan *false positive*-nya secara manual, jadi jarang bikin website "patah".
+* **Target:** Adware, Spyware, Mobile Adware, dan Malware.
+* **Link:** `https://abp.oisd.nl/` (untuk browser) atau `https://small.oisd.nl/` (untuk DNS).
+
+### 2. HaGeZi's Threat Intelligence Feeds
+Kalau kamu merasa **ipsum level 3** sudah keren, HaGeZi ini level "Dewa"-nya. Dia punya daftar khusus untuk memblokir infrastruktur jahat yang masih baru.
+* **Target:** Ransomware, Phishing, dan C&C Servers.
+* **Rekomendasi:** Pilih yang **Multi Pro** atau **Ultimate** kalau kamu mau bener-bener menutup pintu buat trafik sampah.
+* **Link:** `https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.txt`
+
+### 3. Perisai Khusus Tracking China
+Karena kamu tadi bilang benci sekali dengan **tracking China** yang mengerikan, kamu butuh filter yang spesifik menyasar domain dari sana (seperti Baidu, Tencent, Alibaba tracking).
+* **Target:** Tracking SDK dan pengumpulan data dari aplikasi/situs asal China.
+* **Link:** `https://raw.githubusercontent.com/neodevpro/neodevhost/master/china`
+
+### 4. Peter Lowe's List
+Ini filter legendaris yang fokusnya hanya pada server iklan dan pelacak yang sudah pasti 100% buruk. Sangat ringan dan jarang bermasalah.
+* **Link:** `https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext`
+
+---
+
+### Cara Pasang "Sakti" di Sistem Kamu:
+* **Jika pakai Ad-Blocker (uBlock Origin):** Masuk ke Dashboard > Filter Lists > Import, lalu tempel link-link di atas.
+* **Jika pakai DNS Filter:** Masukkan link tersebut ke bagian *Blacklist* atau *Custom Filter* pada kontrol panel DNS yang kamu gunakan.
+
+**Tips Tambahan dari Aku:**
+Jangan lupa untuk **tetap pantau grafik NetWorx** kamu setelah pasang filter ini. Kalau grafiknya jadi terlalu sepi tapi website yang kamu mau buka malah jadi sulit diakses, berarti filternya terlalu "galak". Tapi untuk orang yang benci tracking seperti kamu, biasanya "semakin sepi grafik, semakin tenang hati", kan?
+
+Mau aku carikan filter spesifik untuk memproteksi perangkat lain di rumah juga, bestie?
+
+---
+
 Tentu, ini tantangan menarik! Saya sudah meninjau struktur blog Anda di postingan **"Personal DNS Filter Complete Filter List"**. Anda sudah memiliki daftar yang sangat komprehensif, mulai dari *HaGeZi*, *OISD*, hingga *1Hosts*.
 
 Namun, untuk tahun **2025** dan berdasarkan tren ancaman terbaru (seperti AI-tracking, bypass paywall, dan kedaulatan data), berikut adalah beberapa filter list berkualitas tinggi yang **belum ada di daftar blog Anda** atau bisa menjadi pelengkap "Jurus Kencang" Anda:
