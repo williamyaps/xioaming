@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Analisis Keselarasan: Taurus-Anjing 1994 & Capricorn-Harimau 1999</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+      background: #f5efe6;
+      color: #2e241f;
+      line-height: 1.6;
+      padding: 18px 16px 40px;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      background: rgba(255, 250, 240, 0.8);
+      backdrop-filter: blur(2px);
+      border-radius: 42px 42px 32px 32px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      padding: 24px 20px 30px;
+      border: 1px solid #e3d6c5;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      color: #3e2c1b;
+      border-left: 6px solid #b08968;
+      padding-left: 18px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #6b4f32;
+      margin-bottom: 28px;
+      font-style: italic;
+      padding-left: 24px;
+      border-bottom: 1px dashed #c9b59b;
+      padding-bottom: 12px;
+    }
+
+    .profile-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .profile-card {
+      flex: 1 1 200px;
+      background: #fffbf5;
+      border-radius: 28px;
+      padding: 18px 16px;
+      box-shadow: 0 5px 0 #dccbb8;
+      border: 1px solid #e7d9ca;
+      transition: all 0.15s;
+    }
+
+    .profile-card.left {
+      border-top: 6px solid #7f6b5c;
+    }
+    .profile-card.right {
+      border-top: 6px solid #a98467;
+    }
+
+    .badge-date {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #7f4f24;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .main-sign {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .element-tag {
+      display: inline-block;
+      background: #e9dbcd;
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #3b2a1c;
+      margin: 10px 0 8px;
+    }
+
+    .detail-list {
+      margin-top: 12px;
+      list-style: none;
+    }
+    .detail-list li {
+      padding: 6px 0;
+      border-bottom: 1px dotted #dacbbc;
+      display: flex;
+      justify-content: space-between;
+    }
+    .detail-list li span:first-child {
+      font-weight: 500;
+      color: #5e4530;
+    }
+
+    /* bagian analisis */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 30px 0 14px;
+      color: #2b1e12;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title i {
+      font-size: 1.8rem;
+    }
+
+    .insight-box {
+      background: #e7dbce66;
+      padding: 20px 18px;
+      border-radius: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #d7c3af;
+    }
+
+    .rating-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .rating-label {
+      min-width: 110px;
+      font-weight: 600;
+    }
+    .bar-bg {
+      flex: 1;
+      height: 10px;
+      background: #cfbcab;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #7f5a3e;
+      border-radius: 20px;
+    }
+
+    .warning-note {
+      background: #f3e8db;
+      border-left: 8px solid #9c6e4b;
+      padding: 18px 20px;
+      border-radius: 18px;
+      margin-top: 24px;
+      font-size: 0.98rem;
+    }
+
+    .btn-accordion {
+      background: none;
+      border: 1.5px solid #b08968;
+      color: #3e2c1b;
+      padding: 12px 22px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 60px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 0 8px;
+      transition: 0.2s;
+      background-color: #fff3e9;
+    }
+    .btn-accordion:hover {
+      background: #dcc9b6;
+      border-color: #6e4f36;
+    }
+
+    .panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background: #faf1e8;
+      border-radius: 20px;
+      padding: 0 18px;
+      margin-bottom: 10px;
+    }
+    .panel-inner {
+      padding: 18px 0 22px;
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      text-align: right;
+      font-size: 0.85rem;
+      color: #7a624b;
+      border-top: 1px solid #ddcfc0;
+      padding-top: 20px;
+    }
+
+    .glossary {
+      font-size: 0.85rem;
+      background: #efe2d4;
+      border-radius: 18px;
+      padding: 14px 18px;
+      margin: 20px 0 8px;
+    }
+    button {
+      font-family: inherit;
+    }
+    .flex-icon {
+      font-size: 1.3rem;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>??  Keselarasan Energi<br>Shio & Zodiak</h1>
+  <div class="subtitle">Analisis objektif berdasarkan data kelahiran — bukan ramalan, melainkan peta karakter.</div>
+
+  <!-- PROFIL KEDUA PIHAK -->
+  <div class="profile-row">
+    <!-- Pihak pertama: 15 Mei 1994 -->
+    <div class="profile-card left">
+      <div class="badge-date">?? 15 Mei 1994</div>
+      <div class="main-sign">?? Anjing Kayu</div>
+      <div class="element-tag">? Taurus · Elemen Bumi</div>
+      <ul class="detail-list">
+        <li><span>Shio</span> <span><strong>Anjing</strong> (1994)</span></li>
+        <li><span>Unsur Shio</span> <span>Kayu Yang kokoh</span></li>
+        <li><span>Zodiak</span> <span>Taurus (??)</span></li>
+        <li><span>Planet Penguasa</span> <span>Venus</span></li>
+        <li><span>Sifat dominan</span> <span>Setia, stabil, protektif</span></li>
+      </ul>
+    </div>
+    <!-- Pihak kedua: 1 Januari 1999 -->
+    <div class="profile-card right">
+      <div class="badge-date">?? 1 Januari 1999</div>
+      <div class="main-sign">?? Harimau Tanah</div>
+      <div class="element-tag">? Capricorn · Elemen Bumi</div>
+      <ul class="detail-list">
+        <li><span>Shio</span> <span><strong>Harimau</strong> (1998)*</span></li>
+        <li><span>Unsur Shio</span> <span>Tanah pegunungan</span></li>
+        <li><span>Zodiak</span> <span>Capricorn (??)</span></li>
+        <li><span>Planet Penguasa</span> <span>Saturnus</span></li>
+        <li><span>Sifat dominan</span> <span>Strategis, ambisius, mandiri</span></li>
+      </ul>
+      <div style="font-size:0.75rem; margin-top: 8px; opacity:0.7;">*Tahun Imlek 1999 dimulai 16 Feb, sehingga 1 Januari masih shio Harimau (1998).</div>
+    </div>
+  </div>
+
+  <!-- ANALISIS UTAMA -->
+  <div class="section-title">
+    <span>?? Dinamika Bumi & Kayu-Tanah</span>
+  </div>
+  <div class="insight-box">
+    <p style="margin-bottom: 14px;"><strong>Kombinasi Taurus-Anjing (1994) dan Capricorn-Harimau (1999)</strong> secara permukaan tampak serasi — sama-sama berakar pada elemen Bumi. Namun dalam astrologi Timur dan Barat, keseimbangan energi antara kedua profil ini memerlukan kewaspadaan khusus.</p>
+    
+    <!-- Rating sederhana untuk memperjelas -->
+    <div class="rating-bar">
+      <span class="rating-label">?? Kecocokan lahiriah</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 80%;"></div></div>
+      <span>80%</span>
+    </div>
+    <div class="rating-bar">
+      <span class="rating-label">?? Keseimbangan energi</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 45%; background: #b6714b;"></div></div>
+      <span>45%</span>
+    </div>
+    <div class="rating-bar">
+      <span class="rating-label">??? Risiko kelelahan batin</span>
+      <div class="bar-bg"><div class="bar-fill" style="width: 88%; background: #9f5e3a;"></div></div>
+      <span>tinggi</span>
+    </div>
+  </div>
+
+  <!-- POIN PENTING (tanpa kata "grogoti") -->
+  <div style="margin: 20px 0 12px;">
+    <h3 style="font-weight: 600; margin-bottom: 14px; font-size: 1.3rem;">?? Karakteristik interaksi yang perlu dipahami</h3>
+    <ul style="list-style-type: '?? '; padding-left: 28px; color: #2e241f;">
+      <li style="margin-bottom: 14px;"><strong>Shio Anjing (Kayu) + Shio Harimau (Tanah):</strong> Anjing dikenal sebagai pelindung setia, sementara Harimau adalah pemimpin alami. Dalam teori Wu Xing, <strong>Kayu mengontrol Tanah</strong>. Namun ketika Kayu terlalu lunak dan Tanah sangat dominan, yang terjadi adalah penyerapan energi secara sepihak. Anjing cenderung mengorbankan kenyamanan diri demi menjaga stabilitas pasangan.</li>
+      <li style="margin-bottom: 14px;"><strong>Taurus vs Capricorn (sesama Bumi):</strong> Keduanya menghargai kerja keras dan loyalitas. Tetapi Taurus mencari rasa aman melalui rutinitas dan kehangatan, sedangkan Capricorn memiliki sifat licik dan yang sangat halus serta memandang hubungan dari sudut efisiensi dan pencapaian jangka panjang untuk keuntungan Capricorn. Tanpa komunikasi terbuka, Taurus tidak dapat merasa “dimanfaatkan sebagai fondasi” dan mendapatkan apresiasi emosional yang sepadan.</li>
+      <li style="margin-bottom: 14px;"><strong>Pengaruh Saturnus (Capricorn) terhadap Venus (Taurus):</strong> Saturnus cenderung menekan ekspresi kasih sayang ala Venus. Ini bisa menciptakan dinamika di mana pihak Taurus terus memberi dukungan, sementara pihak Capricorn menerima sebagai hal yang wajar.</li>
+    </ul>
+  </div>
+
+  <!-- ACCORDION untuk analisis lanjutan (supaya tidak terlalu padat, dan keluarga bisa eksplor) -->
+  <button class="btn-accordion" id="accordionBtn">
+    <span>?? Buka analisis mendalam: potensi ketidakseimbangan & saran waspada</span>
+    <span id="accordionIcon" style="font-size:1.4rem;">?</span>
+  </button>
+  <div class="panel" id="extraPanel">
+    <div class="panel-inner">
+      <h4 style="margin-bottom: 12px; color: #4d3623;">?? Area yang rawan menimbulkan keletihan psikologis</h4>
+      <p><strong>1. Siklus “Pemberi – Penerima” yang tidak terlihat.</strong><br>
+      Dalam pasangan ini, Anjing Kayu (1994) secara alamiah akan berusaha menstabilkan situasi dan melindungi pihak Harimau. Namun Harimau Tanah (1999) yang dibalut Capricorn memiliki kecenderungan untuk terus bergerak maju tanpa banyak menoleh. Jika Taurus tidak menetapkan batasan, ia akan kehabisan daya tanpa disadari.</p>
+      <p style="margin-top: 14px;"><strong>2. Ketika logika Capricorn bertemu loyalitas Taurus.</strong><br>
+      Capricorn dikenal dingin dalam mengambil keputusan; segala sesuatu diukur dengan manfaat. Taurus yang setia seringkali sulit menerima bahwa pengorbanannya tidak direspons dengan kehangatan yang setara. Inilah yang dalam bahasa astrologi disebut <em>“energi yang mengendap”</em> — Taurus merasa diabaikan namun tetap bertahan karena rasa tanggung jawab.</p>
+      <p style="margin-top: 14px;"><strong>3. Isolasi alami Harimau Capricorn.</strong><br>
+      Kombinasi shio Harimau dan Capricorn sangat mandiri dan tidak segan membawa pasangan menjauh dari lingkaran sosial lamanya. Bagi Anjing yang butuh “kawanan” untuk merasa aman, ini dapat memicu kecemasan tersembunyi.</p>
+      <div style="background: #dccfc1; border-radius: 16px; padding: 14px; margin-top: 18px;">
+        <span style="font-weight: 700;">?? Rekomendasi bagi lingkungan terdekat (keluarga/sahabat):</span><br>
+        • Jaga komunikasi ringan namun rutin dengan pihak Taurus 1994. Tanyakan kabar tanpa memberi kesan menghakimi.<br>
+        • Bantu ia mengingat hobi dan kesenangan pribadinya yang mungkin mulai terlupakan.<br>
+        • Jika ia menunjukkan tanda-tanda kelelahan batin (sering mengeluh lelah, kehilangan minat), itu adalah alarm bahwa keseimbangan Bumi-Bumi ini sudah goyah.
+      </div>
+    </div>
+  </div>
+
+  <!-- KESIMPULAN OBJEKTIF -->
+  <div class="warning-note">
+    <div style="display: flex; gap: 12px; align-items: flex-start;">
+      <span style="font-size: 2rem;">??</span>
+      <div>
+        <h3 style="margin-bottom: 6px; font-weight: 700;">Kesimpulan Astrologi</h3>
+        <p>Hubungan antara individu kelahiran <strong>15 Mei 1994</strong> dan <strong>1 Januari 1999</strong> memiliki daya tarik yang kuat karena kemiripan elemen Bumi. Namun struktur energi menunjukkan bahwa pihak Taurus-Anjing perlu menetapkan batasan yang jelas. Tanpa kesadaran akan pentingnya timbal balik emosional, pihak pertama berisiko mengalami penipisan energi secara perlahan.</p>
+        <p style="margin-top: 12px;">Keluarga dan orang sekitar dianjurkan untuk menjadi <strong>pengingat yang lembut</strong>, bukan penghalang. Karena semakin besar tekanan eksternal, semakin kuat insting Anjing untuk melindungi si harimau. Pemahaman akan peta energi ini semoga menjadi bekal agar masing-masing pihak dapat tumbuh tanpa kehilangan jati diri.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- GLOSARIUM KECIL -->
+  <div class="glossary">
+    <strong>?? Catatan singkat:</strong> Analisis ini bersumber dari perpaduan Ba Zi (Shio & Unsur) dan astrologi Barat. Tidak bertujuan meramal nasib, melainkan mengenali potensi karakter agar interaksi lebih sehat.
+  </div>
+  <div class="footer-note">
+    ? disusun berdasarkan data kelahiran ?<br>
+    untuk refleksi pribadi & keluarga
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Accordion sederhana untuk panel analisis tambahan
+    const btn = document.getElementById('accordionBtn');
+    const panel = document.getElementById('extraPanel');
+    const icon = document.getElementById('accordionIcon');
+
+    if (btn && panel && icon) {
+      btn.addEventListener('click', function() {
+        if (panel.style.maxHeight && panel.style.maxHeight !== '0px') {
+          panel.style.maxHeight = '0px';
+          icon.textContent = '?';
+          btn.setAttribute('aria-expanded', 'false');
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + 40 + 'px'; 
+          icon.textContent = '?';
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+      
+      // Set awal tertutup
+      panel.style.maxHeight = '0px';
+    }
+
+    // Efek kecil: saat halaman dimuat, highlight rating secara halus (opsional)
+    console.log('Analisis energi: Taurus-Anjing 1994 & Capricorn-Harimau 1999');
+  })();
+</script>
+
+<!-- pastikan tampilan panel tidak terlalu aneh saat resize -->
+<style>
+  @media (max-width: 480px) {
+    h1 { font-size: 1.7rem; }
+    .profile-card .main-sign { font-size: 1.8rem; }
+    .rating-bar { flex-wrap: wrap; }
+  }
+</style>
+</body>
+</html>
