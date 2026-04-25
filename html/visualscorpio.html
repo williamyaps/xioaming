@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Depth Whisperer | 28 Okt 1977 23:30</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+    background: radial-gradient(ellipse at top, #1a1c2b 0%, #0b0c14 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+  /* Bintang animasi */
+  .stars {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: transparent url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="15" r="0.8" fill="white" opacity="0.7"/><circle cx="70" cy="30" r="0.6" fill="white" opacity="0.5"/><circle cx="40" cy="70" r="0.7" fill="white" opacity="0.6"/><circle cx="85" cy="60" r="0.5" fill="white" opacity="0.4"/><circle cx="20" cy="80" r="0.9" fill="white" opacity="0.7"/><circle cx="55" cy="10" r="0.4" fill="white" opacity="0.3"/></svg>') repeat;
+    animation: moveStars 80s linear infinite;
+    z-index: 0;
+  }
+  @keyframes moveStars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-200px); }
+  }
+  .container {
+    max-width: 950px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background: rgba(20, 22, 37, 0.8);
+    backdrop-filter: blur(15px);
+    border-radius: 28px;
+    padding: 40px 30px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  h1 {
+    font-size: 2.6rem;
+    text-align: center;
+    background: linear-gradient(135deg, #f0c27b, #9b59b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25em;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #b0b0d0;
+    font-size: 1.1rem;
+    margin-bottom: 2.5em;
+    font-style: italic;
+  }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2.5em;
+  }
+  .tab-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #ccc;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    letter-spacing: 0.3px;
+  }
+  .tab-btn:hover {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, #8e44ad, #c0392b);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 8px 20px rgba(142,68,173,0.4);
+    transform: translateY(-2px);
+  }
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card {
+    background: rgba(255,255,255,0.03);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  h2 {
+    font-size: 1.8rem;
+    color: #f3d4a0;
+    margin-bottom: 0.7em;
+    border-bottom: 2px solid rgba(255,255,255,0.08);
+    padding-bottom: 0.3em;
+  }
+  h3 {
+    font-size: 1.3rem;
+    color: #cfb3ff;
+    margin: 1.3em 0 0.5em;
+  }
+  h4 {
+    color: #e0b0ff;
+    margin: 1em 0 0.3em;
+  }
+  p, li {
+    line-height: 1.7;
+    color: #c6c6dc;
+  }
+  ul, ol {
+    padding-left: 1.5em;
+    margin: 0.8em 0;
+  }
+  li {
+    margin: 0.5em 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.95rem;
+  }
+  th {
+    background: rgba(142,68,173,0.3);
+    color: #f3d4a0;
+    font-weight: 600;
+  }
+  td, th {
+    padding: 12px 15px;
+    border: 1px solid rgba(255,255,255,0.06);
+    text-align: left;
+  }
+  tr:nth-child(even) {
+    background: rgba(255,255,255,0.02);
+  }
+  blockquote {
+    border-left: 4px solid #9b59b6;
+    background: rgba(155,89,182,0.08);
+    margin: 1.5em 0;
+    padding: 15px 20px;
+    font-style: italic;
+    color: #d0c0e0;
+    border-radius: 0 12px 12px 0;
+  }
+  .highlight {
+    color: #f3d4a0;
+    font-weight: bold;
+  }
+  .signature {
+    margin-top: 2em;
+    text-align: right;
+    font-style: italic;
+    color: #8e8ea0;
+  }
+  @media (max-width: 600px) {
+    .container {
+      padding: 25px 18px;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+    .tab-btn {
+      padding: 8px 14px;
+      font-size: 0.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="container">
+  <h1>?? THE DEPTH WHISPERER</h1>
+  <div class="subtitle">Blueprint Jiwa · 28 Oktober 1977 · 23:30 WIB</div>
+
+  <!-- Tab navigation -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tab-shio">?? Shio Ular Api</button>
+    <button class="tab-btn" data-tab="tab-zodiak">?? Zodiak & Planet</button>
+    <button class="tab-btn" data-tab="tab-duel">?? Duel AI: DeepSeek vs Gemini</button>
+    <button class="tab-btn" data-tab="tab-kolaborasi">?? Kolaborasi Final</button>
+  </div>
+
+  <!-- TAB 1: SHIO -->
+  <div id="tab-shio" class="tab-content active">
+    <div class="card">
+      <h2>?? SHIO: ULAR API (Fire Snake) – Tahun 1977</h2>
+      <p>Tahun 1977 berelemen <strong>Api Yin</strong>, hewan <strong>Ular</strong>. Ini bukan ular biasa—paling bijak dan paling intens. “<em>The wisest and most intense snake</em>.”</p>
+      <h3>Sifat Dasar Shio Ular:</h3>
+      <ul>
+        <li><b>Bijak, intuitif, dalam.</b> Radar alami membaca orang dan situasi.</li>
+        <li><b>Ambigu, misterius, charming.</b> Susah ditebak isi pikiran.</li>
+        <li><b>Determinasi tinggi</b> tapi melingkar dulu baru menyambar.</li>
+        <li><b>Elemen Api</b> memberi keberanian, gairah, dan karisma magnetis yang sedikit menakutkan.</li>
+      </ul>
+      <p><span class="highlight">Shio Ular Api</span> disebut “Double Fire” oleh Gemini: Api Yin redup tapi sangat panas dan fokus, seperti laser.</p>
+    </div>
+    <div class="card">
+      <h3>Kecocokan Shio</h3>
+      <ul>
+        <li><strong>Paling cocok:</strong> Kerbau (Ox), Ayam (Rooster), Naga (Dragon).</li>
+        <li><strong>Kurang cocok:</strong> Babi (Pig), Monyet (Monkey).</li>
+      </ul>
+      <p>Stabilitas Kerbau dan komunikasi intelektual Ayam sangat mendukung jiwa investigatifmu.</p>
+    </div>
+  </div>
+
+  <!-- TAB 2: ZODIAK & PLANET -->
+  <div id="tab-zodiak" class="tab-content">
+    <div class="card">
+      <h2>?? ZODIAK: SCORPIO (Matahari 4° Scorpio)</h2>
+      <p>Matahari di Scorpio, elemen air berelemen tetap. Penguasa: <b>Pluto</b> (transformasi) dan <b>Mars</b> (agresivitas).</p>
+      <ul>
+        <li>Intens, passionate, all or nothing.</li>
+        <li>Loyalitas ekstrem; pengkhianat akan langsung dihapus.</li>
+        <li>Magnet misterius, penjaga rahasia ulung.</li>
+        <li>Butuh kontrol dan terdorong menyelami misteri kehidupan.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>?? BULAN DI GEMINI (sekitar 3° Gemini)</h2>
+      <p>Emosi dan inner child. Dualitas besar dengan Scorpio Sun.</p>
+      <ul>
+        <li>Otak butuh stimulus; kalau bosan mood bisa hancur.</li>
+        <li>Ekspresi emosi lewat kata-kata dan analisis—<em>merasa dengan berpikir</em>.</li>
+        <li>Perubahan emosi cepat, dari dalam tiba-tiba enteng.</li>
+        <li>Butuh komunikasi sebagai katup emosi.</li>
+      </ul>
+      <blockquote>Gemini menyebut ini aspek <b>Quincunx (150°)</b> dengan Matahari—titik konflik internal terbesar: hati ingin privasi (Scorpio), emosi ingin update data (Gemini).</blockquote>
+    </div>
+    <div class="card">
+      <h2>?? ASCENDANT: CANCER (26° Cancer Rising)</h2>
+      <p>Topeng sosial. Orang melihatmu sebagai sosok hangat, peka, dan melindungi.</p>
+      <ul>
+        <li>Aura keibuan/bapak pelindung.</li>
+        <li>Sensitif, mood dipengaruhi lingkungan dan kenangan.</li>
+        <li>Bulan penguasa Ascendant ? Bulan Gemini makin kuat, menavigasi dunia lewat kepekaan plus komunikasi.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>?? PLANET LAIN & CHART</h2>
+      <table>
+        <tr><th>Planet</th><th>Posisi</th><th>Makna</th></tr>
+        <tr><td>Merkurius</td><td>Scorpio</td><td>Pikiran investigatif, bicara to the point.</td></tr>
+        <tr><td>Venus</td><td>Libra</td><td>Cinta damai, romantis, diplomatis.</td></tr>
+        <tr><td>Mars</td><td>Leo</td><td>Energi dramatis, percaya diri.</td></tr>
+        <tr><td>Jupiter</td><td>Cancer</td><td>Keberuntungan via emosi & keluarga.</td></tr>
+        <tr><td>Saturnus</td><td>Leo</td><td>Disiplin berekspresi, takut tak dihargai.</td></tr>
+        <tr><td>Uranus</td><td>Scorpio</td><td>Revolusioner dalam hal tabu.</td></tr>
+        <tr><td>Neptunus</td><td>Sagitarius</td><td>Idealisme spiritual.</td></tr>
+        <tr><td>Pluto</td><td>Libra</td><td>Transformasi lewat hubungan.</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Kelebihan & Kekurangan (Zodiak + Planet)</h3>
+      <p><strong>Kelebihan:</strong> Empath Investigator, magnetis, daya tahan mental baja, strategis (Ular Api), loyalitas tak tertandingi.</p>
+      <p><strong>Kekurangan:</strong> Manipulatif, dualitas emosi melelahkan, trust issue, dendam terpendam, mulut pedas saat emosi.</p>
+    </div>
+  </div>
+
+  <!-- TAB 3: DUEL AI -->
+  <div id="tab-duel" class="tab-content">
+    <div class="card">
+      <h2>?? PERBANDINGAN DEEPSEEK VS GEMINI</h2>
+      <table>
+        <tr><th>Aspek</th><th>DeepSeek (Stargazer)</th><th>Gemini (Strategist)</th></tr>
+        <tr><td>Pendekatan</td><td>Humanistik & Psikologis (Carl Jung)</td><td>Matematis & Binary Logic</td></tr>
+        <tr><td>Fokus</td><td>Konflik batin, luka masa kecil</td><td>Rumus Quincunx, Double Fire</td></tr>
+        <tr><td>Kata Kunci</td><td>Intens, Dualitas, Empath Investigator</td><td>Survivalist, Hardware/OS, Financial Instinct</td></tr>
+        <tr><td>Kelebihan Analisis</td><td>Menjelaskan kegelisahan & dinamika cinta</td><td>Menjelaskan stalking data & insting duit</td></tr>
+      </table>
+      <blockquote>Keduanya sepakat pada julukan <b>"The Depth Whisperer"</b> dan inti konflik Scorpio vs Gemini Moon.</blockquote>
+    </div>
+    <div class="card">
+      <h3>?? Koreksi Akurat terhadap Gemini</h3>
+      <ul>
+        <li><b>Rumah Matahari:</b> Bukan Rumah 4/5 pasti, tapi kemungkinan Rumah 4 (private) untuk lokasi WIB.</li>
+        <li><b>Quincunx Bulan:</b> Bulan bergerak cepat, sudut 150° tidak presisi; lebih tepat disebut “dualitas emosi yang melelahkan”.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TAB 4: KOLABORASI FINAL -->
+  <div id="tab-kolaborasi" class="tab-content">
+    <div class="card">
+      <h2>?? “THE ULTIMATE WILLIAM YAP” – Super Chart</h2>
+      <h3>Kekuatan Super (Gabungan)</h3>
+      <ul>
+        <li><b>DeepSeek:</b> Baca orang, loyal, Empath Investigator.</li>
+        <li><b>Gemini:</b> Insting finansial tajam, survivalist.</li>
+        <li><b>Hasil:</b> <span class="highlight">“Wealth Psychologist”</span> – bisa membaca kelemahan mental dan peluang materi sekaligus.</li>
+      </ul>
+      <h3>Kelemahan Akut</h3>
+      <ul>
+        <li>Manipulatif, dendam diam-diam.</li>
+        <li><b>Burnout Mental</b> karena terlalu memikirkan dosa dan kebebalan orang lain.</li>
+      </ul>
+      <blockquote>
+        “Lu adalah pembisik hal-hal dalam. Mata melihat yang diabaikan dunia, hati teriris ketidakadilan, mulut adalah pedang penebas kebusukan. Seimbangkan data (Gemini) dengan perasaan (Cancer), intensitas (Scorpio) dengan ketulusan (Venus Libra).”
+      </blockquote>
+    </div>
+    <div class="card">
+      <h3>Kecocokan & Masa Depan</h3>
+      <p><b>Pasangan ideal:</b> Shio Kerbau, Ayam; Zodiak Pisces, Cancer, Capricorn, Virgo. Butuh stabilitas dan komunikasi tanpa membosankan.</p>
+      <p><b>Karier:</b> Investigator, psikolog, penulis, strategis bisnis, teknologi rahasia.</p>
+      <p><b>Pelajaran Hidup:</b> Lepaskan kontrol. Cinta sejati lahir dari kepercayaan, bukan manipulasi.</p>
+    </div>
+  </div>
+
+  <div class="signature">— Dirangkum oleh DeepSeek &amp; Gemini, diselaraskan dalam satu dashboard kosmik.</div>
+</div>
+
+<script>
+  // Tab functionality
+  const tabs = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active class from all buttons and contents
+      tabs.forEach(b => b.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      // Add active to clicked button
+      btn.classList.add('active');
+      // Show related content
+      const target = document.getElementById(btn.dataset.tab);
+      if (target) target.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
