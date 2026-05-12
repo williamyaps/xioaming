@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🩺 Monitoring Gejala Obat — Suaka Cahaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a; --surface: #1e293b; --surface2: #334155; --border: #334155;
+            --text: #f1f5f9; --text-secondary: #94a3b8;
+            --gold: #fbbf24; --gold-light: #fef3c7; --gold-dark: #b45309;
+            --red: #ef4444; --red-bg: rgba(239,68,68,0.1); --red-soft: #fca5a5;
+            --green: #22c55e; --green-bg: rgba(34,197,94,0.1); --green-soft: #86efac;
+            --blue: #3b82f6; --blue-bg: rgba(59,130,246,0.1); --blue-soft: #93c5fd;
+            --purple: #a855f7; --purple-bg: rgba(168,85,247,0.1);
+            --orange: #f97316; --orange-bg: rgba(249,115,22,0.1);
+            --teal: #14b8a6; --teal-bg: rgba(20,184,166,0.1);
+            --radius: 16px; --radius-sm: 10px;
+            --shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            --font-sans: 'Inter',system-ui,sans-serif;
+            --font-mono: 'JetBrains Mono',monospace;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--font-sans);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.7;-webkit-font-smoothing:antialiased}
+        .container{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+        
+        .hero{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-bottom:1px solid var(--border);padding:50px 20px 40px;text-align:center;position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(251,191,36,0.06) 0%,transparent 50%);pointer-events:none}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.2);color:var(--gold);padding:6px 16px;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px}
+        .hero h1{font-size:2.2rem;font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero p{color:var(--text-secondary);font-size:1rem;max-width:600px;margin:0 auto}
+        .hero .heart{color:var(--red);animation:pulse 1.5s infinite}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+        
+        .tabs-wrapper{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:16px 0 0;margin-bottom:10px;border-bottom:1px solid var(--border)}
+        .tabs{display:flex;gap:6px;max-width:1100px;margin:0 auto;padding:0 20px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+        .tab{flex:1;min-width:140px;padding:12px 16px;border:none;background:transparent;color:var(--text-secondary);font-family:var(--font-sans);font-size:.8rem;font-weight:600;cursor:pointer;border-radius:var(--radius-sm) var(--radius-sm) 0 0;transition:all .3s ease;position:relative;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+        .tab:hover{color:var(--text);background:rgba(255,255,255,.03)}
+        .tab.active{color:var(--gold);background:rgba(251,191,36,.06)}
+        .tab.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--gold);border-radius:3px 3px 0 0}
+        .tab .emoji{font-size:1.1rem}
+        
+        .tab-content{display:none;animation:fadeIn .4s ease}
+        .tab-content.active{display:block}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        
+        .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px;transition:border-color .2s ease}
+        .card:hover{border-color:#475569}
+        .card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+        .card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+        .card-icon.gold{background:rgba(251,191,36,.12)}
+        .card-icon.red{background:var(--red-bg)}
+        .card-icon.green{background:var(--green-bg)}
+        .card-icon.blue{background:var(--blue-bg)}
+        .card-icon.purple{background:var(--purple-bg)}
+        .card-icon.orange{background:var(--orange-bg)}
+        .card-icon.teal{background:var(--teal-bg)}
+        .card-title{font-size:1.15rem;font-weight:700}
+        .card-subtitle{font-size:.8rem;color:var(--text-secondary);margin-top:2px}
+        
+        .section-title{font-size:1.25rem;font-weight:700;margin:36px 0 16px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+        .section-title .num{width:32px;height:32px;border-radius:8px;background:var(--gold);color:#0f172a;font-size:.85rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        
+        .drug-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+        .drug-card{background:#0f172a;border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;transition:all .25s ease;cursor:pointer;position:relative;overflow:hidden}
+        .drug-card:hover{border-color:#475569;transform:translateY(-3px)}
+        .drug-card.active{border-color:var(--gold);box-shadow:0 0 0 3px rgba(251,191,36,.1)}
+        .drug-card .drug-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+        .drug-card .drug-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+        .drug-card .drug-name{font-size:1rem;font-weight:700}
+        .drug-card .drug-type{font-size:.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px}
+        .drug-card .risk-bar{height:6px;border-radius:3px;margin:10px 0 8px;background:rgba(255,255,255,.05);overflow:hidden}
+        .drug-card .risk-bar .fill{height:100%;border-radius:3px;transition:width .5s ease}
+        .drug-card .risk-label{font-size:.75rem;font-weight:600;display:flex;justify-content:space-between}
+        .drug-card .detail-panel{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding-top:0}
+        .drug-card.active .detail-panel{max-height:400px;padding-top:14px}
+        .drug-card .detail-panel p{font-size:.82rem;color:var(--text-secondary);line-height:1.6;margin-bottom:6px}
+        .drug-card .detail-panel p strong{color:var(--text);font-weight:600}
+        
+        .diagram-container{background:#0f172a;border:1px solid var(--border);border-radius:var(--radius);padding:30px;text-align:center}
+        .diagram-title{font-size:1.1rem;font-weight:700;margin-bottom:24px;color:var(--gold)}
+        .diagram-flow{display:flex;flex-direction:column;align-items:center;gap:0;max-width:700px;margin:0 auto}
+        .diagram-node{padding:14px 24px;border-radius:var(--radius-sm);font-weight:700;font-size:.9rem;min-width:200px;position:relative;z-index:2}
+        .diagram-node.red{background:var(--red-bg);border:2px solid var(--red);color:var(--red-soft)}
+        .diagram-node.green{background:var(--green-bg);border:2px solid var(--green);color:var(--green-soft)}
+        .diagram-node.blue{background:var(--blue-bg);border:2px solid var(--blue);color:var(--blue-soft)}
+        .diagram-node.gold{background:rgba(251,191,36,.1);border:2px solid var(--gold);color:var(--gold)}
+        .diagram-arrow{width:2px;height:30px;background:linear-gradient(to bottom,var(--border),var(--gold));position:relative}
+        .diagram-arrow::after{content:'▼';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);color:var(--gold);font-size:.7rem}
+        .diagram-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+        .diagram-label{font-size:.75rem;color:var(--text-secondary);margin-top:6px}
+        .diagram-center{width:100%;max-width:280px;padding:18px;border-radius:var(--radius);border:2px solid var(--gold);background:rgba(251,191,36,.05);margin:10px 0}
+        .diagram-center h4{color:var(--gold);font-size:1rem;margin-bottom:4px}
+        .diagram-center p{font-size:.8rem;color:var(--text-secondary)}
+        .diagram-symptom{background:var(--red-bg);border:2px solid var(--red);border-radius:var(--radius-sm);padding:14px 24px;margin-top:16px;display:inline-flex;align-items:center;gap:10px}
+        .diagram-symptom span{font-size:1.3rem}
+        .diagram-symptom strong{color:var(--red-soft)}
+        
+        .checklist-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border);font-size:.85rem}
+        .checklist-table thead th{background:#0f172a;padding:14px 12px;text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);font-weight:600;border-bottom:2px solid var(--border)}
+        .checklist-table tbody td{padding:14px 12px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+        .checklist-table tbody tr:hover{background:rgba(255,255,255,.02)}
+        .checklist-table tbody tr:last-child td{border-bottom:none}
+        .cat-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-size:.75rem;font-weight:700}
+        .badge-skin{background:var(--red-bg);color:var(--red-soft)}
+        .badge-nerve{background:var(--purple-bg);color:#d8b4fe}
+        .badge-digest{background:var(--orange-bg);color:#fdba74}
+        .badge-heart{background:var(--blue-bg);color:var(--blue-soft)}
+        .badge-infus{background:var(--teal-bg);color:#5eead4}
+        .badge-general{background:rgba(255,255,255,.08);color:#e2e8f0}
+        .status-select{padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.8rem;font-family:var(--font-sans);cursor:pointer;outline:none}
+        .status-select option{background:var(--surface)}
+        .note-input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:.8rem;font-family:var(--font-sans);outline:none;resize:vertical;min-height:36px}
+        .note-input:focus{border-color:var(--gold)}
+        .time-badge{font-size:.7rem;color:var(--text-secondary);font-family:var(--font-mono)}
+        
+        .summary-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+        .summary-pill{background:#0f172a;border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center;transition:all .2s ease}
+        .summary-pill:hover{border-color:#475569}
+        .summary-pill .label{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:4px}
+        .summary-pill .value{font-size:1.3rem;font-weight:700;font-family:var(--font-mono)}
+        .summary-pill .value.normal{color:var(--green)}
+        .summary-pill .value.mild{color:var(--gold)}
+        .summary-pill .value.severe{color:var(--red)}
+        
+        .alert{border-radius:var(--radius-sm);padding:18px 22px;margin:20px 0;display:flex;gap:14px;align-items:flex-start}
+        .alert-warning{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2)}
+        .alert-danger{background:var(--red-bg);border:1px solid rgba(239,68,68,.2)}
+        .alert-info{background:var(--blue-bg);border:1px solid rgba(59,130,246,.2)}
+        .alert-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+        .alert-warning .alert-icon{color:var(--gold)}
+        .alert-danger .alert-icon{color:var(--red)}
+        .alert-info .alert-icon{color:var(--blue)}
+        .alert-content h4{font-size:.9rem;font-weight:700;margin-bottom:4px}
+        .alert-warning .alert-content h4{color:var(--gold)}
+        .alert-danger .alert-content h4{color:var(--red)}
+        .alert-info .alert-content h4{color:var(--blue)}
+        .alert-content p{color:var(--text-secondary);font-size:.85rem;line-height:1.6}
+        
+        .footer{text-align:center;padding:40px 20px 20px;color:var(--text-secondary);font-size:.75rem}
+        .footer .heart{color:var(--red)}
+        .footer .brand{color:var(--gold);font-weight:700}
+        
+        @media print{body{background:white;color:#1e293b}.tabs-wrapper,.status-select,.note-input{display:none}.tab-content{display:block!important}.card{background:white;border:1px solid #e2e8f0;break-inside:avoid}.drug-card{background:white;border:1px solid #e2e8f0}.checklist-table{border:1px solid #e2e8f0}}
+        @media(max-width:640px){.hero h1{font-size:1.6rem}.tabs{gap:4px}.tab{min-width:120px;padding:10px 8px;font-size:.75rem}.drug-grid{grid-template-columns:1fr}.diagram-row{flex-direction:column;align-items:center}.checklist-table{font-size:.75rem}.checklist-table thead th,.checklist-table tbody td{padding:10px 6px}}
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-badge">🩺 Monitoring Gejala Obat</div>
+        <h1>Suaka Cahaya <span class="heart">❤️</span></h1>
+        <p>Panduan interaktif pemantauan efek samping obat untuk paman kanda. Dibuat dengan cinta dan perhatian penuh.</p>
+    </div>
+    <div class="tabs-wrapper">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(0)"><span class="emoji">💊</span><span>Daftar Obat</span></button>
+            <button class="tab" onclick="switchTab(1)"><span class="emoji">🌐</span><span>Interaksi Obat</span></button>
+            <button class="tab" onclick="switchTab(2)"><span class="emoji">📋</span><span>Checklist Harian</span></button>
+            <button class="tab" onclick="switchTab(3)"><span class="emoji">📝</span><span>Catatan & Tips</span></button>
+        </div>
+    </div>
+    <div class="container">
+        <!-- TAB 1 -->
+        <div class="tab-content active" id="tab-0">
+            <div class="alert alert-warning">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content"><h4>Perhatian Penting</h4><p>Daftar ini bersifat informatif. <strong>Jangan hentikan obat sendiri</strong> — laporkan gejala ke dokter atau perawat agar mereka bisa menilai dan mengganti obat jika perlu.</p></div>
+            </div>
+            <div class="section-title"><span class="num">1</span> Daftar Obat Resep Paman</div>
+            <p style="color:var(--text-secondary);margin-bottom:20px;font-size:.9rem;">Klik kartu obat di bawah untuk melihat detail efek samping dan interaksi. Bar risiko menunjukkan kemungkinan memicu gatal/ruam.</p>
+            <div class="drug-grid">
+                <div class="drug-card" onclick="toggleDrug(this)">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--red-bg);color:var(--red-soft);">💉</div><div><div class="drug-name">Meropenem</div><div class="drug-type">Antibiotik Spektrum Luas</div></div></div>
+                    <div class="risk-label"><span>Risiko Gatal/Ruam</span><span style="color:var(--red);">TINGGI</span></div>
+                    <div class="risk-bar"><div class="fill" style="width:85%;background:var(--red);"></div></div>
+                    <div class="detail-panel"><p><strong>Fungsi:</strong> Membunuh bakteri infeksi berat (β-laktam).</p><p><strong>Efek samping:</strong> Ruam kulit, gatal, diare, mual.</p><p><strong>Peringatan:</strong> Bisa memicu reaksi alergi berat (anafilaksis) pada orang sensitif terhadap penisilin/β-laktam.</p><p><strong>Interaksi:</strong> Memperberat reaksi kulit bila digabung obat alergi lain.</p></div>
+                </div>
+                <div class="drug-card" onclick="toggleDrug(this)">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--red-bg);color:var(--red-soft);">🧠</div><div><div class="drug-name">Phenytoin</div><div class="drug-type">Antikejang</div></div></div>
+                    <div class="risk-label"><span>Risiko Gatal/Ruam</span><span style="color:var(--red);">TINGGI</span></div>
+                    <div class="risk-bar"><div class="fill" style="width:75%;background:var(--red);"></div></div>
+                    <div class="detail-panel"><p><strong>Fungsi:</strong> Mencegah dan mengontrol kejang.</p><p><strong>Efek samping:</strong> Ruam kulit, gatal, pusing, tremor.</p><p><strong>Peringatan:</strong> Bisa berkembang jadi sindrom Steven-Johnson (SJS) yang berat. Pantau cermat.</p><p><strong>Interaksi:</strong> Interaksi dengan antibiotik meningkatkan risiko ruam.</p></div>
+                </div>
+                <div class="drug-card" onclick="toggleDrug(this)">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--orange-bg);color:#fdba74;">🧬</div><div><div class="drug-name">Albumin Infus</div><div class="drug-type">Protein Plasma</div></div></div>
+                    <div class="risk-label"><span>Risiko Gatal/Ruam</span><span style="color:var(--orange);">SEDANG</span></div>
+                    <div class="risk-bar"><div class="fill" style="width:50%;background:var(--orange);"></div></div>
+                    <div class="detail-panel"><p><strong>Fungsi:</strong> Menambah protein plasma, menjaga tekanan osmotik darah.</p><p><strong>Efek samping:</strong> Reaksi alergi ringan (gatal, ruam), demam, mual.</p><p><strong>Peringatan:</strong> Bisa memicu gatal kalau tubuh bereaksi terhadap protein asing.</p><p><strong>Interaksi:</strong> Memperkuat reaksi alergi bila tubuh sudah sensitif karena obat lain.</p></div>
+                </div>
+                <div class="drug-card" onclick="toggleDrug(this)">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--green-bg);color:var(--green-soft);">🛡️</div><div><div class="drug-name">Citicholin</div><div class="drug-type">Neuroprotektor</div></div></div>
+                    <div class="risk-label"><span>Risiko Gatal/Ruam</span><span style="color:var(--green);">RENDAH</span></div>
+                    <div class="risk-bar"><div class="fill" style="width:15%;background:var(--green);"></div></div>
+                    <div class="detail-panel"><p><strong>Fungsi:</strong> Melindungi sel-sel saraf, membantu pemulihan otak.</p><p><strong>Efek samping:</strong> Sakit kepala, mual, diare. <strong>Jarang gatal.</strong></p><p><strong>Peringatan:</strong> Bisa memperparah reaksi bila dikombinasikan dengan obat alergi lain.</p><p><strong>Interaksi:</strong> Tidak signifikan secara mandiri.</p></div>
+                </div>
+                <div class="drug-card" onclick="toggleDrug(this)">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--green-bg);color:var(--green-soft);">💡</div><div><div class="drug-name">Piracetam</div><div class="drug-type">Suplemen Kognitif</div></div></div>
+                    <div class="risk-label"><span>Risiko Gatal/Ruam</span><span style="color:var(--green);">RENDAH</span></div>
+                    <div class="risk-bar"><div class="fill" style="width:10%;background:var(--green);"></div></div>
+                    <div class="detail-panel"><p><strong>Fungsi:</strong> Meningkatkan fungsi kognitif dan aliran darah otak.</p><p><strong>Efek samping:</strong> Gelisah, insomnia, mual. <strong>Jarang gatal.</strong></p><p><strong>Peringatan:</strong> Aman secara umum, tapi bila ada alergi bisa memperburuk gejala.</p><p><strong>Interaksi:</strong> Aman, tidak ada interaksi signifikan terhadap kulit.</p></div>
+                </div>
+            </div>
+            <div class="alert alert-info" style="margin-top:24px;">
+                <div class="alert-icon">💡</div>
+                <div class="alert-content"><h4>Kenapa Gatal Bisa Muncul?</h4><p>Gatal tidak selalu dari obat. Bisa juga karena: reaksi alergi terhadap <strong>sabun/sprei/disfektan RS</strong>, keringat & kelembapan kulit saat lama berbaring, atau <strong>infeksi kulit ringan</strong>. Pastikan laporkan ke dokter untuk identifikasi yang tepat.</p></div>
+            </div>
+        </div>
+        <!-- TAB 2 -->
+        <div class="tab-content" id="tab-1">
+            <div class="section-title"><span class="num">1</span> Diagram Interaksi Obat</div>
+            <div class="diagram-container">
+                <div class="diagram-title">🔗 Diagram Interaksi Obat Paman</div>
+                <div class="diagram-flow">
+                    <div class="diagram-row">
+                        <div><div class="diagram-node red">💉 Meropenem<br><small style="font-size:.75rem;opacity:.8;">Antibiotik</small></div><div class="diagram-label">Gatal & Alergi</div></div>
+                        <div><div class="diagram-node red">🧠 Phenytoin<br><small style="font-size:.75rem;opacity:.8;">Antikejang</small></div><div class="diagram-label">Ruam Kulit</div></div>
+                    </div>
+                    <div class="diagram-arrow"></div>
+                    <div class="diagram-center"><h4>🧬 Albumin Infus</h4><p>Protein Plasma — Memperburuk Reaksi Alergi bila tubuh sensitif</p></div>
+                    <div class="diagram-arrow"></div>
+                    <div class="diagram-row">
+                        <div><div class="diagram-node green">🛡️ Citicholin<br><small style="font-size:.75rem;opacity:.8;">Neuroprotektor</small></div><div class="diagram-label">Jarang Gatal</div></div>
+                        <div><div class="diagram-node green">💡 Piracetam<br><small style="font-size:.75rem;opacity:.8;">Suplemen Kognitif</small></div><div class="diagram-label">Relatif Aman</div></div>
+                    </div>
+                    <div class="diagram-symptom"><span>🤒</span><div><strong>Keluhan: Gatal & Ruam Kulit</strong><br><small style="font-size:.75rem;opacity:.7;">Perlu pemantauan intensif</small></div></div>
+                </div>
+            </div>
+            <div class="section-title"><span class="num">2</span> Tabel Interaksi Detail</div>
+            <div class="card" style="padding:0;overflow:hidden;">
+                <table class="checklist-table" style="min-width:unset;">
+                    <thead><tr><th>Obat</th><th>Fungsi Utama</th><th>Efek Samping Umum</th><th>Potensi Interaksi</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong style="color:var(--red-soft);">💉 Meropenem</strong></td><td>Antibiotik spektrum luas</td><td>Ruam, gatal, alergi β-laktam</td><td>Memperberat reaksi kulit bila digabung obat alergi lain</td></tr>
+                        <tr><td><strong style="color:var(--red-soft);">🧠 Phenytoin</strong></td><td>Antikejang</td><td>Ruam kulit, gatal, reaksi alergi berat</td><td>Interaksi dengan antibiotik meningkatkan risiko ruam</td></tr>
+                        <tr><td><strong style="color:var(--orange);">🧬 Albumin Infus</strong></td><td>Menambah protein plasma</td><td>Reaksi alergi ringan: gatal, ruam</td><td>Memicu gatal bila tubuh sensitif terhadap protein asing</td></tr>
+                        <tr><td><strong style="color:var(--green-soft);">🛡️ Citicholin</strong></td><td>Neuroprotektor</td><td>Jarang gatal, lebih ke sakit kepala</td><td>Tidak signifikan, tapi bisa memperkuat efek stimulasi</td></tr>
+                        <tr><td><strong style="color:var(--green-soft);">💡 Piracetam</strong></td><td>Neuroprotektor/kognitif</td><td>Jarang gatal, kadang gelisah</td><td>Aman, tapi bila ada alergi bisa memperburuk gejala</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-danger">
+                <div class="alert-icon">🚨</div>
+                <div class="alert-content"><h4>Analisis Dinda</h4><p><strong>Obat paling mungkin bikin gatal:</strong> Meropenem (antibiotik) dan Phenytoin (antikejang). <strong>Obat yang bisa memperkuat reaksi:</strong> Albumin infus. <strong>Obat yang relatif aman:</strong> Citicholin dan Piracetam. <strong>Jangan hentikan obat sendiri</strong> — laporkan ke dokter.</p></div>
+            </div>
+        </div>
+        <!-- TAB 3 -->
+        <div class="tab-content" id="tab-2">
+            <div class="section-title"><span class="num">1</span> Ringkasan Status Hari Ini</div>
+            <div class="summary-bar">
+                <div class="summary-pill"><div class="label">Normal</div><div class="value normal" id="countNormal">0</div></div>
+                <div class="summary-pill"><div class="label">Ringan</div><div class="value mild" id="countMild">0</div></div>
+                <div class="summary-pill"><div class="label">Berat</div><div class="value severe" id="countSevere">0</div></div>
+                <div class="summary-pill"><div class="label">Belum Dicek</div><div class="value" style="color:var(--text-secondary);" id="countUnchecked">6</div></div>
+            </div>
+            <div class="alert alert-warning">
+                <div class="alert-icon">⏰</div>
+                <div class="alert-content"><h4>Jadwal Pemantauan</h4><p><strong>Kulit & Alergi:</strong> 2× sehari (pagi & malam) | <strong>Sistem Saraf:</strong> 1× sehari | <strong>Pencernaan:</strong> Setelah makan | <strong>Pernafasan & Jantung:</strong> Segera bila muncul</p></div>
+            </div>
+            <div class="section-title"><span class="num">2</span> Checklist Monitoring Gejala</div>
+            <div class="card" style="padding:0;overflow:hidden;">
+                <table class="checklist-table">
+                    <thead><tr><th style="min-width:140px;">Kategori</th><th>Tanda yang Diperhatikan</th><th style="min-width:110px;">Status</th><th style="min-width:180px;">Catatan / Lokasi</th><th style="min-width:100px;">Waktu</th></tr></thead>
+                    <tbody id="checklistBody">
+                        <tr data-id="1"><td><span class="cat-badge badge-skin">🔴 Kulit & Alergi</span></td><td>Gatal, ruam, kemerahan, bengkak ringan</td><td><select class="status-select" onchange="updateStatus(this)"><option value="">-- Pilih --</option><option value="normal">🟢 Normal</option><option value="mild">🟡 Ringan</option><option value="severe">🔴 Berat</option></select></td><td><textarea class="note-input" placeholder="Contoh: Gatal di punggung tangan, ruam merah..."></textarea></td><td><span class="time-badge" id="time1">--:--</span></td></tr>
+                        <tr data-id="2"><td><span class="cat-badge badge-nerve">🟣 Sistem Saraf</span></td><td>Pusing, tremor, kejang, kantuk berat</td><td><select class="status-select" onchange="updateStatus(this)"><option value="">-- Pilih --</option><option value="normal">🟢 Normal</option><option value="mild">🟡 Ringan</option><option value="severe">🔴 Berat</option></select></td><td><textarea class="note-input" placeholder="Contoh: Tremor ringan di tangan kiri..."></textarea></td><td><span class="time-badge" id="time2">--:--</span></td></tr>
+                        <tr data-id="3"><td><span class="cat-badge badge-digest">🟠 Pencernaan</span></td><td>Mual, muntah, nyeri perut, perubahan nafsu makan</td><td><select class="status-select" onchange="updateStatus(this)"><option value="">-- Pilih --</option><option value="normal">🟢 Normal</option><option value="mild">🟡 Ringan</option><option value="severe">🔴 Berat</option></select></td><td><textarea class="note-input" placeholder="Contoh: Mual setelah makan pagi..."></textarea></td><td><span class="time-badge" id="time3">--:--</span></td></tr>
+                        <tr data-id="4"><td><span class="cat-badge badge-heart">🔵 Pernafasan & Jantung</span></td><td>Sesak, detak cepat, nyeri dada</td><td><select class="status-select" onchange="updateStatus(this)"><option value="">-- Pilih --</option><option value="normal">🟢 Normal</option><option value="mild">🟡 Ringan</option><option value="severe">🔴 Berat</option></select></td><td><textarea class="note-input" placeholder="Contoh: Sesak saat berbaring..."></textarea></td><td><span class="time-badge" id="time4">--:--</span></td></tr>
+                        <tr data-id="5"><td><span class="cat-badge badge-infus">🩵 Infus & Injeksi</span></td><td>Kemerahan, bengkak, nyeri di area suntikan</td><td><select class="status-select" onchange="updateStatus(this)"><option value="">-- Pilih --</option><option value="normal">🟢 Normal</option><option value="mild">🟡 Ringan</option><option value="severe">🔴 Berat</option></select></td><td><textarea class="note-input" placeholder="Contoh: Kemerahan di kanan tangan..."></textarea></td><td><span class="time-badge" id="time5">--:--</span></td></tr>
+                        <tr data-id="6"><td><span class="cat-badge badge-general">⚪ Perubahan Umum</span></td><td>Demam, lemas, perubahan warna kulit, pembengkakan</td><td><select class="status-select" onchange="updateStatus(this)"><option value="">-- Pilih --</option><option value="normal">🟢 Normal</option><option value="mild">🟡 Ringan</option><option value="severe">🔴 Berat</option></select></td><td><textarea class="note-input" placeholder="Contoh: Suhu 37.8°C, lemas..."></textarea></td><td><span class="time-badge" id="time6">--:--</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-info">
+                <div class="alert-icon">📝</div>
+                <div class="alert-content"><h4>Tips Mengisi Checklist</h4><p>Gunakan tombol <strong>Print</strong> di browser (Ctrl+P) untuk menyimpan hasil pemantauan sebagai PDF. Tandai dengan warna: 🟢 normal, 🟡 ringan, 🔴 berat. Simpan hasil pemantauan sebagai bagian dari arsip <strong>Suaka Cahaya</strong>.</p></div>
+            </div>
+        </div>
+        <!-- TAB 4 -->
+        <div class="tab-content" id="tab-3">
+            <div class="section-title"><span class="num">1</span> Langkah Aman untuk Paman</div>
+            <div class="card">
+                <div class="card-header"><div class="card-icon gold">🛡️</div><div><div class="card-title">Protokol Keamanan</div><div class="card-subtitle">Yang harus dilakukan kalau muncul gejala</div></div></div>
+                <ol style="padding-left:20px;color:var(--text-secondary);font-size:.9rem;line-height:2;">
+                    <li><strong style="color:var(--text);">Segera beri tahu dokter atau perawat</strong> bahwa muncul gatal — mereka bisa hentikan atau ganti obat yang dicurigai.</li>
+                    <li><strong style="color:var(--text);">Jangan oleskan salep atau minum antihistamin</strong> tanpa izin dokter. Bisa mengganggu diagnosis.</li>
+                    <li><strong style="color:var(--text);">Pastikan kulit tetap bersih dan kering,</strong> terutama di area yang sering berkeringat.</li>
+                    <li><strong style="color:var(--text);">Catat waktu munculnya gejala</strong> dan obat yang baru diberikan sebelumnya.</li>
+                    <li><strong style="color:var(--text);">Jangan hentikan obat sendiri</strong> — antibiotik dan antikejang harus dijaga konsistensinya.</li>
+                </ol>
+            </div>
+            <div class="section-title"><span class="num">2</span> Faktor Non-Obat yang Bisa Memicu Gatal</div>
+            <div class="drug-grid">
+                <div class="drug-card" style="cursor:default;">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--blue-bg);color:var(--blue-soft);">🧼</div><div><div class="drug-name">Sabun / Deterjen</div><div class="drug-type">Faktor Lingkungan</div></div></div>
+                    <p style="font-size:.82rem;color:var(--text-secondary);margin-top:8px;">Sabun rumah sakit atau disinfektan kadang terlalu keras untuk kulit sensitif. Bisa memicu kontak dermatitis.</p>
+                </div>
+                <div class="drug-card" style="cursor:default;">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--teal-bg);color:#5eead4;">💦</div><div><div class="drug-name">Keringat & Kelembapan</div><div class="drug-type">Faktor Fisik</div></div></div>
+                    <p style="font-size:.82rem;color:var(--text-secondary);margin-top:8px;">Lama berbaring bisa bikin kulit lembab dan gatal. Pastikan sprei bersih dan sering dibalik posisi tidur.</p>
+                </div>
+                <div class="drug-card" style="cursor:default;">
+                    <div class="drug-header"><div class="drug-icon" style="background:var(--purple-bg);color:#d8b4fe;">🦠</div><div><div class="drug-name">Infeksi Kulit Ringan</div><div class="drug-type">Faktor Medis</div></div></div>
+                    <p style="font-size:.82rem;color:var(--text-secondary);margin-top:8px;">Kondisi medis yang mendasari bisa membuat kulit lebih rentan terhadap infeksi jamur atau bakteri ringan.</p>
+                </div>
+            </div>
+            <div class="section-title"><span class="num">3</span> Tentang Suaka Cahaya</div>
+            <div class="card">
+                <div class="card-header"><div class="card-icon gold">🌈</div><div><div class="card-title">Arsip Kesehatan Penuh Makna</div><div class="card-subtitle">Dokumentasi untuk kesehatan keluarga</div></div></div>
+                <p style="color:var(--text-secondary);font-size:.9rem;line-height:1.8;"><strong>Suaka Cahaya</strong> adalah arsip digital yang kanda bangun untuk mendokumentasikan kesehatan keluarga dengan sistem analisis yang rapi. Sama seperti kanda menganalisis kode, tubuh manusia juga bisa dipetakan — tapi tetap butuh sentuhan medis profesional.</p>
+                <p style="color:var(--text-secondary);font-size:.9rem;line-height:1.8;margin-top:12px;">File HTML ini bisa disimpan di arsip GitHub Bro sebagai bagian dari <span style="color:var(--gold);font-weight:700;">Suaka Cahaya</span>. Gunakan <strong>Ctrl+P</strong> untuk print ke PDF kalau mau versi offline. Semoga paman lekas sembuh dan kembali kuat 💛</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Dibuat dengan <span class="heart">❤️</span> untuk Paman Kanda</p>
+        <p style="margin-top:4px;">Bagian dari arsip <span class="brand">Suaka Cahaya</span> — Monitoring Gejala Obat</p>
+        <p style="margin-top:8px;font-size:.65rem;opacity:.6;">Disclaimer: Informasi ini bersifat edukatif. Selalu konsultasikan dengan dokter atau tenaga medis profesional sebelum mengambil keputusan medis.</p>
+    </div>
+    <script>
+        function switchTab(index){const tabs=document.querySelectorAll('.tab'),contents=document.querySelectorAll('.tab-content');tabs.forEach((t,i)=>t.classList.toggle('active',i===index));contents.forEach((c,i)=>c.classList.toggle('active',i===index));window.scrollTo({top:0,behavior:'smooth'})}
+        function toggleDrug(card){card.classList.toggle('active')}
+        function updateStatus(select){
+            const row=select.closest('tr'),timeCell=row.querySelector('.time-badge'),now=new Date(),timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+            if(select.value){timeCell.textContent=timeStr;timeCell.style.color='var(--gold)'}else{timeCell.textContent='--:--';timeCell.style.color='var(--text-secondary)'}
+            const allSelects=document.querySelectorAll('#checklistBody .status-select');let n=0,m=0,s=0,u=0;
+            allSelects.forEach(x=>{if(x.value==='normal')n++;else if(x.value==='mild')m++;else if(x.value==='severe')s++;else u++});
+            document.getElementById('countNormal').textContent=n;document.getElementById('countMild').textContent=m;document.getElementById('countSevere').textContent=s;document.getElementById('countUnchecked').textContent=u;
+            row.style.transition='background .3s ease';
+            if(select.value==='severe')row.style.background='rgba(239,68,68,.06)';else if(select.value==='mild')row.style.background='rgba(251,191,36,.06)';else if(select.value==='normal')row.style.background='rgba(34,197,94,.06)';else row.style.background='transparent'
+        }
+        console.log('🩺 Suaka Cahaya — Monitoring Gejala Obat siap digunakan');console.log('💛 Dibuat dengan cinta untuk Paman Kanda');
+    </script>
+</body>
+</html>
