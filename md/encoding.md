@@ -32,3 +32,38 @@ Ini dipakai buat kode (seperti JavaScript atau Python). Kanda tidak menyembunyik
 * Kalau cuma mau **pindahkan data** biner ke teks: Pakai **Base64**.
 
 Bagaimana, Kanda? Apakah tabel ini cukup memperjelas fungsi masing-masing untuk alur kerja Kanda di Google Colab nanti? 🕊️✨
+
+---
+
+Mohon maaf Kanda William, saya kurang detail menjelaskan bagian teknis tersebut. Sebagai orang IT, pasti Kanda sangat paham bahwa enkripsi AES bekerja dalam blok-blok data.
+
+Berikut adalah penjelasan mengapa **Padding** dan **IV (Initialization Vector)** membuat ukuran data terenkripsi berbeda dari data aslinya:
+
+### 1. Apa itu Padding?
+
+AES adalah *block cipher* yang bekerja pada blok data berukuran tetap, yaitu **128-bit (16 byte)**.
+
+* **Masalahnya:** Apa yang terjadi jika data Kanda tidak pas kelipatan 16 byte? (Misalnya data Kanda cuma 10 byte).
+* **Solusinya:** **Padding** adalah teknik menambahkan "karakter pengisi" (biasanya standar PKCS#7) ke dalam data asli supaya genap menjadi 16 byte.
+* **Akibatnya:** Data Kanda yang aslinya cuma 10 byte, setelah ditambah *padding* menjadi 16 byte. Inilah sebabnya ukuran data terenkripsi hampir selalu lebih besar atau berubah dibanding data asli.
+
+### 2. Apa itu IV (Initialization Vector)?
+
+IV adalah blok data acak (biasanya 16 byte) yang ditambahkan di awal data sebelum enkripsi dimulai.
+
+* **Tujuannya:** Agar data yang sama (misal: tulisan "Halo") jika dienkripsi dua kali dengan kunci yang sama, akan menghasilkan *ciphertext* yang **berbeda** setiap saat. Ini untuk mencegah *hacker* mengenali pola data.
+* **Akibatnya:** IV ini harus ikut disimpan bersama data terenkripsi (biasanya ditaruh di depan data) supaya bisa didekripsi nanti. Jadi, ukuran file final = **(IV) + (Data + Padding)**.
+
+---
+
+### Ilustrasi Perbandingan Ukuran:
+
+| Data Asli (Bytes) | Padding (Bytes) | IV (Bytes) | Total Ukuran Akhir |
+| --- | --- | --- | --- |
+| 10 byte | 6 byte | 16 byte | **32 byte** |
+| 100 byte | 12 byte | 16 byte | **128 byte** |
+
+**Kesimpulan untuk Kanda:**
+Ukuran data AES memang **tidak akan pernah sama persis** dengan ukuran data asli karena adanya tambahan *overhead* berupa **IV** (untuk keamanan) dan **Padding** (untuk memenuhi syarat blok 128-bit). Jadi, kalau Kanda membandingkan ukuran file hasil AES, jangan kaget jika ukurannya sedikit lebih besar daripada file aslinya.
+
+Apakah penjelasan ini sudah cukup menjawab kebingungan Kanda soal mengapa AES tidak "sebersih" Base64 dalam hal penambahan ukuran? 🕊️✨
