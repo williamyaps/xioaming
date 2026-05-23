@@ -115,3 +115,65 @@ Jangan mencoba membangun sistem DRM sendiri karena itu akan menghabiskan waktu K
 Jika Kanda ingin seseorang tidak bisa men-download konten di balik link `.m3u8` tersebut, maka kunci utamanya bukan pada file HTML-nya, melainkan pada **kebijakan server** yang menghosting video tersebut (agar tidak bisa diakses tanpa *token* atau *referrer* yang valid).
 
 Apakah Kanda ingin saya bantu buatkan konsep skrip sederhana untuk membatasi akses *link* `.m3u8` tersebut agar tidak bisa langsung di-*copy-paste* oleh orang lain? 🕊️✨
+
+---
+
+Waduh, 5 lapis enkripsi? Kamu ini mau mengamankan dokumen atau mau menyembunyikan kunci nuklir? Tapi saya suka gaya paranoia kamu, mari kita racik pertahanan berlapis ala bawang bombay!
+
+Sebelum menyusun urutannya, kita perlu membedah karakteristik **4 file baru** yang kamu unggah agar tidak terjadi bentrokan fungsi (seperti *race condition* atau malfungsi dekripsi).
+
+Berikut adalah analisis singkat 4 berkas baru tersebut:
+
+* **`proteksiinspect3a.html`:** Ini murni lapisan **Anti-DevTools** dan obfuskasi keras (menangkap *shortcut*, klik kanan, mematikan seleksi teks, dsb). Tidak memiliki fungsi enkripsi data.
+* **`enkripsim3u8.html`:** Didesain khusus untuk enkripsi/dekripsi berkas media (seperti video streaming `.m3u8` / `.ts`) menggunakan kunci AES eksternal.
+* **`WebCryptoAPI.html`:** Contoh implementasi kriptografi asimetris (RSA Keygen, Sign, Verify, Encrypt, Decrypt) bawaan browser.
+* **`aes_encryptor.html`:** File utilitas enkripsi simetris standar (biasanya menggunakan AES-CBC atau AES-GCM) dengan interaksi UI input teks/berkas biasa.
+
+---
+
+## 🏗️ Strategi Penyusunan 5 Lapis (Dari Dalam ke Luar)
+
+Prinsip utama dalam kriptografi berlapis (*Cascade Encryption*) adalah **"Kriptografi Asimetris di Dalam, Anti-Brute Force Berat di Luar, dan Proteksi UI di Paling Luar."**
+
+Berikut adalah urutan struktur pertahanan terbaik jika kelima komponen ini digabungkan:
+
+### 📥 LAPIS 1: Lapisan Terdalam (Inti Data) – `WebCryptoAPI.html`
+
+* **Peran:** *Asymmetric Iron Curtain* (Benteng Pertama).
+* **Alasan:** File data HTML asli kamu dienkripsi menggunakan **RSA (Asimetris)**. Proses ini menghasilkan pasangan kunci (*Public & Private Key*). Tanpa file *Private Key* yang tepat, berkas tidak akan bisa dibuka bahkan jika peretas menebak password teks. Ini adalah pengunci lapis pertama yang sangat aman karena tidak bergantung pada hafalan password manusia.
+
+### 📦 LAPIS 2: Lapisan Menengah Dalam – `enkripsim3u8.html` / `aes_encryptor.html`
+
+* **Peran:** *Symmetric Stream Scrambler*.
+* **Alasan:** Hasil bungkus dari Lapis 1 (berupa kode terenkripsi + struktur HTML-nya) dienkripsi kembali menggunakan **AES Simetris** dari berkas ini. Lapisan ini memastikan bahwa format struktur RSA di dalam benar-benar acak dan berbentuk *ciphertext* mentah yang tidak dikenali polanya.
+
+### 🔒 LAPIS 3: Lapisan Menengah Luar – `vault.html`
+
+* **Peran:** *Standard Gatekeeper* (PBKDF2 + AES-GCM).
+* **Alasan:** Berkas dari Lapis 2 dibungkus ke dalam sistem `vault.html`. Lapisan ini menggunakan **PBKDF2 dengan 150.000 iterasi**. Ini menjadi filter pertama berbasis password buatanmu untuk menyaring akses sebelum masuk ke enkripsi tingkat instansi di lapisan bawahnya.
+
+### 💎 LAPIS 4: Lapisan Benteng Utama – `argonid2embedwasm.html`
+
+* **Peran:** *Heavy Anti-Brute Force* (Argon2id + Embedded WebAssembly).
+* **Alasan:** Ini adalah **penjaga pintu kriptografi terdepan**. Siapapun yang berniat menggunakan superkomputer atau GPU *rig* untuk menebak password berkasmu akan langsung dipaksa menyerah di sini karena Argon2id sengaja dikonfigurasi untuk menguras RAM (32MB per tebakan). Lapisan ini juga membungkus seluruh pustaka WebAssembly secara offline di dalamnya.
+
+### 🚨 LAPIS 5: Lapisan Terluar (Kulit Luar) – `proteksiinspect3a.html`
+
+* **Peran:** *Active Electronic Countermeasure* (Anti-DevTools & UI Lockout).
+* **Alasan:** Lapisan ini **tidak mengenkripsi data**, melainkan bertindak sebagai ranjau darat bagi peretas yang usil. Begitu file dibuka di browser, skrip dari `proteksiinspect3a.html` langsung aktif untuk memblokir klik kanan, tombol F12, mematikan fungsi *copy-paste*, dan membekukan halaman jika mereka nekat membuka tab *Inspect Element*. Lapisan ini melindungi kode milik `argonid2embedwasm.html` agar tidak dipelajari polanya.
+
+---
+
+## 🔄 Alur Dekripsi Saat Kamu Membuka File
+
+Ketika kamu (sebagai pemilik sah) ingin membaca dokumen tersebut, prosesnya akan berjalan mundur dari luar ke dalam seperti ini:
+
+1. **Loloskan Ranjau UI:** Kamu buka file, pastikan DevTools mati agar tidak terkena jebakan `proteksiinspect3a.html`.
+2. **Gerbang 1 (Berat):** Masukkan password **Argon2id** pada UI `argonid2embedwasm.html`. Browser akan memproses RAM sejenak, lalu memuntahkan kode Lapis 3.
+3. **Gerbang 2 (Medium):** Masukkan password **PBKDF2** pada UI `vault.html`. Prosesnya instan dan langsung memuntahkan kode Lapis 2.
+4. **Gerbang 3 (Ringan):** Masukkan password AES kunci simetris dari `aes_encryptor.html` / `enkripsim3u8.html`.
+5. **Gerbang Akhir:** Masukkan/unggah *Private Key* RSA dari `WebCryptoAPI.html`.
+6. **BOOM!** Dokumen rahasia asli kamu muncul dengan selamat di layar browser.
+
+> ⚠️ **Catatan Paranoia Tambahan:**
+> Pastikan kamu mencatat dan memisahkan setiap password (dan file *Private Key* RSA) untuk masing-masing lapisan ini. Jika kamu lupa satu saja password di tengah jalan (misal lupa password Lapis 3), maka data asli kamu akan terkunci selamanya di dalam "black hole" kriptografi dan tidak ada satu orang pun di bumi ini yang bisa menyelamatkannya!
