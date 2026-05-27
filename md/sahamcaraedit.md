@@ -57,3 +57,85 @@ Silakan bilang jika mau saya buatkan versi yang **auto-detect kolom** dari CSV. 
 
 **Kesimpulan:**  
 Cukup edit array `BANK_SYMBOLS` di file HTML seperti contoh di atas, pastikan Google Sheets-mu memiliki kolom sesuai kode saham yang ditambahkan, lalu reload halaman. Selesai.
+
+---
+
+**Jawaban singkat:**  
+Ya, **cukup tambahkan `"SEA"` di dalam array `BANK_SYMBOLS`** (kira‑kira baris 1613 di file `saham.html`), asalkan posisinya **sesuai dengan urutan kolom** di Google Sheets Anda.
+
+---
+
+## 🔍 Penjelasan teknis
+
+Di dalam file `saham.html` yang sekarang, fungsi `loadCSV()` membaca data dengan asumsi:
+
+- Kolom **pertama** = tanggal  
+- Kolom **kedua, ketiga, dst** = harga saham sesuai urutan `BANK_SYMBOLS`  
+
+Contoh potongan kode yang relevan:
+
+```javascript
+for (let i = 0; i < BANK_SYMBOLS.length; i++) {
+    const sym = BANK_SYMBOLS[i];
+    const colName = headers[i + 1];   // ambil kolom ke-(i+1)
+    let price = parsePrice(row[colName]);
+    priceMap[sym].push(price);
+}
+```
+
+Jadi jika Anda menambahkan saham **SEA** di kolom terbaru (misal kolom AW), maka Anda hanya perlu:
+
+1. **Tambahkan `"SEA"` di akhir array `BANK_SYMBOLS`** (setelah kode saham terakhir yang sudah ada).
+2. **Simpan file** dan **refresh** halaman dashboard.
+
+Semua fitur lain (grafik, portofolio, BEP, volatilitas, dll) akan otomatis mengenali saham baru karena semuanya menggunakan array `BANK_SYMBOLS` yang sudah diperbarui.
+
+---
+
+## ⚠️ Hal penting yang perlu diperhatikan
+
+- **Urutan harus sama persis** antara kolom di CSV dan urutan di `BANK_SYMBOLS`.  
+  - Jika Anda menambahkan SEA di kolom AW (paling kanan), maka `"SEA"` harus menjadi **elemen terakhir** di array.
+- **Jangan ubah nama kolom** di CSV. Biarkan tetap "Close" – kode tetap berfungsi karena membaca berdasarkan urutan, bukan nama kolom.
+- **Tidak perlu** mengganti `CSV_URL` atau `PROXY`.
+
+---
+
+## 📝 Contoh perubahan di file `saham.html`
+
+Cari baris yang kurang lebih seperti ini (bisa di baris 1613):
+
+```javascript
+const BANK_SYMBOLS = [
+    "BBCA", "BMRI", "BBRI", "BBNI", "SUPA", "ARTO", "BBYB", "BANK", "AGRO", "AMAR",
+    "BRIS", "BNGA", "NISP", "BDMN", "BNLI", "PNBN", "BBTN", "MEGA", "BNII", "BTPN",
+    "BTPS", "BSIM", "BBKP", "BABP", "NOBU", "BINA", "BGTG", "BMAS", "MAYA", "BNBA",
+    "BACA", "INPC", "BVIC", "BCIC", "DNAR", "BKSW", "BJBR", "BJTM", "BEKS", "BSWD",
+    "BBHI", "CFIN", "DNET", "MCOR", "MREI", "PANS"
+];
+```
+
+Ubah menjadi (tambahkan `"SEA"` di akhir, setelah `"PANS"`):
+
+```javascript
+const BANK_SYMBOLS = [
+    "BBCA", "BMRI", "BBRI", "BBNI", "SUPA", "ARTO", "BBYB", "BANK", "AGRO", "AMAR",
+    "BRIS", "BNGA", "NISP", "BDMN", "BNLI", "PNBN", "BBTN", "MEGA", "BNII", "BTPN",
+    "BTPS", "BSIM", "BBKP", "BABP", "NOBU", "BINA", "BGTG", "BMAS", "MAYA", "BNBA",
+    "BACA", "INPC", "BVIC", "BCIC", "DNAR", "BKSW", "BJBR", "BJTM", "BEKS", "BSWD",
+    "BBHI", "CFIN", "DNET", "MCOR", "MREI", "PANS",
+    "SEA"   // <-- tambahkan di sini
+];
+```
+
+Setelah itu **simpan** dan **refresh** halaman. Data SEA akan langsung muncul di selector, grafik, dan seluruh analisis.
+
+---
+
+## 🧠 Kesimpulan
+
+> **Cukup edit satu baris (tambah nama saham di array `BANK_SYMBOLS` sesuai urutan kolom), tanpa perlu mengubah bagian lain dari kode.**  
+
+Dengan cara ini, Anda bebas menambah/mengurangi saham kapan pun, selama urutan array selalu sama dengan urutan kolom di Google Sheets.
+
+Jika nanti Anda ingin benar‑benar **otomatis 100%** (tanpa perlu edit array setiap kali tambah kolom), silakan minta saya buatkan versi dengan **deteksi header otomatis** – tapi untuk kebutuhan Anda saat ini, solusi manual di atas sudah cukup dan paling simpel.
