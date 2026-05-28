@@ -1514,3 +1514,287 @@ async function handleProxy(request, targetUrlStr, isSubdomainMode) {
 Kalau masih error, buka F12 → tab Network → kirim screenshot request yang merah. Gue bedah lagi.
 
 ---
+
+Maaf, Bro. Sekarang saya pahai error-nya.
+
+Dari error yang kamu kasih:
+
+> Stylesheet `.../app/js/api.min.css` tidak dimuat karena jenis MIME `"text/html"` bukan `"text/css"`
+
+Artinya: **Worker kamu (script ultimate yang sudah kamu pakai) masih mengembalikan HTML (halaman depan) untuk request file `.css` atau `.js`.**  
+Ini terjadi karena **request tersebut tidak masuk ke mode subdomain maupun mode path**, sehingga worker merespon dengan halaman depan (HTML).
+
+## Penyebab spesifik:
+
+1. **Deteksi mode subdomain di script ultimate tidak cocok dengan domain `.workers.dev`**  
+   Regex `host.match(/^(?:www\.)?(.+?)\.([^\.]+\.[^\.]+)$/)` dengan `env.DOMAIN = "loveofthegod.workers.dev"` akan gagal karena `loveofthegod.workers.dev` memiliki **tiga segmen** (`loveofthegod`, `workers`, `dev`), sedangkan regex hanya menangkap dua segmen terakhir (`workers.dev`).  
+   Akibatnya, subdomain seperti `khususheet.loveofthegod.workers.dev` **tidak dikenali** sebagai mode subdomain.
+
+2. **Mode path tidak terpenuhi** karena request ke `/app/js/api.min.css` tidak diawali `/http://` atau `/https://`.
+
+3. **Halaman HTML yang sudah diproxy** seharusnya sudah di‑rewrite semua `src` dan `href` menjadi `/https://...`. Tapi karena mode subdomain gagal, mungkin kamu membuka halaman dengan cara yang salah (misal langsung `https://khususheet.loveofthegod.workers.dev` tanpa `/https://...`). Maka worker menganggap itu bukan proxy, lalu menampilkan halaman depan. Selanjutnya, browser meminta file CSS/JS dari path relatif (`/app/js/...`) dan worker lagi‑lagi menganggap itu bukan proxy → halaman depan lagi → MIME type HTML.
+
+## Solusi (Perbaiki script):
+
+Ganti deteksi subdomain dengan **suffix matching** (lebih sederhana dan akurat), dan tambahkan penanganan `<base href>`.
+
+Berikut **script ultimate yang sudah diperbaiki** – copy paste ke Cloudflare Worker kamu:
+
+```javascript
+// ========== ULTIMATE PROXY WORKER (FIXED) ==========
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const host = url.host;
+    const path = url.pathname + url.search;
+    const originHeader = request.headers.get('Origin') || '*';
+
+    // CORS Preflight
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': originHeader,
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
+          'Access-Control-Allow-Headers': request.headers.get('Access-Control-Request-Headers') || '*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Max-Age': '86400',
+        }
+      });
+    }
+
+    // ---------- DETEKSI MODE SUBDOMAIN (suffix matching) ----------
+    const domainSuffix = env.DOMAIN; // misal "loveofthegod.workers.dev" atau "domainkamu.com"
+    let isSubdomainMode = false;
+    let targetHost = null;
+    if (host === domainSuffix) {
+      // Tidak ada subdomain, ini akses ke root proxy – biarkan masuk ke mode path nanti
+      isSubdomainMode = false;
+    } else if (host.endsWith('.' + domainSuffix)) {
+      isSubdomainMode = true;
+      // Ekstrak bagian sebelum domainSuffix
+      let sub = host.slice(0, -domainSuffix.length - 1);
+      // Ganti tanda hubung dengan titik: "google-com" -> "google.com"
+      targetHost = sub.replace(/-/g, '.');
+      const targetUrlStr = `https://${targetHost}${path}`;
+      return handleRequest(request, targetUrlStr, true, env, ctx);
+    }
+
+    // ---------- MODE PATH ----------
+    if (path.startsWith('/http://') || path.startsWith('/https://')) {
+      const targetUrlStr = path.slice(1);
+      return handleRequest(request, targetUrlStr, false, env, ctx);
+    }
+
+    // Halaman depan (bantuan)
+    return new Response(`
+      <h2>✅ Proxy Ultimate (Fixed)</h2>
+      <p>Mode Path: <code>/https://target.com</code></p>
+      <p>Mode Subdomain: <code>target-com.${domainSuffix}</code> (pastikan DNS wildcard)</p>
+      <p>Video, API, speedtest, semuanya bisa!</p>
+      <p><strong>Env DOMAIN = ${domainSuffix}</strong></p>
+    `, { headers: { 'content-type': 'text/html' } });
+  }
+};
+
+async function handleRequest(request, targetUrlStr, isSubdomainMode, env, ctx) {
+  const targetUrl = new URL(targetUrlStr);
+  // Blok service worker
+  if (targetUrl.pathname.includes('sw.js') || targetUrl.pathname.includes('service-worker')) {
+    return new Response('self.addEventListener("install",()=>self.skipWaiting());', {
+      headers: { 'Content-Type': 'application/javascript' }
+    });
+  }
+
+  let requestInit = {
+    method: request.method,
+    headers: new Headers(request.headers),
+    redirect: 'follow'
+  };
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    requestInit.body = request.body;
+  }
+  let newRequest = new Request(targetUrl, requestInit);
+  // Spoofing
+  newRequest.headers.set('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
+  newRequest.headers.set('Referer', targetUrl.origin + '/');
+  newRequest.headers.set('Origin', targetUrl.origin);
+  newRequest.headers.delete('accept-encoding');
+  ['cf-connecting-ip','cf-ipcountry','cf-ray','cf-visitor','x-forwarded-for','x-forwarded-proto','x-real-ip'].forEach(h => newRequest.headers.delete(h));
+  // Range request
+  const rangeHeader = request.headers.get('range');
+  if (rangeHeader) newRequest.headers.set('Range', rangeHeader);
+
+  let response;
+  try {
+    response = await fetch(newRequest);
+  } catch (e) {
+    return new Response('Gagal koneksi ke target', { status: 522 });
+  }
+
+  const contentType = response.headers.get('content-type') || '';
+  const isHtml = contentType.includes('text/html');
+  const isJs = contentType.includes('javascript') || contentType.includes('x-javascript');
+  const isM3u8 = contentType.includes('application/vnd.apple.mpegurl') || targetUrl.pathname.endsWith('.m3u8');
+  const isMpd = contentType.includes('application/dash+xml') || targetUrl.pathname.endsWith('.mpd');
+
+  let newHeaders = new Headers();
+  if (response.headers.has('Content-Type')) newHeaders.set('Content-Type', contentType);
+  if (response.headers.has('Content-Length')) newHeaders.set('Content-Length', response.headers.get('Content-Length'));
+  if (response.headers.has('Content-Range')) newHeaders.set('Content-Range', response.headers.get('Content-Range'));
+  if (response.headers.has('Accept-Ranges')) newHeaders.set('Accept-Ranges', response.headers.get('Accept-Ranges'));
+  const origin = request.headers.get('Origin') || '*';
+  newHeaders.set('Access-Control-Allow-Origin', origin);
+  newHeaders.set('Access-Control-Allow-Credentials', 'true');
+  newHeaders.set('Access-Control-Allow-Headers', '*');
+  newHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+
+  let finalStatus = response.status;
+  if ([410, 403].includes(finalStatus) && !contentType.includes('video')) finalStatus = 200;
+  if (response.status === 206) finalStatus = 206;
+
+  // ========== HANDLER M3U8 & MPD ==========
+  if (isM3u8) {
+    let body = await response.text();
+    let baseUrl = targetUrl.href;
+    body = body.split('\n').map(line => {
+      line = line.trim();
+      if (line && !line.startsWith('#')) {
+        try {
+          let absUrl = new URL(line, baseUrl).href;
+          return isSubdomainMode ? absUrl : '/' + absUrl;
+        } catch { return line; }
+      }
+      return line;
+    }).join('\n');
+    return new Response(body, { status: finalStatus, headers: newHeaders });
+  }
+  if (isMpd) {
+    let body = await response.text();
+    if (!isSubdomainMode) {
+      body = body.replace(/(<BaseURL>)(.*?)(<\/BaseURL>)/g, (match, p1, p2, p3) => {
+        try {
+          let absUrl = new URL(p2, targetUrl).href;
+          return p1 + '/' + absUrl + p3;
+        } catch { return match; }
+      });
+    }
+    return new Response(body, { status: finalStatus, headers: newHeaders });
+  }
+
+  // ========== HTML ==========
+  if (isHtml) {
+    let baseUrl = targetUrl.href;
+    let transformedResponse = new HTMLRewriter()
+      // Rewrite tag base (penting!)
+      .on('base', {
+        element(el) {
+          let href = el.getAttribute('href');
+          if (href) {
+            try {
+              let absBase = new URL(href, baseUrl).href;
+              el.setAttribute('href', '/' + absBase);
+            } catch(e) {}
+          }
+        }
+      })
+      .on('a, link, script, img, iframe, form, video, source', {
+        element(element) {
+          const attrs = ['href', 'src', 'action'];
+          for (let attr of attrs) {
+            let val = element.getAttribute(attr);
+            if (val && !val.startsWith('data:') && !val.startsWith('#') && !val.startsWith('javascript:')) {
+              try {
+                if (!val.startsWith('/http://') && !val.startsWith('/https://')) {
+                  let absUrl = new URL(val, baseUrl).href;
+                  element.setAttribute(attr, '/' + absUrl);
+                }
+              } catch {}
+            }
+          }
+        }
+      })
+      .on('body', {
+        element(element) {
+          element.append(`
+            <script>
+            (function() {
+              const proxyOrigin = window.location.origin;
+              const isSubdomainMode = ${isSubdomainMode};
+              function toProxyUrl(url) {
+                if (typeof url !== 'string') return url;
+                if (url.startsWith('data:') || url.startsWith('blob:') || url.startsWith('#')) return url;
+                if (url.startsWith('/http://') || url.startsWith('/https://')) return url;
+                if (url.startsWith('http://') || url.startsWith('https://')) return proxyOrigin + '/' + url;
+                if (url.startsWith('//')) return proxyOrigin + '/https:' + url;
+                return url;
+              }
+              const originalFetch = window.fetch;
+              window.fetch = function(input, init) {
+                if (typeof input === 'string') input = toProxyUrl(input);
+                else if (input && input.url) input = new Request(toProxyUrl(input.url), input);
+                return originalFetch.call(this, input, init);
+              };
+              const XHR = XMLHttpRequest;
+              function ProxyXHR() {
+                const xhr = new XHR();
+                const originalOpen = xhr.open;
+                xhr.open = function(method, url, async, user, password) {
+                  url = toProxyUrl(url);
+                  return originalOpen.call(this, method, url, async, user, password);
+                };
+                return xhr;
+              }
+              window.XMLHttpRequest = ProxyXHR;
+              const origCreateElement = document.createElement;
+              document.createElement = function(tagName) {
+                const el = origCreateElement.call(document, tagName);
+                if (tagName === 'video' || tagName === 'audio' || tagName === 'source') {
+                  const origSetAttribute = el.setAttribute;
+                  el.setAttribute = function(name, value) {
+                    if ((name === 'src' || name === 'data-src') && value && typeof value === 'string') {
+                      value = toProxyUrl(value);
+                    }
+                    return origSetAttribute.call(this, name, value);
+                  };
+                  Object.defineProperty(el, 'src', {
+                    get: function() { return this.getAttribute('src'); },
+                    set: function(val) { this.setAttribute('src', toProxyUrl(val)); }
+                  });
+                }
+                return el;
+              };
+            })();
+            </script>
+          `, { html: true });
+        }
+      })
+      .transform(response);
+    return new Response(transformedResponse.body, { status: finalStatus, headers: newHeaders });
+  }
+
+  // Untuk semua aset lain (CSS, JS, gambar) langsung stream
+  return new Response(response.body, { status: finalStatus, headers: newHeaders });
+}
+```
+
+## Yang harus kamu lakukan sekarang:
+
+1. **Set environment variable** di Cloudflare Worker:
+   - Nama: `DOMAIN`
+   - Nilai: `loveofthegod.workers.dev` (atau domain kustom kamu)
+
+2. **Hapus worker lama**, deploy script di atas.
+
+3. **Test dengan benar**:
+   - Mode path: `https://loveofthegod.workers.dev/https://whatismyipaddress.com/speed-test`
+   - Mode subdomain: `https://whatismyipaddress-com.loveofthegod.workers.dev/speed-test`  
+     (Perhatikan: `whatismyipaddress-com` – gunakan tanda hubung, bukan titik)
+
+4. **Pastikan tidak ada route tambahan** yang mengganggu. Biarkan worker menangani semua request ke domain tersebut.
+
+Setelah deploy, error `MIME type 'text/html'` akan hilang karena file CSS/JS akan di‑proxy dengan benar.
+
+Jika masih ada masalah, **cek console browser** (F12) dan beri tahu saya pesan error terbaru. Pastikan juga kamu mengakses dengan benar – jangan asal ketik `khususheet.loveofthegod.workers.dev` tanpa `https://` dan path. Nama `khususheet` itu tidak sesuai format (harus `target-com`). Ganti dengan `whatismyipaddress-com` untuk testing.
+
+Semoga berhasil, Bro! Jangan mati penasaran 😁👍
