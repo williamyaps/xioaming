@@ -128,3 +128,117 @@ headers: {
 Coba tes proxy lu buka `https://example.com` atau `https://news.ycombinator.com`. Kalau jalan, berarti proxy nya aman. Tinggal website tujuan yang galak.
 
 Mau kirim link situs yang error 522 itu? Gue cek dulu apa emang di-block Cloudflare atau nggak.
+
+---
+
+Bener Bro, itu konsepnya mirip CroxyProxy. Dia spoof User-Agent + rewrite semua link biar asset ke-load lewat proxy.
+
+Ini script lengkap Cloudflare Worker yang udah gue rapihin. Tinggal copy-paste → Deploy:
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const path = url.pathname.slice(1);
+
+    // Halaman home buat test
+    if (!path) {
+      return new Response(`
+        <h2>Proxy Aktif Bro ✅</h2>
+        <p>Pakai format: <code>/https://situs.com</code></p>
+        <p>Contoh: <code>/https://example.com</code></p>
+      `, { headers: { 'content-type': 'text/html' } });
+    }
+
+    // Validasi URL
+    if (!path.startsWith('http')) {
+      return new Response('Format salah. Pakai: /https://situs.com', { status: 400 });
+    }
+
+    let targetUrl;
+    try {
+      targetUrl = new URL(path);
+    } catch {
+      return new Response('URL invalid', { status: 400 });
+    }
+
+    // Ambil request baru
+    let newRequest = new Request(targetUrl, {
+      method: request.method,
+      headers: request.headers,
+      body: request.body,
+      redirect: 'follow'
+    });
+
+    // Spoof header biar keliatan kayak Chrome di Windows 10
+    newRequest.headers.set('User-Agent', 
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    );
+    newRequest.headers.set('Accept-Language', 'en-US,en;q=0.9,id;q=0.8');
+    newRequest.headers.set('Referer', targetUrl.origin);
+    newRequest.headers.delete('cf-ipcountry');
+    newRequest.headers.delete('cf-ray');
+
+    let response;
+    try {
+      response = await fetch(newRequest);
+    } catch (e) {
+      return new Response(`Error 522: Gagal connect ke ${targetUrl.host}. Situs nya nge-block atau down.`, { status: 522 });
+    }
+
+    // Rewrite HTML biar link nggak broken
+    let contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('text/html')) {
+      response = new HTMLRewriter()
+        .on('a, link, script, img, iframe, form, source, video, audio', {
+          element(element) {
+            const attrs = ['href', 'src', 'action', 'srcset', 'poster'];
+            for (let attr of attrs) {
+              let val = element.getAttribute(attr);
+              if (val && !val.startsWith('data:') && !val.startsWith('#') && !val.startsWith('javascript:')) {
+                try {
+                  let absUrl = new URL(val, targetUrl).href;
+                  element.setAttribute(attr, '/' + absUrl);
+                } catch {}
+              }
+            }
+          }
+        })
+        .transform(response);
+    }
+
+    // Hapus header yang bikin broken
+    let newHeaders = new Headers(response.headers);
+    newHeaders.delete('content-security-policy');
+    newHeaders.delete('content-security-policy-report-only');
+    newHeaders.delete('x-frame-options');
+    newHeaders.delete('strict-transport-security');
+    newHeaders.set('Access-Control-Allow-Origin', '*');
+    newHeaders.set('Access-Control-Allow-Headers', '*');
+
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: newHeaders
+    });
+  }
+}
+### Cara pakai:
+1. Buka `dash.cloudflare.com` → Workers & Pages → Create → Create Worker
+2. Paste kode di atas → Deploy
+3. Buka `https://nama-worker.username.workers.dev/https://example.com`
+
+### Yang ditingkatin dari versi sebelumnya:
+1. *Spoof User-Agent Chrome 120* - biar nggak langsung ke-detect bot
+2. *Rewrite lebih banyak tag* - `video`, `audio`, `source` biar video/gambar jalan
+3. *Hapus CSP & X-Frame-Options* - biar nggak di-block iframe
+4. *Error handling* - kalau timeout kasih pesan jelas Error 522
+
+### Batasan tetep ada Bro:
+1. *Login/Facebook/YouTube/Google* - 99% gagal. Mereka pakai bot protection yang deteksi JS execution. Proxy JS nggak bisa nembus itu.
+2. *WebSocket/Chat live* - nggak jalan
+3. *Situs berat JS* - kadang layout ancur
+
+Tapi buat baca artikel, GitHub, Wikipedia, Docs, Reddit old, blog, 95% bener.
+
+Kalau mau yang bisa buka YouTube/Facebook beneran, itu namanya "browser proxy" dan butuh VPS + Browserless. Nggak gratis.
+
+Coba dulu pakai situs ringan. Kalau ada situs spesifik yang mau lu tes, kirim linknya, gue cek kenapa gagal.
