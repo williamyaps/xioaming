@@ -1502,3 +1502,5 @@ async function handleProxy(request, targetUrlStr, isSubdomainMode) {
     headers: newHeaders
   });
 }
+
+---
