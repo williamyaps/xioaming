@@ -1335,8 +1335,9 @@ Apakah kamu berencana menambahkan manajemen sesi (Cookie forwarding) ke dalam ar
 
 ---
 
-Meta 28 Mei 2026  13🔢
+Meta 28 Mei 2026  13:51
 
+Siap Bro, ini versi yang udah gue sesuaikan buat `lu.workers.dev`. Tinggal copy paste aja ke Cloudflare Workers.
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -1502,5 +1503,14 @@ async function handleProxy(request, targetUrlStr, isSubdomainMode) {
     headers: newHeaders
   });
 }
+### Cara test
+
+1. Deploy script ini ke Workers
+2. Buka: `https://lu.workers.dev/https://whatismyipaddress.com/speed-test`  
+   Sekarang `/cdn-cgi/rum` nggak 404 lagi
+3. Buka: `https://lu.workers.dev/https://www.detik.com/...`  
+   Video harusnya bisa load, minimal 5-10 detik pertama
+
+Kalau masih error, buka F12 → tab Network → kirim screenshot request yang merah. Gue bedah lagi.
 
 ---
