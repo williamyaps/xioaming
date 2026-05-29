@@ -281,3 +281,32 @@ Semua file ini berfokus pada proteksi kode sumber HTML (anti-copas, anti-inspect
 * **Gunakan File 2 (`2argonid2embedwasm.html`) atau File 3 (`3metaproteksi.html`)** jika prioritas utamamu adalah **Keamanan Data Rahasia**. Kombinasi Argon2id dan AES-GCM adalah standar industri terbaik saat ini untuk aplikasi berbasis web.
 * **Gunakan File 8 (`7level8.html`)** jika kamu ingin mengamankan dokumen statis seperti **E-Book, Artikel Premium, atau Portofolio** agar benar-benar tidak bisa diseleksi atau disalin teksnya sama sekali.
 * **Gunakan File 10 (`8takmerusakfungsifetch-v2.html`)** jika halaman web kamu berupa **Aplikasi Interaktif atau Dashboard** yang membutuhkan fungsionalitas tombol/fitur API tetap berjalan, namun ingin mematikan fungsi *Inspect Element* secara total.
+
+---
+
+Mohon maaf atas ketidaktelitian pada tabel sebelumnya, Bestie! Mari kita bedah isi jeroan kode dari file nomor 10 (`8takmerusakfungsifetch-v2.html`) yang barusan kamu lampirkan secara utuh.
+
+Metode enkripsi dan derivasi kunci yang digunakan pada file nomor 10 ini sebenarnya adalah **kombinasi hibrida tingkat tinggi**, yaitu: **PBKDF2 + Argon2id + Web Crypto API Native (AES-GCM)**.
+
+Jadi, ini bukan sekadar AES biasa, melainkan penggabungan tiga lapisan kriptografi sekaligus. Berikut adalah rincian persis bagaimana file nomor 10 memproses enkripsinya:
+
+### 1. Lapisan Derivasi Kunci Kriptografi (Key Derivation)
+
+Sebelum data dikunci, password yang kamu masukkan tidak langsung dipakai begitu saja, melainkan ditempa melalui dua algoritma penguat (*Key Stretching*):
+
+* **Lapis 1 (PBKDF2):** Kode menggunakan library `CryptoJS` untuk menjalankan **PBKDF2** berbasis SHA-256 dengan total **100.000 iterasi**. Langkah ini sangat efektif untuk mengacak password dasar dari serangan berbasis kamus (*dictionary attack*).
+* **Lapis 2 (Argon2id):** Hasil dari PBKDF2 tersebut kemudian dimasukkan lagi ke dalam **Argon2id** (menggunakan library `argon2-browser`). Argon2id adalah standar algoritma hashing password terbaik (pemenang *Password Hashing Competition*) yang sangat rakus memori (`mem: 65536` atau 64MB) untuk menggagalkan upaya peretasan menggunakan hardware khusus seperti GPU atau ASIC.
+
+### 2. Lapisan Enkripsi Inti (Encryption)
+
+* **Web Crypto API Native (AES-GCM):** Setelah kunci final sepanjang 32-byte dihasilkan oleh Argon2id, file ini memanfaatkan fitur bawaan browser asli (*Native Web Crypto API*—ditandai dengan fungsi `crypto.subtle.importKey` dan `crypto.subtle.encrypt`).
+* Algoritma enkripsi simetris yang dipakai adalah **AES-GCM 256-bit** dengan Initialization Vector (IV) acak sepanjang 12-byte. AES-GCM dipilih karena merupakan algoritma *Authenticated Encryption*, yang artinya selain menyembunyikan isi kode HTML kamu, ia juga menjamin kode tersebut tidak bisa dimodifikasi atau dirusak secara paksa oleh pihak luar selama terkunci.
+
+---
+
+### **Kesimpulan untuk Kolom Tabel Nomor 10**
+
+Jika dimasukkan ke dalam tabel perbandingan dengan akurat, maka spesifikasinya adalah:
+
+* **Algoritma / Mekanisme Inti:** PBKDF2 (100k Iterasi) + Argon2id + Web Crypto API Native (AES-GCM 256-bit).
+* **Fitur Tambahan (Anti-Inspect & Anti-Save):** Menyuntikkan pustaka eksternal `disable-devtool@0.3.7` secara otomatis, memblokir pintasan keyboard (`F12`, `Ctrl+Shift+I/J/C`, `Ctrl+U/S/P`), serta memanipulasi komponen `XMLSerializer` dan `html2canvas` untuk mengelabui browser agar mengunduh berkas gambar statis (`snapshot.png`) palsu jika pengguna memaksa menekan tombol simpan (`Ctrl+S`).
