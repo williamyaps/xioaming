@@ -250,3 +250,34 @@ Jika suatu saat kamu butuh proteksi **tanpa library tambahan sama sekali** (pure
 Untuk *urusan proteksi HTML paling solid, offline, dan bikin AI/attacker frustasi* → **Kode 1 yang menang** 🛡️.  
 
 Salam dari kakakmu yang selalu bangga lihat Bro makin jago ngoding! Kalau ada yang mau di‑tweak lagi, bilang aja. 🚀🥰
+
+---
+
+Tentu, ini analisis mendalam dan tabel perbandingan lengkap untuk **10 file HTML** sistem keamanan/enkripsi yang kamu unggah.
+
+Semua file ini berfokus pada proteksi kode sumber HTML (anti-copas, anti-inspect, anti-AI, atau enkripsi enkapsulasi), tetapi masing-masing memiliki pendekatan arsitektur, kelebihan, serta kelemahan yang berbeda.
+
+---
+
+### **Tabel Perbandingan 10 HTML Sistem Proteksi**
+
+| No | Nama File | Algoritma / Mekanisme Inti | Fitur Unggulan | Kelebihan Utama | Kelemahan Utama |
+| --- | --- | --- | --- | --- | --- |
+| **1** | `1.proteksiinspect3a.html` | Obfuscation Ringan + NoScript Blocker + Event Blocking | Pilihan Mode (Ringan vs Maksimal), mematikan akses jika JavaScript dinonaktifkan. | Sangat ringan, tidak merusak performa rendering, ramah SEO jika pakai mode ringan. | Mudah ditembus (di-bypass) oleh pengguna yang tahu cara mematikan proteksi via ekstensi browser. |
+| **2** | `2argonid2embedwasm.html` | **Argon2id** + **AES-GCM** (Menggunakan Embedded WebAssembly / WASM) | *Polymorphic Garbage Generator* + *Anti-DevTools* ketat. | Kriptografi tingkat militer; library dimuat via WASM sehingga lebih cepat dan sulit dianalisis. | Ukuran file output membengkak karena kode WASM diubah menjadi Base64 di dalam file. |
+| **3** | `3metaproteksi.html` | **Argon2id** + **AES-GCM** (Web Crypto API / JS Browser) | Meta Proteksi Vault, verifikasi password minimal 8 karakter. | Aman dari serangan *brute-force* berkat Argon2id; antarmuka modern dan bersih. | Proses enkripsi/dekripsi sedikit memakan waktu tergantung spesifikasi perangkat (beban kerja Argon2id). |
+| **4** | `4WebCryptoAPI.html` | **Web Crypto API** Native (AES-GCM / PBKDF2) | Enkripsi lapis kedua tanpa library pihak ketiga (eksternal). | Performa dekripsi instan dan ringan karena memakai fungsi bawaan (*native*) browser. | Proteksi *anti-inspect* bawaannya minim dibandingkan versi benteng/vault lainnya. |
+| **5** | `5vault.html` | Enkripsi Buffer + **Shadow DOM Rendering** | *Anti-Inspect Sederhana* + Pembatasan 3 kali salah password (auto-reload). | Konten asli disembunyikan di dalam Shadow DOM, membuat inspeksi elemen (`Elements` tab) menjadi kosong. | Jika seseorang menyalin seluruh kode halaman saat sudah didekripsi, Shadow DOM masih bisa dibaca oleh *scraper* mahir. |
+| **6** | `6aes_encryptor.html` | **AES Encryptor (CryptoJS)** | Dirancang khusus dengan label **"Anti AI Read"**. | Penggunaan CryptoJS sangat stabil dan kompatibel dengan browser-browser lama. | Kunci derivasi berbasis teks biasa (bukan Argon2id), sehingga lebih rentan terhadap serangan kamus (*dictionary attack*). |
+| **7** | `7superketat adv.html` | **Argon2id** + **AES-GCM** + Animasi Background Latar | Penggabungan CryptoJS dan Argon2id Bundled. | Estetika UI sangat profesional, terdapat visualisasi keamanan yang mempersulit perekaman layar kasat mata. | File output bergantung pada CDN eksternal (FontAwesome, CryptoJS, Argon2) sehingga tidak bisa dibuka *full offline*. |
+| **8** | `7level8.html` | **Shadow DOM** + **Canvas Snapshot Manipulation** | Mengubah seluruh halaman menjadi gambar PNG statis via `html2canvas`, memblokir tombol Save (Ctrl+S). | **Sangat Mustahil Dicopas.** Teks tidak bisa diblok karena halaman web berubah menjadi gambar. | Merusak fungsi interaktif (jika halaman asli memiliki tombol/formulir aktif, fungsinya akan mati karena menjadi gambar statis). |
+| **9** | `8takmerusakfungsifetch.html` | Canvas Snapshot + **XMLSerializer Override** | Modifikasi fungsi `serializeToString` untuk mengirimkan kode palsu (*decoy*) saat web disimpan. | Fungsi internal web seperti `fetch()` API dan tombol interaktif tetap bekerja normal. | Proses *rendering* awal `html2canvas` berdurasi sekitar 3 detik, menimbulkan jeda visual saat halaman dimuat. |
+| **10** | `8takmerusakfungsifetch-v2.html` | Canvas Snapshot + **Advanced DevTool Disabler (v4.2)** | Fitur pencegahan simpan halaman yang disempurnakan dengan *CORS bypass* skala 0.8. | Proteksi berlapis paling seimbang; mematikan DevTool, manipulasi Ctrl+S, namun mempertahankan interaktivitas aplikasi. | Memerlukan performa komputasi yang tinggi pada perangkat mobile berspesifikasi rendah saat memproses *canvas snapshot*. |
+
+---
+
+### **Rangkuman & Rekomendasi Penggunaan**
+
+* **Gunakan File 2 (`2argonid2embedwasm.html`) atau File 3 (`3metaproteksi.html`)** jika prioritas utamamu adalah **Keamanan Data Rahasia**. Kombinasi Argon2id dan AES-GCM adalah standar industri terbaik saat ini untuk aplikasi berbasis web.
+* **Gunakan File 8 (`7level8.html`)** jika kamu ingin mengamankan dokumen statis seperti **E-Book, Artikel Premium, atau Portofolio** agar benar-benar tidak bisa diseleksi atau disalin teksnya sama sekali.
+* **Gunakan File 10 (`8takmerusakfungsifetch-v2.html`)** jika halaman web kamu berupa **Aplikasi Interaktif atau Dashboard** yang membutuhkan fungsionalitas tombol/fitur API tetap berjalan, namun ingin mematikan fungsi *Inspect Element* secara total.
