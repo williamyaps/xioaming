@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Perbandingan Kosmik - Shio, Zodiak, Weton, Planet</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0c1f;
+            color: #e0d7ff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: #1a1630;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(100, 80, 255, 0.2);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #c084fc, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .form-panel {
+            background: #252040;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .input-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #a5b4fc;
+        }
+        .input-group input {
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 2px solid #433b6e;
+            background: #1a1630;
+            color: #f0e9ff;
+            font-size: 1rem;
+            width: 140px;
+            transition: 0.2s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 12px #8b5cf6aa;
+        }
+        button {
+            background: #7c3aed;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #a78bfa;
+        }
+        button:hover {
+            background: #5b21b6;
+            box-shadow: 0 0 18px #8b5cf6;
+            transform: translateY(-2px);
+        }
+        button.secondary {
+            background: #312a5c;
+            border-color: #5f4b8b;
+        }
+        button.danger {
+            background: #b91c1c;
+            border-color: #ef4444;
+        }
+        .profile-list {
+            background: #252040;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        .profile-list table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #ddd6fe;
+        }
+        .profile-list th {
+            background: #342e5c;
+            padding: 10px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .profile-list td {
+            padding: 10px;
+            border-bottom: 1px solid #3e3860;
+        }
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        .comparison-result {
+            background: #1e1a34;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 15px;
+            overflow-x: auto;
+            border: 1px solid #4c4270;
+        }
+        .comparison-table {
+            border-collapse: collapse;
+            min-width: 900px;
+            width: 100%;
+            font-size: 0.85rem;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #4b3f72;
+            padding: 12px 10px;
+            vertical-align: top;
+            text-align: left;
+        }
+        .comparison-table th {
+            background: #2e2757;
+            color: #c9b8ff;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .comparison-table td {
+            background: #1f1a36;
+        }
+        .aspect-label {
+            font-weight: 700;
+            color: #e9d5ff;
+            background: #2a234b !important;
+            white-space: nowrap;
+        }
+        .highlight {
+            color: #facc15;
+            font-weight: bold;
+        }
+        .badge {
+            display: inline-block;
+            background: #7c3aed;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌌 Kalkulator Perbandingan Kosmik</h1>
+        <div class="form-panel">
+            <div class="input-group">
+                <label>Nama / Alias</label>
+                <input type="text" id="inputNama" placeholder="cth: Bro A" />
+            </div>
+            <div class="input-group">
+                <label>Tanggal Lahir</label>
+                <input type="number" id="inputTanggal" placeholder="15" min="1" max="31" />
+            </div>
+            <div class="input-group">
+                <label>Bulan Lahir</label>
+                <input type="number" id="inputBulan" placeholder="5" min="1" max="12" />
+            </div>
+            <div class="input-group">
+                <label>Tahun Lahir</label>
+                <input type="number" id="inputTahun" placeholder="1994" min="1900" max="2100" />
+            </div>
+            <button id="btnTambah">➕ Tambah Profil</button>
+        </div>
+
+        <div id="daftarProfil" class="profile-list">
+            <p style="color:#9f9bbf; text-align:center;">Belum ada profil ditambahkan.</p>
+        </div>
+
+        <div class="action-btns">
+            <button id="btnBandingkan" class="primary">🔮 Bandingkan Kosmik</button>
+            <button id="btnHapusSemua" class="secondary">🗑️ Hapus Semua</button>
+        </div>
+        <div id="hasilPerbandingan" class="comparison-result">
+            <p style="color:#9f9bbf; text-align:center;">Hasil perbandingan akan muncul di sini.</p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // --- DATA TAHUN BARU IMLEK (1924-2043) ---
+            const imlekDates = {
+                1924: [2,5], 1925: [1,24], 1926: [2,13], 1927: [2,2], 1928: [1,23], 1929: [2,10], 1930: [1,30],
+                1931: [2,17], 1932: [2,6], 1933: [1,26], 1934: [2,14], 1935: [2,4], 1936: [1,24], 1937: [2,11],
+                1938: [1,31], 1939: [2,19], 1940: [2,8], 1941: [1,27], 1942: [2,15], 1943: [2,5], 1944: [1,25],
+                1945: [2,13], 1946: [2,2], 1947: [1,22], 1948: [2,10], 1949: [1,29], 1950: [2,17], 1951: [2,6],
+                1952: [1,27], 1953: [2,14], 1954: [2,3], 1955: [1,24], 1956: [2,12], 1957: [1,31], 1958: [2,18],
+                1959: [2,8], 1960: [1,28], 1961: [2,15], 1962: [2,5], 1963: [1,25], 1964: [2,13], 1965: [2,2],
+                1966: [1,21], 1967: [2,9], 1968: [1,30], 1969: [2,17], 1970: [2,6], 1971: [1,27], 1972: [2,15],
+                1973: [2,3], 1974: [1,23], 1975: [2,11], 1976: [1,31], 1977: [2,18], 1978: [2,7], 1979: [1,28],
+                1980: [2,16], 1981: [2,5], 1982: [1,25], 1983: [2,13], 1984: [2,2], 1985: [2,20], 1986: [2,9],
+                1987: [1,29], 1988: [2,17], 1989: [2,6], 1990: [1,27], 1991: [2,15], 1992: [2,4], 1993: [1,23],
+                1994: [2,10], 1995: [1,31], 1996: [2,19], 1997: [2,7], 1998: [1,28], 1999: [2,16], 2000: [2,5],
+                2001: [1,24], 2002: [2,12], 2003: [2,1], 2004: [1,22], 2005: [2,9], 2006: [1,29], 2007: [2,18],
+                2008: [2,7], 2009: [1,26], 2010: [2,14], 2011: [2,3], 2012: [1,23], 2013: [2,10], 2014: [1,31],
+                2015: [2,19], 2016: [2,8], 2017: [1,28], 2018: [2,16], 2019: [2,5], 2020: [1,25], 2021: [2,12],
+                2022: [2,1], 2023: [1,22], 2024: [2,10], 2025: [1,29], 2026: [2,17], 2027: [2,6], 2028: [1,26],
+                2029: [2,13], 2030: [2,3], 2031: [1,23], 2032: [2,11], 2033: [1,31], 2034: [2,19], 2035: [2,8],
+                2036: [1,28], 2037: [2,15], 2038: [2,4], 2039: [1,24], 2040: [2,12], 2041: [2,1], 2042: [1,22],
+                2043: [2,10]
+            };
+
+            const SHIO_LIST = ["Tikus","Kerbau","Macan","Kelinci","Naga","Ular","Kuda","Kambing","Monyet","Ayam","Anjing","Babi"];
+            const ELEMEN_LIST = ["Kayu","Api","Tanah","Logam","Air"];
+            const ZODIAK_RANGES = [
+                {name:"Capricorn", start:[1,1], end:[1,19]},
+                {name:"Aquarius", start:[1,20], end:[2,18]},
+                {name:"Pisces", start:[2,19], end:[3,20]},
+                {name:"Aries", start:[3,21], end:[4,19]},
+                {name:"Taurus", start:[4,20], end:[5,20]},
+                {name:"Gemini", start:[5,21], end:[6,20]},
+                {name:"Cancer", start:[6,21], end:[7,22]},
+                {name:"Leo", start:[7,23], end:[8,22]},
+                {name:"Virgo", start:[8,23], end:[9,22]},
+                {name:"Libra", start:[9,23], end:[10,22]},
+                {name:"Scorpio", start:[10,23], end:[11,21]},
+                {name:"Sagittarius", start:[11,22], end:[12,21]},
+                {name:"Capricorn", start:[12,22], end:[12,31]}
+            ];
+            const PLANET_MAP = {
+                "Aries":"Mars", "Taurus":"Venus", "Gemini":"Merkurius", "Cancer":"Bulan",
+                "Leo":"Matahari", "Virgo":"Merkurius", "Libra":"Venus", "Scorpio":"Pluto & Mars",
+                "Sagittarius":"Jupiter", "Capricorn":"Saturnus", "Aquarius":"Uranus & Saturnus",
+                "Pisces":"Neptunus & Jupiter"
+            };
+            const NEPTU_HARI = { "Minggu":5, "Senin":4, "Selasa":3, "Rabu":7, "Kamis":8, "Jumat":6, "Sabtu":9 };
+            const NEPTU_PASARAN = { "Legi":5, "Pahing":9, "Pon":7, "Wage":5, "Kliwon":8 };
+            const PASARAN_LIST = ["Legi","Pahing","Pon","Wage","Kliwon"];
+            const HARI_LIST = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+
+            // State
+            let profiles = [];
+
+            // --- Fungsi Bantu ---
+            function getImlekYear(date) {
+                const y = date.getFullYear();
+                const imlek = imlekDates[y];
+                if (!imlek) return y; // fallback
+                const [imlekMonth, imlekDay] = imlek;
+                const imlekDate = new Date(y, imlekMonth-1, imlekDay);
+                if (date < imlekDate) return y - 1;
+                return y;
+            }
+
+            function getShioElemen(tgl) {
+                const shioYear = getImlekYear(tgl);
+                const shioIndex = (shioYear - 4) % 12;
+                const elemenIndex = Math.floor((shioYear - 4) % 10 / 2);
+                return {
+                    shio: SHIO_LIST[shioIndex],
+                    elemen: ELEMEN_LIST[elemenIndex]
+                };
+            }
+
+            function getZodiak(day, month) {
+                for (let z of ZODIAK_RANGES) {
+                    const [sm, sd] = z.start;
+                    const [em, ed] = z.end;
+                    if ((month === sm && day >= sd) || (month === em && day <= ed) ||
+                        (month > sm && month < em) || (sm > em && (month > sm || month < em))) {
+                        return z.name;
+                    }
+                }
+                return "Capricorn";
+            }
+
+            function getPlanet(zodiak) {
+                return PLANET_MAP[zodiak] || "Tidak diketahui";
+            }
+
+            function getWeton(tgl) {
+                const dayOfWeek = tgl.getDay(); // 0=Minggu
+                const hari = HARI_LIST[dayOfWeek];
+                const patokan = new Date(1900, 0, 1); // Senin Kliwon (1 Jan 1900)
+                const diffTime = tgl.getTime() - patokan.getTime();
+                const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+                const pasaranIndex = ((diffDays % 5) + 4) % 5; // patokan Kliwon=4
+                const pasaran = PASARAN_LIST[pasaranIndex];
+                const neptu = NEPTU_HARI[hari] + NEPTU_PASARAN[pasaran];
+                return { hari, pasaran, neptu };
+            }
+
+            // --- Skor Kompatibilitas ---
+            function getShioTrine(shio) {
+                const groups = [
+                    ["Tikus","Naga","Monyet"], ["Kerbau","Ular","Ayam"],
+                    ["Macan","Kuda","Anjing"], ["Kelinci","Kambing","Babi"]
+                ];
+                for (let g of groups) if (g.includes(shio)) return g;
+                return [];
+            }
+
+            function getElementInteraction(e1, e2) {
+                const creative = { Kayu:"Api", Api:"Tanah", Tanah:"Logam", Logam:"Air", Air:"Kayu" };
+                const destructive = { Kayu:"Tanah", Api:"Logam", Tanah:"Air", Logam:"Kayu", Air:"Api" };
+                if (e1 === e2) return 1;
+                if (creative[e1] === e2) return 2;
+                if (destructive[e1] === e2) return -2;
+                return 0;
+            }
+
+            function getZodiakElement(z) {
+                if (["Aries","Leo","Sagittarius"].includes(z)) return "Api";
+                if (["Taurus","Virgo","Capricorn"].includes(z)) return "Tanah";
+                if (["Gemini","Libra","Aquarius"].includes(z)) return "Udara";
+                return "Air";
+            }
+
+            function compatibilityScore(a, b) {
+                let score = 0;
+                // Shio trine
+                const trineA = getShioTrine(a.shio);
+                if (trineA.includes(b.shio)) score += 3;
+                // Shio oposisi
+                const oppose = { Tikus:"Kuda", Kerbau:"Kambing", Macan:"Monyet", Kelinci:"Ayam", Naga:"Anjing", Ular:"Babi",
+                                 Kuda:"Tikus", Kambing:"Kerbau", Monyet:"Macan", Ayam:"Kelinci", Anjing:"Naga", Babi:"Ular" };
+                if (oppose[a.shio] === b.shio) score -= 2;
+
+                // Elemen shio
+                score += getElementInteraction(a.elemen, b.elemen);
+
+                // Zodiak elemen
+                const za = getZodiakElement(a.zodiak);
+                const zb = getZodiakElement(b.zodiak);
+                if (za === zb) score += 2;
+                else if ((za==="Api"&&zb==="Air")||(za==="Air"&&zb==="Api")||(za==="Tanah"&&zb==="Udara")||(za==="Udara"&&zb==="Tanah")) score -= 2;
+
+                // Neptu selisih
+                const neptuDiff = Math.abs(a.neptu - b.neptu);
+                score -= neptuDiff * 0.4;
+                return Math.round(score * 10) / 10;
+            }
+
+            function findBestWorst(profiles, index) {
+                if (profiles.length < 2) return { best: null, worst: null };
+                let bestScore = -Infinity, worstScore = Infinity;
+                let bestIdx = -1, worstIdx = -1;
+                for (let i = 0; i < profiles.length; i++) {
+                    if (i === index) continue;
+                    const s = compatibilityScore(profiles[index], profiles[i]);
+                    if (s > bestScore) { bestScore = s; bestIdx = i; }
+                    if (s < worstScore) { worstScore = s; worstIdx = i; }
+                }
+                return {
+                    best: bestIdx !== -1 ? { idx: bestIdx, score: bestScore } : null,
+                    worst: worstIdx !== -1 ? { idx: worstIdx, score: worstScore } : null
+                };
+            }
+
+            // --- Generator Teks Aspek ---
+            function describeNeptu(profil) {
+                const h = profil.wetonHari;
+                const p = profil.wetonPasaran;
+                const neptu = profil.neptu;
+                const sifatHari = {
+                    Minggu:"wibawa, kepemimpinan teduh", Senin:"ketenangan, kepekaan perasaan",
+                    Selasa:"energi, keberanian, ketegasan", Rabu:"kebijaksanaan, pandai membaca situasi",
+                    Kamis:"kemakmuran, optimisme", Jumat:"keberkahan, karisma spiritual",
+                    Sabtu:"keteguhan, wibawa mendalam"
+                };
+                const sifatPasaran = {
+                    Legi:"keberuntungan, murah hati", Pahing:"pendiam, tajam, berwibawa",
+                    Pon:"komunikatif, luwes, pandai bicara", Wage:"kesederhanaan, pekerja keras, mandiri",
+                    Kliwon:"spiritual, melankolis, intuisi tinggi"
+                };
+                return `${h} ${p} (Neptu ${neptu}) memadukan ${sifatHari[h] || "kekuatan"} dengan ${sifatPasaran[p] || "keunikan"}. Kelebihan: kombinasi ini menciptakan pribadi yang kuat dan rendah hati. Tantangan: kadang terlalu memendam atau mandiri hingga enggan minta tolong.`;
+            }
+
+            function describePeranUtama(p) {
+                const peranShio = {
+                    Tikus:"Si Cerdik Pengatur Strategi", Kerbau:"Pekerja Keras yang Teguh",
+                    Macan:"Inisiator Pemberani & Pemimpin Alami", Kelinci:"Diplomat Anggun & Penengah",
+                    Naga:"Visioner Penuh Karisma", Ular:"Pemikir Strategis yang Misterius",
+                    Kuda:"Petualang Bebas & Motivator", Kambing:"Seniman Lembut & Harmonis",
+                    Monyet:"Inovator Cerdik & Problem Solver", Ayam:"Organisator Teliti & Jujur",
+                    Anjing:"Pelindung Setia & Penjaga Moral", Babi:"Penyayang Dermawan & Toleran"
+                };
+                const peranZodiak = {
+                    Capricorn:"Arsitek Disiplin", Aquarius:"Visoner Revolusioner", Pisces:"Empati Penyembuh",
+                    Aries:"Pionir Penuh Nyali", Taurus:"Pembangun Fondasi Kokoh", Gemini:"Komunikator Serba Bisa",
+                    Cancer:"Pengasuh Emosional", Leo:"Pemimpin Karismatik", Virgo:"Analis Perfeksionis",
+                    Libra:"Penyeimbang Elegan", Scorpio:"Transformator Intens", Sagittarius:"Filsuf Petualang"
+                };
+                return `${peranShio[p.shio] || p.shio} & ${peranZodiak[p.zodiak] || p.zodiak}. Planet ${p.planet} menambah kedalaman.`;
+            }
+
+            function describeSifatAlami(p) {
+                const sifat = {
+                    Anjing:"Setia, hangat, protektif", Macan:"Berani, penuh semangat, dominan",
+                    Kelinci:"Lembut, diplomatis, pemaaf", Naga:"Karismatik, penuh vitalitas",
+                    Kuda:"Bebas, energik, optimis", Tikus:"Cerdas, adaptif, bijaksana"
+                };
+                return `Sifat dasar ${sifat[p.shio] || "khas"} dipadukan stabilitas ${p.zodiak}. Cenderung membangun hubungan jangka panjang yang tulus.`;
+            }
+
+            function describeKarakteristik(p) {
+                return `${p.shio} ${p.elemen} yang bernaung di bawah ${p.zodiak} dengan planet ${p.planet}. Weton ${p.wetonHari} ${p.wetonPasaran} menegaskan integritas dan kepekaan spiritual.`;
+            }
+
+            function describeKeuntungan(p) {
+                return `Memberi loyalitas, stabilitas, dan perspektif mendalam. Mampu menjadi penengah serta sumber ketenangan di tengah badai.`;
+            }
+
+            function describeKelemahan(p) {
+                return `Terkadang terlalu keras kepala, enggan berubah, dan menyimpan masalah sendiri. Perfeksionisme bisa menghambat.`;
+            }
+
+            function describeCaraMenambal(p) {
+                return `Belajar fleksibel, lebih terbuka mengungkapkan perasaan, dan membangun kepercayaan bahwa meminta bantuan itu wajar. Meditasi & refleksi membantu.`;
+            }
+
+            function describeBisnis(p) {
+                const bisnis = {
+                    Anjing:"Manajemen operasional, keuangan, layanan pelanggan.",
+                    Macan:"Kepemimpinan strategis, negosiasi, sales.",
+                    Kelinci:"HR, public relation, mediasi, bidang kreatif.",
+                    Naga:"Direktur utama, inovator, public speaking.",
+                    Tikus:"Perencana keuangan, analis, logistik.",
+                    Kambing:"Desain, seni, terapi."
+                };
+                return bisnis[p.shio] || "Peran serba bisa sesuai kebutuhan tim.";
+            }
+
+            // --- Render Utama ---
+            function renderDaftarProfil() {
+                const div = document.getElementById('daftarProfil');
+                if (profiles.length === 0) {
+                    div.innerHTML = '<p style="color:#9f9bbf; text-align:center;">Belum ada profil ditambahkan.</p>';
+                    return;
+                }
+                let html = `<table><thead><tr><th>No</th><th>Nama</th><th>Tgl Lahir</th><th>Shio</th><th>Elemen</th><th>Zodiak</th><th>Planet</th><th>Weton</th><th>Neptu</th><th>Aksi</th></tr></thead><tbody>`;
+                profiles.forEach((p, i) => {
+                    html += `<tr>
+                        <td>${i+1}</td>
+                        <td><strong>${p.nama}</strong></td>
+                        <td>${p.tglStr}</td>
+                        <td>🐾 ${p.shio}</td>
+                        <td>🌿 ${p.elemen}</td>
+                        <td>♈ ${p.zodiak}</td>
+                        <td>🪐 ${p.planet}</td>
+                        <td>📅 ${p.wetonHari} ${p.wetonPasaran}</td>
+                        <td><span class="badge">${p.neptu}</span></td>
+                        <td><button class="danger" onclick="hapusProfil(${i})">❌</button></td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+                div.innerHTML = html;
+            }
+
+            window.hapusProfil = function(index) {
+                profiles.splice(index, 1);
+                renderDaftarProfil();
+            };
+
+            function bandingkan() {
+                const container = document.getElementById('hasilPerbandingan');
+                if (profiles.length === 0) {
+                    container.innerHTML = '<p style="color:#9f9bbf;">Tambahkan minimal satu profil.</p>';
+                    return;
+                }
+                if (profiles.length === 1) {
+                    container.innerHTML = '<p style="color:#9f9bbf;">Butuh minimal 2 profil untuk perbandingan kosmik.</p>';
+                    return;
+                }
+
+                // Siapkan data best/worst untuk tiap profil
+                const relasi = profiles.map((_, i) => findBestWorst(profiles, i));
+
+                let html = '<table class="comparison-table"><thead><tr><th>Aspek</th>';
+                profiles.forEach(p => {
+                    html += `<th>${p.nama}<br><small>${p.shio} ${p.elemen} | ${p.zodiak}</small></th>`;
+                });
+                html += '</tr></thead><tbody>';
+
+                // Baris 1: Esensi Neptu
+                html += '<tr><td class="aspect-label">🔢 Esensi Neptu</td>';
+                profiles.forEach(p => html += `<td>${describeNeptu(p)}</td>`);
+                html += '</tr>';
+
+                // Baris 2: Peran Utama
+                html += '<tr><td class="aspect-label">🎭 Peran Utama</td>';
+                profiles.forEach(p => html += `<td>${describePeranUtama(p)}</td>`);
+                html += '</tr>';
+
+                // Baris 3: Kecocokan Tertinggi
+                html += '<tr><td class="aspect-label">💞 Kecocokan Tertinggi</td>';
+                profiles.forEach((p, i) => {
+                    const best = relasi[i].best;
+                    if (best) {
+                        const partner = profiles[best.idx];
+                        html += `<td>Paling klop dengan <strong>${partner.nama}</strong> (skor ${best.score}).<br>Shio ${p.shio}-${partner.shio} serasi, zodiak ${p.zodiak}-${partner.zodiak} saling melengkapi.</td>`;
+                    } else {
+                        html += '<td>-</td>';
+                    }
+                });
+                html += '</tr>';
+
+                // Baris 4: Potensi Gesekan
+                html += '<tr><td class="aspect-label">⚡ Potensi Gesekan</td>';
+                profiles.forEach((p, i) => {
+                    const worst = relasi[i].worst;
+                    if (worst) {
+                        const partner = profiles[worst.idx];
+                        html += `<td>Potensi bentrok dengan <strong>${partner.nama}</strong> (skor ${worst.score}).<br>Perbedaan shio/elemen atau zodiak bisa memicu ketegangan.</td>`;
+                    } else {
+                        html += '<td>-</td>';
+                    }
+                });
+                html += '</tr>';
+
+                // Baris 5: Sifat Alami Hubungan
+                html += '<tr><td class="aspect-label">🌊 Sifat Alami Hubungan</td>';
+                profiles.forEach(p => html += `<td>${describeSifatAlami(p)}</td>`);
+                html += '</tr>';
+
+                // Baris 6: Dinamika Hubungan
+                html += '<tr><td class="aspect-label">🔄 Dinamika Hubungan</td>';
+                profiles.forEach(p => html += `<td>${p.shio} ${p.zodiak} cenderung ${p.shio==="Macan"?"memimpin dan menginspirasi": (p.shio==="Anjing"?"menjaga keseimbangan": (p.shio==="Kelinci"?"meredakan ketegangan":"berkontribusi aktif"))} dalam kelompok. Weton ${p.wetonHari} ${p.wetonPasaran} menambah warna interaksi.</td>`);
+                html += '</tr>';
+
+                // Baris 7: Bisnis Hubungan
+                html += '<tr><td class="aspect-label">💼 Bisnis Hubungan</td>';
+                profiles.forEach(p => html += `<td>${describeBisnis(p)}</td>`);
+                html += '</tr>';
+
+                // Baris 8: Karakteristik
+                html += '<tr><td class="aspect-label">🧬 Karakteristik</td>';
+                profiles.forEach(p => html += `<td>${describeKarakteristik(p)}</td>`);
+                html += '</tr>';
+
+                // Baris 9: Keuntungan
+                html += '<tr><td class="aspect-label">✅ Keuntungan</td>';
+                profiles.forEach(p => html += `<td>${describeKeuntungan(p)}</td>`);
+                html += '</tr>';
+
+                // Baris 10: Kelemahan
+                html += '<tr><td class="aspect-label">⚠️ Kelemahan</td>';
+                profiles.forEach(p => html += `<td>${describeKelemahan(p)}</td>`);
+                html += '</tr>';
+
+                // Baris 11: Cara Menambal
+                html += '<tr><td class="aspect-label">🛠️ Cara Menambal</td>';
+                profiles.forEach(p => html += `<td>${describeCaraMenambal(p)}</td>`);
+                html += '</tr>';
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+
+            function tambahProfil() {
+                const nama = document.getElementById('inputNama').value.trim() || `Orang ${profiles.length+1}`;
+                const tgl = parseInt(document.getElementById('inputTanggal').value);
+                const bln = parseInt(document.getElementById('inputBulan').value);
+                const thn = parseInt(document.getElementById('inputTahun').value);
+                if (isNaN(tgl) || isNaN(bln) || isNaN(thn) || tgl<1 || tgl>31 || bln<1 || bln>12 || thn<1900) {
+                    alert('Masukkan tanggal lahir yang valid (tgl 1-31, bln 1-12, thn >=1900).');
+                    return;
+                }
+                const date = new Date(thn, bln-1, tgl);
+                if (date.getDate() !== tgl || date.getMonth() !== bln-1) {
+                    alert('Tanggal tidak valid.');
+                    return;
+                }
+                const { shio, elemen } = getShioElemen(date);
+                const zodiak = getZodiak(tgl, bln);
+                const planet = getPlanet(zodiak);
+                const weton = getWeton(date);
+                const tglStr = `${tgl}/${bln}/${thn}`;
+                profiles.push({
+                    nama, tglStr, date,
+                    shio, elemen, zodiak, planet,
+                    wetonHari: weton.hari, wetonPasaran: weton.pasaran, neptu: weton.neptu
+                });
+                renderDaftarProfil();
+                // clear input
+                document.getElementById('inputNama').value = '';
+                document.getElementById('inputTanggal').value = '';
+                document.getElementById('inputBulan').value = '';
+                document.getElementById('inputTahun').value = '';
+            }
+
+            // Event listeners
+            document.getElementById('btnTambah').addEventListener('click', tambahProfil);
+            document.getElementById('btnBandingkan').addEventListener('click', bandingkan);
+            document.getElementById('btnHapusSemua').addEventListener('click', ()=>{
+                if(confirm('Hapus semua profil?')) {
+                    profiles = [];
+                    renderDaftarProfil();
+                    document.getElementById('hasilPerbandingan').innerHTML = '<p style="color:#9f9bbf;">Hasil perbandingan akan muncul di sini.</p>';
+                }
+            });
+
+            // Contoh awal (opsional): langsung isi 4 tanggal Bro
+            window.addEventListener('load', ()=>{
+                const contoh = [
+                    {nama:"Bro 1994", tgl:15, bln:5, thn:1994},
+                    {nama:"Bro 1Jan99", tgl:1, bln:1, thn:1999},
+                    {nama:"Bro 14Feb99", tgl:14, bln:2, thn:1999},
+                    {nama:"Bro 28Feb99", tgl:28, bln:2, thn:1999}
+                ];
+                contoh.forEach(c => {
+                    const date = new Date(c.thn, c.bln-1, c.tgl);
+                    const { shio, elemen } = getShioElemen(date);
+                    const zodiak = getZodiak(c.tgl, c.bln);
+                    const planet = getPlanet(zodiak);
+                    const weton = getWeton(date);
+                    profiles.push({
+                        nama: c.nama, tglStr: `${c.tgl}/${c.bln}/${c.thn}`, date,
+                        shio, elemen, zodiak, planet,
+                        wetonHari: weton.hari, wetonPasaran: weton.pasaran, neptu: weton.neptu
+                    });
+                });
+                renderDaftarProfil();
+            });
+        })();
+    </script>
+</body>
+</html>
