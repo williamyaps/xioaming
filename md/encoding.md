@@ -395,3 +395,77 @@ Mari kita bedah dan bandingkan ke-4 versi alat pengunci HTML Anda tersebut. Berd
 * **Gunakan FastEncryptor.html** jika Anda mengunci file HTML yang ukurannya sangat besar atau memiliki aset yang banyak agar proses enkripsi dan pembukaan password-nya tidak membuat browser terasa lambat (*Lag*).  
 * **Gunakan ENCRYPTOR61.html** sebagai andalan harian Anda untuk web aplikasi/dashboard interaktif (seperti analisis kurs atau yang memakai ApexCharts), karena versi ini adalah versi *Fix* yang paling stabil dalam mempertahankan struktur tampilan agar tidak berantakan setelah didekripsi.  
 * **Tinggalkan versi ENCRYPTOR.html dan ENCRYPTOR6.html**, karena proteksi memorinya masih longgar dan rentan mengalami galat (*error*) saat membaca kode-kode JavaScript modern yang kompleks.
+
+  ---
+
+  Bro, gue bedah langsung dari kode yang lu paste — lengkapnya kayak gini:
+
+## Proteksi enkripsi yang kepake
+
+**1. PBKDF2 dulu**
+- `iterations: 100000`
+- `hasher: SHA256`
+- `keySize: 8` → 8 words = 256 bit
+- salt: 16 byte random
+> Hasil PBKDF2 ini lu jadiin *pass* buat Argon2, bukan langsung jadi key.
+
+**2. Argon2id**
+- `time: 3` (iterasi)
+- `mem: 65536` → itu satuan KiB di argon2-browser, jadi **64 MB**
+- `parallelism: 1`
+- `hashLen: 32` → 32 byte = 256 bit
+- `type: Argon2id`
+
+**3. AES-GCM**
+- key: 256-bit dari output Argon2id
+- iv: 12 byte random
+- mode: `crypto.subtle.encrypt({name:'AES-GCM', iv})`
+- payload yang disimpan = `magic(16) + salt(16) + iv(12) + ciphertext` lalu di-Base64
+
+Jadi layer-nya: `password → PBKDF2(100k) → Argon2id(3x, 64MB) → AES-GCM`
+
+**ChaCha20-Poly1305?**
+Nggak ada, Bro. Di encryptor dan di template hasil nggak dipanggil sama sekali. Cuma AES-GCM.
+
+## Proteksi anti-intip / anti-save yang kepake
+
+Lu udah nyebut sebagian, tapi ada beberapa tambahan kecil:
+
+- **disable-devtool library** `v0.3.7` dari jsDelivr, auto-inject setelah 3 detik
+  - `disable-menu="true"`, `clear-log="true"`, `disable-select="true"`, `disable-copy="true"`
+
+- **Block shortcut manual**
+  - `F12`
+  - `Ctrl+Shift+I / J / C`
+  - `Ctrl+U` (view source), `Ctrl+S` (save), `Ctrl+P` (print)
+
+- **Anti klik kanan**
+  - `addEventListener('contextmenu', e => e.preventDefault())`
+
+- **html2canvas snapshot**
+  - 3 detik setelah dekrip, halaman di-render jadi PNG
+  - background `#0f172a`, scale 0.8
+
+- **Override XMLSerializer**
+  - `XMLSerializer.prototype.serializeToString` di-patch, jadi kalau ada tool yang coba `save page as` atau serialize DOM, yang keluar bukan HTML asli tapi string fake berisi `<img src="data:image/png...">`
+
+- **Hijack Ctrl+S / Cmd+S**
+  - dipaksa download `snapshot.png`, bukan file HTML
+
+- **Clear console**
+  - lewat atribut `clear-log` dari disable-devtool
+
+## Yang belum / catatan kecil
+
+- `magic` 16 byte di awal payload itu cuma random, nggak dicek pas dekrip — jadi nggak nambah proteksi.
+- Encoding cuma Base64 buat bungkus binary, bukan obfuscation tambahan.
+- Nggak ada anti-debugger loop, nggak ada self-defending (deteksi DevTools buka tutup), nggak ada wasm obfuscation, nggak ada anti-iframe.
+
+Jadi jawaban singkatnya:
+- PBKDF2 = **100.000 iterasi SHA-256**
+- Argon2id = **3 iterasi, 64 MB memory, parallelism 1**
+- AES-GCM = **ada**
+- override XMLSerializer + html2canvas + disable-devtools = **ada semua**
+- ChaCha20-Poly1305 = **nggak ada**
+
+Mau gue bikinin versi yang nambah ChaCha20-Poly1305 sebagai fallback kalau browser nggak support AES-GCM, atau sekalian naikin Argon2 ke 128MB?
