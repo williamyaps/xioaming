@@ -469,3 +469,60 @@ Jadi jawaban singkatnya:
 - ChaCha20-Poly1305 = **nggak ada**
 
 Mau gue bikinin versi yang nambah ChaCha20-Poly1305 sebagai fallback kalau browser nggak support AES-GCM, atau sekalian naikin Argon2 ke 128MB?
+
+---
+
+Pertanyaan bagus, Bro! Jawabannya: **Bukan pakai WASM (WebAssembly)** untuk inti enkripsinya, tapi script ini memanfaatkan **Web Crypto API (fitur bawaan browser asli)** yang dikombinasikan dengan library **Argon2 berbasis WebAssembly** lewat CDN.
+
+Mari kita bongkar bagaimana sistem ini bekerja di balik layar dan bagaimana cara melihat hasil proteksi (payload) yang sebenarnya.
+
+---
+
+### 1. Bagaimana Hasil Proteksi Ini Bekerja? (Arsitektur Keamanan)
+
+Sistem proteksi pada file `saham-v3-ok-v8.html` menggunakan kombinasi 3 lapisan teknologi:
+
+* **Lapisan 1: PBKDF2-SHA512 (Web Crypto API):** Password yang kamu masukkan diubah menjadi kunci biner awal dan diulang (*iterasi*) sebanyak 500.000 kali. Proses ini murni berjalan di atas mesin browser kamu (sangat cepat dan aman).
+* **Lapisan 2: Argon2id (WASM lewat CDN):** Nah, di bagian inilah **WASM** berperan. Kode memanggil library `argon2-bundled.min.js`. Library ini memuat modul WebAssembly di latar belakang untuk melakukan komputasi tingkat tinggi (adaptif memori) guna memperkuat kunci biner dari Lapisan 1 agar tidak bisa di-crack menggunakan superkomputer atau GPU.
+* **Lapisan 3: AES-GCM 256-bit (Web Crypto API):** Hasil akhir dari kunci Argon2 digunakan untuk mengunci total file HTML asli kamu.
+
+Hasil dari enkripsi brutal ini digabungkan menjadi satu kesatuan data biner (ArrayBuffer), lalu diubah menjadi teks acak berbasis **Base64**. Teks acak inilah yang disimpan di dalam variabel `PAY` di file hasil enkripsi kamu.
+
+---
+
+### 2. Cara Melihat Isi "Payload" (Hasil Proteksi) yang Sebenarnya
+
+Jika kamu penasaran apa sih isi dari variabel teks acak `PAY` tersebut, data tersebut disusun menggunakan format biner terstruktur (Struktur Data Custom).
+
+Kamu bisa melihat isi/susunan proteksinya dengan mengekstrak data biner tersebut. Berikut adalah struktur anatomi dari variabel `PAY` saat dibongkar dari indeks byte ke byte:
+
+| Posisi Byte (Offset) | Ukuran (Size) | Nama Komponen | Fungsi / Arti Data |
+| --- | --- | --- | --- |
+| **Byte 0** | 1 Byte | `method` | Menentukan metode fallback (Nilai `1` artinya pakai Argon2, `0` artinya bypass ke PBKDF2). |
+| **Byte 1 s/d 4** | 4 Byte | `mem` | Menyimpan kapasitas RAM yang digunakan untuk Argon2 (131072 KB atau 65536 KB). |
+| **Byte 5 s/d 36** | 32 Byte | `salt` | Data acak (Salt) unik yang digunakan untuk mengunci password agar tidak bisa ditebak lewat *Rainbow Table*. |
+| **Byte 37 s/d 48** | 12 Byte | `iv` | *Initialization Vector* (IV) acak khusus untuk enkripsi AES-GCM agar hasil enkripsi selalu berbeda. |
+| **Byte 49 s/d Akhir** | Sisa Byte | `ct` (*Ciphertext*) | **Ini adalah inti data HTML asli kamu** yang sudah membeku menjadi kode biner terenkripsi. Tidak akan bisa dibaca tanpa password yang tepat. |
+
+---
+
+### 3. Cara Mengintip Payload Secara Langsung via Console
+
+Kalau kamu mau membuktikan dan melihat isi variabel-variabel proteksi di atas (seperti melihat bit `salt` atau `iv` yang dihasilkan), kamu bisa lakukan trik ini:
+
+1. Buka file hasil enkripsi (`saham-v3-ok-v8.html`) di browser.
+2. Sebelum memasukkan password, klik kanan -> **Inspect** (atau tekan `Ctrl+Shift+I` sebelum halaman didekripsi).
+3. Masuk ke Tab **Console**, lalu ketik kode ini untuk mengintip isi proteksinya:
+
+```javascript
+// Mengubah teks PAY menjadi data biner asli
+const dataBiner = d(PAY); 
+
+console.log("Metode Enkripsi:", dataBiner[0] === 1 ? "Argon2id + PBKDF2" : "PBKDF2 Only");
+console.log("Salt Biner (32 Byte):", dataBiner.slice(5, 37));
+console.log("IV Biner (12 Byte):", dataBiner.slice(37, 49));
+console.log("Ukuran HTML Terenkripsi (Byte):", dataBiner.slice(49).byteLength);
+
+```
+
+Dengan cara ini, kamu bisa tahu bahwa proteksi kamu **bukan sekadar teks acak bohongan**, melainkan struktur data biner kriptografi standar militer yang memanfaatkan kecepatan WebAssembly (WASM) untuk proses hashing Argon2-nya.
