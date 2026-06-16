@@ -458,4 +458,27 @@ Contoh hasilnya:
 - Gunakan password minimal 12 karakter campur (huruf besar, kecil, angka, simbol) biar hash gak bisa di-brute force.
 - Kalau lupa password, gak bisa dibuka lagi. Ganti hash dengan hash baru jika perlu ganti password.
 
-Sekarang tinggal buka `bookmarks.html` lo, dan semua akan aman. Kalau ada pertanyaan lain, langsung tanya aja Bro! 🚀
+ Cara mengganti password (sesuai keinginanmu)
+Buka file HTML ini di browser.
+
+Tekan F12 → buka tab Console.
+
+Ketik kode berikut (ganti "rahasiamu" dengan password asli yang kamu mau):
+
+javascript
+(async () => {
+  const enc = new TextEncoder();
+  const hash = sha3_256(enc.encode("rahasiamu"));
+  console.log("Hash SHA3-256 dari password:", Array.from(hash).map(b => b.toString(16).padStart(2,'0')).join(''));
+})();
+Nanti akan muncul hash (string 64 karakter hex). Salin hash itu.
+
+Buka file HTML dengan editor teks (Notepad, VS Code, dll). Cari baris:
+
+javascript
+const EXPECTED_PWD_HASH_HEX = "8c7c6b5f4a3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6";
+Ganti nilai di antara tanda petik dengan hash hasil langkah 4.
+
+Simpan file.
+
+Selesai! Sekarang password aslimu tidak akan terlihat di source code, hanya hash-nya.
