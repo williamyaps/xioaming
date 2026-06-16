@@ -465,9 +465,21 @@ Contoh hasilnya:
 
 ```javascript
 (async () => {
-  const enc = new TextEncoder();
-  const hash = sha3_256(enc.encode("rahasiamu"));
-  console.log("Hash SHA3-256 dari password:", Array.from(hash).map(b => b.toString(16).padStart(2,'0')).join(''));
+  // 1. Load library CryptoJS yang mendukung SHA-3 ke dalam browser secara dinamis
+  await new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js';
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  // 2. Sekarang kita bisa pakai fungsi SHA-3 dari CryptoJS
+  const teks = "rahasiamu";
+  const hash = CryptoJS.SHA3(teks, { outputLength: 256 });
+
+  // 3. Cetak hasilnya dalam bentuk Hex string
+  console.log("Hash SHA3-256 dari password:", hash.toString(CryptoJS.enc.Hex));
 })();
 ```
 
@@ -476,7 +488,7 @@ Contoh hasilnya:
 
 Contoh hasilnya: 
 ```javascript
-const EXPECTED_PWD_HASH_HEX = "8c7c6b5f4a3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6";
+Hash SHA3-256 dari password: e4b439dc741d44a540d778c22bfb4324dbff4f3ad357129c741ef376e1f4b425
 ```
 
 ---
