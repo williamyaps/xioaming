@@ -649,3 +649,122 @@ Dengan ini, file HTML-mu:
 - Ukuran kecil dan cepat.  
 
 Apakah konsep ini sudah clear, Bro? Kalau setuju, kita bisa lanjut ke tahap **desain teknis converter** (tanpa coding dulu) – misal: bagaimana struktur Wasm, bagaimana cara menyimpan ciphertext di HTML, dan bagaimana komunikasi Wasm–JS.
+
+---
+
+Oke Bro, langsung gas ke spesifikasi teknis isi file **HTML Self-Decrypting Packer** yang kamu kirim. Saya bedah satu per satu komponen kriptografinya lengkap dengan ukuran bit, parameter, dan cara kerjanya. Anggap ini kayak **datasheet senjata**.
+
+---
+
+## 📋 Ringkasan Spesifikasi Kriptografi
+
+| Komponen | Algoritma | Key / Output Size | Nonce / Salt Size | Rounds / Iterasi | Detail Tambahan |
+|----------|-----------|-------------------|-------------------|------------------|-----------------|
+| **Enkripsi** | ChaCha20 | 256-bit key | 96-bit nonce | 20 rounds (10 double) | IETF variant (12-byte nonce, 32-bit counter) |
+| **Autentikasi** | Poly1305 | 256-bit key (r+s) → 128-bit tag | – | – | 26-bit limb implementation, tag = 16 byte |
+| **AEAD** | ChaCha20-Poly1305 (custom) | – | – | – | Ciphertext + 8-byte little-endian length sebagai input MAC; **tidak** ada AAD |
+| **Key Derivation** | PBKDF2 (Web Crypto) | 256-bit derived key | 256-bit salt (random) | **500.000** iterasi | Menggunakan PRF: **SHA-512** |
+| **Hash Verifikasi** | SHA3-512 (Keccak) | 512-bit digest | – | 24 rounds (Keccak-f[1600]) | Domain separation pad 0x06, output 64 byte |
+| **Random Generator** | crypto.getRandomValues() | – | – | – | Dipakai untuk salt & nonce |
+
+---
+
+## 🔍 Detail Masing-Masing Komponen
+
+### 1. Poly1305 – Message Authentication Code (MAC)
+- **Fungsi**: Menjamin integritas dan keaslian ciphertext.
+- **Key size**: 256 bit (32 byte). Struktur key:  
+  - 16 byte pertama → nilai `r` (dengan clamp masking: `r[0] &= 0x0ffffffc0fffffff`, dsb.)  
+  - 16 byte kedua → nilai `s` (digunakan di final addition).
+- **Output tag**: 128 bit (16 byte).
+- **Implementasi**: Full JS murni, aritmetik 26-bit limbs untuk efisiensi.
+- **Cara kerja di file**: Dipanggil sebagai `poly1305.mac(authKey, macData)`; tag dibandingkan di decrypt.
+
+### 2. ChaCha20 – Stream Cipher
+- **Fungsi**: Enkripsi/dekripsi simetris (XOR-based).
+- **Varian**: IETF ChaCha20 (nonce 96-bit, counter 32-bit).  
+  - **Key**: 256 bit (32 byte)  
+  - **Nonce**: 96 bit (12 byte)  
+  - **Counter**: dimulai dari 0 untuk pembangkitan auth key, lalu 1,2,3,… untuk enkripsi.
+- **Rounds**: 20 rounds (10 iterasi × 8 quarter-round: 4 vertikal + 4 diagonal).
+- **Output blok**: 512 bit (64 byte) per pemanggilan fungsi `chacha20(key, nonce, counter)`.
+- **Penggunaan**:
+  - Counter = 0 → hasilkan 32 byte pertama sebagai **kunci Poly1305** (auth key).
+  - Counter ≥ 1 → hasilkan keystream untuk XOR dengan plaintext/ciphertext.
+
+### 3. ChaCha20-Poly1305 – Skema AEAD (Custom)
+- **Fungsi**: Gabungan enkripsi + autentikasi.
+- **Enkripsi**:
+  1. `authKey = chacha20(key, nonce, 0).slice(0,32)` → kunci Poly1305.
+  2. Plaintext di-XOR dengan keystream dari counter 1,2,…
+  3. `ciphertext` adalah hasil XOR.
+  4. **MAC input** = `ciphertext` || `length(ciphertext)` dalam 8-byte little-endian.
+  5. Tag = `poly1305.mac(authKey, gabungan_tersebut)`.
+  6. Hasil akhir = `ciphertext || tag` (ciphertext length + 16 byte tag).
+- **Dekripsi**: Memeriksa tag, jika cocok lanjut XOR.
+- **Catatan Penting**: Ini **bukan** AEAD standar RFC 8439 karena tidak ada **Additional Authenticated Data (AAD)** dan tidak ada padding AAD/ciphertext. Ini konstruksi yang lebih sederhana, mirip dengan `crypto_secretbox` dari NaCl (walaupun NaCl memakai XSalsa20).
+
+### 4. PBKDF2-SHA512 – Key Derivation
+- **Fungsi**: Mengubah password (string) menjadi kunci 256-bit untuk ChaCha20.
+- **Implementasi**: Menggunakan **Web Crypto API** bawaan browser (bukan kode manual).
+- **Parameter**:
+  - **PRF**: HMAC-SHA-512 (spesifikasi `hash: 'SHA-512'`).
+  - **Iterasi**: **500.000** (500k, tergolong sangat tinggi, memperlambat brute-force).
+  - **Salt**: 256 bit (32 byte) acak, dihasilkan dari `crypto.getRandomValues`, disimpan di awal payload.
+  - **Output key**: 256 bit (32 byte) – `deriveBits(..., 256)`.
+- **Keamanan**: Dengan 500k iterasi SHA-512, password lemah pun butuh waktu signifikan per percobaan.
+
+### 5. SHA3-512 – Hash Verifikasi Tambahan
+- **Fungsi**: Memastikan hasil dekripsi sama persis dengan HTML asli (sebagai checksum kedua setelah MAC).
+- **Algoritma**: **Keccak-f[1600]** dengan parameter SHA3-512 standar (output 512 bit).
+- **Detail**:
+  - **Kapasitas**: `bitrate = 576 bit`, `capacity = 1024 bit` (sesuai 200 – bitrate/4, di kode: `this.bs = 200 - (512 >> 2) = 200 - 128 = 72 byte` → bitrate 576 bit).
+  - **Padding**: Domain separation 0x06, diikuti bit 1, lalu 0, lalu bit 1 di akhir (khas SHA-3).
+  - **Output**: 64 byte (512 bit), dikonversi ke hex string.
+- **Penggunaan**: Sebelum enkripsi, hash HTML asli dihitung; saat dekripsi, hash dari hasil dekripsi dibandingkan. Jika MAC lolos tapi hash beda → kemungkinan besar key salah atau data korup.
+
+### 6. Salt dan Nonce
+- **Salt**: 256 bit (32 byte), acak, disimpan di offset 0–31 payload.
+- **Nonce**: 96 bit (12 byte), acak, disimpan di offset 32–43 payload.
+- **Random Source**: `crypto.getRandomValues(new Uint8Array(N))` → aman, unpredictable.
+
+---
+
+## 📦 Struktur Payload File Terproteksi
+
+```
+Offset | Ukuran | Isi
+-------|--------|-----
+0      | 32 B   | salt (PBKDF2)
+32     | 12 B   | nonce (ChaCha20)
+44     | N B    | ciphertext (terenkripsi) + 16 B tag Poly1305
+44+N   | 64 B   | SHA3-512 hash dari HTML asli
+```
+
+Total panjang payload = 44 + (length ciphertext + 16) + 64.  
+Semua diencode ke **base64** dan disimpan di variabel `PAYLOAD` di dalam file HTML hasil pack.
+
+---
+
+## ⚙️ Alur Dekripsi File Hasil Pack
+1. User masukkan password.
+2. Payload base64 didecode.
+3. Salt dan nonce dipotong.
+4. PBKDF2-SHA512 dengan salt dan iterasi 500k → kunci 256-bit.
+5. ChaCha20-Poly1305 decrypt: autentikasi MAC, lalu dekrip ciphertext.
+6. Hitung SHA3-512 dari hasil dekripsi, bandingkan dengan hash di payload.
+7. Jika cocok, `document.write(html)` → konten asli ditampilkan/dijalankan.
+
+---
+
+## 🛡️ Implikasi Keamanan
+- **Kriptografi kuat**: Semua algoritma modern, parameter tinggi (500k iterasi PBKDF2, 256-bit key). Tidak mudah ditembus tanpa password.
+- **Self-contained**: Tidak ada panggilan jaringan, jadi inspeksi otomatis (antivirus, firewall) sangat sulit mendeteksi isinya.
+- **Double integrity**: MAC + SHA3-512 menjamin konten tidak dimodifikasi.
+- **Tidak ada backdoor**: Dari kode, tidak ada pengiriman data rahasia; murni enkripsi/dekripsi.
+
+Namun perlu diingat, karena konten asli bisa apa saja (termasuk script berbahaya), file hasil enkripsi dari alat ini **sering disalahgunakan untuk menyamarkan malware, phishing, atau miner**. Jadi tetap waspada kalau dapat HTML terproteksi dari sumber tidak dikenal.
+
+---
+
+Kalau masih ada yang ingin diperdalam, bilang aja Bro.
