@@ -424,6 +424,36 @@ Tapi untuk sekarang, **pakai GPT dulu**. Itu yang paling aman buat Windows 7\.
 
 ---
 
-**Xie xie ni hao siong di** 🙏. Semoga Windows 7 Bro makin lega\!
+Tentu, Bro! Berikut tabel perbandingan antara **hasil-merger.html** (buatan GPT) dan **html-workbench-pro.html** (buatan Claude). Keduanya adalah aplikasi *workbench* untuk mengelola dan menggabungkan file HTML, tapi dengan pendekatan yang berbeda.
+
+---
+
+### Tabel Perbandingan Workbench Generator
+
+| **Aspek** | **hasil-merger.html (GPT)** | **html-workbench-pro.html (Claude)** |
+|-----------|------------------------------|----------------------------------------|
+| **Tujuan Utama** | Generator satu-kali: mengambil file HTML, menggabungkan konten ke dalam satu file `merged-clean.html` dengan encoding Base64. | Workbench interaktif: mengelola banyak file HTML, membuka/menutup tab secara dinamis, dan menghasilkan file gabungan dengan terminal serta command line. |
+| **Antarmuka** | Sederhana: sidebar kiri (drop-zone, daftar file, tombol generate/save/load/clear) dan panel kanan berisi log teks. Tidak ada terminal atau preview tab. | Lengkap: sidebar kiri (drop-zone, daftar file dengan ikon & tab name edit, tombol generate/save/load/clear), panel tengah (tab bar + iframe preview), dan terminal bawah dengan command line. |
+| **Mekanisme Penyimpanan Data** | Menggunakan **Base64** untuk menyandikan konten file di dalam JSON yang disisipkan ke output. Semua file disimpan sebagai array objek `{ icon, tab, b64 }`. | Menyimpan konten langsung sebagai **string** (tanpa encoding) dalam JSON, karena dimasukkan ke dalam `<script>` dengan escape karakter khusus (`\u003c`, `\u003e`, dll). |
+| **Pengelolaan iframe** | Hanya menampilkan satu iframe aktif di output; tidak ada mekanisme *destroy on switch* karena di hasil final hanya satu aplikasi. Di sisi *tool* tidak ada preview. | Menerapkan **Lazy Load & Destroy on Switch**: hanya satu iframe yang dimuat pada satu waktu; saat pindah tab, iframe lama dihancurkan (src='about:blank', dihapus dari DOM) lalu dibuat iframe baru dengan konten. Ini menghemat memori. |
+| **Fitur Drop & Load File** | Drag‑drop file, daftar file dengan ukuran, tombol hapus. Tidak ada edit icon/tab name. | Drag‑drop, daftar file dengan tombol hapus, tombol pindah (▲▼), dan input field untuk mengubah ikon & nama tab secara langsung di sidebar. |
+| **Fitur Generate Output** | Menghasilkan `merged-clean.html` dengan semua konten sebagai Base64, lalu mendekode ulang di sisi klien. Output memiliki tab bar dan iframe (hanya satu aktif, tanpa destroy). | Menghasilkan `merged-workbench.html` dengan konten langsung (tanpa Base64), tab bar, ram bar, dan mekanisme destroy on switch yang sama seperti tool utama. Ukuran output lebih kecil karena tidak ada overhead Base64. |
+| **Terminal / Command Line** | Tidak ada. Hanya ada area log untuk pesan. | Terminal lengkap dengan riwayat perintah, prompt `workbench $`, command `help`, `status`, `list`, `open N`, `destroy N`, `ram`, `generate`, `save`, `load`, `cls`. Memudahkan kontrol dan debugging. |
+| **RAM / Status Monitor** | Tidak ada. | Menampilkan indikator RAM (jumlah iframe dimuat & ukuran konten aktif) di header dan di rambar pada output generated. |
+| **Kompleksitas Kode & Ukuran** | Lebih ringkas (~200 baris), fokus pada Base64 + generator. | Lebih kompleks (~400 baris) dengan fitur terminal, manajemen state, reorder file, destroy engine, dan command parser. |
+| **Kelebihan** | Sederhana, mudah dipahami, aman untuk semua karakter karena Base64, kompatibel luas. | Interaktif, fleksibel, efisien memori (destroy on switch), fitur terminal untuk power user, output tanpa Base64 sehingga ukuran lebih kecil dan lebih cepat didekode. |
+| **Kekurangan** | Tidak ada preview selama editing, tidak ada fitur pindah/urutkan file, output menggunakan Base64 yang menambah ukuran ±33%, dan tidak ada terminal. | Lebih kompleks, butuh browser modern, output tidak menggunakan Base64 (perlu escape karakter khusus, tapi masih aman). |
+| **Penggunaan Encoding** | Base64 (btoa/atob) dengan unescape/escape untuk dukungan UTF-8. | Tanpa Base64; langsung memasukkan string HTML dengan escape karakter `<`, `>`, `&` (menggunakan `\u003c` dll.) agar aman di dalam `<script>`. |
+| **Pengelolaan Tab di Output** | Tab dibuat dari data Base64; jika pindah tab, iframe lama tidak dihancurkan (hanya disembunyikan? Tidak, hanya satu iframe yang dibuat saat buka tab, tapi jika pindah tab, yang lama dihancurkan? Pada output, saat openTab, ia memanggil destroyApp(currentApp) sebelum createApp, sehingga juga destroy on switch. Jadi sebenarnya output juga menggunakan destroy. Namun tool utama tidak ada preview.) | Baik tool maupun output menggunakan destroy on switch. |
+| **Fitur Tambahan** | Tombol Save/Load menggunakan localStorage. | Save/Load juga menggunakan localStorage, plus terminal, reorder, edit ikon/nama, dan command line. |
+
+---
+
+### Ringkasan
+
+- **hasil-merger.html** cocok untuk keperluan *one‑off*: ambil beberapa file, gabungkan menjadi satu file yang siap pakai, dengan pendekatan aman (Base64) dan kode sederhana.
+- **html-workbench-pro.html** adalah *integrated development environment* mini: kamu bisa mengelola file, mengedit metadata, melihat preview, menjalankan perintah, dan menghasilkan gabungan dengan performa lebih baik (tanpa Base64) serta fitur destroy on switch yang hemat memori.
+
+Keduanya menghasilkan output yang fungsional, tapi dengan gaya dan tingkat interaktivitas yang berbeda. Pilih sesuai kebutuhanmu, Bro! 😎
 
 
