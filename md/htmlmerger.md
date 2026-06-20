@@ -333,4 +333,97 @@ Namun, jika Bro merasa UI GPT terlalu berat untuk Windows 7 (misal: lemot karena
 
 Saya bisa bantu Bro **tambal** `workbench-engine4.html` dengan metode destroy ala GPT, tanpa menambah banyak kode. Jadi UI-nya tetap ringan, tapi cleanup-nya jadi paranoid. Mau? 😄
 
-Kalau mau, saya tuliskan kode perubahannya di sini.
+Mari kita bedah masalah Bro dengan jelas.
+
+**Inti Masalah:**
+
+1. Bro punya file HTML yang **super berat** (tarik API 166 kurs, puluhan Google Sheet saham).  
+2. Bro butuh **hasil merger** (merged.html) yang bisa dipakai sehari-hari dengan **tab-switching yang bersih memory**.  
+3. Engine (workbench) hanya alat bantu untuk *membuat* merger. Setelah merger jadi, engine ditaruh di gudang. Yang Bro pakai setiap hari adalah **hasil merger**\-nya.  
+4. Pertanyaan: **Di antara 4 workbench yang ada (GPT, Meta, Claude, Kimi), mana yang menghasilkan merged.html PALING BAIK untuk Windows 7 (memory cleanup)?**
+
+---
+
+## **🔍 Fokus: Lihat Kode Hasil Merger dari Masing-masing**
+
+Saya periksa **kode generator** dari ke-4 file:
+
+| Workbench | Cara Generate merged.html | Apakah cleanup memory saat pindah tab? |
+| ----- | ----- | ----- |
+| **GPT** (`html-workbench-pro.html`) | Membuat merged.html dengan **engine destroy-on-switch** (iframe diganti total, bukan disembunyikan) | ✅ **SANGAT BAGUS**. Setiap ganti tab: `iframe.src='about:blank'`, `srcdoc=''`, `setTimeout(remove)`. Ini diajarkan di kode engine-nya. |
+| **Meta** (`workbench-engine2.html`) | Membuat merged.html dengan **engine destroy-on-switch** (iframe diganti total) | ✅ BAGUS. `view.innerHTML = ''` saat ganti tab (membersihkan DOM total). |
+| **Claude** (`html-merger-generator-pro.html`) | Membuat merged.html dengan **sembunyikan page** (display:none), iframe tetap ada | ❌ **TERBURUK**. Iframe tetap di memori meskipun tidak terlihat. Pindah tab tidak membersihkan apa-apa, hanya display:none. |
+| **Kimi** (`workbench-engine4.html`) | Membuat merged.html dengan **destroy \+ create baru** (mirip Meta) | ✅ BAGUS. `document.getElementById('page'+current).innerHTML=''` saat ganti tab, lalu buat iframe baru. |
+
+---
+
+## **🏆 KESIMPULAN UNTUK WINDOWS 7 (RAM LEMOT):**
+
+### **Paling ampuh cleanup memory di merged.html: GPT (`html-workbench-pro.html`)**
+
+Karena di merged.html-nya, GPT memasukkan kode **destroy** yang paling agresif:
+
+javascript
+
+function openTab(i) {
+
+  if (current \>= 0\) {
+
+    const old \= document.getElementById('page' \+ current);
+
+    old.innerHTML \= '';  // ← Ini menghapus iframe
+
+    // TAPI di kode GPT, dia juga set src='about:blank' \+ srcdoc='' \+ setTimeout
+
+  }
+
+  // ... buat iframe baru
+
+}
+
+Dan di kode **engineDestroy** yang di-generate, ada **4 langkah** pembersihan.
+
+---
+
+### **Peringkat hasil merger (cleanup saat pindah tab):**
+
+| Peringkat | Workbench | Alasan |
+| ----- | ----- | ----- |
+| 1 | **GPT** (`html-workbench-pro.html`) | Cleanup paling agresif (4 lapis) |
+| 2 | **Meta** (`workbench-engine2.html`) | Cleanup dengan `innerHTML=''` (cukup) |
+| 3 | **Kimi** (`workbench-engine4.html`) | Sama seperti Meta, tapi tanpa `about:blank` (sedikit kurang) |
+| 4 | **Claude** (`html-merger-generator-pro.html`) | Tidak ada cleanup, hanya display:none (❌) |
+
+---
+
+## **✅ REKOMENDASI FINAL BRO:**
+
+**Pakai `html-workbench-pro.html` (buatan GPT) untuk menghasilkan merged.html.**
+
+**Kenapa?**
+
+* Hasil merged.html-nya sudah dilengkapi engine destroy-on-switch paling agresif.  
+* Saat Bro pindah tab di hasil merger, **memory iframe lama akan benar-benar dibersihkan** (src=about:blank, srcdoc='', setTimeout, remove).  
+* Cocok untuk file berat (API, Google Sheet) karena hanya 1 iframe yang hidup pada satu waktu.
+
+**Cara pakai:**
+
+1. Buka `html-workbench-pro.html`.  
+2. Drag & drop semua file HTML Bro (yang berisi API, Google Sheet, dll).  
+3. Klik tombol **⚡ Generate merged.html**.  
+4. Hasilnya: `merged-workbench.html` — ini yang Bro pakai sehari-hari.  
+5. Engine `html-workbench-pro.html` bisa Bro simpan di gudang (tidak perlu dibuka lagi).
+
+---
+
+## **💡 TAMBAHAN:**
+
+Kalau Bro mau hasil merger yang **super ringan UI-nya** (tanpa efek animasi, tanpa terminal, tanpa badge), saya bisa bantu **modifikasi generator GPT** untuk menghasilkan merged.html yang UI-nya lebih sederhana tapi tetap dengan cleanup agresif. Bro tertarik?
+
+Tapi untuk sekarang, **pakai GPT dulu**. Itu yang paling aman buat Windows 7\.
+
+---
+
+**Xie xie ni hao siong di** 🙏. Semoga Windows 7 Bro makin lega\!
+
+
