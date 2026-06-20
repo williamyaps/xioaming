@@ -227,3 +227,110 @@ Meskipun **GPT** paling ampuh bersihin memori iframe, **UI-nya paling berat** (a
 **Kesimpulan akhir:** Pakai **`html-workbench-pro.html`** biar Windows 7 kesayangan Bro gak nge-drop. Kalau masih terasa berat, Bro bisa kurangi jumlah file yang diload sekaligus, dan rutin ketik `cls` di terminal buat bersihin log.
 
 Semoga membantu! Kalau masih megap-megap, saya bantu bikin versi "Ultra Lite" dari kode GPT-nya sekalian, Bro? 😄
+
+---
+
+Mari kita bedah file keempat ini, buatan "Kimi" (saya asumsikan dari platform Kimi.ai atau sejenisnya).
+
+Nama file: **`workbench-engine4.html`**
+
+---
+
+## **📊 Review Singkat `workbench-engine4.html` (buatan Kimi)**
+
+### **Konsep Dasar**
+
+* **Engine berbasis nama unik** (bukan indeks numerik). Setiap file yang di-upload otomatis dijadikan key `name` (dari nama file tanpa ekstensi, di-lowercase).  
+* **Hanya 1 iframe aktif** (destroy on switch) — sudah sesuai kebutuhan Windows 7\.  
+* **Command line** di bagian atas untuk membuka aplikasi dengan mengetik nama (misal: `nonbca`, `saham`, dll).
+
+### **Kelebihan**
+
+1. **Sangat ringan** — UI minimalis, tidak ada sidebar berat, tidak ada animasi, tidak ada terminal interaktif yang kompleks.  
+2. **Fitur Reset All** — ada tombol khusus yang menghapus semua data (termasuk localStorage) dengan konfirmasi. Ini berguna banget buat Windows 7 biar gak numpuk sampah.  
+3. **Command line sederhana** — cukup ketik nama app untuk membuka, plus perintah `cls`, `reset`, `mem`, `history`, `reload`.  
+4. **Generate merged.html** — mirip dengan yang lain, menghasilkan file gabungan dengan tab navigasi.  
+5. **Menggunakan `srcdoc`** untuk iframe — ini lebih aman dan cepat dibanding `src` dengan data URI.
+
+### **Kekurangan (dibanding GPT)**
+
+* **Tidak ada `srcdoc = ''` \+ `setTimeout`** saat destroy. Cuma `ws.innerHTML=''` yang otomatis menghapus iframe. Ini mungkin cukup di Windows 7 dengan browser modern, tapi **kurang 'paranoid'** dibanding GPT.  
+* **Tidak ada indikator RAM real-time** (hanya perintah `mem` yang muncul alert).  
+* **Tidak bisa edit nama/icon file** — semua berdasarkan nama file asli (lowercase).  
+* **Tidak ada drag & drop** (hanya tombol upload file).  
+* **Tidak ada preview tab** selain daftar tombol tab.
+
+---
+
+## **🧪 Uji Bersihkan Memori Saat Pindah Tab**
+
+Di `workbench-engine4.html`, fungsi `openApp()` memanggil `destroyCurrent()` yang isinya:
+
+javascript  
+function destroyCurrent(){  
+  const ws \= document.getElementById('workspace');  
+  ws.innerHTML \= '';  // ← langsung hapus semua child (termasuk iframe)  
+  current \= null;  
+}
+
+**Kelemahan:**
+
+* Tidak ada `iframe.src = 'about:blank'` sebelum dihapus.  
+* Tidak ada `srcdoc = ''`.  
+* Tidak ada jeda `setTimeout`.
+
+Di Windows 7 dengan browser lawas, iframe yang dihapus secara paksa tanpa me-reset `src` terkadang masih menyimpan data di memori (karena proses render masih berjalan).  
+Tapi **di browser modern** (Chrome 109, Firefox ESR) hal ini sudah cukup karena garbage collector akan membersihkan setelah elemen dihapus dari DOM.
+
+---
+
+## **🆚 Perbandingan dengan GPT (`html-workbench-pro.html`)**
+
+| Aspek | GPT (`html-workbench-pro.html`) | Kimi (`workbench-engine4.html`) |
+| ----- | ----- | ----- |
+| **Metode Destroy** | 4 langkah: `src='about:blank'`, `srcdoc=''`, `setTimeout(remove,60)`, `delete` | 1 langkah: `innerHTML=''` |
+| **Tingkat Keparanoian** | Sangat tinggi | Rendah |
+| **Resiko Memory Leak di Windows 7** | Sangat kecil | Sedang (masih mungkin bocor jika browser tidak segera GC) |
+| **Ukuran UI** | Berat (sidebar, terminal, animasi) | Sangat ringan |
+| **Fitur** | Lengkap (terminal, edit, RAM, dll) | Minimalis (hanya upload, tab, generate, reset) |
+| **Kemudahan Penggunaan** | Butuh belajar (banyak fitur) | Sangat mudah (cukup upload dan klik) |
+
+---
+
+## **💡 Kesimpulan buat Bro (Windows 7 megap-megap)**
+
+Jika Bro ingin **prioritas utama \= RAM bersih saat ganti tab** dan Bro rela UI-nya agak berat, **GPT tetap unggul** karena metode destroy-nya lebih menyeluruh.
+
+Namun, jika Bro merasa UI GPT terlalu berat untuk Windows 7 (misal: lemot karena banyak elemen DOM), maka **Kimi** adalah alternatif yang lebih ringan secara tampilan, meskipun metode destroy-nya tidak seampuh GPT.
+
+---
+
+## **📋 Tabel Final 4 Versi (Termasuk Kimi)**
+
+| Versi | Filename | Pembuat | Metode Destroy | Berat UI | Fitur | Cocok untuk Windows 7? |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| **GPT** | `html-workbench-pro.html` | OpenAI | ⭐⭐⭐⭐⭐ (4 lapis) | Berat | Sangat Lengkap | ✅ (cleanup terbaik, tapi UI agak berat) |
+| **Meta** | `workbench-engine2.html` | Meta | ⭐⭐⭐ (2 lapis) | Sedang | Cukup | ⚠️ (cukup, tapi kurang paranoid) |
+| **Claude** | `html-merger-generator-pro.html` | Anthropic | ❌ (tidak ada preview) | Ringan | Hanya generator | ✅ (tidak pakai iframe, jadi aman) |
+| **Kimi** | `workbench-engine4.html` | Kimi.ai | ⭐⭐ (1 lapis) | Sangat Ringan | Minimalis | ⚠️ (ringan, tapi cleanup kurang maksimal) |
+
+---
+
+## **🎯 Rekomendasi Akhir buat Bro**
+
+**Jika Windows 7-nya benar-benar lemot dan Bro butuh preview:**  
+→ Pakai **Kimi** (`workbench-engine4.html`) karena UI-nya paling enteng, dan sesekali tekan tombol **Reset All** untuk bersihin semua data.
+
+**Jika Bro lebih peduli RAM benar-benar bersih setiap ganti tab, dan siap dengan UI yang lebih berat:**  
+→ Tetap pakai **GPT** (`html-workbench-pro.html`). Bro bisa kurangi beban dengan tidak membuka banyak tab sekaligus (cukup 3-4 file).
+
+**Jika Bro cuma butuh generate tanpa preview:**  
+→ Pakai **Claude** (`html-merger-generator-pro.html`), paling aman dan ringan.
+
+---
+
+## **🔧 Saran: Modifikasi Kimi biar Cleanup-nya Kaya GPT**
+
+Saya bisa bantu Bro **tambal** `workbench-engine4.html` dengan metode destroy ala GPT, tanpa menambah banyak kode. Jadi UI-nya tetap ringan, tapi cleanup-nya jadi paranoid. Mau? 😄
+
+Kalau mau, saya tuliskan kode perubahannya di sini.
