@@ -111,7 +111,7 @@ Berikut tabel perbandingan detailnya:
 
 ## 📊 Tabel Perbandingan HTML Workbench
 
-| Aspek | **HTML Workbench PRO** (File 1) | **HTML Merger Generator PRO** (File 2) | **Workbench Engine v1.0** (File 3) |
+| Aspek | **html-workbench-pro.html** (File 1) | **html-merger-generator-pro.html** (File 2) | **workbench-engine2.html** (File 3) |
 | :--- | :--- | :--- | :--- |
 | **Tujuan Utama** | Workbench lengkap dengan preview, terminal, dan manajemen file profesional | Generator *merged HTML* sederhana dan cepat | Workbench minimalis dengan fokus pada *mount/unmount* dan RAM |
 | **UI / UX** | ⭐⭐⭐⭐⭐ Sangat kaya: sidebar, tab preview, terminal, badge RAM, dark mode profesional | ⭐⭐ Sederhana, fungsional tapi kurang modern | ⭐⭐⭐ Bersih dan terstruktur, tapi masih standar |
@@ -148,4 +148,82 @@ Jika Anda merasa terlalu berat, ambil File 3 sebagai alternatif. File 2 hanya un
 
 ---
 
-Semoga membantu! Kalau ada pertanyaan lebih lanjut atau ingin saya bantu modifikasi salah satu versi, beri tahu saja. 😊
+Wkwk, sekarang baru jelas asal-usulnya Bro! 🤣
+
+- **`html-workbench-pro.html`** = buatan **GPT** (si paling komplit)
+- **`workbench-engine2.html`** = buatan **Meta** (si paling ringkas)
+- **`html-merger-generator-pro.html`** = buatan **Claude** (si paling sederhana, cuma generate)
+
+Nah, karena tujuan Bro adalah **agar Windows 7 tidak megap-megap** saat pindah tab (berarti fokus ke **pembersihan RAM Iframe**), saya sudah bedah kode ketiganya. Ini verdictnya:
+
+---
+
+## 🏆 PEMENANG UNTUK WINDOWS 7 (MEMORI LEMOT): **`html-workbench-pro.html`** (buatan GPT)
+
+### Kenapa dia yang paling ampuh bersihin memori?
+Bro lihat kode di **`html-workbench-pro.html`** bagian `engineDestroy()`:
+
+```javascript
+function engineDestroy(idx) {
+  // ...
+  if (app && app.iframe) {
+    app.iframe.src = 'about:blank';   // ← Langkah 1: matikan semua proses di iframe
+    app.iframe.srcdoc = '';           // ← Langkah 2: hapus string HTML dari memori (ini PENTING!)
+    var ifr = app.iframe;
+    setTimeout(function() {            // ← Langkah 3: kasih jeda 60ms biar browser benar-benar ngelepas resource
+      if (ifr && ifr.parentNode) ifr.remove();
+    }, 60);
+  }
+  delete loadedApps[idx];             // ← Langkah 4: hapus referensi object biar GC (Garbage Collector) kerja
+}
+```
+
+Itu namanya **"Paranoid Cleanup"** — dia ngelakuin 4 lapis pembersihan sekaligus. Di Windows 7 (yang biasanya browser versi lama kayak Chrome 109 atau Firefox ESR), teknik `srcdoc = ''` + `setTimeout` sebelum remove itu **sangat efektif** buat mastiin memori beneran kelepas, bukan cuma pindah ke "cache zombie".
+
+---
+
+### Lalu bagaimana dengan yang buatan Meta (`workbench-engine2.html`)?
+```javascript
+function unmountCurrent() {
+  const oldIframe = document.getElementById('canvas');
+  if (oldIframe) {
+    oldIframe.src = "about:blank"; // ← Cuma set src doang
+    oldIframe.remove();            // ← Langsung hapus (tanpa jeda)
+  }
+  currentAppIndex = null;
+}
+```
+Ini juga sudah bagus (lebih baik dari kebanyakan web biasa), tapi **kurang 2 langkah** dibanding GPT:  
+- Tidak membersihkan `srcdoc` (meskipun remove seharusnya ikut bersihin, di Windows 7 kadang suka bandel).  
+- Tidak kasih jeda `setTimeout`. Di browser lawas, kalau langsung di-remove sebelum proses unload selesai, kadang memori tetap nempel.
+
+---
+
+### Terus yang buatan Claude (`html-merger-generator-pro.html`)?
+Di file ini **tidak ada preview iframe sama sekali** (cuma daftar file + tombol generate). Jadi kalau Bro cuma buat generate doang, memori aman. Tapi kalau Bro pengen **nge-preview** file HTML satu per satu, file ini tidak menyediakan fitur itu. Jadi gak masuk hitungan buat "pindah tab".
+
+---
+
+## ⚠️ Tapi Catatan Penting buat Windows 7:
+Meskipun **GPT** paling ampuh bersihin memori iframe, **UI-nya paling berat** (ada terminal, sidebar, badge animasi, dll). Tapi tenang, beban UI itu cuma **beberapa MB**, sedangkan file HTML yang Bro buka di iframe bisa puluhan MB. Jadi **keunggulan cleanup-nya jauh lebih berharga** daripada beban UI-nya.
+
+### Tips Tambahan biar Windows 7 makin lega:
+1. **Pakai Terminal** di `html-workbench-pro.html`:
+   - Ketik `destroy 1` untuk menghancurkan tab ke-1 secara manual tanpa pindah tab.
+   - Ketik `ram` buat lihat ukuran memori aktif.
+2. Tutup tab browser lain yang gak kepakai.
+3. Pakai browser **Chrome 109** atau **Firefox ESR 115** (yang masih support Windows 7) — jangan pakai Chrome terbaru karena udah gak support.
+
+---
+
+## 📋 Rangkuman Final buat Bro:
+
+| Kebutuhan Bro | Pilihan Terbaik |
+| :--- | :--- |
+| **Paling ampuh bersihin RAM saat ganti tab** | ✅ **`html-workbench-pro.html`** (GPT) |
+| Paling ringan UI-nya (tapi cleanup agak kurang) | ⚠️ `workbench-engine2.html` (Meta) |
+| Cuma butuh generate, gak butuh preview | ✅ `html-merger-generator-pro.html` (Claude) |
+
+**Kesimpulan akhir:** Pakai **`html-workbench-pro.html`** biar Windows 7 kesayangan Bro gak nge-drop. Kalau masih terasa berat, Bro bisa kurangi jumlah file yang diload sekaligus, dan rutin ketik `cls` di terminal buat bersihin log.
+
+Semoga membantu! Kalau masih megap-megap, saya bantu bikin versi "Ultra Lite" dari kode GPT-nya sekalian, Bro? 😄
