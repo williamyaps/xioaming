@@ -815,4 +815,54 @@ Kedua file ini sama-sama bagus, cuma beda filosofi:
 
 Kalau aku pribadi, untuk dokumen super penting aku pakai **File 1**, tapi untuk kebutuhan sehari-hari dan proteksi dari pengguna iseng, **File 2** lebih praktis.
 
+---
+
+Baik, Bro! Aku tulis ulang dalam bahasa Indonesia yang jelas, tanpa istilah asing yang bikin pusing. Ini perbandingan detail antara dua file protektor HTML yang kamu buat.
+
+---
+
+## 🔍 Perbandingan Mendalam Dua File Protektor HTML
+
+| **Aspek** | **File 1: ChaCha20-Poly1305 + SHA3-512** | **File 2: Super Encryptor Pro (AES-GCM)** |
+| :--- | :--- | :--- |
+| **Algoritma enkripsi utama** | ChaCha20-Poly1305 (sertifikasi keamanan tinggi, cepat di HP) | AES-GCM (standar global, cepat di laptop/PC modern) |
+| **Penguat kunci dari password (PBKDF2)** | Pakai **SHA-512** dengan **1.500.000** putaran – sangat berat buat brute-force | Pakai **SHA-256** dengan **8.000** putaran – ringan, proses cepat |
+| **Panjang garam (salt)** | 32 byte (lebih aman) | 16 byte (cukup standar) |
+| **Panjang nonce (IV)** | 12 byte (sama) | 12 byte (sama) |
+| **Kunci akhir** | 256-bit | 256-bit |
+| **Cek keaslian data (integritas)** | Pakai **SHA3-512** terpisah – kalau hash beda, langsung tolak | Mengandalkan **tag otentikasi** dari AES-GCM – sudah bawaan |
+| **Kode enkripsi** | **Tulis tangan murni** – semua fungsi dari nol, tanpa library luar | **Pakai CryptoJS** dan **Web Crypto API** – lebih praktis tapi butuh koneksi internet buat ambil library |
+| **Perlindungan saat dibuka** | Cuma cek hash, lalu tampilkan HTML langsung | Setelah dibuka, disisipkan **anti-devtool**, **blokir klik kanan**, **blokir Ctrl+S**, dan **blokir save as** |
+| **Kecepatan proses** | Agak lambat saat *pack* karena iterasi 1,5 juta, tapi hasilnya super aman | Sangat cepat, cocok buat file besar dan perangkat lemot |
+| **Ukuran file hasil** | Sedikit lebih besar karena hash SHA3-512 (64 byte) dan salt 32 byte | Lebih kecil karena salt 16 byte dan tanpa hash tambahan |
+| **Kemandirian** | **100% offline** – semua kode ada di dalam, nggak butuh CDN | **Butuh internet** di awal (untuk ambil FontAwesome dan CryptoJS) |
+
+---
+
+### 🧠 Penjelasan Singkat Biar Paham
+
+- **File 1 (ChaCha20)** – Ini kayak brankas dengan gembok 3 lapis dan kunci yang diputar 1,5 juta kali. Memang agak lama waktu ngunci, tapi kalau sudah jadi, hampir mustahil dibobol paksa. Cocok buat dokumen rahasia yang nggak boleh bocor.
+- **File 2 (AES-GCM)** – Ini kayak gembok cepat, cuma diputar 8.000 kali. Hasilnya cepat, tapi kalau ada yang punya superkomputer, mungkin lebih rentan. Untungnya, setelah dibuka, dia kasih **perlindungan ekstra** seperti melumpuhkan alat inspeksi dan menyimpan halaman, jadi pengguna awam susah mencuri isinya.
+
+---
+
+### 💡 Saran Pemakaian
+
+| **Kebutuhan kamu** | **Pilih yang mana?** |
+| :--- | :--- |
+| File penting, isi rahasia, dan kamu nggak peduli proses agak lama | **File 1 (ChaCha20)** – keamanan nomor satu |
+| Butuh cepat, file besar, dan kamu mau proteksi tambahan saat dibuka (anti-save, anti-inspect) | **File 2 (Super Encryptor)** – fitur pelindung lebih lengkap |
+| Internet kadang putus atau ingin pakai offline | **File 1** lebih aman karena nggak butuh CDN |
+| Pengguna target adalah orang umum (bukan hacker) | **File 2** sudah cukup dengan blokir shortcut |
+
+---
+
+### ✅ Kesimpulan
+
+Kedua file ini sama-sama bagus, cuma beda filosofi:
+- **File 1** mementingkan **kekuatan kripto** dan kemandirian.
+- **File 2** mementingkan **kecepatan** dan **perlindungan runtime** (saat dokumen dibuka).
+
+Kalau aku pribadi, untuk dokumen super penting aku pakai **File 1**, tapi untuk kebutuhan sehari-hari dan proteksi dari pengguna iseng, **File 2** lebih praktis.
+
 Semoga membantu, Bro! Kalau ada yang kurang jelas, tanya lagi ya. 😎
