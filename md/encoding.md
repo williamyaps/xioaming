@@ -867,71 +867,58 @@ Kalau aku pribadi, untuk dokumen super penting aku pakai **File 1**, tapi untuk 
 
 ---
 
-Berikut adalah tabel perbandingan super lengkap (\*complete\*) antara dua alat proteksi tingkat tinggi yang Anda bagikan: \*\*\`ChaCha20-Poly1305+SHA3-512-v2.html\`\*\* dan \*\*\`HTML-Protector-V3.html\`\*\*.
+Berikut adalah tabel perbandingan super lengkap (*complete*) antara dua alat proteksi tingkat tinggi yang Anda bagikan: **`ChaCha20-Poly1305+SHA3-512-v2.html`** dan **`HTML-Protector-V3.html`**.
 
-Tenang saja, keduanya murni menggunakan kriptografi kelas militer dan \*\*sama sekali tidak mengandung \`H2SO4\` (Asam Sulfat)\*\* karena ini kode pemrograman, bukan air keras bervirus\!
+Tenang saja, keduanya murni menggunakan kriptografi kelas militer dan **sama sekali tidak mengandung `H2SO4` (Asam Sulfat)** karena ini kode pemrograman, bukan air keras bervirus!
 
-\---
+---
 
-\#\#\# Tabel Perbandingan Komparatif & Spesifikasi Teknik
+### Tabel Perbandingan Komparatif & Spesifikasi Teknik
 
-| Komponen / Fitur | \`ChaCha20-Poly1305+SHA3-512-v2\` | \`HTML-Protector-V3.html\` |
+| Komponen / Fitur | `ChaCha20-Poly1305+SHA3-512-v2` | `HTML-Protector-V3.html` |
+| --- | --- | --- |
+| **Algoritma Enkripsi Utama** | **ChaCha20** (Symmetric Stream Cipher) | **Kombinasi Cascade (Dua Lapis):**<br>
 
-| \--- | \--- | \--- |
+<br>1. **ChaCha20**<br>
 
-| \*\*Algoritma Enkripsi Utama\*\* | \*\*ChaCha20\*\* (Symmetric Stream Cipher) | \*\*Kombinasi Cascade (Dua Lapis):\*\*\<br\>
+<br>2. **AES-256-GCM** |
+| **Fungsi Integrity/Autentikasi** | **Poly1305** (MAC untuk validasi data agar tidak bisa dimodifikasi di tengah jalan) | **Poly1305** (Lapis 1) + **GCM Tag** (Lapis 2) |
+| **Algoritma Hashing (Integrity)** | **SHA3-512** (Generasi Ke-3 SHA, sangat kebal terhadap serangan tabrakan hash) | **SHA3-512** (Digunakan untuk memvalidasi keaslian file akhir) |
+| **Fungsi Derivasi Kunci (KDF)** | **PBKDF2-HMAC-SHA512** | **PBKDF2-HMAC-SHA512** |
+| **Jumlah Iterasi PBKDF2** | **1.500.000 (1,5 Juta) Iterasi**<br>
 
-\<br\>1. \*\*ChaCha20\*\*\<br\>
+<br>*(Membuat serangan brute-force password menjadi sangat lambat & mustahil)* | **1.500.000 (1,5 Juta) Iterasi** |
+| **Pengacak Kunci (*Salt*)** | Ya, 32-bytes CSPRNG (Acak Kriptografis) | Ya, 32-bytes CSPRNG |
+| **Metode Eksekusi Akhir** | Menggunakan `document.write(html)` langsung setelah password lolos verifikasi hash. | Menggunakan injeksi runtime dinamis lewat **`(new Function(s))()`** (Alternatif `eval`). |
+| **Proteksi Kode Decrypter** | Tidak di-obfuscate (Kode fungsi ChaCha20 & SHA3 terlihat jelas di *source code*). | **Di-obfuscate tambahan** di bagian akhir menggunakan operasi bitwise XOR sederhana (`d[i]^k[i%32]`) untuk menyembunyikan fungsi eksekusinya. |
+| **Tingkat Keamanan Logika** | Sangat Kuat (Standar industri modern). | **Sangat Ekstrim / Paranoia Mode** (Karena menggunakan teknik *cascade* AES + ChaCha secara bersamaan). |
 
-\<br\>2. \*\*AES-256-GCM\*\* |
+---
 
-| \*\*Fungsi Integrity/Autentikasi\*\* | \*\*Poly1305\*\* (MAC untuk validasi data agar tidak bisa dimodifikasi di tengah jalan) | \*\*Poly1305\*\* (Lapis 1\) \+ \*\*GCM Tag\*\* (Lapis 2\) |
+### Analisis Perbedaan Mendalam (Apa Saja yang Terkandung?)
 
-| \*\*Algoritma Hashing (Integrity)\*\* | \*\*SHA3-512\*\* (Generasi Ke-3 SHA, sangat kebal terhadap serangan tabrakan hash) | \*\*SHA3-512\*\* (Digunakan untuk memvalidasi keaslian file akhir) |
+#### 1. Perbedaan Fondasi Enkripsi (ChaCha20 vs Cascade AES+ChaCha)
 
-| \*\*Fungsi Derivasi Kunci (KDF)\*\* | \*\*PBKDF2-HMAC-SHA512\*\* | \*\*PBKDF2-HMAC-SHA512\*\* |
+* **File Pertama (`ChaCha20-Poly1305`)**: Hanya mengandalkan satu algoritma stream cipher yaitu **ChaCha20**. Algoritma ini sangat cepat, efisien, dan menjadi standar keamanan Google serta TLS modern.
+* **File Kedua (`HTML-Protector-V3`)**: Menggunakan metode **Cascade Encryption**. File HTML Anda dienkripsi dulu menggunakan ChaCha20, lalu hasil enkripsi tersebut dienkripsi **kembali** menggunakan **AES-256-GCM**. Secara matematis, jika ada komputer kuantum di masa depan yang bisa menjebol AES, ia tetap harus menjebol ChaCha20 di lapisan berikutnya.
 
-| \*\*Jumlah Iterasi PBKDF2\*\* | \*\*1.500.000 (1,5 Juta) Iterasi\*\*\<br\>
-
-\<br\>\*(Membuat serangan brute-force password menjadi sangat lambat & mustahil)\* | \*\*1.500.000 (1,5 Juta) Iterasi\*\* |
-
-| \*\*Pengacak Kunci (\*Salt\*)\*\* | Ya, 32-bytes CSPRNG (Acak Kriptografis) | Ya, 32-bytes CSPRNG |
-
-| \*\*Metode Eksekusi Akhir\*\* | Menggunakan \`document.write(html)\` langsung setelah password lolos verifikasi hash. | Menggunakan injeksi runtime dinamis lewat \*\*\`(new Function(s))()\`\*\* (Alternatif \`eval\`). |
-
-| \*\*Proteksi Kode Decrypter\*\* | Tidak di-obfuscate (Kode fungsi ChaCha20 & SHA3 terlihat jelas di \*source code\*). | \*\*Di-obfuscate tambahan\*\* di bagian akhir menggunakan operasi bitwise XOR sederhana (\`d\[i\]^k\[i%32\]\`) untuk menyembunyikan fungsi eksekusinya. |
-
-| \*\*Tingkat Keamanan Logika\*\* | Sangat Kuat (Standar industri modern). | \*\*Sangat Ekstrim / Paranoia Mode\*\* (Karena menggunakan teknik \*cascade\* AES \+ ChaCha secara bersamaan). |
-
-\---
-
-\#\#\# Analisis Perbedaan Mendalam (Apa Saja yang Terkandung?)
-
-\#\#\#\# 1\. Perbedaan Fondasi Enkripsi (ChaCha20 vs Cascade AES+ChaCha)
-
-\* \*\*File Pertama (\`ChaCha20-Poly1305\`)\*\*: Hanya mengandalkan satu algoritma stream cipher yaitu \*\*ChaCha20\*\*. Algoritma ini sangat cepat, efisien, dan menjadi standar keamanan Google serta TLS modern.
-
-\* \*\*File Kedua (\`HTML-Protector-V3\`)\*\*: Menggunakan metode \*\*Cascade Encryption\*\*. File HTML Anda dienkripsi dulu menggunakan ChaCha20, lalu hasil enkripsi tersebut dienkripsi \*\*kembali\*\* menggunakan \*\*AES-256-GCM\*\*. Secara matematis, jika ada komputer kuantum di masa depan yang bisa menjebol AES, ia tetap harus menjebol ChaCha20 di lapisan berikutnya.
-
-\#\#\#\# 2\. Ketersediaan SHA3-512 dan PBKDF2
+#### 2. Ketersediaan SHA3-512 dan PBKDF2
 
 Kedua alat ini sama-sama menggunakan teknologi pengamanan password yang luar biasa kuat:
 
-\* \*\*1.500.000 Iterasi\*\*: Ketika seseorang memasukkan password, komputer dipaksa memutar algoritma matematika sebanyak 1,5 juta kali sebelum memeriksa apakah password-nya benar. Ini membuat peretas yang menggunakan superkomputer sekalipun frustrasi karena tebakan password (\*brute force\*) berjalan sangat lambat.
+* **1.500.000 Iterasi**: Ketika seseorang memasukkan password, komputer dipaksa memutar algoritma matematika sebanyak 1,5 juta kali sebelum memeriksa apakah password-nya benar. Ini membuat peretas yang menggunakan superkomputer sekalipun frustrasi karena tebakan password (*brute force*) berjalan sangat lambat.
+* **SHA3-512**: Menggunakan standar hash terbaru dari NIST (bukan SHA-256 lama). Berfungsi memastikan tidak ada satu bit pun dari kode Anda yang rusak atau dimanipulasi secara ilegal saat disimpan.
 
-\* \*\*SHA3-512\*\*: Menggunakan standar hash terbaru dari NIST (bukan SHA-256 lama). Berfungsi memastikan tidak ada satu bit pun dari kode Anda yang rusak atau dimanipulasi secara ilegal saat disimpan.
+#### 3. Cara Mengeksekusi Kode HTML Anda
 
-\#\#\#\# 3\. Cara Mengeksekusi Kode HTML Anda
+* **File Pertama**: Memilih jalur konvensional `document.write`. Ini bekerja sangat baik di browser, tetapi fungsionalitasnya mudah dibaca oleh sistem perimeter keamanan.
+* **File Kedua**: Memilih mengeksekusi text hasil dekripsi ke dalam objek fungsi baru (`new Function`). Ditambah lagi, bagian mesin pengeksekusinya disamarkan ulang menggunakan enkripsi XOR 32-bit agar tidak langsung dikenali sebagai pemanggil fungsi dinamis.
 
-\* \*\*File Pertama\*\*: Memilih jalur konvensional \`document.write\`. Ini bekerja sangat baik di browser, tetapi fungsionalitasnya mudah dibaca oleh sistem perimeter keamanan.
+---
 
-\* \*\*File Kedua\*\*: Memilih mengeksekusi text hasil dekripsi ke dalam objek fungsi baru (\`new Function\`). Ditambah lagi, bagian mesin pengeksekusinya disamarkan ulang menggunakan enkripsi XOR 32-bit agar tidak langsung dikenali sebagai pemanggil fungsi dinamis.
+### Kesimpulan: Mana yang Harus Dipilih?
 
-\---
+* **Pilihlah `ChaCha20-Poly1305+SHA3-512-v2**` jika Anda membutuhkan proteksi enkripsi murni yang berstandar internasional, berkinerja cepat di browser, dan kodenya lebih bersih (*clean*).
+* **Pilihlah `HTML-Protector-V3.html**` jika Anda mengincar keamanan tingkat **paranoid**. Perlindungan berlapis (AES-256 + ChaCha20) dipadukan dengan samaran XOR di bagian decrypter-nya membuat file ini menjadi benteng pertahanan yang hampir mustahil ditembus dari sisi luar tanpa mengetahui password aslinya.
 
-\#\#\# Kesimpulan: Mana yang Harus Dipilih?
-
-\* \*\*Pilihlah \`ChaCha20-Poly1305+SHA3-512-v2\*\*\` jika Anda membutuhkan proteksi enkripsi murni yang berstandar internasional, berkinerja cepat di browser, dan kodenya lebih bersih (\*clean\*).
-
-\* \*\*Pilihlah \`HTML-Protector-V3.html\*\*\` jika Anda mengincar keamanan tingkat \*\*paranoid\*\*. Perlindungan berlapis (AES-256 \+ ChaCha20) dipadukan dengan samaran XOR di bagian decrypter-nya membuat file ini menjadi benteng pertahanan yang hampir mustahil ditembus dari sisi luar tanpa mengetahui password aslinya.
 
