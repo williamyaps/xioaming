@@ -873,25 +873,21 @@ Tenang saja, keduanya murni menggunakan kriptografi kelas militer dan **sama sek
 
 ---
 
-### Tabel Perbandingan Komparatif & Spesifikasi Teknik
 
-| Komponen / Fitur | `ChaCha20-Poly1305+SHA3-512-v2` | `HTML-Protector-V3.html` |
-| --- | --- | --- |
-| **Algoritma Enkripsi Utama** | **ChaCha20** (Symmetric Stream Cipher) | **Kombinasi Cascade (Dua Lapis):**<br>
 
-<br>1. **ChaCha20**<br>
+| Komponen / Fitur | ChaCha20-Poly1305+SHA3-512-v2 | HTML-Protector-V3.html |  |  |  |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| Algoritma Enkripsi Utama | ChaCha20 (Symmetric Stream Cipher) | Kombinasi Cascade (Dua Lapis):1. ChaCha202. AES-256-GCM |  |  |  |
+| Fungsi Integrity/Autentikasi | Poly1305 (MAC untuk validasi data agar tidak bisa dimodifikasi di tengah jalan) | Poly1305 (Lapis 1\) \+ GCM Tag (Lapis 2\) |  |  |  |
+| Algoritma Hashing (Integrity) | SHA3-512 (Generasi Ke-3 SHA, sangat kebal terhadap serangan tabrakan hash) | SHA3-512 (Digunakan untuk memvalidasi keaslian file akhir) |  |  |  |
+| Fungsi Derivasi Kunci (KDF) | PBKDF2-HMAC-SHA512 | PBKDF2-HMAC-SHA512 |  |  |  |
+| Jumlah Iterasi PBKDF2 | 1.500.000 (1,5 Juta) Iterasi(Membuat serangan brute-force password menjadi sangat lambat & mustahil) | 1.500.000 (1,5 Juta) Iterasi |  |  |  |
+| Pengacak Kunci (Salt) | Ya, 32-bytes CSPRNG (Acak Kriptografis) | Ya, 32-bytes CSPRNG |  |  |  |
+| Metode Eksekusi Akhir | Menggunakan document.write(html) langsung setelah password lolos verifikasi hash. | Menggunakan injeksi runtime dinamis lewat (new Function(s))() (Alternatif eval). |  |  |  |
+| Proteksi Kode Decrypter | Tidak di-obfuscate (Kode fungsi ChaCha20 & SHA3 terlihat jelas di source code). | Di-obfuscate tambahan di bagian akhir menggunakan operasi bitwise XOR sederhana (d\[i\]^k\[i%32\]) untuk menyembunyikan fungsi eksekusinya. |  |  |  |
+| Tingkat Keamanan Logika | Sangat Kuat (Standar industri modern). | Sangat Ekstrim / Paranoia Mode (Karena menggunakan teknik cascade AES \+ ChaCha secara bersamaan). |  |  |  |
 
-<br>2. **AES-256-GCM** |
-| **Fungsi Integrity/Autentikasi** | **Poly1305** (MAC untuk validasi data agar tidak bisa dimodifikasi di tengah jalan) | **Poly1305** (Lapis 1) + **GCM Tag** (Lapis 2) |
-| **Algoritma Hashing (Integrity)** | **SHA3-512** (Generasi Ke-3 SHA, sangat kebal terhadap serangan tabrakan hash) | **SHA3-512** (Digunakan untuk memvalidasi keaslian file akhir) |
-| **Fungsi Derivasi Kunci (KDF)** | **PBKDF2-HMAC-SHA512** | **PBKDF2-HMAC-SHA512** |
-| **Jumlah Iterasi PBKDF2** | **1.500.000 (1,5 Juta) Iterasi**<br>
-
-<br>*(Membuat serangan brute-force password menjadi sangat lambat & mustahil)* | **1.500.000 (1,5 Juta) Iterasi** |
-| **Pengacak Kunci (*Salt*)** | Ya, 32-bytes CSPRNG (Acak Kriptografis) | Ya, 32-bytes CSPRNG |
-| **Metode Eksekusi Akhir** | Menggunakan `document.write(html)` langsung setelah password lolos verifikasi hash. | Menggunakan injeksi runtime dinamis lewat **`(new Function(s))()`** (Alternatif `eval`). |
-| **Proteksi Kode Decrypter** | Tidak di-obfuscate (Kode fungsi ChaCha20 & SHA3 terlihat jelas di *source code*). | **Di-obfuscate tambahan** di bagian akhir menggunakan operasi bitwise XOR sederhana (`d[i]^k[i%32]`) untuk menyembunyikan fungsi eksekusinya. |
-| **Tingkat Keamanan Logika** | Sangat Kuat (Standar industri modern). | **Sangat Ekstrim / Paranoia Mode** (Karena menggunakan teknik *cascade* AES + ChaCha secara bersamaan). |
+		
 
 ---
 
