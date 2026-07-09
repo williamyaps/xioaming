@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HTML Editor Emoji Win7</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111827;
+      --panel2:#0b1220;
+      --line:#243047;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --accent:#60a5fa;
+      --accent2:#22c55e;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --chip:#1f2937;
+      --shadow: 0 12px 30px rgba(0,0,0,.25);
+      --radius: 14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0b1020 0%, #111827 100%);
+      color:var(--text);
+    }
+    header{
+      padding:18px 18px 10px;
+      border-bottom:1px solid var(--line);
+      background: rgba(17,24,39,.85);
+      position:sticky;
+      top:0;
+      backdrop-filter: blur(8px);
+      z-index:10;
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:20px;
+      line-height:1.2;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+    .wrap{
+      padding:18px;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:16px;
+      min-height: calc(100vh - 84px);
+    }
+    .card{
+      background: rgba(17,24,39,.9);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height: 0;
+    }
+    .card-hd{
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      background: rgba(11,18,32,.9);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .title{
+      font-weight:bold;
+      font-size:14px;
+    }
+    .tools{
+      padding:12px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      background: rgba(15,23,42,.7);
+    }
+    button, .btn{
+      border:1px solid var(--line);
+      background: var(--chip);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:13px;
+      transition:.15s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    button:hover, .btn:hover{
+      transform: translateY(-1px);
+      border-color:#3b4d6e;
+      background:#253349;
+    }
+    button.primary{ background:#1d4ed8; border-color:#2563eb; }
+    button.success{ background:#166534; border-color:#22c55e; }
+    button.warn{ background:#92400e; border-color:#f59e0b; }
+    button.danger{ background:#7f1d1d; border-color:#ef4444; }
+    .split{
+      display:grid;
+      grid-template-rows: 1fr auto;
+      min-height:0;
+      flex:1;
+    }
+    textarea{
+      width:100%;
+      height:100%;
+      min-height:420px;
+      resize:none;
+      border:0;
+      outline:none;
+      background: #08101f;
+      color:#e5e7eb;
+      padding:14px;
+      line-height:1.55;
+      font-family: Consolas, Monaco, monospace;
+      font-size:14px;
+    }
+    .status{
+      padding:10px 14px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      background: rgba(11,18,32,.9);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .preview{
+      padding:14px;
+      min-height:420px;
+      overflow:auto;
+      background:#f8fafc;
+      color:#0f172a;
+      line-height:1.6;
+    }
+    .preview img.emoji{
+      width:1.15em;
+      height:1.15em;
+      vertical-align:-0.2em;
+    }
+    .emoji-panel{
+      padding:12px;
+      border-top:1px solid var(--line);
+      background: rgba(11,18,32,.95);
+    }
+    .emoji-grid{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0,1fr));
+      gap:6px;
+    }
+    .emoji-btn{
+      width:100%;
+      padding:8px 0;
+      font-size:20px;
+      line-height:1;
+      border-radius:10px;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:10px;
+      line-height:1.5;
+    }
+    .row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    input[type="file"]{
+      display:none;
+    }
+    .pill{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#162235;
+      color:#cbd5e1;
+      font-size:12px;
+      border:1px solid #27354f;
+    }
+    @media (max-width: 980px){
+      .wrap{ grid-template-columns:1fr; }
+      textarea,.preview{ min-height:340px; }
+      .emoji-grid{ grid-template-columns: repeat(8, minmax(0,1fr)); }
+    }
+    @media (max-width: 560px){
+      .emoji-grid{ grid-template-columns: repeat(6, minmax(0,1fr)); }
+      header{ padding:14px 14px 8px; }
+      .wrap{ padding:14px; }
+    }
+  </style>
+
+  <!-- Twemoji: ubah emoji jadi gambar SVG supaya tampil di browser lama -->
+  <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>HTML Editor Emoji Win7</h1>
+    <div class="sub">
+      Emoji dirender sebagai gambar SVG, jadi jauh lebih aman tampil di Windows 7 / browser lama.
+      <span class="pill">Twemoji fallback</span>
+      <span class="pill">Live preview</span>
+      <span class="pill">Save local</span>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="card">
+      <div class="card-hd">
+        <div class="title">Editor HTML</div>
+        <div class="row">
+          <button class="primary" onclick="wrapSel('<b>','</b>')"><b>B</b></button>
+          <button class="primary" onclick="wrapSel('<i>','</i>')"><i>I</i></button>
+          <button class="primary" onclick="wrapSel('<u>','</u>')"><u>U</u></button>
+          <button onclick="wrapSel('<h1>','</h1>')">H1</button>
+          <button onclick="wrapSel('<h2>','</h2>')">H2</button>
+          <button onclick="wrapSel('<ul><li>','</li></ul>')">UL</button>
+          <button onclick="wrapSel('<ol><li>','</li></ol>')">OL</button>
+          <button class="warn" onclick="insertTag('<br>')">BR</button>
+          <button class="danger" onclick="clearEditor()">Clear</button>
+        </div>
+      </div>
+
+      <div class="tools">
+        <button class="success" onclick="saveDraft()">Save</button>
+        <button onclick="loadDraft()">Load</button>
+        <button onclick="downloadHTML()">Download HTML</button>
+        <button onclick="copySource()">Copy source</button>
+        <label class="btn" for="fileInput">Import HTML</label>
+        <input id="fileInput" type="file" accept=".html,.htm,.txt" onchange="importFile(event)">
+      </div>
+
+      <div class="split">
+        <textarea id="editor" spellcheck="false" oninput="updatePreview()"></textarea>
+        <div class="status">
+          <div id="statLeft">Siap.</div>
+          <div id="statRight">Emoji akan otomatis diparse di preview.</div>
+        </div>
+      </div>
+
+      <div class="emoji-panel">
+        <div class="title" style="margin-bottom:10px;">Emoji cepat</div>
+        <div class="emoji-grid" id="emojiGrid"></div>
+        <div class="hint">
+          Klik emoji untuk memasukkan ke editor. Preview di kanan akan menampilkan emoji sebagai gambar,
+          jadi tetap aman di browser yang font-emoji-nya belum lengkap.
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-hd">
+        <div class="title">Preview langsung</div>
+        <div class="row">
+          <button onclick="renderOnly()">Refresh</button>
+          <button class="warn" onclick="togglePlain()">Toggle source/preview</button>
+        </div>
+      </div>
+      <div id="preview" class="preview"></div>
+      <div class="status">
+        <div>Preview render HTML + emoji fallback SVG.</div>
+        <div id="previewCount">0 karakter</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    var editor = document.getElementById('editor');
+    var preview = document.getElementById('preview');
+    var statLeft = document.getElementById('statLeft');
+    var previewCount = document.getElementById('previewCount');
+    var fileInput = document.getElementById('fileInput');
+    var plainMode = false;
+    var saveKey = 'emoji_html_editor_win7_v1';
+
+    // Emoji pack besar (lebih dari sekadar standar umum)
+    var emojis = [
+      '😀','😁','😂','🤣','😃','😄','😅','😆','😉','😊','😋','😎','😍','😘','🥰','😗',
+      '😙','😚','🙂','🤗','🤩','🤔','🤨','😐','😑','😶','🙄','😏','😣','😥','😮',
+      '🤐','😯','😪','😫','🥱','😴','😌','😛','😜','😝','🤤','😒','😓','😔','😕',
+      '🙃','🤑','😲','☹️','🙁','😖','😞','😟','😤','😢','😭','😦','😧','😨','😰',
+      '😱','🥵','🥶','😳','🤪','😵','🤯','🤠','🥳','😇','🤓','🧐','😈','👻','💩',
+      '🤖','👽','🤡','💀','☠️','👋','🤚','🖐️','✋','🖖','👌','✌️','🤞','🤟','🤘',
+      '🤙','👈','👉','👆','🖕','👇','👍','👎','✊','👊','🤛','🤜','👏','🙌','🙏',
+      '💪','🫶','💘','💖','💗','💓','💞','💕','💟','❣️','❤️','🧡','💛','💚','💙','💜',
+      '🖤','🤍','🤎','💔','⭐','🌟','✨','🔥','💥','💫','⚡','🌈','☀️','🌙','🌍','🌎',
+      '🌏','🌸','🌼','🌺','🌷','🌹','🍀','🌻','🍉','🍓','🍎','🍔','🍟','🍕','🍩','🍺',
+      '🎉','🎊','🎁','🎈','🎮','🎧','📱','💻','⌚','🚀','✈️','🚗','🏠','🏆','⚽','🏀'
+    ];
+
+    function buildEmojiGrid(){
+      var grid = document.getElementById('emojiGrid');
+      grid.innerHTML = '';
+      for (var i = 0; i < emojis.length; i++){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'emoji-btn';
+        b.title = emojis[i];
+        b.textContent = emojis[i];
+        b.onclick = (function(e){ return function(){ insertText(e); }; })(emojis[i]);
+        grid.appendChild(b);
+      }
+    }
+
+    function insertText(text){
+      editor.focus();
+      var start = editor.selectionStart || 0;
+      var end = editor.selectionEnd || 0;
+      var value = editor.value;
+      editor.value = value.slice(0, start) + text + value.slice(end);
+      editor.selectionStart = editor.selectionEnd = start + text.length;
+      updatePreview();
+    }
+
+    function insertTag(tag){
+      editor.focus();
+      var start = editor.selectionStart || 0;
+      var end = editor.selectionEnd || 0;
+      var value = editor.value;
+      editor.value = value.slice(0, start) + tag + value.slice(end);
+      editor.selectionStart = editor.selectionEnd = start + tag.length;
+      updatePreview();
+    }
+
+    function wrapSel(open, close){
+      editor.focus();
+      var start = editor.selectionStart || 0;
+      var end = editor.selectionEnd || 0;
+      var value = editor.value;
+      var sel = value.slice(start, end);
+      var out = value.slice(0, start) + open + sel + close + value.slice(end);
+      editor.value = out;
+      editor.selectionStart = start + open.length;
+      editor.selectionEnd = start + open.length + sel.length;
+      updatePreview();
+    }
+
+    function escapeHTML(s){
+      return s.replace(/[&<>"]/g, function(c){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]);
+      });
+    }
+
+    function renderPreview(html){
+      preview.innerHTML = html;
+      if (window.twemoji && twemoji.parse){
+        twemoji.parse(preview, {
+          folder: 'svg',
+          ext: '.svg',
+          base: 'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/'
+        });
+      }
+    }
+
+    function updatePreview(){
+      var html = editor.value;
+      if (plainMode){
+        preview.innerHTML = '<pre style="white-space:pre-wrap;margin:0;font-family:Consolas,monospace;">' + escapeHTML(html) + '</pre>';
+      } else {
+        renderPreview(html);
+      }
+      statLeft.textContent = 'Tersimpan di RAM editor.';
+      previewCount.textContent = html.length + ' karakter';
+      document.title = 'HTML Editor Emoji Win7 - ' + html.length + ' chars';
+    }
+
+    function renderOnly(){
+      updatePreview();
+    }
+
+    function togglePlain(){
+      plainMode = !plainMode;
+      updatePreview();
+    }
+
+    function clearEditor(){
+      if (confirm('Kosongkan isi editor?')){
+        editor.value = '';
+        updatePreview();
+      }
+    }
+
+    function saveDraft(){
+      localStorage.setItem(saveKey, editor.value);
+      statLeft.textContent = 'Draft disimpan ke localStorage.';
+    }
+
+    function loadDraft(){
+      var v = localStorage.getItem(saveKey);
+      if (v !== null){
+        editor.value = v;
+        updatePreview();
+        statLeft.textContent = 'Draft dimuat dari localStorage.';
+      } else {
+        statLeft.textContent = 'Belum ada draft tersimpan.';
+      }
+    }
+
+    function copySource(){
+      var text = editor.value;
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){
+          statLeft.textContent = 'Source disalin ke clipboard.';
+        }, fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+
+      function fallbackCopy(){
+        editor.select();
+        try{
+          document.execCommand('copy');
+          statLeft.textContent = 'Source disalin ke clipboard.';
+        }catch(e){
+          statLeft.textContent = 'Gagal menyalin otomatis. Silakan Ctrl+C.';
+        }
+      }
+    }
+
+    function downloadHTML(){
+      var content = editor.value;
+      var page = '<!doctype html><html><head><meta charset="utf-8">' +
+        '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+        '<title>Hasil HTML</title>' +
+        '<script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"><\/script>' +
+        '<style>body{font-family:Arial,sans-serif;line-height:1.6;padding:20px}.emoji{width:1.15em;height:1.15em;vertical-align:-0.2em}</style>' +
+        '</head><body><div id="app">' + content + '</div><script>twemoji.parse(document.getElementById("app"),{folder:"svg",ext:".svg",base:"https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/"});<\/script></body></html>';
+
+      var blob = new Blob([page], {type: 'text/html;charset=utf-8'});
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'hasil-emoji.html';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function(){
+        URL.revokeObjectURL(a.href);
+        document.body.removeChild(a);
+      }, 1000);
+    }
+
+    function importFile(ev){
+      var file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(){
+        editor.value = String(reader.result || '');
+        updatePreview();
+        statLeft.textContent = 'File diimpor.';
+      };
+      reader.readAsText(file, 'utf-8');
+      fileInput.value = '';
+    }
+
+    // Isi awal
+    editor.value =
+`<h1>Halo 😄💩👻</h1>
+<p>Ini editor HTML yang memaksa emoji tampil lewat gambar SVG, jadi lebih aman di Windows 7.</p>
+<p><b>Contoh tebal</b>, <i>miring</i>, <u>garis bawah</u>.</p>
+<ul>
+  <li>Emoji satu: 😄</li>
+  <li>Emoji dua: 💩</li>
+  <li>Emoji tiga: 👻</li>
+</ul>
+<p>Tambahkan emoji sebanyak-banyaknya: 😀😁😂🤣😃😄😅😆😉😊😍🤩🥳🔥✨💯👌</p>`;
+
+    buildEmojiGrid();
+    updatePreview();
+    loadDraft();
+  </script>
+</body>
+</html>
