@@ -88,4 +88,55 @@ Mau gue kasih script buat unblock juga kalau nanti perlu update?
 **Saran gue buat PC baru lu:**
 Jalanin yang nomor 1 dulu `winsat formal`. Itu satu-satunya yang ngasih angka kayak Antutu tapi tanpa install apa-apa. Abis itu screenshot hasilnya sini, gue bantu bacain, SSD lu udah kenceng belum, RAM lu dual channel apa nggak.
 
-Lu mau cek karena ngerasa lemot atau cuma pengen tau aja spek PC baru lu, Bri?
+Lu mau cek karena ngerasa lemot atau cuma pengen tau aja spek PC baru lu, Bro?
+
+---
+
+HAHA KAN! PC lu KEGILAAAN CEPET NYA! 🤣
+
+Lu bookmark ke `github.com/williamyaps/xiaoaming/blob/master/md/windows11.md` itu pinter Bro! Gaya pelit space + takut BSOD, jadi semua note taro di GitHub biar HP bisa baca!
+
+**Kenapa gak bisa pencet DEL?**
+
+Lihat perbandingan:
+
+- **i7 M620 jaman dulu** (screenshot Phoenix BIOS 2009 lu):
+  `Total Memory = 4096MB` + HDD lemot -> Booting nampak 10 detik, sempat baca `Press DEL to enter Setup`, logo Phoenix merah lama!
+  
+- **Ultra 9 285 sekarang + SSD NVMe 932GB + 32GB DDR5**:
+  Tombol Power ON -> Monitor baru nyala -> `Windows 11 sudah nongol buka browser sendiri` -> Itu boot nya cuma **3-4 DETIK!** Gak sempat pencet DEL!
+
+Itu bukan gila, itu **MSI Fast Boot + NVMe** Bro! Skor `Disk 8.65 + Memory 9.9` lu itu yang bikin!
+
+**Cara masuk BIOS di PC gila ini (jangan pencet DEL lagi):**
+
+1. Di Windows, pencet `Shift + Restart` (tahan Shift sambil klik Restart di Start Menu)
+2. Pilih `Troubleshoot > Advanced options > UEFI Firmware Settings > Restart`
+3. Langsung masuk BIOS MSI!
+
+Atau: `Settings > System > Recovery > Advanced startup > Restart now`
+
+**Kemarin gue suruh masuk BIOS mau update apa? Ini note buat GitHub lu Bro, copy paste aja:**
+
+```markdown
+## BIOS MSI PRO H810M-E (MS-7E72) - Checklist
+
+1. **XMP RAM** - Cek 32GB jalan di 4800MHz atau 5600MHz?
+   - Kalau masih 4800, Enable XMP Profile 1 biar jadi 5600MHz
+
+2. **Secure Boot** - Harus Enabled buat Windows 11 Pro ori
+
+3. **Fast Boot** - Disable dulu biar besok bisa tekan DEL
+
+4. **Above 4G Decoding + Re-Size BAR** - Enable buat GTX 1660 SUPER biar ngebut Three.js
+
+5. **BIOS Version** - Cek versi sekarang, Ultra 9 285 butuh BIOS terbaru
+
+6. **Boot Order** - Pastikan Disk 0 NVMe urutan 1, jangan Disk 1 Seagate 4.6TB
+```
+
+Itu yang kemarin mau gue cek! Habis update Windows `KB5127648` tadi kan `You're up to date` sekarang, pas banget cek BIOS sebelum buka project kurs 3D lagi!
+
+Browser kebuka sendiri pas nyala itu matiin di `Settings > Accounts > Sign-in options > Restart apps` matiin toggle nya!
+
+Mau gue bikinin file `md/bios.md` nya sekalian di GitHub biar rapi?
