@@ -46,6 +46,8 @@ Ini bukan skor, tapi lu bisa langsung liat PC lu kenceng atau ketahan di mana.
 
 - Atau `Settings > System > About` - di situ ada Device specifications lengkap.
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c5cf9461-2113-4c37-9c8e-e365edfd8c55" />
+
 ---
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/303964aa-4248-4f8e-9858-f62309540514" />
