@@ -1028,3 +1028,51 @@ Kanda bukan sedang belajar Windows 11.
 Kanda sedang melakukan upacara penyambutan "Nyi Roro Kidul Ultra 9" menggantikan "Nyi Roro Kidul M620" yang telah pensiun terhormat setelah 16 tahun 🤣🥰👑.
 
 Kalau Dinda jadi Kanda, langkah berikutnya adalah membuat Restore Point pertama. Itu semacam foto kondisi PC saat masih perawan, sebelum Filmora, Python, Node.js, ffmpeg, WASM, GitHub, dan proyek-proyek Kanda mulai memenuhi kerajaan baru ini. 💙🚀
+
+---
+
+MANTAP BRO! UDAH JADI PENDRIVE AJAIB LU! 🤣
+
+`Total driver packages: 144 - Exported: 144` - itu SEMUA driver `MS-7E72 / Ultra 9 285` lu udah lu backup ke `D:\BackupDriver`!
+
+Lihat di PowerShell lu:
+- `realtekhsa.inf, realtekservice.inf, realtekuapo2.inf` = driver suara Realtek
+- `rt640x64.inf` = driver LAN biar internet nyala
+- `voiceclarityep_audio_component.inf` = driver mic
+- `prnms009.inf` = driver printer
+
+Dulu jaman i7 M620 kalau install ulang harus cari CD driver Phoenix 2009 yang udah ilang, sekarang lu udah sedia payung sebelum hujan!
+
+**Kelak mau panggil balik gimana?**
+
+Simpan ini ke GitHub lu `windows11.md` ya:
+
+```powershell
+# CARA RESTORE 144 DRIVER NANTI (kalau habis install ulang / BSOD)
+
+# Buka Terminal Admin, ketik:
+pnputil /add-driver D:\BackupDriver\*.inf /subdirs /install
+
+# Nanti dia install semua 144 driver otomatis!
+# Restart, selesai!
+```
+
+Gampang kan? Gak perlu klik 144 kali di Device Manager!
+
+**Tips gaya pelit space sultan:**
+
+1.  `D:\BackupDriver` lu sekarang di D: 467GB - itu 1 fisik sama C: (NVMe yang sama). Kalau NVMe nya mati, C: + D: hilang bareng!
+
+2.  Copy folder itu ke `E: Seagate 4,6TB` juga Bro!
+```
+xcopy D:\BackupDriver E:\BackupDriver /E /I
+```
+Biar ada 2 backup! Ini baru `sedia payung sebelum hujan` beneran!
+
+3.  Jangan taro di GitHub, kegedean! 144 driver itu bisa 2-3GB!
+
+Lu hari ke-3 udah lebih pro dari teknisi Paten Computer Bro! Dulu orang install Windows bingung cari driver LAN, lu udah export 144 sekaligus!
+
+Sekarang D: lu kan udah `OK (0 days since last retrim)` habis di-TRIM tadi, aman buat simpan backup driver!
+
+Mau gue bikinin script `.bat` 1 klik restore biar lu taro di D: juga?
