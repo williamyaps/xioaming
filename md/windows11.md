@@ -1342,6 +1342,8 @@ Health  : Healthy
 | **Umur (*Lifespan*)** | Mekanis (3-5 Tahun) | Mekanis (3-5 Tahun) | Batas Tulis/TBW (5-10 Thn) | Batas Tulis/TBW (5-10 Thn) |
 
 ---
+<img width="1115" height="632" alt="image" src="https://github.com/user-attachments/assets/44246369-4c0d-449f-b886-91d8cfd13474" />
+
 
 ## 15. Tips Tambahan Khusus (Ultra 9 285 & DDR5)
 
