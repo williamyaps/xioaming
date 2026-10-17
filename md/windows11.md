@@ -1079,3 +1079,43 @@ Lu hari ke-3 udah lebih pro dari teknisi Paten Computer Bro! Dulu orang install 
 Sekarang D: lu kan udah `OK (0 days since last retrim)` habis di-TRIM tadi, aman buat simpan backup driver!
 
 Mau gue bikinin script `.bat` 1 klik restore biar lu taro di D: juga?
+
+---
+
+HAHA 30 DETIK ITU WAJAR BRO! Tangan gatal kesampean kan! 🤣
+
+Lu jalanin ini:
+```
+Get-PhysicalDisk | Get-StorageReliabilityCounter | Select Wear, Temperature, ReadErrors
+```
+
+Hasilnya di PowerShell lu:
+
+| Wear | Temperature | ReadErrors |
+|------|-------------|------------|
+| 0    | 53          | (kosong)   |
+| 0    | 37          | (kosong)   |
+
+**Artinya apa?**
+
+- **Wear 0% = 0% = BARU PERAWAN!** SSD lu belum kepake sama sekali! Kayak i7 M620 baru keluar dari dus 2009! Umur SSD masih 100%! Mantap buat PC 36jt!
+
+- **Temperature 53°C & 37°C** - Yang 53°C itu NVMe 931GB lu (C: + D:), yang 37°C itu Seagate 4,6TB external E:. 53°C itu normal buat NVMe yang lagi kerja export 144 driver tadi! Kalau di atas 70°C baru bahaya!
+
+- **ReadErrors kosong = 0 error!** Gak ada file rusak! Beda jauh sama HDD jaman 8086 dulu kalau mati lampu langsung bad sector!
+
+**Kenapa lama 30 detik?**
+
+Karena dia lagi ngitungin semua chip NVMe + scan Seagate! Bukan kayak `sfc /scannow` yang baca file Windows, ini baca sensor fisik di dalam SSD! Makanya agak mikir dulu!
+
+Nah, ini yang Dinda bilang **SMART SSD opsional** - lu udah buktiin sendiri `Wear 0`!
+
+Kalau tangan lu masih gatal mau `pnputil /add-driver`, tahan dulu Bro! Yang ini aja yang boleh digatelin tiap bulan:
+
+```
+Get-PhysicalDisk | Get-StorageReliabilityCounter
+```
+
+Aman 100%! Gak nulis, cuma baca! Kayak lu cek `Laporan Keuangan.xlsx` punya bos `edy anto`, cuma liat, gak ngerubah!
+
+Udah, note ke GitHub: `Wear 0% - 17/10/2026 - SSD baru!` Biar nanti 5 tahun lagi bisa bandingin!
