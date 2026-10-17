@@ -1048,6 +1048,9 @@ Dulu jaman i7 M620 kalau install ulang harus cari CD driver Phoenix 2009 yang ud
 Simpan ini ke GitHub lu `windows11.md` ya:
 
 ```powershell
+# CARA BACKUP DRIVER
+pnputil /export-driver * D:\BackupDriver
+
 # CARA RESTORE 144 DRIVER NANTI (kalau habis install ulang / BSOD)
 
 # Buka Terminal Admin, ketik:
