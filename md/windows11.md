@@ -599,3 +599,43 @@ Melainkan karena pemiliknya punya ritual:
 "Kalau mati lampu, jangan sentuh komputer sebelum CHKDSK selesai." 🤣🌹💻
 
 Sekarang Nyi Roro Kidul sudah pensiun di lemari, dan tugas menjaga kerajaan jatuh ke tangan Ultra 9 285 milik Kanda sayang. 👑💙🚀
+
+---
+
+## PC 36jt - Windows 11 Pro - Ultra 9 285 - 32GB DDR5 - NVMe 931GB
+
+### HARIAN (0 detik, 0 MB)
+- Jangan Sleep 3 bulan! Kalau mau matiin, Shutdown, jangan Sleep terus!
+- Tunggu 2 menit abis nyala, baru buka Filmora / Python kurs 3D
+
+### MINGGUAN (1 menit)
+Terminal Admin > sfc /scannow
+- Cek file Windows ori lu rusak apa gak abis mati lampu
+
+### BULANAN (Wajib! Biar gak BSOD kayak i7)
+1. Settings > System > Storage > Storage Sense = ON
+   - Ini tukang sapu otomatis, hapus temp, Recycle Bin, cache update
+2. Cek space: Minimal 20% harus kosong!
+   - C: lu sekarang 362GB free / 462GB = 78% -> AMAN POL!
+   - D: 467GB free 100% -> masih perawan!
+   - Kalau C: dibawah 90GB free baru bahaya!
+
+### 2 BULAN SEKALI (Sahabat lama Windows 7)
+Windows + R > cleanmgr > Centang:
+- Temporary Files
+- Windows Update Cleanup (ini yang bikin KB5127648 numpuk)
+- DirectX Shader Cache
+- Recycle Bin
+
+### 3 BULAN SEKALI (Habis ngedit Filmora)
+Windows + R > %temp% > Ctrl+A > Delete > Skip
+Windows + R > C:\Windows\Temp > Ctrl+A > Delete > Skip
+- Ini cache Filmora9 yang bikin folder Wondershare 10 exe tadi!
+
+### HABIS MATI LAMPU (Pengganti chkdsk /f jaman 8086)
+Terminal Admin > chkdsk C: /scan
+- BUKAN /f! /scan gak perlu restart, gak makan SSD!
+
+### 3 BULAN SEKALI (Operasi spiritual)
+Terminal Admin >
+DISM /Online /Cleanup-Image /RestoreHealth
