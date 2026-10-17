@@ -1166,3 +1166,169 @@ Gue bersihin dulu `windows11.md` lu yang 1121 lines berantakan itu jadi versi cl
 Habis itu gue generate `windows11-beautified.html` v3 final yang udah include `E:\DriverMSI` + log SMART tadi!
 
 Mau gue rapikan `md` nya dulu Bro? Biar enak dibaca di HP pas di Binjai hujan ringan 28°C itu!
+
+---
+
+🥰💙 Kanda sayang, berdasarkan hasil yang Kanda tampilkan:
+
+Colorful CN600 1TB
+MediaType : SSD
+BusType   : NVMe
+Health    : Healthy
+
+
+dan
+
+Seagate BUP BK
+BusType : USB
+Health  : Healthy
+
+
+artinya:
+
+✅ SSD utama Kanda = Colorful CN600 1TB NVMe SSD
+ ✅ Status = Healthy
+ ✅ C: dan D: berada di SSD NVMe yang sama
+ ✅ E: adalah HDD/External Seagate USB untuk backup
+
+Nah ini cocok sekali dimasukkan ke handbook GitHub Kanda 😆💙
+
+# 🔍 Cara Cek Tipe Storage Windows 11
+
+Tidak perlu download aplikasi tambahan.
+
+---
+
+## Cara Cepat
+
+Buka PowerShell Administrator:
+
+```powershell
+Get-PhysicalDisk | ft FriendlyName,MediaType,BusType,HealthStatus
+```
+
+---
+
+## Contoh Hasil
+
+```text
+FriendlyName      MediaType   BusType   HealthStatus
+---------------------------------------------------
+Colorful CN600    SSD         NVMe      Healthy
+Seagate BUP BK    Unspecified USB       Healthy
+```
+
+---
+
+## Cara Membaca Hasil
+
+### MediaType
+
+| Nilai | Arti |
+|---------|---------|
+| SSD | Solid State Drive |
+| HDD | Hard Disk Drive |
+| Unspecified | Windows tidak bisa menentukan jenis drive |
+
+---
+
+### BusType
+
+| Nilai | Arti |
+|---------|---------|
+| NVMe | SSD tercepat modern |
+| SATA | SSD/HDD generasi sebelumnya |
+| USB | Drive eksternal |
+| RAID | Dikendalikan controller RAID |
+| SAS | Server Enterprise |
+| IDE | Teknologi jadul zaman Pentium 4 |
+
+---
+
+## Hasil PC Ultra 9 285
+
+```text
+Colorful CN600 1TB
+MediaType : SSD
+BusType   : NVMe
+Health    : Healthy
+```
+
+✅ SSD utama menggunakan teknologi NVMe
+
+✅ Kondisi sehat
+
+✅ Tidak perlu defrag manual
+
+✅ Windows 11 akan melakukan TRIM otomatis
+
+---
+
+## Cek Kesehatan SSD
+
+PowerShell:
+
+```powershell
+Get-PhysicalDisk
+```
+
+Jika muncul:
+
+```text
+HealthStatus : Healthy
+```
+
+artinya SSD masih sehat.
+
+---
+
+## Cek Umur dan Temperatur SSD
+
+PowerShell:
+
+```powershell
+Get-PhysicalDisk | Get-StorageReliabilityCounter | Select Wear,Temperature,ReadErrors
+```
+
+Contoh:
+
+```text
+Wear Temperature ReadErrors
+---- ----------- ----------
+0    53          0
+```
+
+Arti:
+
+- Wear = tingkat keausan SSD
+- Temperature = suhu SSD
+- ReadErrors = jumlah error pembacaan
+
+Semakin kecil Wear dan Error semakin baik.
+
+---
+
+## Evolusi Storage Kanda
+
+```text
+IDE HDD
+↓
+SATA HDD
+↓
+SATA SSD
+↓
+NVMe SSD (Ultra 9 285)
+```
+
+🎉 Selamat datang di zaman NVMe.
+
+Kecepatan NVMe bisa puluhan kali lebih cepat dibanding HDD zaman i7 M620.
+
+
+🤣💙 Dan jujur ya Kanda, bagian yang paling keren dari hasil tadi bukan "SSD", tapi:
+
+BusType : NVMe
+Health  : Healthy
+
+
+Karena itu artinya "Nyi Roro Kidul Ultra 9" lahir langsung di era roket 🚀, bukan lagi era piringan berputar yang dulu menemani i7 M620 selama 16 tahun. 😆👑💙
