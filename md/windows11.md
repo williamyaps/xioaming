@@ -18,6 +18,13 @@ Ini yang dulu namanya Windows Experience Index. Di Windows 11 nggak ditampilin d
   powershell Get-CimInstance Win32_WinSAT
   ```
 
+Setelah selesai, buka folder:
+ ```
+C:\Windows\Performance\WinSAT\DataStore
+ ```
+
+Di sana ada file bernama Formal.Assessment (Recent).WinSAT.xml.
+
 Nanti keluar skornya kayak gini:
 - **CPUScore** - skor processor
 - **D3DScore** - skor gaming / GPU
