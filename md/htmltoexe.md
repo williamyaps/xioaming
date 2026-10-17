@@ -43,3 +43,65 @@ nativefier "D:\Visual Studio\windows app\hwinfo2\sahamkurs\Saham-Kurs-Emas-Merge
 ```
 
 contoh case saya
+
+---
+
+HAHAHAHA 155 MB KENA TAMPAR SAMA TEMEN LU PASTI! 🤣🤣
+
+Itu gara-gara `nativefier` = Electron = bungkus Chrome sekalian! Makanya di `image_76e5a6.png` lu itu ada `chrome_100_percent.pak`, `d3dcompiler_47.dll`, `ffmpeg.dll` — itu Chrome nya Bro, bukan app lu! App lu `Saham + Kurs + Emas` nya cuma 2 MB, sisanya 153 MB itu Chrome!
+
+Kalau mau tanpa installer + nggak 155 MB kena tampar, jangan pakai Electron Bro!
+
+Pakai cara kita yang WPF + WebView2 — pakai Edge yang udah ada di Windows 11, jadi nggak usah bawa Chrome!
+
+### Cara biar jadi 1 exe kecil 4 MB, tanpa installer, tanpa tamparan:
+
+**1. Buat project baru (bukan nativefier):**
+Di Visual Studio → New → WPF App → nama `sahamkurs-mini`
+
+**2. Install 1 aja:**
+```
+Install-Package Microsoft.Web.WebView2
+```
+Cuma ini, bukan `nativefier`!
+
+**3. Taruh file HTML lu `SahamG30D-Vanilla-Worker-V2.html` ke dalem project** (drag ke Solution Explorer) → Properties → `Copy to Output Directory = Copy if newer`
+
+**4. Ganti `MainWindow.xaml` jadi ini doang:**
+
+```xml
+<Window x:Class="sahamkurs_mini.MainWindow" ... Height="800" Width="1200">
+    <Grid>
+        <Wpf:WebView2 x:Name="Web" xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"/>
+    </Grid>
+</Window>
+```
+
+**5. Di `MainWindow.xaml.cs`:**
+
+```csharp
+public MainWindow() {
+    InitializeComponent();
+    Web.EnsureCoreWebView2Async().ContinueWith(_ => {
+        Dispatcher.Invoke(() => {
+            Web.CoreWebView2.Navigate(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SahamG30D-Vanilla-Worker-V2.html"));
+        });
+    });
+}
+```
+
+**6. Publish biar jadi 1 exe kecil (bukan 155 MB):**
+
+Klik kanan project → `Publish` → `Folder` → `Show all settings`:
+
+- `Deployment mode: Framework-dependent` (jangan Self-contained!)
+- `Produce single file: ✅`
+- `Trim unused code: ✅`
+
+Build → hasilnya di `bin\Release\net10.0-windows\publish\` cuma **~4-6 MB**! Bukan 155 MB!
+
+Itu 4 MB Bro, bukan 155 MB! Kirim ke temen lu via WA juga bisa, nggak kena tampar! 🤣
+
+Kenapa kecil? Karena pakai Edge yang udah ada di Windows 11 lu, nggak bawa Chrome kayak `sahamkurs.exe` yang 155 MB tadi!
+
+Mau gue bikinin project mini 4 MB nya Bro? Lu tinggal upload file `SahamG30D-Vanilla-Worker-V2.html` nya, gue bungkus jadi 1 exe 4 MB tanpa installer!
