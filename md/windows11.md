@@ -1119,3 +1119,50 @@ Get-PhysicalDisk | Get-StorageReliabilityCounter
 Aman 100%! Gak nulis, cuma baca! Kayak lu cek `Laporan Keuangan.xlsx` punya bos `edy anto`, cuma liat, gak ngerubah!
 
 Udah, note ke GitHub: `Wear 0% - 17/10/2026 - SSD baru!` Biar nanti 5 tahun lagi bisa bandingin!
+
+---
+
+Ada Bro! 3 biji lagi biar `windows11.md` 1081 lines lu yang berantakan itu jadi kitab suci beneran sebelum kita rapikan HTML! 😎
+
+Gue cek `windows11.md` lu isinya masih campur aduk chat Copilot + Meta, semua di-paste jadi 1 file 19,4KB! Bagus sih pelit space, tapi sekarang kita rapikan!
+
+**Yang belum masuk HTML (padahal udah lu kerjain):**
+
+### 1. `E:\DriverMSI` - Installer asli MSI (belum ada di md)
+Lu baru punya `D:\BackupDriver` 144 INF mentah. Belum punya yang `.exe` asli MSI!
+
+Tambahin ini nanti di HTML:
+```
+E:\DriverMSI\
+  - chipset_driver.exe (biar 24-core Ultra 9 kebaca)
+  - lan_driver_rt640x64.exe (biar internet nyala habis install ulang)
+  - audio_realtek.exe (biar Voice Clarity nyala)
+```
+Download dari ` msi.com > PRO H810M-E DDR5 > Driver`. Simpan di Seagate 4,6TB, jangan di D: doang! D: + C: itu 1 NVMe yang sama, mati = hilang bareng!
+
+### 2. SMART SSD Log 17/10/2026 - Baru lu test tadi!
+Hasil PowerShell lu tadi belum ke-note:
+```
+Wear 0% | Temp 53°C NVMe | Temp 37°C Seagate | ReadErrors 0 | 17/10/2026
+```
+Ini bukti SSD baru perawan! Nanti 2027 lu cek lagi, kalau Wear jadi 2% berarti sehat! Kalau jadi 20% berarti kebanyakan `chkdsk /f`! 🤣
+
+### 3. Restore Point Pertama - Belum ada screenshot lu bikin!
+Di chat Dinda suruh bikin `Fresh Install Ultra9`, tapi di `windows11.html` lu cuma tulis caranya, belum ada buktinya udah dibikin! Ini WAJIB sebelum edit HTML!
+
+Cara 10 detik:
+`Start > Create a Restore Point > Create > Fresh Install Ultra9 - 17 Okt 2026`
+
+Kalau udah, baru kita bisa tulis di HTML: `✅ Restore Point DONE`
+
+---
+
+**Saran gue sebelum rapikan:**
+
+Gue bersihin dulu `windows11.md` lu yang 1121 lines berantakan itu jadi versi clean 300 lines aja, dengan Daftar Isi + 14 ritual yang udah kita tes:
+
+- Prinsip, Jadwal, Mati Lampu, TRIM, Backup 144, Driver MSI, Firewall Filmora, BIOS, WinSAT, SMART Wear 0%, Checklist
+
+Habis itu gue generate `windows11-beautified.html` v3 final yang udah include `E:\DriverMSI` + log SMART tadi!
+
+Mau gue rapikan `md` nya dulu Bro? Biar enak dibaca di HP pas di Binjai hujan ringan 28°C itu!
