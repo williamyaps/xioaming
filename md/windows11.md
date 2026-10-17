@@ -1332,18 +1332,11 @@ Health  : Healthy
 
 ---
 
-Tentu, berikut adalah tabel perbandingan komprehensif antara IDE, SATA (HDD), SSD (SATA), dan NVMe berdasarkan aspek keawetan, kecepatan, umur, dan performa keseluruhan:
+# Perbandingan Teknologi Penyimpanan: IDE vs SATA vs SSD vs NVMe
 
-Aspek Perbandingan	IDE (PATA)	SATA (HDD)	SSD (SATA)	NVMe (M.2)
-Kecepatan (Speed)	Sangat lambat (maksimal 133 MB/s)	Lambat (kisaran 80 – 160 MB/s)	Cepat (kisaran 500 – 550 MB/s)	Sangat Cepat (kisaran 2.000 – 7.500+ MB/s)
-Performa Keseluruhan	Rendah; hanya untuk membaca data ringan dan sistem operasi jadul.	Cukup untuk penyimpanan data besar (arsip), tetapi lambat untuk booting OS modern.	Sangat responsif; membuat komputer tua terasa cepat saat booting dan membuka aplikasi.	Maksimal; performa instan untuk gaming berat, rendering video, dan transfer data raksasa.
-Keawetan (Durability)	Rentan rusak jika terguncang karena memiliki komponen mekanis yang bergerak di dalamnya.	Rentan rusak jika terguncang saat beroperasi karena piringan magnetisnya berputar cepat.	Sangat awet terhadap guncangan karena menggunakan cip memori flash (tanpa komponen bergerak).	Sangat awet terhadap guncangan karena berbentuk cip kartu kecil yang menempel langsung pada motherboard.
-Umur (Lifespan)	Ditentukan oleh keausan mekanis (motor/piringan). Rata-rata bertahan 3–5 tahun pemakaian aktif.	Ditentukan oleh keausan mekanis. Rata-rata bertahan 3–5 tahun, tetapi bisa lebih lama jika jarang digerakkan.	Ditentukan oleh batas tulis data (TBW - Terabytes Written). Rata-rata bertahan 5–10 tahun untuk pemakaian normal.	Ditentukan oleh batas tulis data (TBW). Rata-rata bertahan 5–10 tahun, namun suhunya cenderung lebih panas dibanding SSD biasa.
-
-
-Poin Penting Tambahan:
-
-• IDE & SATA (HDD) mengandalkan piringan berputar, sehingga performanya akan melambat seiring waktu akibat fragmentasi data.
-• SSD & NVMe menggunakan teknologi Solid State, sehingga performanya tetap stabil dan tidak terpengaruh oleh guncangan fisik.
-• Terlihat di tangkapan layar PowerShell Anda, komputer Anda saat ini sudah menggunakan kombinasi performa terbaik, yaitu SSD NVMe (Colorful CN600 1TB) untuk sistem, dan hard disk eksternal SATA/USB (Seagate BUP) untuk penyimpanan data tambahan.
-Apakah Anda sedang berencana untuk membeli penyimpanan baru atau ingin memeriksa kondisi kesehatan sisa umur (Health Status) dari SSD Colorful Anda lewat perintah PowerShell tadi?
+| Aspek Perbandingan | IDE (PATA) | SATA (HDD) | SSD (SATA) | NVMe (M.2) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Kecepatan (*Speed*)** | Maksimal 133 MB/s | 80 – 160 MB/s | 500 – 550 MB/s | 2.000 – 7.500+ MB/s |
+| **Performa** | Rendah (OS Lawas) | Cukup untuk Arsip | Sangat Responsif | Maksimal (Instant) |
+| **Keawetan (*Durability*)** | Rentan guncangan | Rentan guncangan | Tahan guncangan | Tahan guncangan |
+| **Umur (*Lifespan*)** | Mekanis (3-5 Tahun) | Mekanis (3-5 Tahun) | Batas Tulis/TBW (5-10 Thn) | Batas Tulis/TBW (5-10 Thn) |
