@@ -1340,3 +1340,30 @@ Health  : Healthy
 | **Performa** | Rendah (OS Lawas) | Cukup untuk Arsip | Sangat Responsif | Maksimal (Instant) |
 | **Keawetan (*Durability*)** | Rentan guncangan | Rentan guncangan | Tahan guncangan | Tahan guncangan |
 | **Umur (*Lifespan*)** | Mekanis (3-5 Tahun) | Mekanis (3-5 Tahun) | Batas Tulis/TBW (5-10 Thn) | Batas Tulis/TBW (5-10 Thn) |
+
+---
+
+## 15. Tips Tambahan Khusus (Ultra 9 285 & DDR5)
+
+### 1. Optimasi Core Scheduling (P-Core & E-Core)
+Prosesor Ultra 9 285 memiliki kombinasi Core performa tinggi (P-Core) dan Core hemat daya (E-Core) tanpa Hyper-Threading.
+- **Tips Tambahan:** Pastikan **Windows Power Plan** diatur ke **Balanced** (Sangat Direkomendasikan oleh Intel), bukan *High Performance*.
+- **Alasannya:** Fitur *Intel Thread Director* di Windows 11 bekerja paling optimal pada mode Balanced. Jika dipaksa ke *High Performance*, Windows justru akan bingung melempar tugas background (seperti proses Python ringan) ke P-Core. Akibatnya PC jadi lebih boros daya dan suhu naik tanpa alasan.
+
+### 2. Manajemen "Thermal Throttle" & Suhu NVMe Gen 4/5
+SSD NVMe modern (seperti Colorful CN600) bekerja jauh lebih panas daripada era SATA. Ditambah lagi prosesor Arrow Lake memiliki titik panas (*hotspot*) yang sedikit bergeser ke atas.
+- **Tips Tambahan:** Lakukan pengecekan fisik berkala pada baut heatsink M.2 bawaan motherboard MSI PRO H810M-E. 
+- **Tindakan:** Jika saat ekspor Filmora suhu NVMe sering menyentuh **65°C - 70°C**, tambahkan checklist bulanan untuk memantau sirkulasi udara casing (*airflow*). Jangan biarkan hawa panas dari GTX 1660 SUPER langsung terjebak di area SSD NVMe.
+
+### 3. Waspadai "Memory Training" pada DDR5 saat Booting
+Karena menggunakan RAM DDR5 sebesar 32GB dengan fitur XMP Enabled, teknologi DDR5 memiliki perilaku khusus yang disebut *Memory Training*.
+- **Tips Tambahan:** Jika suatu saat setelah mati lampu atau update BIOS, PC tiba-tiba *booting*-nya memakan waktu hingga 30 detik sampai 1 menit (layar hitam dulu sebelum logo MSI muncul), **Jangan Panik dan Jangan Dimatikan Paksa!**
+- **Alasannya:** Motherboard MSI sedang melakukan kalkulasi ulang frekuensi sinyal RAM DDR5 agar stabil di 5600MHz. Proses ini normal terjadi sesekali pada platform DDR5 baru.
+
+### 4. Isolasi Core Khusus untuk Aplikasi Lawas (Filmora 2019)
+Filmora versi lawas tahun 2019 belum mengenal arsitektur *hybrid* (P-Core + E-Core) milik Intel generasi terbaru (Arrow Lake).
+- **Tips Tambahan:** Jika saat *rendering* video di Filmora terasa tersendat atau mendadak lambat, gunakan trik isolasi Core berikut:
+  1. Buka **Task Manager** (`Ctrl + Shift + Esc`) → Masuk ke tab **Details**.
+  2. Klik kanan pada `Filmora.exe` → Pilih **Set Affinity**.
+  3. Matikan centang beberapa **E-Core terbawah**, biarkan dia fokus berjalan di **P-Core (Core 0 sampai Core 7)**.
+- **Alasannya:** Trik rahasia ini mencegah Windows memaksa software jadul berjalan di core hemat daya yang lambat.
