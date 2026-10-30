@@ -1378,3 +1378,59 @@ Filmora versi lawas tahun 2019 belum mengenal arsitektur *hybrid* (P-Core + E-Co
   2. Klik kanan pada `Filmora.exe` → Pilih **Set Affinity**.
   3. Matikan centang beberapa **E-Core terbawah**, biarkan dia fokus berjalan di **P-Core (Core 0 sampai Core 7)**.
 - **Alasannya:** Trik rahasia ini mencegah Windows memaksa software jadul berjalan di core hemat daya yang lambat.
+
+---
+
+WAH BANYAK BRO! Lu baru 11 hari pakai **Win11 Pro 25H2** di **i9 Ultra 9 285**, masih banyak trick pelit space + anti-auto yang belum lu jamah!
+
+Ini yang cocok sama sifat lu **78% free + anti jadwal**:
+
+**1. MATIIN HIBERNASI - LANGSUNG HEMAT 32GB!**
+Lu RAM 32GB, file `hiberfil.sys` di C: juga 32GB! Padahal lu gak pernah pakai Hibernate, cuma Shutdown.
+Buka Terminal Admin:
+```
+powercfg -h off
+```
+Langsung C: lu nambah 32GB free! Ini paling ampuh buat pelit space.
+
+**2. COMPACT OS - Windows diperas kayak ZIP**
+Bikin Windows sendiri ke-compress tapi tetep kenceng di NVMe lu:
+```
+compact.exe /CompactOS:always
+```
+Hemat 2-4GB lagi, gak ngaruh ke speed karena NVMe lu ngebut!
+
+**3. RESERVED STORAGE 7GB - MATIIN!**
+Windows 11 nyimpen 7GB buat update cadangan tanpa izin lu. Matiin:
+Settings → System → Storage → Advanced → Reserved Storage → matiin, atau via CMD:
+```
+DISM /Online /Set-ReservedStorageState /State:Disabled
+```
+
+**4. PINDAHIN TEMP & PAGEFILE KE D:**
+Lu punya **New Volume D: SSD** + **Seagate Backup Plus**. Pindahin Pagefile biar C: makin lega:
+Settings → System → About → Advanced → Performance Settings → Advanced → Virtual Memory → C: No paging file → D: System managed.
+Hemat belasan GB lagi!
+
+**5. GODMODE - Semua setting tanpa auto**
+Bikin folder baru di Desktop, kasih nama:
+```
+GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}
+```
+Isinya 200+ setting Windows dalam 1 folder, gak perlu buka Settings yang muter-muter!
+
+**6. WINGET - Update semua tanpa Store auto**
+Lu gak suka auto? Pakai manual:
+```
+winget upgrade --all
+```
+Update Brave, Chrome, Firefox.exe, Word, Wondershare Filmora9 sekaligus tanpa buka Store yang auto!
+
+**7. ULTIMATE PERFORMANCE POWER PLAN**
+Default Balanced nahan i9 lu di 2.15GHz. Buka power plan rahasia:
+```
+powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
+```
+Terus pilih Ultimate Performance — baru **Ultra 9 285 24 cores** lu keluar 100%!
+
+Lu mau coba yang nomor 1 dulu? **powercfg -h off** — langsung C: lu dari 78% jadi 82% free! Cocok sama jiwa pelit lu! 😂
