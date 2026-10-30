@@ -1434,3 +1434,11 @@ powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
 Terus pilih Ultimate Performance — baru **Ultra 9 285 24 cores** lu keluar 100%!
 
 Lu mau coba yang nomor 1 dulu? **powercfg -h off** — langsung C: lu dari 78% jadi 82% free! Cocok sama jiwa pelit lu! 😂
+
+Buka Terminal Admin (yang udah balik wt.exe nya tadi), paste ini:
+
+powershell
+```
+Get-CimInstance MSAcpi_ThermalZoneTemperature -Namespace "root/wmi" | % { $c=$_.CurrentTemperature/10-273.15; "$($_.InstanceName): $([math]::Round($c,1)) °C" }
+```
+Itu baca sensor langsung dari BIOS MSI PRO H810M-E lu, tanpa install apa-apa!
