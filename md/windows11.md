@@ -1442,3 +1442,22 @@ powershell
 Get-CimInstance MSAcpi_ThermalZoneTemperature -Namespace "root/wmi" | % { $c=$_.CurrentTemperature/10-273.15; "$($_.InstanceName): $([math]::Round($c,1)) °C" }
 ```
 Itu baca sensor langsung dari BIOS MSI PRO H810M-E lu, tanpa install apa-apa!
+
+compress image Pakai PowerShell bawaan:
+```
+Add-Type -AssemblyName System.Drawing
+$in = "saham3d-table-1M-2026-11-02 (1).png"
+$out = "saham3d-table-1M-2026-11-02-compress-80.jpg"
+$img = [Drawing.Image]::FromFile($in)
+$enc = [Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | ? MimeType -eq 'image/jpeg'
+$p = New-Object Drawing.Imaging.EncoderParameters 1
+$p.Param[0] = New-Object Drawing.Imaging.EncoderParameter ([Drawing.Imaging.Encoder]::Quality, 80)
+$img.Save($out, $enc, $p)
+$img.Dispose()
+"Done! $( (Get-Item $out).Length / 1MB ) MB"
+```
+
+atau
+```
+ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 10 "compress.jpg"
+```
