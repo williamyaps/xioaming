@@ -1461,3 +1461,8 @@ atau
 ```
 ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 10 "compress.jpg"
 ```
+
+kalau mau kualitas lebih baik
+```
+ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 3 "compress3.jpg"
+```
