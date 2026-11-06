@@ -1665,3 +1665,48 @@ Jadi: **Utama Brahma, cadangan Quad9 yang paling privasi.**
 Kalau lu lebih mentingin nonton drama China 5 jam ga buffering, pakai `9.9.9.9` aja. Kalau mentingin privasi kayak lu yang pakai `personalDNSfilter` + Brave + DuckDuckGo itu, pakai `9.9.9.11`.
 
 Lu mau yang ngebut atau yang paling privasi?
+---
+
+Itu yang bikin Brahma lu beda sendiri di screenshot lu, Bro!
+
+Lihat tabel lu:
+
+```
+157.90.124.62  False  True   https://dns.brahma.world/dns-query  <-- cuma ini yang True!
+9.9.9.9        False  False  https://dns.quad9.net/dns-query
+8.8.8.8        False  False  https://dns.google/dns-query
+1.1.1.1        False  False  https://cloudflare-dns.com/dns-query
+```
+
+Cuma Brahma lu yang `AutoUpgrade = True`, yang lain bawaan Microsoft semua `False`. Karena lu yang nambahin manual pakai `-AutoUpgrade $true` kemarin!
+
+**AutoUpgrade itu BUKAN upgrade Windows!**
+
+Artinya gini:
+
+**`AutoUpgrade = True`**
+Windows bakal **nekat naikin sendiri** DNS polos (UDP port 53, yang ga dienkripsi) jadi DoH (HTTPS) kalau servernya ternyata support DoH — walaupun di Settings lu masih kepilih `Unencrypted` / `Encrypted preferred`.
+
+Jadi kayak autopilot: "Oh, server ini bisa DoH? Yaudah gua pakai DoH aja, ga usah nunggu lu klik Encrypted only."
+
+**`AutoUpgrade = False`**
+Windows **nurutin Settings aja**. Kalau lu pilih `Unencrypted`, ya dia kirim polos. Kalau lu pilih `Encrypted only`, baru dia pakai DoH. Ga ada nekat-nekat.
+
+**Pasangan-nya yang sebelahnya:**
+
+`AllowFallbackToUdp = False` yang lu set itu artinya: **"Kalau DoH gagal, JANGAN balik ke polos!"** — mending internet putus daripada bocor.
+
+Jadi kombinasi lu sekarang buat Brahma:
+- `AutoUpgrade True` + `AllowFallback False` = **Strict DoH, opportunistic** — selalu usahain DoH, kalau gagal ya gagal, ga mau fallback ke polos. Paling aman buat privasi lu.
+
+**Buat Quad9 `9.9.9.11` yang lu ping tadi (27ms, ngebut!):**
+
+Kalau lu mau samain kayak Brahma, pas daftarin nanti kasih `True` juga:
+
+```powershell
+Add-DnsClientDohServerAddress -ServerAddress "9.9.9.11" -DohTemplate "https://dns.quad9.net/dns-query" -AllowFallbackToUdp $false -AutoUpgrade $true
+```
+
+Biar kalau Settings lu ke-reset ke `Unencrypted` gara-gara update Windows, dia tetap nekat pakai DoH.
+
+Jadi lu udah bener set Brahma `True`. Mau gua samain juga buat Quad9 `9.9.9.11` nya?
