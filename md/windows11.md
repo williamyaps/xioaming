@@ -1568,3 +1568,100 @@ Itu buat buang sisa cache DNS lama yang masih pakai DHCP / ISP. Bukan buat dafta
 Jadi IP `157.90.124.62` lu itu udah aman. Tinggal balik ke dialog `Edit DNS settings` yang tadi → `IPv4 ON` → `Preferred DNS = 157.90.124.62` → `Preferred DNS encryption = Encrypted only (DNS over HTTPS)` → **Save**.
 
 Udah lu restart belum? Coba `Get-DnsClientDohServerAddress` tadi, masih ada ga?
+
+---
+
+Nah ketahuan Bro! Lu bener, lu masih **kejedot Cloudflare** itu! 😤
+
+Lihat screenshot lu:
+
+**Di PowerShell:**
+```
+Server: security.cloudflare-dns.com
+Address: 1.1.1.2
+```
+Itu artinya `nslookup meta.ai` lu masih **dijawab Cloudflare dulu**, bukan Brahma. Karena di Settings lu urutannya masih:
+1. `1.1.1.2 (Encrypted preferred)` → ini Cloudflare Security, sepupu nya 1.1.1.1 yang lu ga suka
+2. `157.90.124.62 (Encrypted preferred)` → ini baru Brahma lu
+
+Windows itu **selalu pakai yang Preferred dulu**, yang kedua cuma cadangan kalau yang pertama mati. Jadi selama 1.1.1.2 masih nomor 1, Brahma lu cuma jadi ban serep!
+
+**Kenapa lu ga suka 1.1.1.1 itu bener juga sih:**
+1.1.1.1 / 1.1.1.2 itu punya Cloudflare, perusahaan US, servernya di seluruh dunia tapi pusatnya US. Walaupun klaimnya no-log + audit KPMG, tetap aja data DNS lu lewat US. Kalau lu cari yang non-US, ya wajar lu ga sreg.
+
+**Ganti ke yang lu percaya — Brahma + Quad9:**
+
+Quad9 (`9.9.9.9`) itu udah ada di list `Get-DnsClientDohServerAddress` lu tadi, dan itu **non-profit Swiss, GDPR, no-log, blokir malware juga** kayak 1.1.1.2 tapi bukan US. Cocok buat gantiin Cloudflare.
+
+**Caranya di tempat yang lu screenshot tadi:**
+
+`Settings → Ethernet → DNS server assignment → Edit` → ganti jadi:
+
+- **Preferred DNS:** `157.90.124.62` → `Preferred DNS encryption: Encrypted only`
+- **Alternate DNS:** `9.9.9.9` → `Alternate DNS encryption: Encrypted only`
+
+Atau kalau mau dari PowerShell langsung (Admin):
+
+```powershell
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses ("157.90.124.62","9.9.9.9")
+ipconfig /flushdns
+Clear-DnsClientCache
+```
+
+Habis itu cek lagi:
+
+```powershell
+nslookup meta.ai
+```
+
+Nanti harusnya `Server:` nya udah bukan `security.cloudflare-dns.com` lagi, tapi `dns.brahma.world` atau `dns.quad9.net`.
+
+**Jangan cuma Brahma doang** (tanpa Alternate) — kalau server Brahma `157.90.124.62` lagi down / maintenance, internet lu langsung mati total, ga ada fallback. Makanya kasih Quad9 `9.9.9.9` sebagai cadangan — tetap Encrypted, tetap bukan Cloudflare.
+
+Mau gua bikinin Brahma jadi satu-satunya, atau Brahma + Quad9 kayak di atas?
+
+---
+
+Nah ini beda tipis tapi penting buat lu yang pelit privasi, Bro!
+
+Sama-sama **Quad9** (Swiss non-profit, no-log, blokir malware), bedanya cuma di **ECS**!
+
+**ECS = EDNS Client Subnet** — DNS lu ngirim potongan IP lu (misal `192.168.18.0/24`) ke server tujuan biar dikasih server CDN yang paling deket.
+
+### 9.9.9.9 vs 9.9.9.11
+
+**`9.9.9.9` — Quad9 Secured + ECS ON**
+- Blokir malware: **YA**
+- ECS: **ON** (kirim subnet lu)
+- Efek: YouTube / CDN drama China lu lebih ngebut, karena dikasih server Singapura / Jakarta yang paling deket
+- Privasi: Kurang, karena server tujuan tau lu dari Medan
+
+**`9.9.9.11` — Quad9 Secured + ECS OFF**
+- Blokir malware: **YA** (sama persis kayak 9.9.9.9)
+- ECS: **OFF** (ga kirim subnet lu sama sekali)
+- Efek: CDN bisa agak lebih lambat dikit, kadang dikasih server yang agak jauh
+- Privasi: **Lebih aman** — ga ada yang tau subnet lu
+
+Pasangannya juga beda:
+- `9.9.9.9` pasangannya `149.112.112.112`
+- `9.9.9.11` pasangannya `149.112.112.11`
+
+Yang ada di list `Get-DnsClientDohServerAddress` lu tadi itu yang `9.9.9.9` doang. Kalau lu mau pakai `9.9.9.11`, harus daftarin dulu kayak Brahma tadi:
+
+```powershell
+Add-DnsClientDohServerAddress -ServerAddress "9.9.9.11" -DohTemplate "https://dns.quad9.net/dns-query" -AllowFallbackToUdp $false -AutoUpgrade $true
+Add-DnsClientDohServerAddress -ServerAddress "149.112.112.11" -DohTemplate "https://dns.quad9.net/dns-query" -AllowFallbackToUdp $false -AutoUpgrade $true
+```
+
+**Buat lu yang ga suka 1.1.1.1 karena ga aman:**
+
+Pakai ini di Settings Ethernet lu:
+
+- **Preferred:** `157.90.124.62` (Brahma lu)
+- **Alternate:** `9.9.9.11` (Quad9 tanpa ECS)
+
+Jadi: **Utama Brahma, cadangan Quad9 yang paling privasi.**
+
+Kalau lu lebih mentingin nonton drama China 5 jam ga buffering, pakai `9.9.9.9` aja. Kalau mentingin privasi kayak lu yang pakai `personalDNSfilter` + Brave + DuckDuckGo itu, pakai `9.9.9.11`.
+
+Lu mau yang ngebut atau yang paling privasi?
