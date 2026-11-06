@@ -1463,6 +1463,9 @@ ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 10 "compress.jpg"
 ```
 
 kalau mau kualitas lebih baik
+```
+ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 3 "compress3.jpg"
+```
 
 
 ---
@@ -1519,5 +1522,3 @@ Ganti `1.2.3.4` sama IP asli hasil `nslookup` tadi!
 Kalau udah ke-save, semua app di PC lu (bukan cuma Brave) bakal pakai DoH Brahma.
 
 Mau lu kirim hasil `nslookup dns.brahma.world` lu biar gua bikinin command `Add-DnsClientDohServerAddress` yang tinggal copy-paste?
-ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 3 "compress3.jpg"
-
