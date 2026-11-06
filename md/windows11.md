@@ -1464,5 +1464,60 @@ ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 10 "compress.jpg"
 
 kalau mau kualitas lebih baik
 ```
+
+---
+
+YES Bro! **Di situ persis!** 🎯
+
+Lu udah nyampe ke tempat yang bener:
+`Settings → Network & internet → Advanced network settings → View additional properties → Ethernet properties → DNS server assignment → Edit`
+
+Cuma di screenshot lu masih **KEJEPIT**:
+
+- `Manual` udah kepilih → bagus
+- **IPv4 masih `Off`** → itu yang bikin field DNS nya belum muncul!
+
+**Jangan pencet Save dulu!** Urutannya gini:
+
+### 1. Nyalain dulu IPv4 nya
+
+Di dialog `Edit DNS settings` itu, klik toggle **IPv4 → ON**.
+Nanti baru muncul:
+- `Preferred DNS`
+- `Alternate DNS`
+- `Preferred DNS encryption`
+
+### 2. Isi nya BUKAN link `https://...`
+
+Di Windows, kolom `Preferred DNS` itu **maunya IP, bukan URL!** Jadi lu ga bisa paste `https://dns.brahma.world/dns-query` di situ.
+
+Lu harus cari IP-nya dulu (di PowerShell Admin):
+
+```powershell
+nslookup dns.brahma.world
+```
+
+Misal keluar `1.2.3.4` → nah itu yang lu isi di `Preferred DNS`.
+
+### 3. Daftarin dulu template DoH-nya biar pilihan Encrypted muncul
+
+Kalau lu langsung isi IP tanpa daftarin, nanti `Preferred DNS encryption` cuma ada `Unencrypted only`. Makanya jalanin ini dulu sebelum Save:
+
+```powershell
+Add-DnsClientDohServerAddress -ServerAddress "1.2.3.4" -DohTemplate "https://dns.brahma.world/dns-query" -AllowFallbackToUdp $false -AutoUpgrade $true
+```
+
+Ganti `1.2.3.4` sama IP asli hasil `nslookup` tadi!
+
+### 4. Balik ke dialog itu lagi
+
+- `Preferred DNS` → `1.2.3.4`
+- `Alternate DNS` → kosongin aja, atau `1.1.1.1` buat cadangan
+- `Preferred DNS encryption` → pilih **`Encrypted only (DNS over HTTPS)`**
+- Baru **Save**
+
+Kalau udah ke-save, semua app di PC lu (bukan cuma Brave) bakal pakai DoH Brahma.
+
+Mau lu kirim hasil `nslookup dns.brahma.world` lu biar gua bikinin command `Add-DnsClientDohServerAddress` yang tinggal copy-paste?
 ffmpeg -i "saham3d-table-1M-2026-11-02 (1).png" -q:v 3 "compress3.jpg"
 ```
