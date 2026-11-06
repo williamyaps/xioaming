@@ -1522,3 +1522,49 @@ Ganti `1.2.3.4` sama IP asli hasil `nslookup` tadi!
 Kalau udah ke-save, semua app di PC lu (bukan cuma Brave) bakal pakai DoH Brahma.
 
 Mau lu kirim hasil `nslookup dns.brahma.world` lu biar gua bikinin command `Add-DnsClientDohServerAddress` yang tinggal copy-paste?
+
+---
+
+**GA PERLU Bro! Sekali aja, awet sampe install ulang!** 😎
+
+`Add-DnsClientDohServerAddress` itu bukan setting sementara kayak di RAM. Itu langsung **disimpen Windows di Registry** (`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters`).
+
+Jadi:
+- Lu kasih sekarang → nyantol
+- Lu **restart** → **masih ada**
+- Lu shutdown, cabut kabel, besok nyalain lagi → **masih ada**
+
+Yang hilang kalau restart itu cuma cache DNS-nya doang, bukan template DoH-nya.
+
+**Buktiin habis restart:**
+
+Buka PowerShell Admin lagi, ketik ini aja, ga usah `Add-` lagi:
+
+```powershell
+Get-DnsClientDohServerAddress | Where-Object {$_.ServerAddress -eq "157.90.124.62"}
+```
+
+Kalau keluar gini, berarti masih nempel:
+```
+ServerAddress : 157.90.124.62
+DohTemplate   : https://dns.brahma.world/dns-query
+AllowFallback : False
+```
+
+**Habis restart yang perlu lu lakuin cuma 1:**
+
+```powershell
+ipconfig /flushdns
+Clear-DnsClientCache
+```
+
+Itu buat buang sisa cache DNS lama yang masih pakai DHCP / ISP. Bukan buat daftarin ulang.
+
+**Kapan lu HARUS kasih lagi?** Cuma kalau:
+1. Lu `Reset Network` di Settings → Network reset
+2. Lu install ulang Windows 11
+3. Lu hapus manual pakai `Remove-DnsClientDohServerAddress`
+
+Jadi IP `157.90.124.62` lu itu udah aman. Tinggal balik ke dialog `Edit DNS settings` yang tadi → `IPv4 ON` → `Preferred DNS = 157.90.124.62` → `Preferred DNS encryption = Encrypted only (DNS over HTTPS)` → **Save**.
+
+Udah lu restart belum? Coba `Get-DnsClientDohServerAddress` tadi, masih ada ga?
