@@ -1710,3 +1710,14 @@ Add-DnsClientDohServerAddress -ServerAddress "9.9.9.11" -DohTemplate "https://dn
 Biar kalau Settings lu ke-reset ke `Unencrypted` gara-gara update Windows, dia tetap nekat pakai DoH.
 
 Jadi lu udah bener set Brahma `True`. Mau gua samain juga buat Quad9 `9.9.9.11` nya?
+---
+
+merger gambar raksasa pakai Pillow, bukan ffmpeg vstack, jadi ga kena limit 65536:
+
+powershell
+```
+pip install Pillow
+python merge.py "gabungan-9bagian-20261107-114543.jpg" "gau-idr-2026-11-07 (2).jpg" hasil-merge2.png
+```
+
+Isinya: buka gambar 1 & 2, resize ke width max 6608 pakai LANCZOS, paste vertikal ke canvas 6608 x 115614, save PNG. RAM 32GB lu kuat (butuh ∼2.3GB).
