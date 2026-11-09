@@ -1721,3 +1721,37 @@ python merge.py "gabungan-9bagian-20261107-114543.jpg" "gau-idr-2026-11-07 (2).j
 ```
 
 Isinya: buka gambar 1 & 2, resize ke width max 6608 pakai LANCZOS, paste vertikal ke canvas 6608 x 115614, save PNG. RAM 32GB lu kuat (butuh ∼2.3GB).
+
+---
+
+Cara tes di Windows lu:
+
+Buka CMD, ketik:
+
+Bash
+```
+nslookup -type=TXT qnamemintest.internet.nl
+```
+Atau kalau lu pakai Git Bash / WSL (yang ada dig):
+
+Bash
+```
+dig a.b.qnamemin-test.internet.nl TXT +short
+```
+Nanti keluar HOORAY atau NO!
+
+Tapi ingat, Bro! nslookup di CMD itu pakai DNS Windows (yang lu set 1.1.1.2 + 9.9.9.11), bukan DNS Chrome (Arnor)! Jadi kalau lu mau tes Arnor, harus pakai Cara 1 (dnscheck.tools di Chrome) atau pakai dig dengan @ :
+
+Bash
+```
+dig @1.1.1.1 qnamemintest.internet.nl TXT
+```
+Cara 3: Cara OARC — checkmyDNS
+Buka https://cmdns.dev.dns-oarc.net — ini punya DNS-OARC, dia juga tes Qmin!
+
+Kesimpulan Buat Lu:
+Arnor lu = Qmin ON! Buktinya kemarin PASS di dnscheck.tools!
+
+Cert.ee lu = Qmin ON juga! (Pemerintah Estonia, mana mau dia bocorin query lu ke Root!)
+
+DNS ISP Indonesia = Qmin OFF! Makanya fail signature, makanya bocor, makanya sasaran empuk 657.000 serangan!
