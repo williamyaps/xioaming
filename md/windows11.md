@@ -1755,3 +1755,8 @@ Arnor lu = Qmin ON! Buktinya kemarin PASS di dnscheck.tools!
 Cert.ee lu = Qmin ON juga! (Pemerintah Estonia, mana mau dia bocorin query lu ke Root!)
 
 DNS ISP Indonesia = Qmin OFF! Makanya fail signature, makanya bocor, makanya sasaran empuk 657.000 serangan!
+
+naikkan gambar jadi hd:
+```
+ffmpeg -i "emas gau.jpg" -vf "scale=4040:3640:flags=lanczos,unsharp=5:5:1.0:5:5:0.0" -q:v 2 "emas_gau_HD.jpg"
+```
