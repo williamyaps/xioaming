@@ -1802,7 +1802,6 @@ Markdown
 > ip=158.140.164.75
 > ts=1794641507.000
 > visit_scheme=https
-[!NOTE]
 > uag=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36
 > colo=CGK
 > sliver=none
@@ -1814,3 +1813,20 @@ Markdown
 > gateway=off
 > rbi=off
 > kex=X25519MLKEM768
+
+Format md:
+Markdown
+> [!NOTE]
+> Ini kotak biru, buat info biasa
+
+> [!TIP]
+> Ini kotak hijau, buat tips
+
+> [!IMPORTANT]
+> Ini kotak ungu, buat yang penting banget
+
+> [!WARNING]
+> Ini kotak kuning, buat peringatan
+
+> [!CAUTION]
+> Ini kotak merah, buat bahaya
