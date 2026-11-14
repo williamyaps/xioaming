@@ -1820,7 +1820,10 @@ Markdown
 > Ini kotak biru, buat info biasa
 
 > [!TIP]
-> Ini kotak hijau, buat tips
+> Windows 11 doh secure dns:
+```
+> https://nsec.arnor.org/dns-query
+```
 
 > [!IMPORTANT]
 > Ini kotak ungu, buat yang penting banget
