@@ -1778,6 +1778,9 @@ Untuk menjamin secara matematis bahwa tidak ada satu pun aplikasi atau layanan l
 
 3. Perlindungan Ekstensi WebRTC dan Encrypted Client Hello (ECH)
 
+- ini yang salah, false
++ ini yang bener, true
+
 • WebRTC IP Leak: Di Firefox, pastikan pengaturan `media.peerconnection.ice.default_address_only` di about:config bernilai true agar alamat IP lokal jaringan LAN Anda (192.168.18.45) tidak terekspos ke situs web yang dikunjungi.
 • Encrypted Client Hello (ECH): Karena Anda menggunakan DoH dan mempertahankan fitur post-quantum, mengaktifkan dukungan ECH di Firefox memastikan nama domain yang Anda tuju (SNI) ikut terenkripsi di dalam paket TLS Client Hello sehingga tidak terbaca oleh pemantau jaringan luar.
 Apakah Anda ingin memeriksa salah satu bagian di atas—misalnya langkah mengunci mode Max Protection DoH di Firefox atau cara menutup Port 53 secara permanen di Windows Firewall?
