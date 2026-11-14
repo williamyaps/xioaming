@@ -1767,7 +1767,7 @@ Untuk melengkapi standar keamanan tersebut agar tetap selaras dengan seluruh pri
 1. Kebocoran Melalui Pengaturan DNS Mandiri di Browser
 
 Meskipun Windows 11 sudah dikunci pada DoH murni (Fallback to plaintext: Off), browser modern sering memiliki pengaturan Secure DNS sendiri yang dapat menimpa (override) atau justru melakukan fallback ke DNS ISP jika tidak dikunci.
-• Di Firefox (Browser Utama Anda untuk Wikipedia): Masuk ke ==Settings > Privacy & Security > gulir ke bagian DNS over HTTPS==. Pastikan opsi yang dipilih adalah Max Protection (bukan Increased Protection atau Default Protection), karena hanya mode Max Protection yang melarang Firefox mundur ke DNS plaintext bawaan sistem/ISP saat terjadi gangguan sesaat.
+• Di Firefox (Browser Utama Anda untuk Wikipedia): Masuk ke <mark></mark>Settings > Privacy & Security > gulir ke bagian DNS over HTTPS</mark>. Pastikan opsi yang dipilih adalah Max Protection (bukan Increased Protection atau Default Protection), karena hanya mode Max Protection yang melarang Firefox mundur ke DNS plaintext bawaan sistem/ISP saat terjadi gangguan sesaat.
 • Di Chrome / Brave: Masuk ke Settings > Privacy and security > Security > Use secure DNS. Pastikan tidak berada pada opsi With your current service provider, melainkan dikunci ke penyedia DoH yang sama dengan Windows agar tidak memakai resolver bawaan ISP.
 
 2. Pemblokiran Lalu Lintas Port 53 Keluar di Windows Defender Firewall
