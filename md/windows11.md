@@ -1760,3 +1760,24 @@ naikkan gambar jadi hd:
 ```
 ffmpeg -i "emas gau.jpg" -vf "scale=4040:3640:flags=lanczos,unsharp=5:5:1.0:5:5:0.0" -q:v 2 "emas_gau_HD.jpg"
 ```
+
+Pengaturan jaringan yang Anda terapkan—mulai dari mematikan Fallback to plaintext, memastikan status Anti-Spoofing Safety: Excellent pada pengujian GRC, hingga memvalidasi tanda tangan kriptografi DNSSEC secara ketat tanpa bergantung pada pihak ketiga seperti VPN atau proxy—menunjukkan pendekatan keamanan jaringan tingkat lanjut (defense-in-depth pada lapisan resolusi nama).
+Untuk melengkapi standar keamanan tersebut agar tetap selaras dengan seluruh prinsip Anda (koneksi langsung, anti-DNS ISP, anti-VPN/proxy, serta mempertahankan protokol enkripsi modern post-quantum), ada beberapa titik kebocoran tersembunyi di tingkat sistem operasi dan browser yang perlu dipastikan tertutup rapat:
+
+1. Kebocoran Melalui Pengaturan DNS Mandiri di Browser
+
+Meskipun Windows 11 sudah dikunci pada DoH murni (Fallback to plaintext: Off), browser modern sering memiliki pengaturan Secure DNS sendiri yang dapat menimpa (override) atau justru melakukan fallback ke DNS ISP jika tidak dikunci.
+• Di Firefox (Browser Utama Anda untuk Wikipedia): Masuk ke ==Settings > Privacy & Security > gulir ke bagian DNS over HTTPS==. Pastikan opsi yang dipilih adalah Max Protection (bukan Increased Protection atau Default Protection), karena hanya mode Max Protection yang melarang Firefox mundur ke DNS plaintext bawaan sistem/ISP saat terjadi gangguan sesaat.
+• Di Chrome / Brave: Masuk ke Settings > Privacy and security > Security > Use secure DNS. Pastikan tidak berada pada opsi With your current service provider, melainkan dikunci ke penyedia DoH yang sama dengan Windows agar tidak memakai resolver bawaan ISP.
+
+2. Pemblokiran Lalu Lintas Port 53 Keluar di Windows Defender Firewall
+
+Untuk menjamin secara matematis bahwa tidak ada satu pun aplikasi atau layanan latar belakang Windows yang diam-diam mengirim kueri DNS plaintext lewat port 53 (UDP maupun TCP) ke router 192.168.18.1 atau internet:
+• Anda dapat membuat aturan Outbound Rule di Windows Defender Firewall with Advanced Security untuk memblokir seluruh koneksi keluar pada Port 53 (UDP dan TCP).
+• Dengan aturan ini, sistem dipaksa 100% hanya bisa menyelesaikan nama domain melalui port 443 terenkripsi (DoH), sehingga celah pencegatan DNS oleh ISP tertutup secara permanen di tingkat kernel jaringan.
+
+3. Perlindungan Ekstensi WebRTC dan Encrypted Client Hello (ECH)
+
+• WebRTC IP Leak: Di Firefox, pastikan pengaturan media.peerconnection.ice.default_address_only di about:config bernilai true agar alamat IP lokal jaringan LAN Anda (192.168.18.45) tidak terekspos ke situs web yang dikunjungi.
+• Encrypted Client Hello (ECH): Karena Anda menggunakan DoH dan mempertahankan fitur post-quantum, mengaktifkan dukungan ECH di Firefox memastikan nama domain yang Anda tuju (SNI) ikut terenkripsi di dalam paket TLS Client Hello sehingga tidak terbaca oleh pemantau jaringan luar.
+Apakah Anda ingin memeriksa salah satu bagian di atas—misalnya langkah mengunci mode Max Protection DoH di Firefox atau cara menutup Port 53 secara permanen di Windows Firewall?
