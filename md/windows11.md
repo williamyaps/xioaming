@@ -1793,9 +1793,24 @@ https://cloudflare-ech.com/cdn-cgi/trace
 ```
 
 Hasilnya:
-```
-Chrome:
+Markdown
 > [!IMPORTANT]
 > sni=encrypted
 > tls=TLSv1.3
-```
+> fl=999f133
+> h=cloudflare-ech.com
+> ip=158.140.164.75
+> ts=1794641507.000
+> visit_scheme=https
+[!NOTE]
+> uag=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36
+> colo=CGK
+> sliver=none
+> http=http/3
+> loc=ID
+> tls=TLSv1.3
+> sni=encrypted
+> warp=off
+> gateway=off
+> rbi=off
+> kex=X25519MLKEM768
